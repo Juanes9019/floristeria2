@@ -19,15 +19,15 @@ class Sub_categoriaSeeder extends Seeder
         ]);
 
         DB::table('sub_categorias')->insert([
-            'nombre' => 'Peluches',
+            'nombre' => 'Comida',
         ]);
 
         DB::table('sub_categorias')->insert([
-            'nombre' => 'Dulces',
+            'nombre' => 'Accesorios',
         ]);
 
         DB::table('sub_categorias')->insert([
-            'nombre' => 'Canastos',
+            'nombre' => 'Ninguno',
         ]);
     }
 }

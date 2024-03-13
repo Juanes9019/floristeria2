@@ -67,6 +67,9 @@ Route::get('/user/perfil', [HomeController::class, 'perfilUser'])->name('perfilU
 Route::get('/admin/perfil', [HomeController::class, 'perfilAdmin'])->name('perfilAdmin');
 
 
+Route::get('/arreglos', [HomeController::class, 'Crear_arreglos'])->name('arreglos');
+
+
 Route::group(['prefix'=> 'cliente','middleware' => ['auth','role:cliente']], function(){
 
 });

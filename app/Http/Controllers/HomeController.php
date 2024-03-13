@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 class HomeController extends Controller
 {
     /**
@@ -30,4 +35,5 @@ class HomeController extends Controller
     {
         return view('Admin.dashboard');
     }
+
 }
