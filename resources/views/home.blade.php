@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    {{ __('estoy en el home!, Deymar, Juan') }}
+                    {{ __('estoy en el home!, Deymar, Juan, Mauricio') }}
                 </div>
             </div>
         </div>
