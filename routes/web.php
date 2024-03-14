@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProveedorController;
 use App\Http\Controllers\Admin\Sub_categoriaController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\productosController;
+
 
 
 // $role= Role::create(['name'=>'admin']);
@@ -28,6 +30,7 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
 
+    
     //rutas para los usuarios
     Route::get('admin/users', [UserController::class, 'index'])->name('Admin.users');
     Route::get('admin/users/create', [UserController::class, 'create'])->name('Admin.users.create');
@@ -61,12 +64,15 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('admin/sub_categoria/{id}/edit', [Sub_categoriaController::class, 'edit'])->name('Admin.sub_categoria.edit');
     Route::put('admin/sub_categoria/{id}', [Sub_categoriaController::class, 'update'])->name('Admin.sub_categoria.update');
     Route::delete('admin/sub_categoria/{id}', [Sub_categoriaController::class, 'destroy'])->name('Admin.sub_categoria.destroy');
+
+    //rutas para los productos
+    Route::get('admin/productos', [productosController::class, 'index'])->name('Admin.productos');
+    Route::get('admin/productos/create', [productosController::class, 'create'])->name('Admin.productos.create');
+    Route::post('admin/productos', [productosController::class, 'store'])->name('Admin.productos.store');
+    Route::get('admin/productos/{id}/edit', [productosController::class, 'edit'])->name('Admin.productos.edit');
+    Route::put('admin/productos/{id}', [productosController::class, 'update'])->name('Admin.productos.update');
+    Route::delete('admin/productos/{id}', [productosController::class, 'destroy'])->name('Admin.productos.destroy');
 });
 
 Route::get('/user/perfil', [HomeController::class, 'perfilUser'])->name('perfilUser');
 Route::get('/admin/perfil', [HomeController::class, 'perfilAdmin'])->name('perfilAdmin');
-
-
-Route::group(['prefix'=> 'cliente','middleware' => ['auth','role:cliente']], function(){
-
-});
