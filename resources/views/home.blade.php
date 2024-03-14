@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    {{ __('estoy en el home!') }}
+                    {{ __('estoy en el home!, Deymar') }}
                 </div>
 
                 <div class="col-md-8">
