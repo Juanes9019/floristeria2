@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Producto;
+
 
 class HomeController extends Controller
 {
@@ -23,11 +25,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $productos = Producto::all();
+
+        return view('home', compact('productos'));
     }
 
     public function dashboard()
     {
         return view('Admin.dashboard');
+    }
+
+    public function show($id)
+    {
+        $productos = Producto::findOrFail($id);
+
+        return view('view_arreglo.arreglo_view', compact('productos'));
     }
 }

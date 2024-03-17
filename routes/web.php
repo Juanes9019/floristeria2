@@ -6,8 +6,9 @@ use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProveedorController;
 use App\Http\Controllers\Admin\Sub_categoriaController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\productosController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\carritoController;
 
 
 
@@ -22,6 +23,11 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/user/perfil', [HomeController::class, 'perfilUser'])->name('perfilUser');
+Route::get('/admin/perfil', [HomeController::class, 'perfilAdmin'])->name('perfilAdmin');
+
+Route::get('/arreglo/{id}', [HomeController::class, 'show'])->name('view_arreglo.arreglo_view');
+Route::get('home/carrito', [carritoController::class, 'index'])->name('home/carrito');
 
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
@@ -73,6 +79,3 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::put('admin/productos/{id}', [productosController::class, 'update'])->name('Admin.productos.update');
     Route::delete('admin/productos/{id}', [productosController::class, 'destroy'])->name('Admin.productos.destroy');
 });
-
-Route::get('/user/perfil', [HomeController::class, 'perfilUser'])->name('perfilUser');
-Route::get('/admin/perfil', [HomeController::class, 'perfilAdmin'])->name('perfilAdmin');
