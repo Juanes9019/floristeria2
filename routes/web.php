@@ -27,15 +27,23 @@ Route::get('/user/perfil', [HomeController::class, 'perfilUser'])->name('perfilU
 Route::get('/admin/perfil', [HomeController::class, 'perfilAdmin'])->name('perfilAdmin');
 
 Route::get('/arreglo/{id}', [HomeController::class, 'show'])->name('view_arreglo.arreglo_view');
+
+//rutas para el carrito
 Route::get('home/carrito', [carritoController::class, 'index'])->name('home/carrito');
+Route::get('carrito/add', [carritoController::class, 'add'])->name('add');
+Route::get('carrito/clear', [carritoController::class, 'clear'])->name('clear');
+Route::post('carrito/remove', [carritoController::class, 'removeItem'])->name('removeItem');
+
+Route::get('carrito/incrementar', [carritoController::class, 'incrementar'])->name('incrementarCantidad');
+Route::get('carrito/decrementar', [carritoController::class, 'decrementar'])->name('decrementarCantidad');
 
 
+
+//midleware para controlar el acceso solo a los administradores
 Route::middleware(['auth', 'user-access:admin'])->group(function () {
 
     //ruta para dashboard
     Route::get('dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
-
-
     
     //rutas para los usuarios
     Route::get('admin/users', [UserController::class, 'index'])->name('Admin.users');

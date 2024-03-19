@@ -155,6 +155,28 @@ section{
     scale: 1.1;
 }
 
+#btn {
+    background-color: #000000;
+    color: white !important;
+    padding: 12px;
+    text-decoration: none;
+    border-radius: 12px;
+    outline: none;
+    border: none;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    flex: 1 0 240px;
+    max-width: 100%;
+    box-shadow: 5px 5px 10px rgb(245, 170, 229);
+    transition: ease 1s;
+}
+
+#btn:hover {
+    transform: scale(1.1);
+}
 
 
 
