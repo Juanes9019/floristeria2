@@ -37,6 +37,9 @@ Route::post('carrito/remove', [carritoController::class, 'removeItem'])->name('r
 Route::get('carrito/incrementar', [carritoController::class, 'incrementar'])->name('incrementarCantidad');
 Route::get('carrito/decrementar', [carritoController::class, 'decrementar'])->name('decrementarCantidad');
 
+Route::get('/confirmarCarrito', [CarritoController::class, 'confirmarCarrito'])->name('confirmarCarrito');
+
+
 
 
 //midleware para controlar el acceso solo a los administradores
