@@ -25,7 +25,7 @@
         <p>Realizamos envíos a toda Medellín, el envio sera gratis para el serctor de giradot</p>
         <p><strong>¡Confía en nosotros para ser tu floristería de confianza en Medellín!</strong></p>
     </div>
-    <img src="{{ Storage::url('productos/fondo_flores.jpg') }}" alt="fondo imagen" class="full-width">
+    <img src="https://floristeria.s3.sa-east-1.amazonaws.com/fondo_flores.jpg" alt="fondo imagen" class="full-width">
 
 </header>
 <section></section>
