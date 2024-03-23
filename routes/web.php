@@ -7,6 +7,9 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProveedorController;
 use App\Http\Controllers\Admin\Sub_categoriaController;
 use App\Http\Controllers\Admin\productosController;
+use App\Http\Controllers\Admin\pedidoController;
+use App\Http\Controllers\Admin\detalleController;
+use App\Http\Controllers\Admin\inventarioController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\carritoController;
 
@@ -89,4 +92,24 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('admin/productos/{id}/edit', [productosController::class, 'edit'])->name('Admin.productos.edit');
     Route::put('admin/productos/{id}', [productosController::class, 'update'])->name('Admin.productos.update');
     Route::delete('admin/productos/{id}', [productosController::class, 'destroy'])->name('Admin.productos.destroy');
+
+    //rutas para los inventario
+    Route::get('admin/inventario', [inventarioController::class, 'index'])->name('Admin.inventario');
+    Route::get('admin/inventario/create', [inventarioController::class, 'create'])->name('Admin.inventario.create');
+    Route::post('admin/inventario', [inventarioController::class, 'store'])->name('Admin.inventario.store');
+    Route::get('admin/inventario/{id}/edit', [inventarioController::class, 'edit'])->name('Admin.inventario.edit');
+    Route::put('admin/inventario/{id}', [inventarioController::class, 'update'])->name('Admin.inventario.update');
+    Route::delete('admin/inventario/{id}', [inventarioController::class, 'destroy'])->name('Admin.inventario.destroy');
+
+
+    //rutas para el pedido
+    Route::get('admin/pedido', [pedidoController::class, 'index'])->name('pedidos');
+    Route::post('admin//pedido/{id}/cambiar-estado}', [pedidoController::class, 'cambiar_estado'])->name('cambiar_estado');
+
+
+
+
+    //rutas para el detalle
+    Route::get('admin/detalle', [detalleController::class, 'index'])->name('detalles');
+
 });

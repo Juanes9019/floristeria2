@@ -4,6 +4,20 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="card">
+            <div class="card-body">
+    @if (session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if ($errors->has('status'))
+        <div class="alert alert-danger" role="alert">
+            {{ $errors->first('status') }}
+        </div>
+    @endif
+</div>
+
                 <div class="card-body">
                     @if (Cart::count())
 
@@ -69,7 +83,7 @@
                         </tbody>
                     </table>
 
-                    <div class="container mt-5">
+                    <!-- <div class="container mt-5">
                         <h1 class="text-center fs-4 p-3">Detalles de envío</h1>
                         <form method="get" action="{{ route('confirmarCarrito') }}" id="formularioEnvio">
                             @csrf
@@ -152,7 +166,7 @@
                                     placeholder="Ingresa tu correo de paypal">
                             </div>
                         </form>
-                    </div>
+                    </div> 
 
                     <div class="row justify-content-center mt-5 mb-5 text-center">
 
@@ -167,7 +181,7 @@
 
                         <div class="col-sm-4">
                             @auth
-                                <a class="btn btn-success efecto-botones" onclick="validarEnvio()">Comprar</a>
+                                <a href="{{ route('confirmarCarrito') }}" class="btn btn-success efecto-botones" onclick="validarEnvio()">Comprar</a>
 
                             @else
                                 <a href="/login" class="btn btn-danger efecto-botones">Regístrate primero</a>
@@ -194,7 +208,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             $("#metodo_pago").change(function() {
                 // Oculta todos los campos adicionales
@@ -313,5 +327,5 @@
 
             document.getElementById('fecha').value = fecha;
         }
-    </script>
+    </script> -->
 @endsection

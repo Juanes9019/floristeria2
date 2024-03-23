@@ -37,7 +37,7 @@
         @foreach ($productos as $producto)
         <div class="col-md-3 mb-4">
             <div class="card h-100">
-                <img src="{{ asset('storage/' . $producto->foto) }}" class="card-img-top img-fluid" alt="{{ $producto->nombre }}">
+            <img src="{{ $producto->foto }}" class="card-img-top img-fluid" alt="{{ $producto->nombre }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ $producto->nombre }}</h5>
                     <p class="card-text">Precio: {{ $producto->precio }}</p>

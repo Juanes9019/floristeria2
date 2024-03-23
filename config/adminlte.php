@@ -322,6 +322,12 @@ return [
         ],
         ['header' => 'GESTION DE TIENDA'],
         [
+            'text' => 'Inventario',
+            'url' => 'admin/inventario',
+            'icon' => 'fas fa-box',
+            'label_color' => 'primary',
+        ],
+        [
             'text' => 'Categorias',
             'url' => 'admin/categoria',
             'icon' => 'fas fa-fw fa-list',
