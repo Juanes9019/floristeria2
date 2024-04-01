@@ -12,13 +12,6 @@
                             <span id="card_title">
                                 <b>Control de detalle de venta</b>
                             </span>
-
-                            <div class="float-right">
-                                <a href="{{ route('Admin.proveedor.create') }}" class="btn btn-primary btn-sm float-right"
-                                    data-placement="left">
-                                    {{ __('Registro de los detalles de venta') }}
-                                </a>
-                            </div>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
@@ -46,9 +39,10 @@
                                         <td class="text-center">{{ ++$i }}</td>
                                         <td class="text-center">{{ $item->id_pedido }}</td>
                                         <td class="text-center">{{ $item->id_producto }}</td>
-                                        <td class="text-center">{{ $item->precio }}</td>
+                                        <td class="text-center">{{ number_format($item->precio, 0, ',', '.') }}</td>
                                         <td class="text-center">{{ $item->cantidad }}</td>
-                                        <td class="text-center">{{ $item->importe }}</td>
+                                        <td class="text-center">{{ number_format($item->importe, 0, ',', '.') }}</td>
+
                                     </tr>
                                 @endforeach
                                 </tbody>

@@ -12,13 +12,6 @@
                             <span id="card_title">
                                 <b>Control de pedidos</b>
                             </span>
-
-                            <div class="float-right">
-                                <a href="{{ route('Admin.proveedor.create') }}" class="btn btn-primary btn-sm float-right"
-                                    data-placement="left">
-                                    {{ __('Registro de los pedidos') }}
-                                </a>
-                            </div>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
@@ -40,6 +33,7 @@
                                         <th class="text-center">Fecha_pedido</th>
                                         <th class="text-center">Procedencia</th>
                                         <th class="text-center">Estado</th>
+                                        <th class="text-center">Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,9 +41,9 @@
                                     <tr>
                                         <td class="text-center">{{ ++$i }}</td>
                                         <td class="text-center">{{ $item->user_id }}</td>
-                                        <td class="text-center">{{ $item->subtotal }}</td>
-                                        <td class="text-center">{{ $item->impuesto }}</td>
-                                        <td class="text-center">{{ $item->total }}</td>
+                                        <td class="text-center">{{ number_format($item->subtotal, 0, ',', '.') }}</td>
+                                        <td class="text-center">{{ number_format($item->impuesto, 0, ',', '.') }}</td>
+                                        <td class="text-center">{{ number_format($item->total, 0, ',', '.') }}</td>
                                         <td class="text-center">{{ $item->fechapedido }}</td>
                                         <td class="text-center">{{ $item->procedencia }}</td>
                                         <td class="text-center">{{ $item->estado }}</td>

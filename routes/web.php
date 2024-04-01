@@ -43,7 +43,7 @@ Route::get('carrito/decrementar', [carritoController::class, 'decrementar'])->na
 Route::get('/confirmarCarrito', [CarritoController::class, 'confirmarCarrito'])->name('confirmarCarrito');
 
 
-
+Route::get('/pdf', [CarritoController::class, 'pdf'])->name('pdf');
 
 //midleware para controlar el acceso solo a los administradores
 Route::middleware(['auth', 'user-access:admin'])->group(function () {

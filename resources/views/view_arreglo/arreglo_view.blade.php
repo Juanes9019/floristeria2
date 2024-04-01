@@ -15,10 +15,10 @@
                         </div>
                     @endif
                 </div>
-                <div class="container">
+                <div class="container" >
                     <div class="row align-items-center">
                         <div class="col-md-6 order-md-1">
-                            <img src="{{ asset('storage/' . $productos->foto) }}" alt="{{ $productos->nombre }}" class="img-fluid">
+                            <img src="{{ $productos->foto }}" class="card-img-top img-fluid" alt="{{ $productos->nombre }}">
                         </div>
 
                         <div class="col-md-6 order-md-2">
@@ -26,7 +26,6 @@
                             <div class="chips">
                                 <p><strong>Categoria:</strong> {{ $productos->categoria->nombre }}</p>
                                 <p><strong>Descripcion:</strong> {{ $productos->descripcion }}</p>
-                                <p><strong>Cantidad disponible:</strong> {{ $productos->cantidad }}</p>
 
                                 <section></section>
                                 <div class="action-buttons">
@@ -52,6 +51,10 @@
     </div>
 </div>
 
-
+<style>
+    .card{
+        margin-top: 3rem;
+    }
+</style>
 
 @endsection

@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Cart;
+use Illuminate\Support\Facades\Storage;
+
+// En tu controlador
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 
@@ -45,14 +49,15 @@ class carritoController extends Controller
         if(empty($producto))
             return redirect('/');
 
-        Cart::add(
-            $producto->id,
-            $producto->nombre,
-            1,
-            $producto->precio,
-            ["foto" => asset('storage/productos/' . $producto->foto)]
-        );
-
+        Cart::add([
+            'id' => $producto->id,
+            'name' => $producto->nombre,
+            'qty' => 1,
+            'price' => $producto->precio,
+            'options' => [
+                'image' => $producto->foto,
+            ]
+        ]);
         Cart::addCost('Costo de envío', 7000);
 
         return redirect()->back()->with("success", "Arreglo floral agregado correctamente al carrito");
@@ -127,6 +132,12 @@ class carritoController extends Controller
     
         Cart::destroy();
         return redirect()->back()->with("success", "Arreglo adquirido con exito, pedido en camino");
+    }
+
+    public function pdf(){
+        $pdf = Pdf::loadView('pdf.pdf');
+    
+        return $pdf->stream();
     }
     
 }
