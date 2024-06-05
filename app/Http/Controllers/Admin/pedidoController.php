@@ -20,6 +20,13 @@ class pedidoController extends Controller
         return view('Admin.pedido.index', compact('pedidos', 'i'));
     }
 
+    public function pedidoget()
+    {
+        $pedidos = Pedido::all();
+        return response()->json($pedidos);
+    }
+    
+
 
     public function cambiar_estado(Request $request, $id)
     {

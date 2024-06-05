@@ -113,3 +113,6 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('admin/detalle', [detalleController::class, 'index'])->name('detalles');
 
 });
+
+
+Route::get('api/pedido', [pedidoController::class, 'pedidoget'])->name('api/pedido');
