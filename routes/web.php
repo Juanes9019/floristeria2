@@ -68,7 +68,6 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::put('admin/proveedor/{id}', [ProveedorController::class, 'update'])->name('Admin.proveedor.update');
     Route::delete('admin/proveedor/{id}', [ProveedorController::class, 'destroy'])->name('Admin.proveedor.destroy');
 
-
     //rutas para la categoria
     Route::get('admin/categoria', [CategoriaController::class, 'index'])->name('Admin.categoria');
     Route::get('admin/categoria/create', [CategoriaController::class, 'create'])->name('Admin.categoria.create');
@@ -101,15 +100,18 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::put('admin/inventario/{id}', [inventarioController::class, 'update'])->name('Admin.inventario.update');
     Route::delete('admin/inventario/{id}', [inventarioController::class, 'destroy'])->name('Admin.inventario.destroy');
 
+// Rutas para el pedido
+Route::get('admin/pedido', [PedidoController::class, 'index'])->name('pedidos');
+Route::post('admin/pedido/{id}/cambiar-estado', [PedidoController::class, 'cambiar_estado'])->name('cambiar_estado');
+Route::get('admin/pedido/{id}/detalles', [PedidoController::class, 'mostrar'])->name('pedidos.detalles');
 
-    //rutas para el pedido
-    Route::get('admin/pedido', [pedidoController::class, 'index'])->name('pedidos');
-    Route::post('admin//pedido/{id}/cambiar-estado}', [pedidoController::class, 'cambiar_estado'])->name('cambiar_estado');
+// Rutas para el detalle
+Route::get('admin/detalle', [DetalleController::class, 'index'])->name('detalles');
 
 
-
-
-    //rutas para el detalle
-    Route::get('admin/detalle', [detalleController::class, 'index'])->name('detalles');
 
 });
+
+
+
+Route::get('api/pedido', [pedidoController::class, 'getPedidos'])->name('api.pedido');

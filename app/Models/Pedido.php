@@ -10,8 +10,6 @@ class Pedido extends Model
     use HasFactory;
 
     protected $fillable = [
-        'subtotal',
-        'impuesto',
         'total',
         'fechapedido',
         'procedencia',
@@ -20,6 +18,6 @@ class Pedido extends Model
     ];
 
     public function detalles(){
-        return $this->hasMany(Detalle::class);
+        return $this->hasMany(Detalle::class, 'id_pedido');
     }
 }

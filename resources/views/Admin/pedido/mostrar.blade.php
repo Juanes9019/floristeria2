@@ -8,9 +8,8 @@
                 <div class="card">
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-
                             <span id="card_title">
-                                <b>Control de detalle de venta</b>
+                                <b>Detalles del Pedido #{{ $pedido->id }}</b>
                             </span>
                         </div>
                     </div>
@@ -37,17 +36,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($detalles as $item)
+                                @foreach($pedido->detalles as $detalle)
                                     <tr>
-                                        <td class="text-center">{{ ++$i }}</td>
-                                        <td class="text-center">{{ $item->id_pedido }}</td>
-                                        <td class="text-center">{{ $item->id_producto }}</td>
-                                        <td class="text-center">{{ number_format($item->precio, 0, ',', '.') }}</td>
-                                        <td class="text-center">{{ $item->cantidad }}</td>
-                                        <td class="text-center">{{ number_format($item->importe, 0, ',', '.') }}</td>
-                                        <td class="text-center">{{ number_format($item->subtotal, 0, ',', '.') }}</td>
-                                        <td class="text-center">{{ number_format($item->impuesto, 0, ',', '.') }}</td>
-                                        <td class="text-center"><img src="{{ $item->imagen }}" alt="Imagen del producto" style="width: 100px; height: auto;"></td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td class="text-center">{{ $detalle->id_pedido }}</td>
+                                        <td class="text-center">{{ $detalle->producto->nombre }}</td>
+                                        <td class="text-center">{{ number_format($detalle->precio, 0, ',', '.') }}</td>
+                                        <td class="text-center">{{ $detalle->cantidad }}</td>
+                                        <td class="text-center">{{ number_format($detalle->importe, 0, ',', '.') }}</td>
+                                        <td class="text-center">{{ number_format($detalle->subtotal, 0, ',', '.') }}</td>
+                                        <td class="text-center">{{ number_format($detalle->impuesto, 0, ',', '.') }}</td>
+                                        <td class="text-center"><img src="{{ $detalle->imagen }}" alt="Imagen del producto" style="width: 100px; height: auto;"></td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -58,7 +57,6 @@
             </div>
         </div>
     </div>
-
 
     <style>
         .centrar-formulario {

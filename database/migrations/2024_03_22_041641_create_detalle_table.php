@@ -18,6 +18,9 @@ return new class extends Migration
             $table->decimal('precio', 10, 2);
             $table->integer('cantidad');
             $table->decimal('importe', 10, 2);
+            $table->decimal('subtotal', 10, 2);
+            $table->decimal('impuesto', 10, 2);
+            $table->string('imagen');
             $table->timestamps();
         });
     }

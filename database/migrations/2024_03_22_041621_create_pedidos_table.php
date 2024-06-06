@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->decimal('subtotal', 10, 2);
-            $table->decimal('impuesto', 10, 2);
             $table->decimal('total', 10, 2);
             $table->timestamp('fechapedido');
             $table->enum('procedencia', ["web", "app", "físico"])->default("web");

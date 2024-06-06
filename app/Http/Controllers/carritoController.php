@@ -100,6 +100,16 @@ class carritoController extends Controller
     
 
     public function confirmarCarrito(){
+        // Crear un pedido para el carrito
+        $pedido = new Pedido();
+        $pedido->total       = Cart::total();
+        $pedido->fechapedido = now();
+        $pedido->procedencia = "Web";
+        $pedido->estado      = "Nuevo";
+        $pedido->user_id     = auth()->user()->id; // Asignar el user_id antes de guardar
+        $pedido->save();
+    
+        // Iterar sobre los productos en el carrito y crear los detalles del pedido
         foreach(Cart::content() as $item){
             // Restar del inventario
             $inventario = Inventario::where('id_producto', $item->id)->first();
@@ -107,22 +117,18 @@ class carritoController extends Controller
             if ($inventario->cantidad < $item->qty) {
                 return back()->withErrors(["status" => "Lamentamos informarte que la cantidad que deseas no se encuentra disponible en este momento. Cantidad disponible: $inventario->cantidad"]);
             } else {
-                $pedido = new Pedido();
-                $pedido->user_id     = auth()->user()->id;
-                $pedido->subtotal    = Cart::subtotal();
-                $pedido->impuesto    = Cart::tax();
-                $pedido->total       = Cart::total();
-                $pedido->fechapedido = date("Y-m-d h:m:s");
-                $pedido->procedencia = "Web";
-                $pedido->estado      = "Nuevo";
-                $pedido->save();
-    
                 $detalle = new Detalle();
                 $detalle->id_pedido   = $pedido->id;
                 $detalle->id_producto = $item->id;
                 $detalle->precio      = $item->price;
                 $detalle->cantidad    = $item->qty;
                 $detalle->importe     = $item->price * $item->qty;
+                $detalle->subtotal    = $item->subtotal; 
+                $detalle->impuesto    = $item->tax;
+                
+                $producto = Producto::find($item->id);
+                $detalle->imagen = $producto->foto;
+                
                 $detalle->save();
     
                 $inventario->cantidad -= $item->qty;
@@ -130,9 +136,12 @@ class carritoController extends Controller
             }
         }
     
+        // Limpiar el carrito después de procesar el pedido
         Cart::destroy();
-        return redirect()->back()->with("success", "Arreglo adquirido con exito, pedido en camino");
+    
+        return redirect()->back()->with("success", "Arreglo adquirido con éxito, pedido en camino");
     }
+    
 
     public function pdf(){
         $pdf = Pdf::loadView('pdf.pdf');
