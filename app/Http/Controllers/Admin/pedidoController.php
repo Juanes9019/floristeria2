@@ -44,4 +44,10 @@ class PedidoController extends Controller
         $i = 0; 
         return view('Admin.pedido.mostrar', compact('pedido','i'));
     }
+
+    public function getPedidos()
+    {
+        $pedidos = Pedido::all();
+        return response()->json($pedidos);
+    }
 }

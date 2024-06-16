@@ -115,3 +115,5 @@ Route::get('admin/detalle', [DetalleController::class, 'index'])->name('detalles
 
 
 Route::get('api/pedido', [pedidoController::class, 'getPedidos'])->name('api.pedido');
+Route::get('api/detalle', [DetalleController::class, 'getDetalles'])->name('api.detalles');
+

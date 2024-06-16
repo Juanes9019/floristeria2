@@ -19,4 +19,10 @@ class detalleController extends Controller
         $i = 0; 
         return view('Admin.detalle.index', compact('detalles', 'i'));
     }
+
+    public function getDetalles()
+    {
+        $detalles = Detalle::all();
+        return response()->json($detalles);
+    }
 }
