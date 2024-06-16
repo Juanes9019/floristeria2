@@ -9,7 +9,7 @@ class Inventario extends Model
 {
     use HasFactory;
 
-    protected $table = 'inventario'; // Nombre correcto de la tabla
+    protected $table = 'inventario'; 
 
     public function producto()
     {
