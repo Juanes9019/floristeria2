@@ -115,13 +115,9 @@ Route::get('admin/detalle', [DetalleController::class, 'index'])->name('detalles
 
 
 Route::get('api/pedido', [pedidoController::class, 'getPedidos'])->name('api.pedido');
-
 Route::post('api/pedido/aceptar/{id}', [PedidoController::class, 'aceptarPedido'])->name('api.pedido.aceptar');
 Route::delete('api/pedido/rechazar/{id}', [PedidoController::class, 'rechazarPedido'])->name('api.pedido.rechazar');
 
-Route::get('api/pedido/detalle/{id}', [PedidoController::class, 'verDetalle'])->name('api.pedido.detalle');
-
-
-
+Route::get('api/pedido/detalle/{id}', [PedidoController::class, 'detalle_flutter'])->name('api.pedido.detalle');
 Route::get('api/detalle', [DetalleController::class, 'getDetalles'])->name('api.detalles');
 

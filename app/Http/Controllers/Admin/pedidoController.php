@@ -78,4 +78,10 @@ class PedidoController extends Controller
 
         return response()->json(['message' => 'Pedido rechazado y eliminado correctamente'], 200);
     }
+
+    public function detalle_flutter($id)
+    {
+        $pedido = Pedido::with('detalles.producto')->findOrFail($id);
+        return response()->json($pedido);
+    }
 }
