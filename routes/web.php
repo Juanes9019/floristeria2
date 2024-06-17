@@ -119,6 +119,8 @@ Route::get('api/pedido', [pedidoController::class, 'getPedidos'])->name('api.ped
 Route::post('api/pedido/aceptar/{id}', [PedidoController::class, 'aceptarPedido'])->name('api.pedido.aceptar');
 Route::delete('api/pedido/rechazar/{id}', [PedidoController::class, 'rechazarPedido'])->name('api.pedido.rechazar');
 
+Route::get('api/pedido/detalle/{id}', [PedidoController::class, 'verDetalle'])->name('api.pedido.detalle');
+
 
 
 Route::get('api/detalle', [DetalleController::class, 'getDetalles'])->name('api.detalles');
