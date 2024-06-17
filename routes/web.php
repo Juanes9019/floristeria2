@@ -114,10 +114,17 @@ Route::get('admin/detalle', [DetalleController::class, 'index'])->name('detalles
 
 
 
+//rutas para flutter pedido
 Route::get('api/pedido', [pedidoController::class, 'getPedidos'])->name('api.pedido');
 Route::post('api/pedido/aceptar/{id}', [PedidoController::class, 'aceptarPedido'])->name('api.pedido.aceptar');
 Route::delete('api/pedido/rechazar/{id}', [PedidoController::class, 'rechazarPedido'])->name('api.pedido.rechazar');
 
+
+//rutas para flutter detalle
 Route::get('api/pedido/detalle/{id}', [PedidoController::class, 'detalle_flutter'])->name('api.pedido.detalle');
 Route::get('api/detalle', [DetalleController::class, 'getDetalles'])->name('api.detalles');
 
+//ruta para obtener el token
+Route::get('api/csrf-token', function () {
+    return response()->json(['csrf_token' => csrf_token()]);
+});

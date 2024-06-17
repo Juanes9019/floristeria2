@@ -47,15 +47,17 @@ class PedidoController extends Controller
 
     //funcionalidad en flutter
 
-
+    //controlador para ver pedido en flutter
     public function getPedidos()
     {
         $pedidos = Pedido::all();
         return response()->json($pedidos);
     }
 
-    public function aceptarPedido()
+    //controlador para aceptar pedido e flutter
+    public function aceptarPedido($id)
     {
+        //id para encontrar el pedido
         $pedido = Pedido::findOrFail($id);
 
         if ($pedido->estado === 'nuevo') {
@@ -71,17 +73,23 @@ class PedidoController extends Controller
         return response()->json(['message' => 'Estado del pedido actualizado correctamente', 'pedido' => $pedido], 200);
     }
 
+    //controlador para rechazar pedido en flutter
     public function rechazarPedido()
     {
         $pedido = Pedido::findOrFail($id);
+
+        //metodo para borrar
         $pedido->delete();
 
         return response()->json(['message' => 'Pedido rechazado y eliminado correctamente'], 200);
     }
 
+    //controlador para ver el detalle en fluuter
     public function detalle_flutter($id)
     {
+        //pedido para flutter
         $pedido = Pedido::with('detalles.producto')->findOrFail($id);
         return response()->json($pedido);
     }
 }
+
