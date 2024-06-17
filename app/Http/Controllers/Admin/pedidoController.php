@@ -45,9 +45,37 @@ class PedidoController extends Controller
         return view('Admin.pedido.mostrar', compact('pedido','i'));
     }
 
+    //funcionalidad en flutter
+
+
     public function getPedidos()
     {
         $pedidos = Pedido::all();
         return response()->json($pedidos);
+    }
+
+    public function aceptarPedido()
+    {
+        $pedido = Pedido::findOrFail($id);
+
+        if ($pedido->estado === 'nuevo') {
+            $pedido->estado = 'preparacion';
+        } elseif ($pedido->estado === 'preparacion') {
+            $pedido->estado = 'en camino';
+        } elseif ($pedido->estado === 'en camino') {
+            $pedido->estado = 'entregado';
+        }
+
+        $pedido->save();
+
+        return response()->json(['message' => 'Estado del pedido actualizado correctamente', 'pedido' => $pedido], 200);
+    }
+
+    public function rechazarPedido()
+    {
+        $pedido = Pedido::findOrFail($id);
+        $pedido->delete();
+
+        return response()->json(['message' => 'Pedido rechazado y eliminado correctamente'], 200);
     }
 }
