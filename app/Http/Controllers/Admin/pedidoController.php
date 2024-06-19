@@ -74,15 +74,16 @@ class PedidoController extends Controller
     }
 
     //controlador para rechazar pedido en flutter
-    public function rechazarPedido()
+    public function rechazarPedido($id)
     {
         $pedido = Pedido::findOrFail($id);
-
-        //metodo para borrar
+    
+        // Método para borrar
         $pedido->delete();
-
+    
         return response()->json(['message' => 'Pedido rechazado y eliminado correctamente'], 200);
     }
+    
 
     //controlador para ver el detalle en fluuter
     public function detalle_flutter($id)
