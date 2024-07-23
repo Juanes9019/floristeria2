@@ -96,7 +96,7 @@
                                         </a>
                                         
                                     @elseif(Auth::user()->type == 'admin')
-                                        <a class="dropdown-item" href="{{ route('perfilAdmin') }}">
+                                        <a class="dropdown-item" href="{{ route('perfilUser') }}">
                                             {{ __('Perfil') }}
                                         </a>
                                         <a class="dropdown-item" href="{{ route('dashboard') }}">

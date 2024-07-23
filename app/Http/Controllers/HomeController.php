@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Producto;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 
 class HomeController extends Controller
@@ -34,6 +36,13 @@ class HomeController extends Controller
     public function dashboard()
     {
         return view('Admin.dashboard');
+    }
+
+    public function perfilUser()
+    {
+        $user = Auth::user();
+
+        return view('perfil', compact ('user'));
     }
 
     public function show($id)

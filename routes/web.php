@@ -33,6 +33,7 @@ Route::get('/arreglo/{id}', [HomeController::class, 'show'])->name('view_arreglo
 
 //rutas para el carrito
 Route::get('home/carrito', [carritoController::class, 'index'])->name('home/carrito');
+Route::get('perfil', [carritoController::class, 'show'])->name('home/perfil');
 Route::get('carrito/add', [carritoController::class, 'add'])->name('add');
 Route::get('carrito/clear', [carritoController::class, 'clear'])->name('clear');
 Route::post('carrito/remove', [carritoController::class, 'removeItem'])->name('removeItem');
@@ -125,6 +126,7 @@ Route::get('api/pedido/detalle/{id}', [PedidoController::class, 'detalle_flutter
 Route::get('api/detalle', [DetalleController::class, 'getDetalles'])->name('api.detalles');
 
 //ruta para obtener el token
+//se manda el token para que pueda funcinar el post, delete y put
 Route::get('api/csrf-token', function () {
     return response()->json(['csrf_token' => csrf_token()]);
 });
