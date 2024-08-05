@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Storage;
 // En tu controlador
 use Barryvdh\DomPDF\Facade\Pdf;
 
+//importar request para las validaciones
+use App\Http\Requests\CarritoRequest;
+
+
 
 
 class carritoController extends Controller
@@ -55,9 +59,10 @@ class carritoController extends Controller
             'qty' => 1,
             'price' => $producto->precio,
             'options' => [
-                'image' => $producto->foto,
+                'image' => $producto->foto,            
             ]
         ]);
+        
         Cart::addCost('Costo de envío', 7000);
 
         return redirect()->back()->with("success", "Arreglo floral agregado correctamente al carrito");
@@ -104,12 +109,10 @@ class carritoController extends Controller
         $pedido = new Pedido();
         $pedido->total       = Cart::total();
         $pedido->fechapedido = now();
-        $pedido->procedencia = "Web";
         $pedido->estado      = "Nuevo";
         $pedido->user_id     = auth()->user()->id; // Asignar el user_id antes de guardar
         $pedido->save();
     
-        // Iterar sobre los productos en el carrito y crear los detalles del pedido
         foreach(Cart::content() as $item){
             // Restar del inventario
             $inventario = Inventario::where('id_producto', $item->id)->first();
@@ -124,7 +127,6 @@ class carritoController extends Controller
                 $detalle->cantidad    = $item->qty;
                 $detalle->importe     = $item->price * $item->qty;
                 $detalle->subtotal    = $item->subtotal; 
-                $detalle->impuesto    = $item->tax;
                 
                 $producto = Producto::find($item->id);
                 $detalle->imagen = $producto->foto;

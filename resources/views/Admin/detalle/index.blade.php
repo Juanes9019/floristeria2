@@ -32,7 +32,6 @@
                                         <th class="text-center">Cantidad</th>
                                         <th class="text-center">Importe</th>
                                         <th class="text-center">subtotal</th>
-                                        <th class="text-center">Impuesto</th>
                                         <th class="text-center">Imagen</th>
                                     </tr>
                                 </thead>
@@ -46,7 +45,6 @@
                                         <td class="text-center">{{ $item->cantidad }}</td>
                                         <td class="text-center">{{ number_format($item->importe, 0, ',', '.') }}</td>
                                         <td class="text-center">{{ number_format($item->subtotal, 0, ',', '.') }}</td>
-                                        <td class="text-center">{{ number_format($item->impuesto, 0, ',', '.') }}</td>
                                         <td class="text-center"><img src="{{ $item->imagen }}" alt="Imagen del producto" style="width: 100px; height: auto;"></td>
                                     </tr>
                                 @endforeach

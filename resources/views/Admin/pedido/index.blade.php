@@ -28,7 +28,6 @@
                                     <th class="text-center">Usuario</th>
                                     <th class="text-center">Total</th>
                                     <th class="text-center">Fecha_pedido</th>
-                                    <th class="text-center">Procedencia</th>
                                     <th class="text-center">Estado</th>
                                     <th class="text-center" colspan="2">Acción</th>
                                 </tr>
@@ -40,7 +39,6 @@
                                     <td class="text-center">{{ $item->user_id }}</td>
                                     <td class="text-center">{{ number_format($item->total, 0, ',', '.') }}</td>
                                     <td class="text-center">{{ $item->fechapedido }}</td>
-                                    <td class="text-center">{{ $item->procedencia }}</td>
                                     <td class="text-center">{{ $item->estado }}</td>
                                     <td class="text-center">
                                         <form action="{{ route('cambiar_estado', $item->id) }}" method="POST">

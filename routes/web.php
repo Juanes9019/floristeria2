@@ -41,7 +41,7 @@ Route::post('carrito/remove', [carritoController::class, 'removeItem'])->name('r
 Route::get('carrito/incrementar', [carritoController::class, 'incrementar'])->name('incrementarCantidad');
 Route::get('carrito/decrementar', [carritoController::class, 'decrementar'])->name('decrementarCantidad');
 
-Route::get('/confirmarCarrito', [CarritoController::class, 'confirmarCarrito'])->name('confirmarCarrito');
+Route::post('/confirmarCarrito', [CarritoController::class, 'confirmarCarrito'])->name('confirmarCarrito');
 
 
 Route::get('/pdf', [CarritoController::class, 'pdf'])->name('pdf');

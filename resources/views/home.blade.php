@@ -103,11 +103,11 @@
     </section>
 
     <section  class="gallery">
-        <img src="https://floristeria.s3.sa-east-1.amazonaws.com/amarillas_izquieda.webp" alt="galleria" class="galeria-img-1">
-        <img src="https://floristeria.s3.sa-east-1.amazonaws.com/abajo_derecha.webp" alt="galleria" class="galeria-img-2">
-        <img src="https://floristeria.s3.sa-east-1.amazonaws.com/mitad_azul.webp" alt="galleria" class="galeria-img-3">
-        <img src="https://floristeria.s3.sa-east-1.amazonaws.com/rosas_arriba.webp" alt="galleria" class="galeria-img-4">
-        <img src="https://floristeria.s3.sa-east-1.amazonaws.com/moradas_abajo.webp" alt="galleria" class="galeria-img-5">
+        <img src="https://i.imgur.com/xiE1vvO.jpeg" alt="galleria" class="galeria-img-1">
+        <img src="https://i.imgur.com/bKFwdmR.jpeg" alt="galleria" class="galeria-img-2">
+        <img src="https://i.imgur.com/Z27yfOo.jpeg" alt="galleria" class="galeria-img-3">
+        <img src="https://i.imgur.com/H8CfmCq.jpeg" alt="galleria" class="galeria-img-4">
+        <img src="https://i.imgur.com/r93OXMW.jpeg" alt="galleria" class="galeria-img-5">
     </section>
 
     <footer class="footer">
