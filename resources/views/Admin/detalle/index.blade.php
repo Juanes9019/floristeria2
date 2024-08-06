@@ -27,10 +27,9 @@
                                     <tr>
                                         <th class="text-center">No</th>
                                         <th class="text-center">id_pedido</th>
-                                        <th class="text-center">Producto</th>
+                                        <th class="text-center">id_producto</th>
                                         <th class="text-center">Precio</th>
                                         <th class="text-center">Cantidad</th>
-                                        <th class="text-center">Importe</th>
                                         <th class="text-center">subtotal</th>
                                         <th class="text-center">Imagen</th>
                                     </tr>
@@ -43,7 +42,6 @@
                                         <td class="text-center">{{ $item->id_producto }}</td>
                                         <td class="text-center">{{ number_format($item->precio, 0, ',', '.') }}</td>
                                         <td class="text-center">{{ $item->cantidad }}</td>
-                                        <td class="text-center">{{ number_format($item->importe, 0, ',', '.') }}</td>
                                         <td class="text-center">{{ number_format($item->subtotal, 0, ',', '.') }}</td>
                                         <td class="text-center"><img src="{{ $item->imagen }}" alt="Imagen del producto" style="width: 100px; height: auto;"></td>
                                     </tr>

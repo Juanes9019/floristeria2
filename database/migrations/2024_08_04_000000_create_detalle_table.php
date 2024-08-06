@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreignId('id_producto')->references('id')->on('productos');
             $table->decimal('precio', 10, 2);
             $table->integer('cantidad');
-            $table->decimal('importe', 10, 2);
             $table->decimal('subtotal', 10, 2);
             $table->string('imagen');
             $table->timestamps();

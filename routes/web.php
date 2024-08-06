@@ -13,6 +13,9 @@ use App\Http\Controllers\Admin\inventarioController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\carritoController;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EnviarCorreo;
+
 
 
 // $role= Role::create(['name'=>'admin']);
@@ -41,10 +44,15 @@ Route::post('carrito/remove', [carritoController::class, 'removeItem'])->name('r
 Route::get('carrito/incrementar', [carritoController::class, 'incrementar'])->name('incrementarCantidad');
 Route::get('carrito/decrementar', [carritoController::class, 'decrementar'])->name('decrementarCantidad');
 
-Route::post('/confirmarCarrito', [CarritoController::class, 'confirmarCarrito'])->name('confirmarCarrito');
+Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito'])->name('confirmarCarrito');
 
 
 Route::get('/pdf', [CarritoController::class, 'pdf'])->name('pdf');
+
+Route::post('enviar-correo', function(){
+    Mail::to("usuga0505@gmail.com")->send(new EnviarCorreo);
+    return "correo enviado exitosamente";
+})->name('enviar-correo');
 
 //midleware para controlar el acceso solo a los administradores
 Route::middleware(['auth', 'user-access:1'])->group(function () {

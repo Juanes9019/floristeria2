@@ -50,6 +50,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'id_rol');
+    }   
+
     protected function type(): Attribute
     {
         return new Attribute(

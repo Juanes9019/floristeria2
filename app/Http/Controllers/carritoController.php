@@ -16,6 +16,10 @@ use Illuminate\View\View;
 use Cart;
 use Illuminate\Support\Facades\Storage;
 
+
+use App\Mail\EnviarCorreo;
+use Illuminate\Support\Facades\Mail;
+
 // En tu controlador
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -125,8 +129,7 @@ class carritoController extends Controller
                 $detalle->id_producto = $item->id;
                 $detalle->precio      = $item->price;
                 $detalle->cantidad    = $item->qty;
-                $detalle->importe     = $item->price * $item->qty;
-                $detalle->subtotal    = $item->subtotal; 
+                $detalle->subtotal     = $item->price * $item->qty;
                 
                 $producto = Producto::find($item->id);
                 $detalle->imagen = $producto->foto;
@@ -140,15 +143,19 @@ class carritoController extends Controller
     
         // Limpiar el carrito después de procesar el pedido
         Cart::destroy();
+
+        $pdf = Pdf::loadView('pdf.pdf', ['pedido' => $pedido]);
+
+        Mail::to(auth()->user()->email)->send(new EnviarCorreo($pedido, $pdf->output()));
     
         return redirect()->back()->with("success", "Arreglo adquirido con éxito, pedido en camino");
     }
     
 
-    public function pdf(){
-        $pdf = Pdf::loadView('pdf.pdf');
-    
-        return $pdf->stream();
-    }
+        public function pdf(){
+            $pdf = Pdf::loadView('pdf.pdf');
+        
+            return $pdf->stream();
+        }
     
 }
