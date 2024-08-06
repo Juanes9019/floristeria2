@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('celular')->nullable();
             $table->string('direccion')->nullable();
-            $table->tinyInteger('type')->default(0);
+            $table->foreignId('id_rol')->references('id')->on('roles');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

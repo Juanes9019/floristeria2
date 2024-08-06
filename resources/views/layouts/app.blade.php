@@ -67,53 +67,54 @@
                         @endif
 
                         <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar sesion') }}</a>
-                                </li>
-                            @endif
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Registrate') }}</a>
-                                </li>
-                            @endif
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    @if (Auth::user()->type == 'user')
-                                        <a class="dropdown-item" href="{{ route('perfilUser') }}">
-                                            {{ __('Perfil') }}
-                                        </a>
-                                    @elseif(Auth::user()->type == 'admin')
-                                        <a class="dropdown-item" href="{{ route('perfilUser') }}">
-                                            {{ __('Perfil') }}
-                                        </a>
-                                        <a class="dropdown-item" href="{{ route('dashboard') }}">
-                                            {{ __('Panel de administrador') }}
-                                        </a>
-                                    @elseif(Auth::user()->type == 'manager')
-                                        <a class="dropdown-item" href="{{ route('perfilManager') }}">
-                                            {{ __('Perfil') }}
-                                        </a>
-                                        <a class="dropdown-item" href="{{ route('dashboard') }}">
-                                            {{ __('Panel de manager') }}
-                                        </a>
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                @guest
+                                    @if (Route::has('login'))
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar sesión') }}</a>
+                                        </li>
                                     @endif
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        {{ __('Cerrar sesion') }}
-                                    </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
+                                    @if (Route::has('register'))
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('register') }}">{{ __('Regístrate') }}</a>
+                                        </li>
+                                    @endif
+                                @else
+                                    <li class="nav-item dropdown">
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            {{ Auth::user()->name }}
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                            @if (Auth::user()->id_rol == 1) <!-- Admin Role -->
+                                                <a class="dropdown-item" href="{{ route('perfilUser') }}">
+                                                    {{ __('Perfil') }}
+                                                </a>
+                                                <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                                    {{ __('Panel de administrador') }}
+                                                </a>
+                                            @elseif (Auth::user()->id_rol == 2) <!-- Client Role -->
+                                                <a class="dropdown-item" href="{{ route('perfilUser') }}">
+                                                    {{ __('Perfil') }}
+                                                </a>
+                                            @elseif (Auth::user()->id_rol == 3) <!-- Manager Role -->
+                                                <a class="dropdown-item" href="{{ route('perfilManager') }}">
+                                                    {{ __('Perfil') }}
+                                                </a>
+                                                <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                                    {{ __('Panel de manager') }}
+                                                </a>
+                                            @endif
+                                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                {{ __('Cerrar sesión') }}
+                                            </a>
+                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                @csrf
+                                            </form>
+                                        </div>
+                                    </li>
+                                @endguest
+                            </ul>
                 </div>
             </div>
         </nav>

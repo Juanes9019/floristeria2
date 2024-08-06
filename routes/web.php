@@ -47,7 +47,7 @@ Route::post('/confirmarCarrito', [CarritoController::class, 'confirmarCarrito'])
 Route::get('/pdf', [CarritoController::class, 'pdf'])->name('pdf');
 
 //midleware para controlar el acceso solo a los administradores
-Route::middleware(['auth', 'user-access:admin'])->group(function () {
+Route::middleware(['auth', 'user-access:1'])->group(function () {
 
     //ruta para dashboard
     Route::get('dashboard', [HomeController::class, 'dashboard'])->name('dashboard');

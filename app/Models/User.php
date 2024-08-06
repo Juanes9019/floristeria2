@@ -26,7 +26,7 @@ class User extends Authenticatable
         'email',
         'celular',
         'direccion',
-        'type',
+        'id_rol', 
         'password',
     ];
 
@@ -53,7 +53,7 @@ class User extends Authenticatable
     protected function type(): Attribute
     {
         return new Attribute(
-            get: fn($value) => ["user", "admin"][$value],
+            get: fn($value) => ['user', 'admin'][$value] ?? 'unknown',
         );
     }
 }
