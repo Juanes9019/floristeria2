@@ -14,6 +14,22 @@
 
             <br>
 
+            <label for="departamento">Departamento:</label>
+            <input type="text" class="form-control" id="departamento" name="departamento" value="Antioquia" readonly>
+
+            <br>
+
+            <div class="form-group">
+                <label for="ciudad">Ciudad:</label>
+                <select class="form-control" id="ciudad" name="ciudad">
+                    @foreach($cities as $city)
+                        <option value="{{ $city }}">{{ $city }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <br>
+
             <label for="direccion">Dirección:</label>
             <input type="text" class="form-control" id="direccion" name="direccion">
 

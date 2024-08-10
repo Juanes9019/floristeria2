@@ -73,7 +73,7 @@
                                     <label class="col-form-label">Rol:</label>
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control" id="tbDireccion" value="{{ $user->type }}" />
+                                    <input type="text" class="form-control" id="tbDireccion" value="{{ $user->id_rol }}" />
                                 </td>
                             </tr>
                         </table>

@@ -27,7 +27,7 @@
                             <th class="text-center">NOMBRE</th>
                             <th class="text-center">CANTIDAD</th>
                             <th class="text-center">PRECIO</th>
-                            <th class="text-center">IMPORTE</th>
+                            <th class="text-center">SUBTOTAL</th>
                             <th class="text-center">ACCION</th>
                         </thead>
                         <tbody>
@@ -65,16 +65,6 @@
                                 <td></td>
                             </tr>
 
-                            <tr class="fx-bolder">
-                                <td colspan="4"></td>
-                                <td class="text-end"><strong>Subtotal:</strong></td>
-                                <td class="text-center">{{ number_format(Cart::subtotal(), 0, ',', '.') }}</td>
-                            </tr>
-                            <tr class="fx-bolder">
-                                <td colspan="4"></td>
-                                <td class="text-end"><strong>IVA:</strong></td>
-                                <td class="text-center">{{ number_format(Cart::tax(), 0, ',', '.') }}</td>
-                            </tr>
                             <tr class="fx-bolder">
                                 <td colspan="4"></td>
                                 <td class="text-end"><strong>Total:</strong></td>

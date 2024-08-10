@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\ProveedorController;
 use App\Http\Controllers\Admin\Sub_categoriaController;
 use App\Http\Controllers\Admin\productosController;
@@ -67,6 +68,14 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::get('admin/users/{id}/edit', [UserController::class, 'edit'])->name('Admin.users.edit');
     Route::put('admin/users/{id}', [UserController::class, 'update'])->name('Admin.users.update');
     Route::delete('admin/users/{id}', [UserController::class, 'destroy'])->name('Admin.users.destroy');
+
+    //rutas para los roles
+    Route::get('admin/roles', [RolesController::class, 'index'])->name('Admin.roles');
+    Route::get('admin/roles/create', [RolesController::class, 'create'])->name('Admin.roles.create');
+    Route::post('admin/roles', [RolesController::class, 'store'])->name('Admin.roles.store');
+    Route::get('admin/roles/{id}/edit', [RolesController::class, 'edit'])->name('Admin.roles.edit');
+    Route::put('admin/roles/{id}', [RolesController::class, 'update'])->name('Admin.roles.update');
+    Route::delete('admin/roles/{id}', [RolesController::class, 'destroy'])->name('Admin.roles.destroy');
 
 
     //rutas para los proveedor

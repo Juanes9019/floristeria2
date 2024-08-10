@@ -301,7 +301,6 @@ return [
             'topnav_right' => true,
         ],
 
-        // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
             'text' => 'Buscar',
@@ -312,6 +311,12 @@ return [
             'text' => 'Usuarios',
             'url' => '/admin/users',
             'icon' => 'fas fa-fw fa-user',
+            'label_color' => 'warning',
+        ],
+        [
+            'text' => 'Roles',
+            'url' => '/admin/roles',
+            'icon' => 'fas fa-fw fa-user-shield',
             'label_color' => 'warning',
         ],
         [

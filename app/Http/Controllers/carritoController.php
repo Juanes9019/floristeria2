@@ -16,6 +16,8 @@ use Illuminate\View\View;
 use Cart;
 use Illuminate\Support\Facades\Storage;
 
+use Illuminate\Support\Facades\Http;
+
 
 use App\Mail\EnviarCorreo;
 use Illuminate\Support\Facades\Mail;
@@ -36,22 +38,28 @@ class carritoController extends Controller
         $this->middleware('auth');
     }
 
-    // Configurar impuestos
-    public function configureTax()
-    {
-        Cart::tax(19, '.', ',');
-        Cart::addCost('Costo adicional', 7000);
-    }
 
     public function index()
     {
-        return view('carrito.cart');
+        // Realizar la solicitud a la API de Overpass
+        $response = Http::get('https://overpass-api.de/api/interpreter', [
+            'data' => '[out:json];(node["place"="city"]["name"~"^(Medellín|Bello|Envigado|Itagüí|Sabaneta|La Estrella|Caldas|Copacabana|Girardota|Barbosa)$"];way["place"="city"]["name"~"^(Medellín|Bello|Envigado|Itagüí|Sabaneta|La Estrella|Caldas|Copacabana|Girardota|Barbosa)$"];relation["place"="city"]["name"~"^(Medellín|Bello|Envigado|Itagüí|Sabaneta|La Estrella|Caldas|Copacabana|Girardota|Barbosa)$"];);out body;>;out skel qt;'
+        ]);
+    
+        $data = $response->json();
+    
+        // Extraer nombres de las ciudades
+        $cities = collect($data['elements'])
+            ->filter(fn($item) => isset($item['tags']['name']))
+            ->pluck('tags.name');
+    
+        // Retornar a la vista carrito.cart con las ciudades
+        return view('carrito.cart', compact('cities'));
     }
+    
 
     public function add(Request $request)
     {
-        // Llamar al método de configuración de impuestos
-        $this->configureTax();
 
         $producto= Producto::find($request->id);
         if(empty($producto))
@@ -67,15 +75,11 @@ class carritoController extends Controller
             ]
         ]);
         
-        Cart::addCost('Costo de envío', 7000);
-
         return redirect()->back()->with("success", "Arreglo floral agregado correctamente al carrito");
     }
 
     public function removeItem(Request $request)
     {
-        // Llamar al método de configuración de impuestos
-        $this->configureTax();
 
         Cart::remove($request->rowId);
 
@@ -157,5 +161,6 @@ class carritoController extends Controller
         
             return $pdf->stream();
         }
+
     
 }

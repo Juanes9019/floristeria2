@@ -44,6 +44,7 @@ class HomeController extends Controller
 
         return view('perfil', compact ('user'));
     }
+    
 
     public function show($id)
     {
