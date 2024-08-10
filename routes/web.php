@@ -12,8 +12,7 @@ use App\Http\Controllers\Admin\detalleController;
 use App\Http\Controllers\Admin\inventarioController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\carritoController;
-
-
+use App\Models\Proveedor;
 
 // $role= Role::create(['name'=>'admin']);
 // $role= Role::create(['name'=>'cliente']);
@@ -68,6 +67,8 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('admin/proveedor/{id}/edit', [ProveedorController::class, 'edit'])->name('Admin.proveedor.edit');
     Route::put('admin/proveedor/{id}', [ProveedorController::class, 'update'])->name('Admin.proveedor.update');
     Route::delete('admin/proveedor/{id}', [ProveedorController::class, 'destroy'])->name('Admin.proveedor.destroy');
+    Route::get('admin/proveedor/{id}/status', [ProveedorController::class, 'change_Status'])->name('Admin.proveedor.status');
+
 
     //rutas para la categoria
     Route::get('admin/categoria', [CategoriaController::class, 'index'])->name('Admin.categoria');
@@ -76,6 +77,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('admin/categoria/{id}/edit', [CategoriaController::class, 'edit'])->name('Admin.categoria.edit');
     Route::put('admin/categoria/{id}', [CategoriaController::class, 'update'])->name('Admin.categoria.update');
     Route::delete('admin/categoria/{id}', [CategoriaController::class, 'destroy'])->name('Admin.categoria.destroy');
+    Route::get('admin/categoria/{id}/status', [ProveedorController::class, 'change_Status'])->name('Admin.categoria.status');
+
+
 
     //rutas para la sub_categoria
     Route::get('admin/sub_categoria', [Sub_categoriaController::class, 'index'])->name('Admin.sub_categoria');

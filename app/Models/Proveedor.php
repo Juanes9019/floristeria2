@@ -16,6 +16,7 @@ class Proveedor extends Model
         'telefono',
         'correo',
         'celular',
-        'ubicacion'
+        'ubicacion',
+        'estado'
     ];
 }

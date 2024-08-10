@@ -9,16 +9,17 @@
 
 
 
-<h2 class="text-center mb-5">CREAR UNA NUEVO PROVEEDOR</h2>
+<h2 class="text-center mb-5">CREAR UN NUEVO PROVEEDOR</h2>
     
 
     <div class="row justify-content-center mt-5">
         <div class="col-md-8">
+            
         <form id="formulario_crear" method="POST" action="{{ route('Admin.proveedor.store') }}" novalidate >
                 @csrf
                 <div class="form-group">
                     <label for="nombre">Nombre</label>
-                    <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Floristeria" value="{{ old('nombre') }}">
+                    <input type="text" name="nombre" class="form-control  id="nombre" placeholder="Floristeria" value="{{ old('nombre') }}">
 
                     @error('nombre')
                         <span class="invalid-feedback d-block" role="alert">
@@ -29,7 +30,7 @@
 
                 <div class="form-group">
                     <label for="telefono">Telefono</label>
-                    <input type="text" name="telefono" class="form-control  @error('telefono') is-invalid  @enderror" id="telefono" placeholder="999-999-9999" value="{{ old('telefono') }}">
+                    <input type="text" name="telefono" class="form-control  id="telefono" placeholder="999-999-9999" value="{{ old('telefono') }}">
 
                     @error('telefono')
                         <span class="invalid-feedback d-block" role="alert">
@@ -40,7 +41,7 @@
 
                 <div class="form-group">
                     <label for="correo">Correo</label>
-                    <input type="text" name="correo" class="form-control  @error('correo') is-invalid  @enderror" id="correo" placeholder="floristeria@correo.com" value="{{ old('correo') }}">
+                    <input type="text" name="correo" class="form-control  id="correo" placeholder="floristeria@correo.com" value="{{ old('correo') }}">
 
                     @error('correo')
                         <span class="invalid-feedback d-block" role="alert">
@@ -51,7 +52,7 @@
 
                 <div class="form-group">
                     <label for="ubicacion">Ubicacion</label>
-                    <input type="text" name="ubicacion" class="form-control  @error('ubicacion') is-invalid  @enderror" id="ubicacion" placeholder="CR10 #31-13" value="{{ old('ubicacion') }}">
+                    <input type="text" name="ubicacion" class="form-control   id="ubicacion" placeholder="CR10 #31-13" value="{{ old('ubicacion') }}">
 
                     @error('ubicacion')
                         <span class="invalid-feedback d-block" role="alert">
@@ -59,22 +60,28 @@
                         </span>
                     @enderror
                 </div>
+                <div class="form-group">
+                <label for="estado">Estado</label>
+                <select name="estado" id="estado" class="form-control">
+                    <option value="1" {{ old('estado') == '1' ? 'selected' : '' }}>Activo</option>
+                </select>
+            </div>
 
                 <br>
 
                 <div class="form-group">
-                    <input type="button" class="btn btn-primary" value="agregar proveedor" onclick="agregar()">
-                    <a href="{{ route('Admin.proveedor') }}" class="btn btn-primary ">Volver</a>
+                    <button type="button" class="btn btn-success" value="Agregar proveedor" onclick="agregar()">Agregar proveedor</button>
+                    <a href="{{ route('Admin.proveedor') }}" class="btn btn-danger ">Volver</a>
                 </div>
             </form>
         </div>
     </div> 
+
 <script>
 function agregar() {
     Swal.fire({
         title: "¡Estas seguro!",
         text: "¿Deseas agregar este proveedor?",
-        icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
@@ -87,10 +94,10 @@ function agregar() {
                 icon: "success"
             });
 
-            // Prevent the form from submitting automatically
+            
             event.preventDefault();
 
-            // Manually submit the form
+            
             document.getElementById('formulario_crear').submit();
         }
     });
