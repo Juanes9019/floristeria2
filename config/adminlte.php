@@ -341,7 +341,7 @@ return [
         ],
         [
             'text' => 'Insumos',
-            'url' => 'admin/insumos',
+            'url' => 'admin/insumo',
             'icon' => 'fas fa-box',
             'label_color' => 'warning',
         ],

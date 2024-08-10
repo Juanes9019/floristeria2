@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\productosController;
 use App\Http\Controllers\Admin\pedidoController;
 use App\Http\Controllers\Admin\detalleController;
 use App\Http\Controllers\Admin\inventarioController;
+use App\Http\Controllers\Admin\InsumoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\carritoController;
 
@@ -92,6 +93,14 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::get('admin/sub_categoria/{id}/edit', [Sub_categoriaController::class, 'edit'])->name('Admin.sub_categoria.edit');
     Route::put('admin/sub_categoria/{id}', [Sub_categoriaController::class, 'update'])->name('Admin.sub_categoria.update');
     Route::delete('admin/sub_categoria/{id}', [Sub_categoriaController::class, 'destroy'])->name('Admin.sub_categoria.destroy');
+
+    //rutas para los insumos
+    Route::get('admin/insumo', [InsumoController::class, 'index'])->name('Admin.insumo');
+    Route::get('admin/insumo/create', [InsumoController::class, 'create'])->name('Admin.insumo.create');
+    Route::post('admin/insumo', [InsumoController::class, 'store'])->name('Admin.insumo.store');
+    Route::get('admin/insumo/{id}/edit', [InsumoController::class, 'edit'])->name('Admin.insumo.edit');
+    Route::put('admin/insumo/{id}', [InsumoController::class, 'update'])->name('Admin.insumo.update');
+    Route::delete('admin/insumo/{id}', [InsumoController::class, 'destroy'])->name('Admin.insumo.destroy');
 
     //rutas para los productos
     Route::get('admin/productos', [productosController::class, 'index'])->name('Admin.productos');

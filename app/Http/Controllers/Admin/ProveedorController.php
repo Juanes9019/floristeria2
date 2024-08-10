@@ -20,18 +20,12 @@ class ProveedorController extends Controller
         return view('Admin.proveedor.index', compact('proveedores', 'i'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $proveedores = new Proveedor();
         return view('Admin.proveedor.create', compact('proveedores'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
 
@@ -56,18 +50,9 @@ class ProveedorController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-{
+    public function edit($id){
     $proveedores = Proveedor::find($id);
-
-
-
     return view('Admin.proveedor.edit', compact('proveedores'));
-
-
 }
 
     
@@ -98,9 +83,6 @@ public function update(Request $request, $id)
         ->with('success', 'proveedor actualizado exitosamente');
 }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $proveedor = Proveedor::find($id);
