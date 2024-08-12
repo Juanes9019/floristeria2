@@ -20,18 +20,12 @@ class ProveedorController extends Controller
         return view('Admin.proveedor.index', compact('proveedores', 'i'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $proveedores = new Proveedor();
-        return view('Admin.proveedor.create', compact('proveedores'));
+        $proveedor = new Proveedor();
+        return view('Admin.proveedor.create', compact('proveedor'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
 
@@ -69,7 +63,7 @@ class ProveedorController extends Controller
 
         $proveedor->save();
 
-        return redirect()->route('Admin.proveedor')
+        return redirect()->route('Admin.proveedores')
             ->with('success', 'proveedor creado con éxito.');
     }
 
@@ -120,20 +114,17 @@ class ProveedorController extends Controller
         $proveedor->save();
 
         // Redireccionar a la vista de edición con un mensaje de éxito
-        return redirect()->route('Admin.proveedor', ['id' => $proveedor->id])
+        return redirect()->route('Admin.proveedores', ['id' => $proveedor->id])
             ->with('success', 'proveedor actualizado exitosamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $proveedor = Proveedor::find($id);
 
         $proveedor->delete();
 
-        return redirect()->route('Admin.proveedor')
+        return redirect()->route('Admin.proveedores')
             ->with('success', 'proveedor eliminado con éxito');
     }
 

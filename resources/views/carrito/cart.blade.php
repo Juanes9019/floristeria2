@@ -23,11 +23,11 @@
 
                     <table class="table table-striped">
                         <thead>
-                            <th class="text-center">IMAGEN</th>
+                            <th class="text-center">FOTO</th>
                             <th class="text-center">NOMBRE</th>
                             <th class="text-center">CANTIDAD</th>
                             <th class="text-center">PRECIO</th>
-                            <th class="text-center">IMPORTE</th>
+                            <th class="text-center">SUBTOTAL</th>
                             <th class="text-center">ACCION</th>
                         </thead>
                         <tbody>
@@ -67,36 +67,36 @@
 
                             <tr class="fx-bolder">
                                 <td colspan="4"></td>
-                                <td class="text-end"><strong>Subtotal:</strong></td>
-                                <td class="text-center">{{ number_format(Cart::subtotal(), 0, ',', '.') }}</td>
-                            </tr>
-                            <tr class="fx-bolder">
-                                <td colspan="4"></td>
                                 <td class="text-end"><strong>Total:</strong></td>
                                 <td class="text-center">{{ number_format(Cart::total(), 0, ',', '.') }}</td>
                             </tr>
                         </tbody>
                     </table>
 
-                        @livewire('confirmar-carrito')
+                    @include('carrito.datos_envio')
 
-                        <div class="row justify-content-center mt-5 mb-5 text-center">
-                            <div class="col-sm-4">
-                                <a href="{{ route('clear') }}" class="btn btn-danger efecto-botones">Vaciar carrito</a>
-                            </div>
+                    <div class="row justify-content-center mt-5 mb-5 text-center">
 
-                            <div class="col-sm-4">
-                                <a href="{{ route('home') }}" class="btn btn-primary efecto-botones">Seguir Comprando</a>
-                            </div>
-
-                            <div class="col-sm-4">
-                                @auth
-                                    <a href="{{ route('confirmarCarrito') }}" class="btn btn-success efecto-botones">Comprar</a>
-                                @else
-                                    <a href="/login" class="btn btn-danger efecto-botones">Regístrate primero</a>
-                                @endauth
-                            </div>
+                        <div class="col-sm-4">
+                            <a href="{{ route('clear') }}" class="btn btn-danger efecto-botones">Vaciar carrito</a>
                         </div>
+
+                        <div class="col-sm-4">
+                            <a href="{{ route('home') }}" class="btn btn-primary efecto-botones">Seguir Comprando</a>
+                        </div>
+
+
+                        <div class="col-sm-4">
+                            @auth
+                            <form action="{{ route('confirmarCarrito') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-success efecto-botones">Comprar</button>
+                            </form>
+                            @else
+                                <a href="/login" class="btn btn-danger efecto-botones">Regístrate primero</a>
+                            @endauth
+                        </div>
+
                     </div>
 
                     @else

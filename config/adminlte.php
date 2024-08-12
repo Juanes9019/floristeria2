@@ -301,7 +301,6 @@ return [
             'topnav_right' => true,
         ],
 
-        // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
             'text' => 'Buscar',
@@ -315,8 +314,14 @@ return [
             'label_color' => 'warning',
         ],
         [
+            'text' => 'Roles',
+            'url' => '/admin/roles',
+            'icon' => 'fas fa-fw fa-user-shield',
+            'label_color' => 'warning',
+        ],
+        [
             'text' => 'Proveedores',
-            'url' => '/admin/proveedor',
+            'url' => '/admin/proveedores',
             'icon' => 'fas fa-fw fa-building', 
             'label_color' => 'primary',
         ],
@@ -341,7 +346,7 @@ return [
         ],
         [
             'text' => 'Insumos',
-            'url' => 'admin/insumos',
+            'url' => 'admin/insumo',
             'icon' => 'fas fa-box',
             'label_color' => 'warning',
         ],

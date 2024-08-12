@@ -26,7 +26,7 @@ class User extends Authenticatable
         'email',
         'celular',
         'direccion',
-        'type',
+        'id_rol', 
         'password',
     ];
 
@@ -50,10 +50,15 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function role()
+    {
+        return $this->belongsTo(Roles::class, 'id_rol');
+    }   
+
     protected function type(): Attribute
     {
         return new Attribute(
-            get: fn($value) => ["user", "admin"][$value],
+            get: fn($value) => ['user', 'admin'][$value] ?? 'unknown',
         );
     }
 }

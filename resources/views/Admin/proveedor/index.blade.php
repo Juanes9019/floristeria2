@@ -50,22 +50,25 @@
                                     <td class="text-center">{{ $proveedor->correo }}</td>
                                     <td class="text-center">{{ $proveedor->ubicacion }}</td>
                                     <td class="text-center">{{ $proveedor->estado == 1 ? 'Activo': 'Inactivo' }} </td>
-
+                                    <td class="text-center">
+                                        <a class="btn btn-sm btn-warning" href="{{ route('Admin.proveedor.edit', ['id' => $proveedor->id]) }}">
+                                            <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}
+                                        </a>
+                                    </td>
                                     <td class="text-center">
                                         <form id="form_eliminar_{{ $proveedor->id }}" action="{{ route('Admin.proveedor.destroy', $proveedor->id) }}" method="POST">
-                                            <a class="btn btn-sm btn-warning" href="{{ route('Admin.proveedor.edit', ['id' => $proveedor->id]) }}">
-                                                <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}
-                                            </a>
                                             @csrf
                                             @method('DELETE')
                                             <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{ $proveedor->id }}')">
                                                 <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
                                             </button>
-                                            <a class="btn btn-sm {{ $proveedor->estado == 1 ? 'btn-success' : 'btn-danger' }}" href="{{ route('Admin.proveedor.status', $proveedor->id) }}">
+                                        </form>
+                                    </td>
+                                    <td class="text-center">
+                                    <a class="btn btn-sm {{ $proveedor->estado == 1 ? 'btn-success' : 'btn-danger' }}" href="{{ route('Admin.proveedor.status', $proveedor->id) }}">
                                                 {{ $proveedor->estado == 1 ? 'Activo' : 'Inactivo' }}
                                                 <i class="fa fa-fw fa-sync"></i>
                                             </a>
-                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach

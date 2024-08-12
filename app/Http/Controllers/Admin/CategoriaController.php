@@ -10,27 +10,17 @@ use Illuminate\Support\Facades\DB;
 
 class CategoriaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
+    public function index(){
         $categorias = Categoria::all();
         $i = 0;
         return view('Admin.categoria.index', compact('categorias', 'i'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('Admin.categoria.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         // Validación de los datos del formulario

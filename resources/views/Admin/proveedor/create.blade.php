@@ -71,7 +71,7 @@
 
                 <div class="form-group">
                     <button type="button" class="btn btn-success" value="Agregar proveedor" onclick="agregar()">Agregar proveedor</button>
-                    <a href="{{ route('Admin.proveedor') }}" class="btn btn-danger ">Volver</a>
+                    <a href="{{ route('Admin.proveedores') }}" class="btn btn-danger ">Volver</a>
                 </div>
             </form>
         </div>
