@@ -35,7 +35,7 @@
 
                 <div class="form-group">
                     <label for="cantidad_insumo">Cantidad</label>
-                    <input type="number" name="cantidad_insumo" class="form-control  @error('cantidad_insumo') is-invalid  @enderror" id="cantidad_insumo" placeholder="2222" value="{{ old('cantidad_insumo', $insumos->cantidad_insumos) }}">
+                    <input type="number" name="cantidad_insumo" class="form-control  @error('cantidad_insumo') is-invalid  @enderror" id="cantidad_insumo" placeholder="Ingrese cantidad" value="{{ old('cantidad_insumo', $insumos->cantidad_insumos) }}">
 
                     @error('cantidad_insumos')
                         <span class="invalid-feedback d-block" role="alert">
@@ -77,7 +77,7 @@
 function editar() {
     Swal.fire({
         title: "¡Estas seguro!",
-        text: "¿Deseas editar esta categoria?",
+        text: "¿Deseas editar este insumo?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -86,8 +86,8 @@ function editar() {
     }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire({
-                title: "!categoria Editada!",
-                text: "La categoria se edito correctamente",
+                title: "!insumo Editado!",
+                text: "El insumo se edito correctamente",
                 icon: "success"
             });
 

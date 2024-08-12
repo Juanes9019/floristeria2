@@ -21,18 +21,12 @@ class UserController extends Controller
         return view('Admin.users.index', compact('usuarios', 'i'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $user = new User();
         return view('Admin.users.create', compact('user'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
 
@@ -61,18 +55,10 @@ class UserController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
 {
     $usuarios = User::find($id);
-
-
-
     return view('Admin.users.edit', compact('usuarios'));
-
-
 }
 
     

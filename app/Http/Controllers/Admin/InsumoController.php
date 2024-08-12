@@ -111,9 +111,10 @@ class InsumoController extends Controller
         $insumo->delete();
 
         return redirect()->route('Admin.insumo')
-            ->with('success', 'proveedor eliminado con éxito');
+            ->with('success', 'Insumo eliminado con éxito');
 
     }
+
 }
 
 
