@@ -31,14 +31,12 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/user/perfil', [HomeController::class, 'perfilUser'])->name('perfilUser');
-Route::get('/admin/perfil', [HomeController::class, 'perfilAdmin'])->name('perfilAdmin');
+Route::get('/perfil/perfil/{section?}', [HomeController::class, 'perfilUser'])->name('perfilUser');
 
 Route::get('/arreglo/{id}', [HomeController::class, 'show'])->name('view_arreglo.arreglo_view');
 
 //rutas para el carrito
 Route::get('home/carrito', [carritoController::class, 'index'])->name('home/carrito');
-Route::get('perfil', [carritoController::class, 'show'])->name('home/perfil');
 Route::get('carrito/add', [carritoController::class, 'add'])->name('add');
 Route::get('carrito/clear', [carritoController::class, 'clear'])->name('clear');
 Route::post('carrito/remove', [carritoController::class, 'removeItem'])->name('removeItem');

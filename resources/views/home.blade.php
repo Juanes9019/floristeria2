@@ -87,10 +87,6 @@
                             <h5 class="card-title">{{ $producto->nombre }}</h5>
                             <p class="card-title"><strong>Categoria:</strong> {{ $producto->categoria-> nombre }}</p>
                             <p class="card-text"><strong>Precio:</strong>${{ number_format($producto->precio, 0, ',', '.') }}</p>
-                            <div class="iconos d-flex justify-content-center">
-                                <span class="mr-3"><i class="far fa-eye"></i></span>
-                                <span class="mx-3"><i class="fas fa-heart"></i></span>
-                            </div>
                             <div class="contenedor">
                                 <a href="{{ route('view_arreglo.arreglo_view', ['id' => $producto->id]) }}" class="btn btn-5">Ver más</a>
                             </div>
@@ -143,10 +139,8 @@
                 <div class="my-account">
                     <p class="title-footer">Mi cuenta</p>
                     <ul>
-                        <li><a href="#">Mi cuenta</a></li>
-                        <li><a href="#">Historial de ordenes</a></li>
-                        <li><a href="#">Lista de deseos</a></li>
-                        <li><a href="#">Reembolsos</a></li>
+                        <li><a href="{{ route('perfilUser') }}">Mi cuenta</a></li>
+                        <li><a href="{{ route('perfilUser')}}">Historial de pedidos</a></li>
                     </ul>
                 </div>
             </div>

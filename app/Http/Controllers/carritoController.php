@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Producto;
 use App\Models\Pedido;
+use App\Models\DatosEnvio;
 use App\Models\Detalle;
 use App\Models\Inventario;
 use Illuminate\Support\Facades\Auth;
@@ -111,49 +112,78 @@ class carritoController extends Controller
     }
     
     
+    public function confirmarCarrito(Request $request)
+{
+    // Validar los datos del formulario
+    $request->validate([
+        'nombre_destinatario' => 'required|string|max:255',
+        'fecha' => 'required|date',
+        'departamento' => 'required|string',
+        'ciudad' => 'required|string',
+        'direccion' => 'required|string|max:255',
+        'instrucciones_entrega' => 'nullable|string|max:500',
+        'telefono' => 'required|string|max:20',
+    ]);
 
-    public function confirmarCarrito(){
-        // Crear un pedido para el carrito
-        $pedido = new Pedido();
-        $pedido->total       = Cart::total();
-        $pedido->fechapedido = now();
-        $pedido->estado      = "Nuevo";
-        $pedido->user_id     = auth()->user()->id; // Asignar el user_id antes de guardar
-        $pedido->save();
-    
-        foreach(Cart::content() as $item){
-            // Restar del inventario
-            $inventario = Inventario::where('id_producto', $item->id)->first();
-    
-            if ($inventario->cantidad < $item->qty) {
-                return back()->withErrors(["status" => "Lamentamos informarte que la cantidad que deseas no se encuentra disponible en este momento. Cantidad disponible: $inventario->cantidad"]);
-            } else {
-                $detalle = new Detalle();
-                $detalle->id_pedido   = $pedido->id;
-                $detalle->id_producto = $item->id;
-                $detalle->precio      = $item->price;
-                $detalle->cantidad    = $item->qty;
-                $detalle->subtotal     = $item->price * $item->qty;
-                
-                $producto = Producto::find($item->id);
-                $detalle->imagen = $producto->foto;
-                
-                $detalle->save();
-    
-                $inventario->cantidad -= $item->qty;
-                $inventario->save();
-            }
+    // Crear un pedido para el carrito
+    $pedido = new Pedido();
+    $pedido->total = Cart::total();
+    $pedido->fechapedido = now();
+    $pedido->estado = "Nuevo";
+    $pedido->user_id = auth()->user()->id; // Asignar el user_id antes de guardar
+    $pedido->save();
+
+    foreach(Cart::content() as $item){
+        // Restar del inventario
+        $inventario = Inventario::where('id_producto', $item->id)->first();
+
+        if ($inventario->cantidad < $item->qty) {
+            return back()->withErrors(["status" => "Lamentamos informarte que la cantidad que deseas no se encuentra disponible en este momento. Cantidad disponible: $inventario->cantidad"]);
+        } else {
+            $detalle = new Detalle();
+            $detalle->id_pedido = $pedido->id;
+            $detalle->id_producto = $item->id;
+            $detalle->precio = $item->price;
+            $detalle->cantidad = $item->qty;
+            $detalle->subtotal = $item->price * $item->qty;
+
+            $producto = Producto::find($item->id);
+            $detalle->imagen = $producto->foto;
+
+            $detalle->save();
+
+            $inventario->cantidad -= $item->qty;
+            $inventario->save();
         }
-    
-        // Limpiar el carrito después de procesar el pedido
-        Cart::destroy();
-
-        $pdf = Pdf::loadView('pdf.pdf', ['pedido' => $pedido]);
-
-        Mail::to(auth()->user()->email)->send(new EnviarCorreo($pedido, $pdf->output()));
-    
-        return redirect()->back()->with("success", "Arreglo adquirido con éxito, pedido en camino");
     }
+
+    // Limpiar el carrito después de procesar el pedido
+    Cart::destroy();
+
+    // Preparar los datos del envío
+    $datosEnvio = $request->only([
+        'nombre_destinatario', 
+        'fecha', 
+        'departamento', 
+        'ciudad', 
+        'direccion', 
+        'instrucciones_entrega', 
+        'telefono'
+    ]);
+
+    // Generar el PDF con los datos del pedido y del envío
+    $pdf = Pdf::loadView('pdf.pdf', [
+        'pedido' => $pedido,
+        'datosEnvio' => $datosEnvio,
+    ]);
+
+    // Enviar el correo con el PDF adjunto
+    Mail::to(auth()->user()->email)->send(new EnviarCorreo($pedido, $pdf->output()));
+
+    return redirect()->back()->with("success", "Arreglo adquirido con éxito, pedido en camino");
+}
+
+    
     
 
         public function pdf(){
