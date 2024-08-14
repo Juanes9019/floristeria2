@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<link rel="stylesheet" href="{{ asset('css/boton.css') }}">
+
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div>
@@ -68,35 +70,39 @@
     </main>
 
     <section class="container top-products">
-        <h1 class="heading-1">Seccion de Productos</h1>
+    <h1 class="heading-1">Sección de Productos</h1>
 
-        <div class="container-options">
-            <span class="active">Todos los productos</span>
-            <span>Más baratos</span>
-            <span>Mejores valorados</span>
-        </div>
+    <div class="container-options">
+        <a href="{{route('all_products')}}"><span>Todos los productos</span></a>
+    </div>
 
-
-        <div class="container" >
-            <div class="row">
-                @foreach ($productos as $producto)
-                <div class="col-md-3 mb-4">
-                    <div class="card h-100">
-                        <img src="{{ $producto->foto }}" class="card-img-top img-fluid" alt="{{ $producto->nombre }}">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">{{ $producto->nombre }}</h5>
-                            <p class="card-title"><strong>Categoria:</strong> {{ $producto->categoria-> nombre }}</p>
-                            <p class="card-text"><strong>Precio:</strong>${{ number_format($producto->precio, 0, ',', '.') }}</p>
-                            <div class="contenedor">
-                                <a href="{{ route('view_arreglo.arreglo_view', ['id' => $producto->id]) }}" class="btn btn-5">Ver más</a>
+    <div id="productosCarrusel" class="carousel slide" data-ride="carousel" data-interval="3000">
+        <div class="carousel-inner">
+            @foreach ($productos->chunk(4) as $chunkIndex => $chunk)
+                <div class="carousel-item {{ $chunkIndex === 0 ? 'active' : '' }}">
+                    <div class="row">
+                        @foreach ($chunk as $producto)
+                            <div class="col-md-3 mb-4">
+                                <div class="card h-100">
+                                    <img src="{{ $producto->foto }}" class="card-img-top img-fluid" alt="{{ $producto->nombre }}">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title">{{ $producto->nombre }}</h5>
+                                        <p class="card-title"><strong>Categoria:</strong> {{ $producto->categoria->nombre }}</p>
+                                        <p class="card-text"><strong>Precio:</strong> ${{ number_format($producto->precio, 0, ',', '.') }}</p>
+                                        <div class="contenedor">
+                                            <a href="{{ route('view_arreglo.arreglo_view', ['id' => $producto->id]) }}" class="btn btn-5">Ver más</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
-                @endforeach
-            </div>
+            @endforeach
         </div>
-    </section>
+    </div>
+</section>
+
 
     <section  class="gallery">
         <img src="https://i.imgur.com/xiE1vvO.jpeg" alt="galleria" class="galeria-img-1">
@@ -152,80 +158,4 @@
     </footer>
 
 
-<style>
-.card-img-top {
-    height: 200px; 
-    object-fit: cover;
-}
-
-.contenedor{
-    display: flex;
-    height: 15vh;
-    gap: 25px;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.btn{
-    position: relative;
-    padding: 20px 50px;
-    text-decoration: none;
-    color: #000;
-    letter-spacing: 1px;
-    text-indent: 10px;
-    z-index: 2;
-    border-radius: 20px;
-    font-size: 15px;
-}
-
-
-/*-----------boton 5----------*/
-
-.btn-5{
-    border: 3px solid #FFE599;
-    margin:0;
-    overflow: hidden;
-}
-
-.btn-5::after{
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    background-color: #FFE599;
-    z-index: -2;
-}
-
-.btn-5::before{
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 250px;
-    left: 0;
-    bottom: -150%;
-    border-radius: 30%;
-    background-color: #FFF2CC;
-    
-    z-index: -1;
-}
-
-.btn-5:hover::before{
-    animation: btn-5 2s linear both;
-}
-
-
-@keyframes btn-5 {
-    0%{
-        transform: rotate(0deg);
-    }
-    100%{
-        bottom: 100px;
-        transform: rotate(360deg);
-        
-    }
-}
-</style>
 @endsection

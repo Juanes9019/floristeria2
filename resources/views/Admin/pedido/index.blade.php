@@ -29,7 +29,7 @@
                                     <th class="text-center">Total</th>
                                     <th class="text-center">Fecha_pedido</th>
                                     <th class="text-center">Estado</th>
-                                    <th class="text-center" colspan="2">Acción</th>
+                                    <th class="text-center" colspan="3">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,6 +51,28 @@
                                                 <button type="submit" class="btn btn-info">En Camino</button>
                                             @elseif ($item->estado === 'entregado')
                                                 <button type="submit" class="btn btn-success" disabled>Entregado</button>
+                                            @elseif ($item->estado === 'rechazado')
+                                                <button type="submit" class="btn btn-primary" disabled>nuevo</button>
+                                            @endif
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('rechazar', $item->id) }}" method="post">
+                                        @csrf
+                                            @if ($item->estado === 'nuevo')
+                                                <button type="submit" class="btn btn-danger">Rechazar</button>
+
+                                            @elseif ($item->estado === 'preparacion')
+                                                <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
+
+                                            @elseif ($item->estado === 'en camino')
+                                                <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
+
+                                            @elseif ($item->estado === 'entregado')
+                                                <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
+
+                                            @elseif ($item->estado === 'rechazado')
+                                                <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
                                             @endif
                                         </form>
                                     </td>

@@ -80,7 +80,7 @@
 function agregar() {
     Swal.fire({
         title: "¡Estas seguro!",
-        text: "¿Deseas agregar esta categoria?",
+        text: "¿Deseas agregar este insumo?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -89,8 +89,8 @@ function agregar() {
     }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire({
-                title: "!categoria agregada!",
-                text: "La categoria se agrego correctamente",
+                title: "!Insumo agregado!",
+                text: "El insumo se agrego correctamente",
                 icon: "success"
             });
 
