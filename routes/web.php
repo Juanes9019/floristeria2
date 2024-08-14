@@ -30,14 +30,12 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/user/perfil', [HomeController::class, 'perfilUser'])->name('perfilUser');
-Route::get('/admin/perfil', [HomeController::class, 'perfilAdmin'])->name('perfilAdmin');
+Route::get('/perfil/perfil/{section?}', [HomeController::class, 'perfilUser'])->name('perfilUser');
 
 Route::get('/arreglo/{id}', [HomeController::class, 'show'])->name('view_arreglo.arreglo_view');
 
 //rutas para el carrito
 Route::get('home/carrito', [carritoController::class, 'index'])->name('home/carrito');
-Route::get('perfil', [carritoController::class, 'show'])->name('home/perfil');
 Route::get('carrito/add', [carritoController::class, 'add'])->name('add');
 Route::get('carrito/clear', [carritoController::class, 'clear'])->name('clear');
 Route::post('carrito/remove', [carritoController::class, 'removeItem'])->name('removeItem');
@@ -96,7 +94,7 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::get('admin/producto/{id}/edit', [productosController::class, 'edit'])->name('Admin.producto.edit');
     Route::put('admin/producto/{id}', [productosController::class, 'update'])->name('Admin.producto.update');
     Route::delete('admin/producto/{id}', [productosController::class, 'destroy'])->name('Admin.producto.destroy');
-    Route::get('admin/producto/{id}/status', [ProveedorController::class, 'change_Status'])->name('Admin.producto.status');
+    Route::get('admin/producto/{id}/status', [productosController::class, 'change_Status'])->name('Admin.producto.status');
 
 
 
@@ -108,7 +106,7 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::get('admin/categoria/{id}/edit', [CategoriaController::class, 'edit'])->name('Admin.categoria.edit');
     Route::put('admin/categoria/{id}', [CategoriaController::class, 'update'])->name('Admin.categoria.update');
     Route::delete('admin/categoria/{id}', [CategoriaController::class, 'destroy'])->name('Admin.categoria.destroy');
-    Route::get('admin/categoria/{id}/status', [ProveedorController::class, 'change_Status'])->name('Admin.categoria.status');
+    Route::get('admin/categoria/{id}/status', [CategoriaController::class, 'change_Status'])->name('Admin.categoria.status');
 
 
 

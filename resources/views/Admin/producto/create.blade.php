@@ -20,10 +20,11 @@
                 <label for="id_categoria">Categoría Producto</label>
                 <select id="id_categoria" name="id_categoria"
                     class="form-control @error('id_categoria') is-invalid  @enderror">
-                    <option selected disabled>Seleccione una opción</option>
-                    @foreach($categoria as $id => $nombre)
-                    <option value="{{ $id }}" {{ old('id_categoria') == $id ? 'selected' : '' }}>
-                        {{ $nombre }}
+                    
+                    <option selected disabled>Seleccione una Categoría</option>
+                    @foreach($categorias as $categoria)
+                    <option value="{{ $categoria->id }}">
+                        {{ $categoria->nombre }}
                     </option>
                     @endforeach
                 </select>
@@ -73,7 +74,7 @@
             <div class="form-group">
                 <label for="precio">Precio</label>
                 <input type="number" id="precio" name="precio" class="form-control  @error('precio') is-invalid  @enderror"
-                    placeholder="200.000" value="{{ old('precio', $producto->precio) }}">
+                    placeholder="200.000" value="{{ old('precio', $producto->precio)}}">
 
                 @error('precio')
                 <span class="invalid-feedback d-block" role="alert">

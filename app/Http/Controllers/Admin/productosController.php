@@ -21,8 +21,8 @@ class productosController extends Controller
     public function create()
     {
         $producto = new Producto(); 
-        $categoria = DB::table('categorias')->pluck('nombre','id');
-        return view('Admin.producto.create', compact('categoria','producto'));
+        $categorias = DB::table('categorias')->get();
+        return view('Admin.producto.create', compact('categorias','producto'));
     }
 
 
@@ -64,8 +64,8 @@ class productosController extends Controller
     
     public function edit($id)    {
         $producto = Producto::find($id);
-        $categoria = DB::table('categorias')->pluck('nombre');
-        return view('Admin.producto.edit', compact('producto','categoria'));
+        $categorias = DB::table('categorias')->get();
+        return view('Admin.producto.edit', compact('producto','categorias'));
     }
 
     public function update(Request $request, $id)

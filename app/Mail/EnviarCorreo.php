@@ -42,7 +42,8 @@ class EnviarCorreo extends Mailable
     {
         return new Content(
             view: 'pdf.empty' 
-        );    }
+        );    
+    }
 
     /**
      * Get the attachments for the message.

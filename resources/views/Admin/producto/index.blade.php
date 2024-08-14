@@ -39,6 +39,7 @@
                                     <th scope="col" class="text-center">Cantidad</th>
                                     <th scope="col" class="text-center">Precio</th>
                                     <th scope="col" class="text-center">Foto</th>
+                                    <th scope="col" class="text-center">Estado</th>
                                     <th scope="col" class="text-center">Acciones</th>
 
                                 </tr>
@@ -51,24 +52,27 @@
                                     <td class="text-center">{{ $producto->nombre }}</td>
                                     <td class="text-center">OE</td>
                                     <td class="text-center">{{ $producto->cantidad}}</td>
-                                    <td class="text-center">{{ $producto->precio }}</td>
+                                    <td class="text-center">{{ number_format($producto->precio, 0, ',', '.') }}</td>
                                     <td class="text-center">{{ $producto->foto }}</td>
                                     <td class="text-center">{{ $producto->estado == 1 ? 'Activo': 'Inactivo' }} </td>
                                     <td class="text-center">
-                                        <a class="btn btn-sm btn-success" href="{{ route('Admin.producto.edit', ['id' => $producto->id]) }}">
+                                        <a class="btn btn-sm btn-warning" href="{{ route('Admin.producto.edit', ['id' => $producto->id]) }}">
                                             <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
+                                    <td>
                                         <form action="{{ route('Admin.producto.destroy', ['id' => $producto->id]) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm">
                                                 <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
                                             </button>
-
-                                            <a class="btn btn-sm {{ $producto->estado == 1 ? 'btn-success' : 'btn-danger' }}" href="{{ route('Admin.producto.status', $producto->id) }}">
-                                                {{ $producto->estado == 1 ? 'Activo' : 'Inactivo' }}
-                                                <i class="fa fa-fw fa-sync"></i>
-                                            </a>
                                         </form>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-sm {{ $producto->estado == 1 ? 'btn-success' : 'btn-danger' }}"
+                                            href="{{ route('Admin.producto.status', $producto->id) }}">
+                                            {{ $producto->estado == 1 ? 'Activo' : 'Inactivo' }}
+                                            <i class="fa fa-fw fa-sync"></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 @endforeach
