@@ -1,62 +1,71 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Restablecer contraseña') }}</div>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
-                        @csrf
+<head>
+    <!-- Otros enlaces y metadatos -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.9/css/unicons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}"> <!-- Asegúrate de tener este archivo -->
+    <script defer src="https://app.embed.im/snow.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{{ asset('js/main.js') }}"></script> <!-- Si tienes algún script JS adicional -->
+</head>
 
-                        <input type="hidden" name="token" value="{{ $token }}">
+<div class="fondo-imagen">
+    <img src="{{ asset('img/fondo.jpg') }}">
+</div>
+<div class="section">
+    <div class="container">
+        <div class="row full-height justify-content-center">
+            <div class="col-12 text-center align-self-center py-5">
+                <div class="section pb-5 pt-5 pt-sm-2 text-center">
+                    <h4 class="mb-0 pb-3">RESTABLECER CONTRASEÑA</h4>
+                    <div class="card-3d-wrap mx-auto">
+                        <div class="card-3d-wrapper">
+                            <!-- Restablecimiento de Contraseña -->
+                            <div class="card-front">
+                                <div class="center-wrap">
+                                    <div class="section text-center">
+                                        <h4 class="mb-4 pb-3">RESTABLECER CONTRASEÑA</h4>
+                                        <form method="POST" action="{{ route('password.update') }}">
+                                            @csrf
+                                            <input type="hidden" name="token" value="{{ $token }}">
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Correo') }}</label>
+                                            <div class="form-group">
+                                                <input id="email" type="email" class="form-style @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus placeholder="Correo">
+                                                <i class="input-icon uil uil-at"></i>
+                                                @error('email')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
+                                            <div class="form-group mt-2">
+                                                <input id="password" type="password" class="form-style @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Contraseña">
+                                                <i class="input-icon uil uil-lock-alt"></i>
+                                                @error('password')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                            <div class="form-group mt-2">
+                                                <input id="password-confirm" type="password" class="form-style" name="password_confirmation" required autocomplete="new-password" placeholder="Confirmar Contraseña">
+                                                <i class="input-icon uil uil-lock-alt"></i>
+                                            </div>
+
+                                            <button type="submit" class="btn mt-4">RESTABLECER CONTRASEÑA</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
+                            <!-- Fin Restablecimiento de Contraseña -->
                         </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Contraseña') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirmar contraseña') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
