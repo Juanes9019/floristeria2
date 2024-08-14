@@ -219,19 +219,14 @@
 }
 
 .container-options span{
-    color: #777;
-    background-color: #fff;
+    color: #000;
+    background-color: var(--secundary-color);
     padding: .7rem 3rem;
     font-size: 1.4rem;
     text-transform: capitalize;
     border-radius: 2rem;
     cursor: pointer;
     transition: ease 0.5s;
-}
-
-.container-options span:hover{
-    background-color: var(--secundary-color);
-    color: #000000;
 }
 
 .container-options span.active{
@@ -505,6 +500,11 @@ footer{
 .social-icons span i{
     color: #fff;
     font-size: 1.2rem;
+    text-decoration: none;
+}
+
+.social-icons a span i {
+    text-decoration: none; 
 }
 
 .facebook{

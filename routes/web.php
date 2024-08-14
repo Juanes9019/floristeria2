@@ -32,8 +32,11 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/perfil/perfil/{section?}', [HomeController::class, 'perfilUser'])->name('perfilUser');
+Route::POST('/perfil/perfil/update_informacion', [HomeController::class, 'update_informacion'])->name('update_informacion');
 
 Route::get('/arreglo/{id}', [HomeController::class, 'show'])->name('view_arreglo.arreglo_view');
+Route::get('/all_products', [HomeController::class, 'show_all'])->name('all_products');
+Route::get('/productos.filtrar', [HomeController::class, 'productos.filtrar'])->name('productos.filtrar');
 
 //rutas para el carrito
 Route::get('home/carrito', [carritoController::class, 'index'])->name('home/carrito');
@@ -45,14 +48,6 @@ Route::get('carrito/incrementar', [carritoController::class, 'incrementar'])->na
 Route::get('carrito/decrementar', [carritoController::class, 'decrementar'])->name('decrementarCantidad');
 
 Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito'])->name('confirmarCarrito');
-
-
-Route::get('/pdf', [CarritoController::class, 'pdf'])->name('pdf');
-
-Route::post('enviar-correo', function(){
-    Mail::to("usuga0505@gmail.com")->send(new EnviarCorreo);
-    return "correo enviado exitosamente";
-})->name('enviar-correo');
 
 //midleware para controlar el acceso solo a los administradores
 Route::middleware(['auth', 'user-access:1'])->group(function () {
@@ -128,6 +123,7 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
 // Rutas para el pedido
 Route::get('admin/pedido', [PedidoController::class, 'index'])->name('pedidos');
 Route::post('admin/pedido/{id}/cambiar-estado', [PedidoController::class, 'cambiar_estado'])->name('cambiar_estado');
+Route::post('admin/pedido/{id}/rechazar', [PedidoController::class, 'rechazar'])->name('rechazar');
 Route::get('admin/pedido/{id}/detalles', [PedidoController::class, 'mostrar'])->name('pedidos.detalles');
 
 // Rutas para el detalle

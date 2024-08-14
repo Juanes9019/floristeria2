@@ -19,45 +19,66 @@
             <div class="card flex-grow-1 mb-3"> 
                 <div class="card-header text-center">{{ __('Menu del perfil') }}</div>
                 <div class="card-body option-list">
-                    <a href="{{ route('perfilUser', 'edit-info') }}" class="btn d-block mb-2 w-100" style="background-color: #e05e7c; color: black;">Editar información</a>
-                    <a href="{{ route('perfilUser', 'historial') }}" class="btn d-block mb-2 w-100" style="background-color: #e05e7c; color: black;">Historial de pedidos</a>
-                    <a href="{{ route('perfilUser', 'favoritos') }}" class="btn d-block mb-2 w-100" style="background-color: #e05e7c; color: black;">
-                        <i class="fas fa-heart" style="color: red;"></i> Favoritos
-                    </a>
-                    <a href="{{ route('perfilUser', 'mispqrs') }}" class="btn d-block mb-2 w-100" style="background-color: #e05e7c; color: black;">Mis PQRS</a>
-                    <a href="{{ route('perfilUser', 'historial_pqrs') }}" class="btn d-block mb-2 w-100" style="background-color: #e05e7c; color: black;">Historial PQRS</a>
+                    @php $isActive = $activeSection === 'edit-info'; @endphp
+                    <a href="{{ route('perfilUser', 'edit-info') }}" class="btn @if ($isActive) btn-primary @else btn-outline-primary @endif d-block mb-2 w-100">Editar información</a>
+            
+                    @php $isActive = $activeSection === 'historial'; @endphp
+                    <a href="{{ route('perfilUser', 'historial') }}" class="btn @if ($isActive) btn-primary @else btn-outline-primary @endif d-block mb-2 w-100">Historial de pedidos</a>
+            
+                    @php $isActive = $activeSection === 'mispqrs'; @endphp
+                    <a href="{{ route('perfilUser', 'mispqrs') }}" class="btn @if ($isActive) btn-primary @else btn-outline-primary @endif d-block mb-2 w-100">Nueva PQRS</a>
+            
+                    @php $isActive = $activeSection === 'historial_pqrs'; @endphp
+                    <a href="{{ route('perfilUser', 'historial_pqrs') }}" class="btn @if ($isActive) btn-primary @else btn-outline-primary @endif d-block mb-2 w-100">Mis PQRS</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6 full-height">
+        <div class="col-md-7 full-height">
             <div class="card h-100">
+            @if(session('success'))
+                <div class="alert alert-success text-center">
+                    {{ session('success') }}
+                </div>
+            @endif
                 <div class="card-header">{{ __('Informacion') }}</div>
                 <div class="card-body">
                     @if ($section == 'edit-info')
-                    <table class="table">
-                        <tr>
-                            <td><label class="col-form-label">Nombres:</label></td>
-                            <td><input type="text" class="form-control" id="tbNombres" value="{{ $user->name }}" /></td>
-                        </tr>
-                        <tr>
-                            <td><label class="col-form-label">Apellidos:</label></td>
-                            <td><input type="text" class="form-control" id="tbApellidos" value="{{ $user->surname }}" /></td>
-                        </tr>
-                        <tr>
-                            <td><label class="col-form-label">Celular:</label></td>
-                            <td><input type="text" class="form-control" id="tbCelular" value="{{ $user->celular }}" /></td>
-                        </tr>
-                        <tr>
-                            <td><label class="col-form-label">Direccion:</label></td>
-                            <td><input type="text" class="form-control" id="tbDireccion" value="{{ $user->direccion }}" /></td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" class="text-center">
-                                <button id="BtnAplicar" class="btn btn-warning mt-3">Aplicar Cambios</button>
-                            </td>
-                        </tr>
-                    </table>
+                    <form id="formulario_informacion" method="POST" action="{{ route('update_informacion') }}" novalidate>
+                        @csrf
+
+                        <div class="form-group">
+                            <label for="tbNombres" class="col-form-label">Nombres:</label>
+                            <input type="text" name="name" class="form-control" id="tbNombres" value="{{ $user->name }}" />
+                        </div>
+
+                        <br>
+
+                        <div class="form-group">
+                            <label for="tbApellidos" class="col-form-label">Apellidos:</label>
+                            <input type="text" name="surname" class="form-control" id="tbApellidos" value="{{ $user->surname }}" />
+                        </div>
+
+                        <br>
+
+                        <div class="form-group">
+                            <label for="tbCelular" class="col-form-label">Celular:</label>
+                            <input type="text" name="celular" class="form-control" id="tbCelular" value="{{ $user->celular }}" />
+                        </div>
+
+                        <br>
+
+                        <div class="form-group">
+                            <label for="tbDireccion" class="col-form-label">Dirección:</label>
+                            <input type="text" name="direccion" class="form-control" id="tbDireccion" value="{{ $user->direccion }}" />
+                        </div>
+
+                        <br>
+
+                        <div class="form-group text-center">
+                            <button type="submit" id="BtnAplicar" class="btn btn-warning mt-3">Aplicar Cambios</button>
+                        </div>
+                    </form>
 
                     @elseif ($section == 'historial')
                         @include('view_perfil.historial')

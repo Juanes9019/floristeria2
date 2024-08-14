@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Producto;
+use App\Models\Categoria;
 use App\Models\User;
 use App\Models\Pedido;
 use Illuminate\Support\Facades\DB;
@@ -29,8 +30,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $productos = Producto::take(4)->get();
-
+        $productos = Producto::all();
 
         return view('home', compact('productos'));
     }
@@ -40,14 +40,42 @@ class HomeController extends Controller
         return view('Admin.dashboard');
     }
 
+    public function update_informacion(Request $request)
+    {
+        // Obtener el usuario autenticado
+        $usuario = auth()->user();
+    
+        // Validar los datos del formulario
+        $request->validate([
+            'name' => 'required|min:3',
+            'surname' => 'required|min:4',
+            'celular' => 'required|min:6',
+            'direccion' => 'required|min:4',
+        ]);
+    
+        // Actualizar la información del usuario
+        $usuario->name = $request->input('name');
+        $usuario->surname = $request->input('surname');
+        $usuario->celular = $request->input('celular');
+        $usuario->direccion = $request->input('direccion');
+        $usuario->save();
+    
+        // Redirecciona a la vista de perfil con un mensaje de éxito
+        return redirect()->route('perfilUser', ['section' => 'edit-info'])->with('success', 'Usuario actualizado exitosamente');
+    }
+    
+    
+
     public function perfilUser($section = 'edit-info')
     {
         $i = 0; 
         $user = Auth::user();
         $rol = $user->role->nombre;
         $pedidos = Pedido::where('user_id', $user->id)->get();
-
-        return view('view_perfil.perfil', compact ('user','rol','section','pedidos','i'));
+        
+        $activeSection = $section;
+    
+        return view('view_perfil.perfil', compact('user', 'rol', 'section', 'pedidos', 'i', 'activeSection'));
     }
     
 
@@ -56,5 +84,22 @@ class HomeController extends Controller
         $productos = Producto::findOrFail($id);
 
         return view('view_arreglo.arreglo_view', compact('productos'));
+    }
+
+
+    public function show_all()
+    {
+        $productos = Producto::all();
+        $categoria_categoria = Categoria::all();
+
+        return view('view_arreglo.all_products', compact('productos','categoria_categoria'));
+    }
+
+    public function productos_filtrar()
+    {
+        $productos = Producto::all();
+        $categoria_categoria = Categoria::all();
+
+        return view('view_arreglo.all_products', compact('productos','categoria_categoria'));
     }
 }
