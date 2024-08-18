@@ -18,7 +18,7 @@
 
                 <div class="form-group">
                     <label for="nombre">Nombre de la categoria</label>
-                    <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Hombre..." value="{{ old('nombre', $categoria->nombre) }}">
+                    <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Aniversario" value="{{ old('nombre', $categoria->nombre) }}">
                     @error('nombre')
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{ $message }}</strong>
@@ -27,8 +27,8 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="button" class="btn btn-primary" value="Editar categoria" onclick="editar()">
-                    <a href="{{ route('Admin.categoria') }}" class="btn btn-primary ">Volver</a>
+                    <button  class="btn btn-warning" value="Editar categoria" onclick="editar()">Editar Categoría</button>
+                    <a href="{{ route('Admin.categoria') }}" class="btn btn-danger ">Volver</a>
                 </div>
             </form>
         </div>
@@ -51,10 +51,10 @@ function editar() {
                 icon: "success"
             });
 
-            // Prevent the form from submitting automatically
+            
             event.preventDefault();
 
-            // Manually submit the form
+            
             document.getElementById('formulario_editar').submit();
         }
     });

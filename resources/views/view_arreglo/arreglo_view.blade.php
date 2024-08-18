@@ -55,6 +55,10 @@
     .card{
         margin-top: 3rem;
     }
+
+    .action-buttons1 a{
+        text-decoration: none;    
+    }
 </style>
 
 @endsection

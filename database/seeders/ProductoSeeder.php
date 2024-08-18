@@ -51,6 +51,30 @@ class ProductoSeeder extends Seeder
             'id_categoria' => 1, 
             'descripcion' => 'Este exquisito arreglo floral es una obra maestra de la naturaleza. Con una selección cuidadosa de flores premium y un diseño elegante, este arreglo es una expresión perfecta de tu buen gusto y estilo.',
             'foto' => 'https://i.imgur.com/6XkfReK.jpg'
-        ]);        
+        ]);
+        
+        DB::table('productos')->insert([
+            'nombre' => 'Arreglo floral 6',
+            'precio' => 170000,
+            'id_categoria' => 1, 
+            'descripcion' => 'Arreglo floral vibrante con una mezcla de flores coloridas y frescas. Perfecto para alegrar cualquier evento o espacio.',
+            'foto' => 'https://i.imgur.com/Q0wcRPz.jpeg'
+        ]);
+    
+        DB::table('productos')->insert([
+            'nombre' => 'Arreglo floral 7',
+            'precio' => 260000,
+            'id_categoria' => 1, 
+            'descripcion' => 'Arreglo elegante con flores exóticas y una presentación sofisticada. Ideal para ocasiones especiales y celebraciones.',
+            'foto' => 'https://i.imgur.com/dzpIHAm.jpeg'
+        ]);
+    
+        DB::table('productos')->insert([
+            'nombre' => 'Arreglo floral 8',
+            'precio' => 190000,
+            'id_categoria' => 1, 
+            'descripcion' => 'Un arreglo floral delicado y elegante con una mezcla de flores premium. Perfecto para regalar en momentos especiales.',
+            'foto' => 'https://i.imgur.com/fPaZxSG.jpeg'
+        ]);
     }
 }

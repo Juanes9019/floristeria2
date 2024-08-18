@@ -28,8 +28,10 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="button" class="btn btn-primary" value="agregar categoria" onclick="agregar()">
-                    <a href="{{ route('Admin.categoria') }}" class="btn btn-primary ">Volver</a>
+                    <button  class="btn btn-success" value="agregar categoria" onclick="agregar()">
+                        Agregar Categoría
+                    </button>
+                    <a href="{{ route('Admin.categoria') }}" class="btn btn-danger ">Volver</a>
                 </div>
 
 
@@ -53,11 +55,7 @@ function agregar() {
                 text: "La categoria se agrego correctamente",
                 icon: "success"
             });
-
-            // Prevent the form from submitting automatically
             event.preventDefault();
-
-            // Manually submit the form
             document.getElementById('formulario_crear').submit();
         }
     });

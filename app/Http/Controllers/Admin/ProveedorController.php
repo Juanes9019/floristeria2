@@ -16,25 +16,36 @@ class ProveedorController extends Controller
     public function index()
     {
         $proveedores = Proveedor::all();
-        $i = 0; 
+        $i = 0;
         return view('Admin.proveedor.index', compact('proveedores', 'i'));
     }
 
     public function create()
     {
-        $proveedores = new Proveedor();
-        return view('Admin.proveedor.create', compact('proveedores'));
+        $proveedor = new Proveedor();
+        return view('Admin.proveedor.create', compact('proveedor'));
     }
 
     public function store(Request $request)
     {
 
-        $request->validate([
-            'nombre' => 'required',
-            'telefono' => 'required',
-            'correo' => 'required',
-            'ubicacion' => 'required',
-        ]);
+        $request->validate(
+            [
+                'nombre' => ['required', 'min:4', 'max:255'],
+                'telefono' => ['required', 'size:10'],
+                'correo' => 'required',
+                'ubicacion' => 'required',
+            ],
+            [
+                'nombre.required' => 'El campo :attribute es requerido',
+                'nombre.min' => 'El campo :attribute debe tener al menos :min caracteres',
+                'nombre.max' => 'El campo :attribute debe ser menor que :max caracteres',
+                'telefono.required' => 'El campo :attribute es requerido',
+                'telefono.size' => 'El campo :attribute debe tener :size caracteres.',
+                'correo.required' => 'El campo :attribute es requerido',
+                'ubicacion.required' => 'El campo :attribute es requerido',
+            ]
+        );
 
 
         $proveedor = new Proveedor;
@@ -43,45 +54,69 @@ class ProveedorController extends Controller
         $proveedor->correo = $request->correo;
         $proveedor->ubicacion = $request->ubicacion;
 
+        if ($request->has('estado')) {
+            $proveedor->estado = $request->estado;
+        } else {
+
+            $proveedor->estado = 1;
+        }
+
         $proveedor->save();
 
-        return redirect()->route('Admin.proveedor')
+        return redirect()->route('Admin.proveedores')
             ->with('success', 'proveedor creado con éxito.');
-
     }
 
-    public function edit($id){
-    $proveedores = Proveedor::find($id);
-    return view('Admin.proveedor.edit', compact('proveedores'));
-}
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+        $proveedor = Proveedor::find($id);
+        return view('Admin.proveedor.edit', compact('proveedor'));
+    }
 
-    
-public function update(Request $request, $id)
-{
-    // Encuentra al usuario por su ID
-    $proveedores = Proveedor::find($id);
 
-    // Validaciones y lógica de actualización
-    $request->validate([
-        'nombre' => 'required',
-        'telefono' => 'required',
-        'correo' => 'required|email',
-        'ubicacion' => 'required',
+    public function update(Request $request, $id)
+    {
+        // Encuentra al usuario por su ID
+        $proveedor = Proveedor::find($id);
 
-    ]);
+        // Validaciones y lógica de actualización
+        $request->validate(
+            [
+                'nombre' => 'required',
+                'telefono' => 'required',
+                'correo' => 'required|email',
+                'ubicacion' => 'required',
 
-    // Asignación de los campos del usuario desde el formulario
-    $proveedores->nombre = $request->input('nombre');
-    $proveedores->telefono = $request->input('telefono');
-    $proveedores->correo = $request->input('correo');
-    $proveedores->ubicacion = $request->input('ubicacion');
+            ],
+            [
+                'nombre.required' => 'El campo :attribute es requerido',
+                'nombre.min' => 'El campo :attribute debe tener al menos :min caracteres',
+                'nombre.max' => 'El campo :attribute debe ser menor que :max caracteres',
+                'telefono.required' => 'El campo :attribute es requerido',
+                'telefono.size' => 'El campo :attribute debe tener :size caracteres.',
+                'correo.required' => 'El campo :attribute es requerido',
+                'ubicacion.required' => 'El campo :attribute es requerido',
+            ]
+        );
 
-    $proveedores->save();
+        // Asignación de los campos del usuario desde el formulario
+        $proveedor->nombre = $request->input('nombre');
+        $proveedor->telefono = $request->input('telefono');
+        $proveedor->correo = $request->input('correo');
+        $proveedor->ubicacion = $request->input('ubicacion');
+        if ($request->has('estado')) {
+            $proveedor->estado = $request->estado;
+        }
 
-    // Redireccionar a la vista de edición con un mensaje de éxito
-    return redirect()->route('Admin.proveedor', ['id' => $proveedores->id])
-        ->with('success', 'proveedor actualizado exitosamente');
-}
+        $proveedor->save();
+
+        // Redireccionar a la vista de edición con un mensaje de éxito
+        return redirect()->route('Admin.proveedores', ['id' => $proveedor->id])
+            ->with('success', 'proveedor actualizado exitosamente');
+    }
 
     public function destroy($id)
     {
@@ -89,9 +124,20 @@ public function update(Request $request, $id)
 
         $proveedor->delete();
 
-        return redirect()->route('Admin.proveedor')
+        return redirect()->route('Admin.proveedores')
             ->with('success', 'proveedor eliminado con éxito');
-
     }
 
+    public function change_Status($id)
+    {
+        $proveedor = Proveedor::find($id);
+        if ($proveedor->estado == 1) {
+            $proveedor->estado = 0;
+        } else {
+            $proveedor->estado = 1;
+        }
+
+        $proveedor->save();
+        return redirect()->back();
+    }
 }

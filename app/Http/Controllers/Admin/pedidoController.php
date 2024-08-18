@@ -38,6 +38,20 @@ class PedidoController extends Controller
         return redirect()->back()->with('success', 'Estado del pedido actualizado correctamente.');
     }
 
+    public function rechazar(Request $request, $id)
+    {
+        $pedido = Pedido::findOrFail($id);
+
+        if ($pedido->estado === 'nuevo') {
+            $pedido->estado = 'rechazado';
+
+        }
+
+        $pedido->save();
+
+        return redirect()->back()->with('success', 'Estado del pedido actualizado correctamente.');
+    }
+
     public function mostrar($id)
     {
         $pedido = Pedido::with('detalles.producto')->findOrFail($id);

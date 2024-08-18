@@ -14,7 +14,6 @@ use App\Http\Controllers\Admin\inventarioController;
 use App\Http\Controllers\Admin\InsumoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\carritoController;
-
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EnviarCorreo;
 
@@ -32,8 +31,11 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/perfil/perfil/{section?}', [HomeController::class, 'perfilUser'])->name('perfilUser');
+Route::POST('/perfil/perfil/update_informacion', [HomeController::class, 'update_informacion'])->name('update_informacion');
 
 Route::get('/arreglo/{id}', [HomeController::class, 'show'])->name('view_arreglo.arreglo_view');
+Route::get('/all_products', [HomeController::class, 'show_all'])->name('all_products');
+Route::get('/productos.filtrar', [HomeController::class, 'productos.filtrar'])->name('productos.filtrar');
 
 //rutas para el carrito
 Route::get('home/carrito', [carritoController::class, 'index'])->name('home/carrito');
@@ -45,14 +47,6 @@ Route::get('carrito/incrementar', [carritoController::class, 'incrementar'])->na
 Route::get('carrito/decrementar', [carritoController::class, 'decrementar'])->name('decrementarCantidad');
 
 Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito'])->name('confirmarCarrito');
-
-
-Route::get('/pdf', [CarritoController::class, 'pdf'])->name('pdf');
-
-Route::post('enviar-correo', function(){
-    Mail::to("usuga0505@gmail.com")->send(new EnviarCorreo);
-    return "correo enviado exitosamente";
-})->name('enviar-correo');
 
 //midleware para controlar el acceso solo a los administradores
 Route::middleware(['auth', 'user-access:1'])->group(function () {
@@ -78,12 +72,27 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
 
 
     //rutas para los proveedor
-    Route::get('admin/proveedor', [ProveedorController::class, 'index'])->name('Admin.proveedor');
+    Route::get('admin/proveedores', [ProveedorController::class, 'index'])->name('Admin.proveedores');
     Route::get('admin/proveedor/create', [ProveedorController::class, 'create'])->name('Admin.proveedor.create');
     Route::post('admin/proveedor', [ProveedorController::class, 'store'])->name('Admin.proveedor.store');
     Route::get('admin/proveedor/{id}/edit', [ProveedorController::class, 'edit'])->name('Admin.proveedor.edit');
     Route::put('admin/proveedor/{id}', [ProveedorController::class, 'update'])->name('Admin.proveedor.update');
     Route::delete('admin/proveedor/{id}', [ProveedorController::class, 'destroy'])->name('Admin.proveedor.destroy');
+    Route::get('admin/proveedor/{id}/status', [ProveedorController::class, 'change_Status'])->name('Admin.proveedor.status');
+
+
+
+    //rutas para los productos
+    Route::get('admin/productos', [productosController::class, 'index'])->name('Admin.productos');
+    Route::get('admin/producto/create', [productosController::class, 'create'])->name('Admin.producto.create');
+    Route::post('admin/producto', [productosController::class, 'store'])->name('Admin.producto.store');
+    Route::get('admin/producto/{id}/edit', [productosController::class, 'edit'])->name('Admin.producto.edit');
+    Route::put('admin/producto/{id}', [productosController::class, 'update'])->name('Admin.producto.update');
+    Route::delete('admin/producto/{id}', [productosController::class, 'destroy'])->name('Admin.producto.destroy');
+    Route::get('admin/producto/{id}/status', [productosController::class, 'change_Status'])->name('Admin.producto.status');
+
+
+
 
     //rutas para la categoria
     Route::get('admin/categoria', [CategoriaController::class, 'index'])->name('Admin.categoria');
@@ -92,6 +101,9 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::get('admin/categoria/{id}/edit', [CategoriaController::class, 'edit'])->name('Admin.categoria.edit');
     Route::put('admin/categoria/{id}', [CategoriaController::class, 'update'])->name('Admin.categoria.update');
     Route::delete('admin/categoria/{id}', [CategoriaController::class, 'destroy'])->name('Admin.categoria.destroy');
+    Route::get('admin/categoria/{id}/status', [CategoriaController::class, 'change_Status'])->name('Admin.categoria.status');
+
+
 
     //rutas para la categoria_insumo
     Route::get('admin/categoria_insumo', [Categoria_insumoController::class, 'index'])->name('Admin.categoria_insumo');
@@ -114,14 +126,7 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::get('admin/insumo/{id}/status', [InsumoController::class, 'change_Status'])->name('Admin.insumo.status');
 
 
-    //rutas para los productos
-    Route::get('admin/productos', [productosController::class, 'index'])->name('Admin.productos');
-    Route::get('admin/productos/create', [productosController::class, 'create'])->name('Admin.productos.create');
-    Route::post('admin/productos', [productosController::class, 'store'])->name('Admin.productos.store');
-    Route::get('admin/productos/{id}/edit', [productosController::class, 'edit'])->name('Admin.productos.edit');
-    Route::put('admin/productos/{id}', [productosController::class, 'update'])->name('Admin.productos.update');
-    Route::delete('admin/productos/{id}', [productosController::class, 'destroy'])->name('Admin.productos.destroy');
-
+    
     //rutas para los inventario
     Route::get('admin/inventario', [inventarioController::class, 'index'])->name('Admin.inventario');
     Route::get('admin/inventario/create', [inventarioController::class, 'create'])->name('Admin.inventario.create');
@@ -133,6 +138,7 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
 // Rutas para el pedido
 Route::get('admin/pedido', [PedidoController::class, 'index'])->name('pedidos');
 Route::post('admin/pedido/{id}/cambiar-estado', [PedidoController::class, 'cambiar_estado'])->name('cambiar_estado');
+Route::post('admin/pedido/{id}/rechazar', [PedidoController::class, 'rechazar'])->name('rechazar');
 Route::get('admin/pedido/{id}/detalles', [PedidoController::class, 'mostrar'])->name('pedidos.detalles');
 
 // Rutas para el detalle

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('telefono');
             $table->string('correo');
             $table->string('ubicacion');
+            $table->integer('estado')->default(1); //1-Activo   0-Inactivo
             $table->timestamps();
         });
     }

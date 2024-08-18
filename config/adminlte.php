@@ -321,7 +321,7 @@ return [
         ],
         [
             'text' => 'Proveedores',
-            'url' => '/admin/proveedor',
+            'url' => '/admin/proveedores',
             'icon' => 'fas fa-fw fa-building', 
             'label_color' => 'primary',
         ],

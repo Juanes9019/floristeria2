@@ -76,5 +76,28 @@
             align-items: center;
         }
     </style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+@if (session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: "{{ session('error') }}",
+            confirmButtonText: 'Aceptar'
+        });
+    </script>
+@endif
+
+@if (session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: "{{ session('success') }}",
+            confirmButtonText: 'Aceptar'
+        });
+    </script>
+@endif
 
 @stop

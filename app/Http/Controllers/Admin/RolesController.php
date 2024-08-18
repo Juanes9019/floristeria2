@@ -96,15 +96,21 @@ class RolesController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($id)
-    {
+{
+    try {
         $rol = Roles::find($id);
-    
+
         if ($rol) {
             $rol->delete();
-            return redirect()->route("Admin.roles")->with('success', 'rol eliminada exitosamente');
+            return redirect()->route("Admin.roles")->with('success', 'Rol eliminado exitosamente');
         } else {
-            // Puedes manejar el caso donde el producto no se encuentra
             return redirect()->route("Admin.roles")->with('error', 'No se pudo encontrar la rol');
         }
+    } catch (\Exception $e) {
+        // Captura cualquier error que ocurra durante la eliminación
+        
+        return redirect()->route("Admin.roles")->with('error', 'No se pudo borrar el registro. Es posible que esté siendo utilizado en otra parte del sistema.');
     }
+}
+
 }
