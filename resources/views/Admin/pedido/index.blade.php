@@ -11,6 +11,11 @@
                         <span id="card_title">
                             <b>Control de pedidos</b>
                         </span>
+                        <div class="float-right">
+                        <a href="{{ route('export.pdf') }}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-file-pdf"></i> Exportar PDF
+                        </a>
+                        </div>
                     </div>
                 </div>
                 @if ($message = Session::get('success'))
@@ -43,6 +48,7 @@
                                     <td class="text-center">
                                         <form action="{{ route('cambiar_estado', $item->id) }}" method="POST">
                                             @csrf
+                                            <input type="hidden" name="action" value="accept">
                                             @if ($item->estado === 'nuevo')
                                                 <button type="submit" class="btn btn-primary">Aceptar Pedido</button>
                                             @elseif ($item->estado === 'preparacion')
@@ -52,25 +58,22 @@
                                             @elseif ($item->estado === 'entregado')
                                                 <button type="submit" class="btn btn-success" disabled>Entregado</button>
                                             @elseif ($item->estado === 'rechazado')
-                                                <button type="submit" class="btn btn-primary" disabled>nuevo</button>
+                                                <button type="submit" class="btn btn-primary" disabled>Nuevo</button>
                                             @endif
                                         </form>
                                     </td>
                                     <td>
-                                        <form action="{{ route('rechazar', $item->id) }}" method="post">
-                                        @csrf
+                                        <form action="{{ route('cambiar_estado', $item->id) }}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="action" value="reject">
                                             @if ($item->estado === 'nuevo')
                                                 <button type="submit" class="btn btn-danger">Rechazar</button>
-
                                             @elseif ($item->estado === 'preparacion')
                                                 <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
-
                                             @elseif ($item->estado === 'en camino')
                                                 <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
-
                                             @elseif ($item->estado === 'entregado')
                                                 <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
-
                                             @elseif ($item->estado === 'rechazado')
                                                 <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
                                             @endif

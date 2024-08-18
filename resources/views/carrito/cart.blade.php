@@ -95,6 +95,7 @@
                             <div class="form-group">
                                 <label for="ciudad">Ciudad:</label>
                                 <select class="form-control" id="ciudad" name="ciudad" required>
+                                    <option value="" disabled selected>Seleccione una ciudad</option>
                                     @foreach($cities as $city)
                                         <option value="{{ $city }}">{{ $city }}</option>
                                     @endforeach
@@ -158,115 +159,18 @@
     </div>
 </div>
 
+<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script>
-        $(document).ready(function() {
-            $("#metodo_pago").change(function() {
-                // Oculta todos los campos adicionales
-                $(".camposAdicionales").hide();
-
-                // Muestra el campo adicional correspondiente al método de pago seleccionado
-                var metodo_seleccionado = $(this).val();
-                $("#" + metodo_seleccionado).show();
-            });
-        });
-
-        function validarEnvio() {
-        // Obtén los valores de los campos de envío
-        var nombreDestinatario = $("#nombre_destinatario").val();
-        var direccion = $("#direccion").val();
-        var instruccionesEntrega = $("#instrucciones_entrega").val();
-        var telefono = $("#telefono").val();
-        var metodoPago = $("#metodo_pago").val();
-
-        // Realiza la validación
-        if ( nombreDestinatario.trim() === '' || direccion.trim() === '' || instruccionesEntrega.trim() === '' ||telefono.trim() === '' || metodoPago === 'Seleccione una opción') {
-            Swal.fire({
-                title: 'Error',
-                text: 'Por favor, completa todos los campos de envío.',
-                icon: 'error',
-                confirmButtonText: 'Aceptar'
-            });
-            return false; // Evita que se envíe el formulario
-        }
-
-        if (!nombreDestinatario.match(/^[a-zA-Z\s]+$/)) {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Por favor, ingresa un nombre de destinatario válido.',
-                    icon: 'error',
-                    confirmButtonText: 'Aceptar'
-                });
-                return false;
-
-        }else if (!direccion.match(/^.{10,}$/)) {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Ingresa direccion válida de al menos 10 caracteres.',
-                    icon: 'error',
-                    confirmButtonText: 'Aceptar'
-                });            
-                return false;
-        }else if (!instruccionesEntrega.match(/^.{10,}$/)) {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Ingresa instrucciones válida de al menos 10 caracteres.',
-                    icon: 'error',
-                    confirmButtonText: 'Aceptar'
-                });            
-                return false;
-        }
-        // Si todos los campos están llenos, procede con la compra
-        mostrarConfirmacion();
-    }
-
-    function mostrarConfirmacion() {
-        // Utiliza SweetAlert2 para mostrar la ventana emergente
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success swal-btn',
-                cancelButton: 'btn btn-danger swal-btn'
-            },
-            buttonsStyling: false
-        });
-
-        swalWithBootstrapButtons.fire({
-            title: "¿Estás seguro de adquirir este producto?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "¡Sí, Comprar!",
-            cancelButtonText: "No, cancelar",
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Si se confirma la compra, haz submit del formulario
-                document.getElementById("formularioEnvio").submit();
-
-                // Muestra el mensaje de éxito después de confirmar la compra
-                swalWithBootstrapButtons.fire({
-                    title: "¡Producto comprado con éxito!",
-                    text: "Gracias por comprar en JamDay",
-                    icon: "success"
-                });
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                // Si se cancela la compra, muestra un mensaje de cancelación
-                swalWithBootstrapButtons.fire({
-                    title: "Cancelado",
-                    icon: "error"
-                });
-            }
-        });
-    }
-    </script>
 
     <script>
         window.onload = function() {
             var fecha = new Date();
             var dia = fecha.getDate();
-            var mes = fecha.getMonth() + 1; // Los meses en JavaScript comienzan desde 0
+            var mes = fecha.getMonth() + 1; 
             var ano = fecha.getFullYear();
 
             if (dia < 10) {
@@ -282,4 +186,5 @@
             document.getElementById('fecha').value = fecha;
         }
     </script> 
+
 @endsection

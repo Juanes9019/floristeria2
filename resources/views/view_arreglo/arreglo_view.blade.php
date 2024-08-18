@@ -40,7 +40,7 @@
                         <div class="action-buttons1">
                             <input type="hidden" name="id" value="{{$productos->id}}">
 
-                            <a  href="/home"> Seguir comprando</a>
+                            <a  href="{{ route('home')}}"> Seguir comprando</a>
                             <input type="submit" name="btn" id="btn"class="btn btn-dark w-100" value="Agregar al carrito">
 
                         </div>

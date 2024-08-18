@@ -22,7 +22,7 @@
         <div class="content-banner">
             <p>¡Descubre la belleza natural!</p>
             <h2>Variedad de flores frescas <br>arreglos únicos</h2> 
-            <a href="#">Explorar ahora</a>
+            <a href="{{route('all_products')}}">Explorar ahora</a>
         </div>
     </section>
 
@@ -77,30 +77,37 @@
     </div>
 
     <div id="productosCarrusel" class="carousel slide" data-ride="carousel" data-interval="3000">
-        <div class="carousel-inner">
-            @foreach ($productos->chunk(4) as $chunkIndex => $chunk)
-                <div class="carousel-item {{ $chunkIndex === 0 ? 'active' : '' }}">
-                    <div class="row">
-                        @foreach ($chunk as $producto)
-                            <div class="col-md-3 mb-4">
-                                <div class="card h-100">
-                                    <img src="{{ $producto->foto }}" class="card-img-top img-fluid" alt="{{ $producto->nombre }}">
-                                    <div class="card-body text-center">
-                                        <h5 class="card-title">{{ $producto->nombre }}</h5>
-                                        <p class="card-title"><strong>Categoria:</strong> {{ $producto->categoria->nombre }}</p>
-                                        <p class="card-text"><strong>Precio:</strong> ${{ number_format($producto->precio, 0, ',', '.') }}</p>
-                                        <div class="contenedor">
-                                            <a href="{{ route('view_arreglo.arreglo_view', ['id' => $producto->id]) }}" class="btn btn-5">Ver más</a>
-                                        </div>
+    <div class="carousel-inner">
+        @foreach ($productos->chunk(4) as $chunkIndex => $chunk)
+            <div class="carousel-item {{ $chunkIndex === 0 ? 'active' : '' }}">
+                <div class="row">
+                    @foreach ($chunk as $producto)
+                        <div class="col-md-3 mb-4">
+                            <div class="card h-100">
+                                <img src="{{ $producto->foto }}" class="card-img-top img-fluid" alt="{{ $producto->nombre }}">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">{{ $producto->nombre }}</h5>
+                                    <p class="card-title"><strong>Categoria:</strong> {{ $producto->categoria->nombre }}</p>
+                                    <p class="card-text"><strong>Precio:</strong> ${{ number_format($producto->precio, 0, ',', '.') }}</p>
+                                    <div class="contenedor">
+                                        <a href="{{ route('view_arreglo.arreglo_view', ['id' => $producto->id]) }}" class="btn btn-5">Ver más</a>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @endforeach
                 </div>
-            @endforeach
-        </div>
+            </div>
+        @endforeach
     </div>
+
+    <a class="carousel-control-prev" href="#productosCarrusel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    </a>
+    <a class="carousel-control-next" href="#productosCarrusel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    </a>
+</div>
 </section>
 
 

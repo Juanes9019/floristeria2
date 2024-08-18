@@ -12,23 +12,21 @@ use App\Http\Controllers\Admin\pedidoController;
 use App\Http\Controllers\Admin\detalleController;
 use App\Http\Controllers\Admin\inventarioController;
 use App\Http\Controllers\Admin\InsumoController;
+use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CiudadController;
 use App\Http\Controllers\carritoController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EnviarCorreo;
 
 
 
-// $role= Role::create(['name'=>'admin']);
-// $role= Role::create(['name'=>'cliente']);
+Route::get('/', [HomeController::class, 'vista_inicial'])->name('/');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/perfil/perfil/{section?}', [HomeController::class, 'perfilUser'])->name('perfilUser');
 Route::POST('/perfil/perfil/update_informacion', [HomeController::class, 'update_informacion'])->name('update_informacion');
@@ -42,6 +40,9 @@ Route::get('home/carrito', [carritoController::class, 'index'])->name('home/carr
 Route::get('carrito/add', [carritoController::class, 'add'])->name('add');
 Route::get('carrito/clear', [carritoController::class, 'clear'])->name('clear');
 Route::post('carrito/remove', [carritoController::class, 'removeItem'])->name('removeItem');
+
+Route::get('/ciudades', [CiudadController::class, 'obtenerCiudades']);
+
 
 Route::get('carrito/incrementar', [carritoController::class, 'incrementar'])->name('incrementarCantidad');
 Route::get('carrito/decrementar', [carritoController::class, 'decrementar'])->name('decrementarCantidad');
@@ -130,17 +131,17 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::put('admin/inventario/{id}', [inventarioController::class, 'update'])->name('Admin.inventario.update');
     Route::delete('admin/inventario/{id}', [inventarioController::class, 'destroy'])->name('Admin.inventario.destroy');
 
-// Rutas para el pedido
-Route::get('admin/pedido', [PedidoController::class, 'index'])->name('pedidos');
-Route::post('admin/pedido/{id}/cambiar-estado', [PedidoController::class, 'cambiar_estado'])->name('cambiar_estado');
-Route::post('admin/pedido/{id}/rechazar', [PedidoController::class, 'rechazar'])->name('rechazar');
-Route::get('admin/pedido/{id}/detalles', [PedidoController::class, 'mostrar'])->name('pedidos.detalles');
+    // Rutas para el pedido
+    Route::get('admin/pedido', [PedidoController::class, 'index'])->name('pedidos');
+    Route::post('admin/pedido/{id}/cambiar-estado', [PedidoController::class, 'cambiar_estado'])->name('cambiar_estado');
+    Route::post('admin/pedido/{id}/rechazar', [PedidoController::class, 'rechazar'])->name('rechazar');
+    Route::get('admin/pedido/{id}/detalles', [PedidoController::class, 'mostrar'])->name('pedidos.detalles');
 
-// Rutas para el detalle
-Route::get('admin/detalle', [DetalleController::class, 'index'])->name('detalles');
-
-
-
+    Route::get('/export-pdf', [ExportController::class, 'exportarPDF'])->name('export.pdf');
+    Route::get('/export-excel', [ExportController::class, 'exportExcel'])->name('export.excel');
+    
+    // Rutas para el detalle
+    Route::get('admin/detalle', [DetalleController::class, 'index'])->name('detalles');
 });
 
 

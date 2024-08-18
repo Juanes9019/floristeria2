@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notifications\PedidoNotificacion;
 use App\Models\Producto;
 use App\Models\Pedido;
+use App\Models\User;
 use App\Models\DatosEnvio;
 use App\Models\Detalle;
 use App\Models\Inventario;
@@ -16,7 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Cart;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 
@@ -36,27 +38,28 @@ class carritoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('add','index');
     }
-
 
     public function index()
     {
-        // Realizar la solicitud a la API de Overpass
-        $response = Http::get('https://overpass-api.de/api/interpreter', [
-            'data' => '[out:json];(node["place"="city"]["name"~"^(Medellín|Bello|Envigado|Itagüí|Sabaneta|La Estrella|Caldas|Copacabana|Girardota|Barbosa)$"];way["place"="city"]["name"~"^(Medellín|Bello|Envigado|Itagüí|Sabaneta|La Estrella|Caldas|Copacabana|Girardota|Barbosa)$"];relation["place"="city"]["name"~"^(Medellín|Bello|Envigado|Itagüí|Sabaneta|La Estrella|Caldas|Copacabana|Girardota|Barbosa)$"];);out body;>;out skel qt;'
-        ]);
+        $filePath = storage_path('app/data/cities.json');
+        
+        if (!file_exists($filePath)) {
+            // Manejo del error si el archivo no existe
+            abort(404, 'El archivo de ciudades no se encuentra.');
+        }
     
-        $data = $response->json();
+        $cities = json_decode(file_get_contents($filePath), true);
     
-        // Extraer nombres de las ciudades
-        $cities = collect($data['elements'])
-            ->filter(fn($item) => isset($item['tags']['name']))
-            ->pluck('tags.name');
+        // Ordenar alfabéticamente
+        $cities = collect($cities)->sort()->values();
     
         // Retornar a la vista carrito.cart con las ciudades
         return view('carrito.cart', compact('cities'));
     }
+
+    
     
 
     public function add(Request $request)
@@ -113,54 +116,58 @@ class carritoController extends Controller
     
     
     public function confirmarCarrito(Request $request)
-{
-    // Validar los datos del formulario
-    $request->validate([
-        'nombre_destinatario' => 'required|string|max:255',
-        'fecha' => 'required|date',
-        'departamento' => 'required|string',
-        'ciudad' => 'required|string',
-        'direccion' => 'required|string|max:255',
-        'instrucciones_entrega' => 'nullable|string|max:500',
-        'telefono' => 'required|string|max:20',
-    ]);
-
-    // Crear un pedido para el carrito
-    $pedido = new Pedido();
-    $pedido->total = Cart::total();
-    $pedido->fechapedido = now();
-    $pedido->estado = "Nuevo";
-    $pedido->user_id = auth()->user()->id; // Asignar el user_id antes de guardar
-    $pedido->save();
-
-    foreach(Cart::content() as $item){
-        // Restar del inventario
-        $inventario = Inventario::where('id_producto', $item->id)->first();
-
-        if ($inventario->cantidad < $item->qty) {
-            return back()->withErrors(["status" => "Lamentamos informarte que la cantidad que deseas no se encuentra disponible en este momento. Cantidad disponible: $inventario->cantidad"]);
-        } else {
-            $detalle = new Detalle();
-            $detalle->id_pedido = $pedido->id;
-            $detalle->id_producto = $item->id;
-            $detalle->precio = $item->price;
-            $detalle->cantidad = $item->qty;
-            $detalle->subtotal = $item->price * $item->qty;
-
-            $producto = Producto::find($item->id);
-            $detalle->imagen = $producto->foto;
-
-            $detalle->save();
-
-            $inventario->cantidad -= $item->qty;
-            $inventario->save();
+    {
+        // Validar los datos del formulario
+        $request->validate([
+            'nombre_destinatario' => 'required|string|max:255',
+            'fecha' => 'required|date',
+            'departamento' => 'required|string',
+            'ciudad' => 'required|string',
+            'direccion' => 'required|string|max:255',
+            'instrucciones_entrega' => 'nullable|string|max:500',
+            'telefono' => 'required|string|max:20',
+        ]);
+    
+        $pedido = new Pedido();
+        $pedido->total = Cart::total();
+        $pedido->fechapedido = now();
+        $pedido->estado = "Nuevo";
+        $pedido->user_id = auth()->user()->id; 
+        $pedido->save();
+    
+        $administradores = User::whereHas('role', function($query) {
+            $query->where('nombre', 'Admin'); 
+        })->get();
+    
+        foreach ($administradores as $admin) {
+            $admin->notify(new PedidoNotificacion($pedido));
         }
-    }
+    
+        foreach(Cart::content() as $item){
+            // Restar del inventario
+            // $inventario = Inventario::where('id_producto', $item->id)->first();
+    
+            // if ($inventario->cantidad < $item->qty) {
+            //     return back()->withErrors(["status" => "Lamentamos informarte que la cantidad que deseas no se encuentra disponible en este momento. Cantidad disponible: $inventario->cantidad"]);
+            // } else {
+                $detalle = new Detalle();
+                $detalle->id_pedido = $pedido->id;
+                $detalle->id_producto = $item->id;
+                $detalle->precio = $item->price;
+                $detalle->cantidad = $item->qty;
+                $detalle->subtotal = $item->price * $item->qty;
+    
+                $producto = Producto::find($item->id);
+                $detalle->imagen = $producto->foto;
+    
+                $detalle->save();
+    
+                // $inventario->cantidad -= $item->qty;
+                // $inventario->save();
+            }
+    
+        Cart::destroy();
 
-    // Limpiar el carrito después de procesar el pedido
-    Cart::destroy();
-
-    // Preparar los datos del envío
     $datosEnvio = $request->only([
         'nombre_destinatario', 
         'fecha', 

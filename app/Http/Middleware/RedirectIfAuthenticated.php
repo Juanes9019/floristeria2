@@ -18,13 +18,19 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
         $guards = empty($guards) ? [null] : $guards;
-
+    
+        // Comprobar si la solicitud es para la ruta raíz y no redirigir en ese caso
+        if ($request->is('/')) {
+            return $next($request);
+        }
+    
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 return redirect(RouteServiceProvider::HOME);
             }
         }
-
+    
         return $next($request);
     }
+    
 }

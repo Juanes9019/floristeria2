@@ -20,7 +20,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('vista_inicial','show','index');
     }
 
     /**
@@ -28,6 +28,14 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
+    public function vista_inicial()
+    {
+        $productos = Producto::all();
+        return view('home', compact('productos'));
+    }
+
+
     public function index()
     {
         $productos = Producto::all();
