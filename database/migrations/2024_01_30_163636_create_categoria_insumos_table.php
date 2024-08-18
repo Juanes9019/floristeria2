@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sub_categorias', function (Blueprint $table) {
+        Schema::create('categoria_insumos', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_proveedor')->references('id')->on('proveedores');
             $table->string("nombre");
+            $table->integer('estado')->default(1); //1-Activo   0-Inactivo
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sub_categorias');
+        Schema::dropIfExists('categoria_insumos');
     }
 };

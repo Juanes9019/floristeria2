@@ -16,13 +16,13 @@
                 @method('PUT')
                 @csrf            
                 <div class="form-group">
-                        <label for="id_categoria_insumo">Sub_categoria</label>
-                        <select name="id_categoria_insumo" id="id_categoria_insumo"
-                            class="form-control @error('id_categoria_insumo') is-invalid  @enderror">
-                            <option selected disabled>Seleccione una opción</option>
-                            @foreach ($sub_categoria as $id => $nombre)
-                                <option value="{{ $id }}" {{ old('id_sub_categoria') == $id ? 'selected' : '' }}>
-                                    {{ $nombre }} </option>
+                        <label for="id_categoria_insumo">Categoria_insumo</label>
+                        <select id="id_categoria_insumo" name="id_categoria_insumo" class="form-control @error('id_categoria_insumo') is-invalid  @enderror">
+                            <option selected disabled>Seleccione una Categoría</option>
+                            @foreach($categoria_insumos as $categoria)
+                            <option value="{{ $categoria->id}}" @if($categoria->id == $insumos->id_categoria_insumo) {{'selected'}} @endif>
+                                {{ $categoria->nombre }}
+                            </option>
                             @endforeach
                         </select>
 
@@ -35,9 +35,9 @@
 
                 <div class="form-group">
                     <label for="cantidad_insumo">Cantidad</label>
-                    <input type="number" name="cantidad_insumo" class="form-control  @error('cantidad_insumo') is-invalid  @enderror" id="cantidad_insumo" placeholder="Ingrese cantidad" value="{{ old('cantidad_insumo', $insumos->cantidad_insumos) }}">
+                    <input type="number" name="cantidad_insumo" class="form-control  @error('cantidad_insumo') is-invalid  @enderror" id="cantidad_insumo" placeholder="Ingrese cantidad" value="{{ old('cantidad_insumo', $insumos->cantidad_insumo) }}">
 
-                    @error('cantidad_insumos')
+                    @error('cantidad_insumo')
                         <span class="invalid-feedback d-block" role="alert">
                             <strong>{{$message}}</strong>
                         </span>
@@ -45,10 +45,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="precio">Precio</label>
-                    <input type="number" name="precio" class="form-control  @error('precio') is-invalid  @enderror" id="precio" placeholder="2222" value="{{ old('precio', $insumos->precio) }}">
+                    <label for="costo_unitario">Costo Unitario</label>
+                    <input type="number" name="costo_unitario" class="form-control  @error('costo_unitario') is-invalid  @enderror" id="costo_unitario" placeholder="2222" value="{{ old('costo_unitario', $insumos->costo_unitario) }}">
 
-                    @error('precio')
+                    @error('costo_unitario')
                         <span class="invalid-feedback d-block" role="alert">
                             <strong>{{$message}}</strong>
                         </span>
@@ -64,6 +64,25 @@
                             <strong>{{$message}}</strong>
                         </span>
                     @enderror
+                </div>
+
+                <!-- <div class="form-group">
+                    <label for="costo_total">Costo Total</label>
+                    <input type="number" name="costo_total" class="form-control  @error('costo_total') is-invalid  @enderror" id="costo_total" placeholder="2222" value="{{ old('costo_total', $insumos->costo_total) }}">
+
+                    @error('costo_total')
+                        <span class="invalid-feedback d-block" role="alert">
+                            <strong>{{$message}}</strong>
+                        </span>
+                    @enderror
+                </div> -->
+
+                <div class="form-group">
+                    <label for="estado">Estado</label>
+                    <select name="estado" id="estado" class="form-control">
+                        <option value="1" {{ $insumos->estado == '1' ? 'selected' : '' }}>Activo</option>
+                        <option value="0" {{ $insumos->estado == '0' ? 'selected' : '' }}>Inactivo</option>
+                    </select>
                 </div>
 
                 <div class="form-group">

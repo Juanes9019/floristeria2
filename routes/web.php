@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\ProveedorController;
-use App\Http\Controllers\Admin\Sub_categoriaController;
+use App\Http\Controllers\Admin\Categoria_insumoController;;
 use App\Http\Controllers\Admin\productosController;
 use App\Http\Controllers\Admin\pedidoController;
 use App\Http\Controllers\Admin\detalleController;
@@ -93,13 +93,14 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::put('admin/categoria/{id}', [CategoriaController::class, 'update'])->name('Admin.categoria.update');
     Route::delete('admin/categoria/{id}', [CategoriaController::class, 'destroy'])->name('Admin.categoria.destroy');
 
-    //rutas para la sub_categoria
-    Route::get('admin/sub_categoria', [Sub_categoriaController::class, 'index'])->name('Admin.sub_categoria');
-    Route::get('admin/sub_categoria/create', [Sub_categoriaController::class, 'create'])->name('Admin.sub_categoria.create');
-    Route::post('admin/sub_categoria', [Sub_categoriaController::class, 'store'])->name('Admin.sub_categoria.store');
-    Route::get('admin/sub_categoria/{id}/edit', [Sub_categoriaController::class, 'edit'])->name('Admin.sub_categoria.edit');
-    Route::put('admin/sub_categoria/{id}', [Sub_categoriaController::class, 'update'])->name('Admin.sub_categoria.update');
-    Route::delete('admin/sub_categoria/{id}', [Sub_categoriaController::class, 'destroy'])->name('Admin.sub_categoria.destroy');
+    //rutas para la categoria_insumo
+    Route::get('admin/categoria_insumo', [Categoria_insumoController::class, 'index'])->name('Admin.categoria_insumo');
+    Route::get('admin/categoria_insumo/create', [Categoria_insumoController::class, 'create'])->name('Admin.categoria_insumo.create');
+    Route::post('admin/categoria_insumo', [Categoria_insumoController::class, 'store'])->name('Admin.categoria_insumo.store');
+    Route::get('admin/categoria_insumo/{id}/edit', [Categoria_insumoController::class, 'edit'])->name('Admin.categoria_insumo.edit');
+    Route::put('admin/categoria_insumo/{id}', [Categoria_insumoController::class, 'update'])->name('Admin.categoria_insumo.update');
+    Route::delete('admin/categoria_insumo/{id}', [Categoria_insumoController::class, 'destroy'])->name('Admin.categoria_insumo.destroy');
+    Route::get('admin/categoria_insumo/{id}/status', [Categoria_insumoController::class, 'change_Status'])->name('Admin.categoria_insumo.status');
 
     //rutas para los insumos
     Route::get('admin/insumo', [InsumoController::class, 'index'])->name('Admin.insumo');
@@ -108,6 +109,10 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::get('admin/insumo/{id}/edit', [InsumoController::class, 'edit'])->name('Admin.insumo.edit');
     Route::put('admin/insumo/{id}', [InsumoController::class, 'update'])->name('Admin.insumo.update');
     Route::delete('admin/insumo/{id}', [InsumoController::class, 'destroy'])->name('Admin.insumo.destroy');
+    Route::get('admin/insumo/{id}/incrementarInsumo', [InsumoController::class, 'incrementarInsumo'])->name('incrementarInsumo');
+    Route::get('admin/insumo/{id}/decrementarInsumo', [InsumoController::class, 'decrementarInsumo'])->name('decrementarInsumo');
+    Route::get('admin/insumo/{id}/status', [InsumoController::class, 'change_Status'])->name('Admin.insumo.status');
+
 
     //rutas para los productos
     Route::get('admin/productos', [productosController::class, 'index'])->name('Admin.productos');
