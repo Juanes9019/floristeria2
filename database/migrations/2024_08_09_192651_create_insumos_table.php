@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('insumos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_categoria_insumo')->references('id')->on('sub_categorias');
+            $table->foreignId('id_categoria_insumo')->references('id')->on('categoria_insumos');
             $table->integer('cantidad_insumo');
-            $table->decimal('precio', 10, 2);
-            $table->integer('perdida_insumo');
+            $table->decimal('costo_unitario', 10, 2);
+            $table->integer('perdida_insumo');            
+            $table->decimal('costo_total', 10, 2);
+            $table->integer('estado')->default(1); //1-Activo   0-Inactivo
             $table->timestamps();
         });
 

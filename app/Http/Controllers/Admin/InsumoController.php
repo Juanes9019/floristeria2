@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Insumo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Models\Categoria_insumo;
 
 class InsumoController extends Controller
 {
@@ -18,8 +19,8 @@ class InsumoController extends Controller
 
     public function create()
     {
-        $sub_categoria= DB::table('sub_categorias')->pluck('nombre', 'id');
-        return view('Admin.insumo.create', compact('sub_categoria'));
+        $categoria_insumo= DB::table('categoria_insumos')->pluck('nombre', 'id');
+        return view('Admin.insumo.create', compact('categoria_insumo'));
     }
 
     public function store(Request $request)
@@ -28,15 +29,22 @@ class InsumoController extends Controller
         $data = $request->validate([
             'id_categoria_insumo' => 'required',
             'cantidad_insumo' => 'required',
-            'precio' => 'required',
+            'costo_unitario' => 'required',
             'perdida_insumo' => 'required',
+            // 'costo_total' => 'required',
         ]);
 
         $insumo = new Insumo;
         $insumo->id_categoria_insumo = $request->id_categoria_insumo;
         $insumo->cantidad_insumo = $request->cantidad_insumo;
-        $insumo->precio = $request->precio;
+        $insumo->costo_unitario = $request->costo_unitario;
         $insumo->perdida_insumo = $request->perdida_insumo;
+        $insumo->costo_total = $request->costo_unitario * $request->cantidad_insumo;
+
+        if ($request->has('estado')) {
+            $insumo->estado = 1;
+       }
+
 
         $insumo->save();
 
@@ -73,8 +81,8 @@ class InsumoController extends Controller
 
     public function edit($id)    {
         $insumos = Insumo::find($id);
-        $sub_categoria= DB::table('sub_categorias')->pluck('nombre', 'id');
-        return view('Admin.insumo.edit', compact('insumos','sub_categoria'));
+        $categoria_insumos = DB::table('categoria_insumos')->get();
+        return view('Admin.insumo.edit', compact('insumos','categoria_insumos'));
     }
 
     public function update(Request $request, $id)
@@ -86,16 +94,23 @@ class InsumoController extends Controller
         $request->validate([
             'id_categoria_insumo' => 'required',
             'cantidad_insumo' => 'required',
-            'precio' => 'required',
+            'costo_unitario' => 'required',
             'perdida_insumo' => 'required',
-
+            // 'costo_total' => 'required',
         ]);
+
+        //Calcula la nueva cantidad restando la pérdida
+        $nueva_cantidad = $insumos->cantidad_insumo - $request->input('perdida_insumo');
 
         // Asignación de los campos del usuario desde el formulario
         $insumos->id_categoria_insumo = $request->input('id_categoria_insumo');
-        $insumos->cantidad_insumo = $request->input('cantidad_insumo');
-        $insumos->precio = $request->input('precio');
+        $insumos->cantidad_insumo = $request -> $nueva_cantidad > 0 ? $nueva_cantidad : 0;
+        $insumos->costo_unitario = $request->input('costo_unitario');
         $insumos->perdida_insumo = $request->input('perdida_insumo');
+        $insumos->costo_total = $request->costo_unitario * $request->cantidad_insumo;
+        if ($request->has('estado')) {
+            $insumos->estado = $request->estado;
+        }
 
         $insumos->save();
 
@@ -115,6 +130,47 @@ class InsumoController extends Controller
 
     }
 
+    public function incrementarInsumo($id)
+{
+    $insumo = Insumo::find($id);
+    
+    // Incrementa la pérdida de insumo en 1
+    $insumo->perdida_insumo += 1;
+    
+    // Reduce la cantidad de insumo en 1
+    $insumo->cantidad_insumo = max(0, $insumo->cantidad_insumo - 1);
+    
+    $insumo->save();
+
+    return redirect()->route('Admin.insumo')->with('success', 'Insumo actualizado con éxito.');
+}
+    
+public function decrementarInsumo($id)
+{
+    $insumo = Insumo::find($id);
+    
+    // Decrementa la pérdida de insumo en 1, asegurando que no sea menor que 0
+    if ($insumo->perdida_insumo > 0) {
+        $insumo->perdida_insumo -= 1;
+        $insumo->cantidad_insumo += 1; // Aumenta la cantidad de insumo
+    }
+
+    $insumo->save();
+
+    return redirect()->route('Admin.insumo')->with('success', 'Insumo actualizado con éxito.');
 }
 
+    public function change_Status($id)
+    {
+        $insumo = Insumo::find($id);
+        if ($insumo->estado == 1) {
+            $insumo->estado = 0;
+        } else {
+            $insumo->estado = 1;
+        }
 
+        $insumo->save();
+        return redirect()->back();
+    }
+
+}

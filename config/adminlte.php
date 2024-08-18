@@ -339,8 +339,8 @@ return [
             'label_color' => 'warning',
         ],
         [
-            'text' => 'Sub_categorias',
-            'url' => 'admin/sub_categoria',
+            'text' => 'Categoria Insumos',
+            'url' => 'admin/categoria_insumo',
             'icon' => 'fas fa-fw fa-list',
             'label_color' => 'primary',
         ],
