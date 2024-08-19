@@ -95,13 +95,46 @@ class HomeController extends Controller
     }
 
 
-    public function show_all()
-    {
-        $productos = Producto::all();
-        $categoria_categoria = Categoria::all();
+    public function show_all(Request $request)
+{
+    $categoria_categoria = Categoria::all();
 
-        return view('view_arreglo.all_products', compact('productos','categoria_categoria'));
+    $filtro = Producto::query();
+
+    if ($request->has('categoria') && $request->input('filtro') !== 'todos') {
+        $categoria_id = $request->get('categoria');
+        $filtro->where('id_categoria', $categoria_id);
     }
+
+    if ($request->has('query')) {
+        $consulta = $request->get('query');
+        $filtro->where(function($q) use ($consulta) {
+            $q->where('nombre', 'like', '%' . $consulta . '%');
+        });
+    }
+
+    if ($request->has('filtro') && $request->get('filtro') !== 'todos') {
+        switch ($request->get('filtro')) {
+            case 'caro':
+                $filtro->orderBy('precio', 'desc');
+                break;
+            case 'barato':
+                $filtro->orderBy('precio', 'asc');
+                break;
+            case 'nuevos':
+                $filtro->orderBy('created_at', 'desc');
+                break;
+            case 'antiguos':
+                $filtro->orderBy('created_at', 'asc');
+                break;
+        }
+    }
+
+    $productos = $filtro->get();
+
+    return view('view_arreglo.all_products', compact('productos', 'categoria_categoria'));
+}
+
 
     public function productos_filtrar()
     {

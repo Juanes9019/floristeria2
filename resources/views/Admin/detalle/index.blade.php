@@ -8,10 +8,14 @@
                 <div class="card">
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-
                             <span id="card_title">
                                 <b>Control de detalle de venta</b>
                             </span>
+                            <div class="float-right">
+                                <a href="{{ route('export_detalle.pdf') }}" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-file-pdf"></i> Exportar PDF
+                                </a>
+                            </div>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))

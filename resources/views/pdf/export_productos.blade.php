@@ -17,25 +17,27 @@
     </style>
 </head>
 <body>
-    <h1>PEDIDOS</h1>
+    <h1>DETALLE DE PEDIDOS</h1>
     <table class="table">
         <thead>
             <tr>
                 <th>No</th>
-                <th>Usuario</th>
-                <th>Total</th>
-                <th>Fecha Pedido</th>
-                <th>Estado</th>
+                <th>id_pedido</th>
+                <th>id_producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>subtotal</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($pedidos as $i => $item)
                 <tr>
                     <td>{{ $i + 1 }}</td>
-                    <td>{{ $item->user_id }}</td>
-                    <td>{{ number_format($item->total, 0, ',', '.') }}</td>
-                    <td>{{ $item->fechapedido }}</td>
-                    <td>{{ $item->estado }}</td>
+                    <td>{{ $item->id_pedido }}</td>
+                    <td>{{ $item->id_producto }}</td>
+                    <td>{{ number_format($item->Precio, 0, ',', '.') }}</td>
+                    <td>{{ $item->Cantidad }}</td>
+                    <td>{{ number_format($item->subtotal, 0, ',', '.') }}</td>
                 </tr>
             @endforeach
         </tbody>

@@ -91,7 +91,7 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::put('admin/producto/{id}', [productosController::class, 'update'])->name('Admin.producto.update');
     Route::delete('admin/producto/{id}', [productosController::class, 'destroy'])->name('Admin.producto.destroy');
     Route::get('admin/producto/{id}/status', [productosController::class, 'change_Status'])->name('Admin.producto.status');
-
+    Route::get('/export_producto_pdf', [ExportController::class, 'exportar_producto'])->name('export_producto.pdf');
 
 
 
@@ -141,12 +141,12 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::post('admin/pedido/{id}/cambiar-estado', [PedidoController::class, 'cambiar_estado'])->name('cambiar_estado');
     Route::post('admin/pedido/{id}/rechazar', [PedidoController::class, 'rechazar'])->name('rechazar');
     Route::get('admin/pedido/{id}/detalles', [PedidoController::class, 'mostrar'])->name('pedidos.detalles');
-
     Route::get('/export-pdf', [ExportController::class, 'exportarPDF'])->name('export.pdf');
-    Route::get('/export-excel', [ExportController::class, 'exportExcel'])->name('export.excel');
     
     // Rutas para el detalle
     Route::get('admin/detalle', [DetalleController::class, 'index'])->name('detalles');
+    Route::get('/export_detalle_pdf', [ExportController::class, 'exportar_detalle'])->name('export_detalle.pdf');
+
 });
 
 

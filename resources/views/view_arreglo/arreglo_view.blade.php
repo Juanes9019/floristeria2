@@ -7,7 +7,7 @@
         @include('view_arreglo.partials.msg')
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Información del arreglo floral') }}</div>
+                <div class="card-header" style="background-color: #facfd6;">{{ __('Información del arreglo floral') }}</div>
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
