@@ -43,9 +43,10 @@ class carritoController extends Controller
 
     public function index()
     {
-        $filePath = storage_path('app/data/cities.json');
+        $filePath = public_path('js/cities.json');
         
         if (!file_exists($filePath)) {
+            // Manejo del error si el archivo no se encuentra
             abort(404, 'El archivo de ciudades no se encuentra.');
         }
     
@@ -55,6 +56,7 @@ class carritoController extends Controller
     
         return view('carrito.cart', compact('cities'));
     }
+    
 
     
     public function add(Request $request)
