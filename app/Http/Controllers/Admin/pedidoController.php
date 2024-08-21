@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Notifications\EstadoPedido;
 use App\Mail\PedidoCambiado;
 use App\Models\Pedido;
+use App\Models\Inventario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -27,17 +28,24 @@ class PedidoController extends Controller
     public function cambiar_estado(Request $request, $id)
     {
         $pedido = Pedido::findOrFail($id);
-    
-        // Determina la acción a realizar
         $action = $request->input('action');
     
-        // Cambiar el estado del pedido según la acción
         if ($action === 'reject') {
             $pedido->estado = 'rechazado';
+
         } elseif ($pedido->estado === 'nuevo') {
             $pedido->estado = 'preparacion';
+
+                    
+        foreach ($pedido->detalles as $detalle) {
+            $inventario = Inventario::where('id_producto', $detalle->id_producto)->first();
+            $inventario->cantidad -= $detalle->cantidad;
+            $inventario->save();
+        }
+            
         } elseif ($pedido->estado === 'preparacion') {
             $pedido->estado = 'en camino';
+
         } elseif ($pedido->estado === 'en camino') {
             $pedido->estado = 'entregado';
         }

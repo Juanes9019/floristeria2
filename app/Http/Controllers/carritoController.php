@@ -114,7 +114,6 @@ class carritoController extends Controller
     
     public function confirmarCarrito(Request $request)
     {
-        // Validar los datos del formulario
         $request->validate([
             'nombre_destinatario' => 'required|string|max:255',
             'fecha' => 'required|date',
@@ -141,12 +140,11 @@ class carritoController extends Controller
         }
     
         foreach(Cart::content() as $item){
-            // Restar del inventario
-            // $inventario = Inventario::where('id_producto', $item->id)->first();
+            $inventario = Inventario::where('id_producto', $item->id)->first();
     
-            // if ($inventario->cantidad < $item->qty) {
-            //     return back()->withErrors(["status" => "Lamentamos informarte que la cantidad que deseas no se encuentra disponible en este momento. Cantidad disponible: $inventario->cantidad"]);
-            // } else {
+            if ($inventario->cantidad < $item->qty) {
+                return back()->withErrors(["status" => "Lamentamos informarte que la cantidad que deseas no se encuentra disponible en este momento. Cantidad disponible: $inventario->cantidad"]);
+            } else {
                 $detalle = new Detalle();
                 $detalle->id_pedido = $pedido->id;
                 $detalle->id_producto = $item->id;
@@ -161,31 +159,30 @@ class carritoController extends Controller
     
                 // $inventario->cantidad -= $item->qty;
                 // $inventario->save();
-            }
+            }}
     
         Cart::destroy();
 
-    $datosEnvio = $request->only([
-        'nombre_destinatario', 
-        'fecha', 
-        'departamento', 
-        'ciudad', 
-        'direccion', 
-        'instrucciones_entrega', 
-        'telefono'
-    ]);
+        $datosEnvio = $request->only([
+            'nombre_destinatario', 
+            'fecha', 
+            'departamento', 
+            'ciudad', 
+            'direccion', 
+            'instrucciones_entrega', 
+            'telefono'
+        ]);
 
-    // Generar el PDF con los datos del pedido y del envío
-    $pdf = Pdf::loadView('pdf.pdf', [
-        'pedido' => $pedido,
-        'datosEnvio' => $datosEnvio,
-    ]);
+        $pdf = Pdf::loadView('pdf.pdf', [
+            'pedido' => $pedido,
+            'datosEnvio' => $datosEnvio,
+        ]);
 
-    // Enviar el correo con el PDF adjunto
-    Mail::to(auth()->user()->email)->send(new EnviarCorreo($pedido, $pdf->output()));
+        // Enviar el correo con el PDF adjunto
+        Mail::to(auth()->user()->email)->send(new EnviarCorreo($pedido, $pdf->output()));
 
-    return redirect()->back()->with("success", "Arreglo adquirido con éxito, pedido en camino");
-}
+        return redirect()->back()->with("success", "Arreglo adquirido con éxito, pedido en camino");
+    }   
 
     
     
