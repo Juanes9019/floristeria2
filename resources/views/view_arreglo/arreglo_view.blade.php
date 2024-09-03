@@ -24,7 +24,7 @@
                         <div class="col-md-6 order-md-2">
                             <h2>{{ $productos->nombre }}</h2>
                             <div class="chips">
-                                <p><strong>Categoria:</strong> {{ $productos->categoria->nombre }}</p>
+                                <p><strong>Categoria:</strong> {{ $productos->categoria_producto->nombre }}</p>
                                 <p><strong>Descripcion:</strong> {{ $productos->descripcion }}</p>
 
                                 <section></section>

@@ -14,7 +14,7 @@
 
     <div class="row justify-content-center mt-5">
         <div class="col-md-8">
-        <form id="formulario_crear" method="POST" action="{{ route('Admin.categoria.store') }}" novalidate >
+        <form id="formulario_crear" method="POST" action="{{ route('Admin.categoria_producto.store') }}" novalidate >
                 @csrf
                 <div class="form-group">
                     <label for="nombre">Nombre de la categoria</label>
@@ -31,7 +31,7 @@
                     <button  class="btn btn-success" value="agregar categoria" onclick="agregar()">
                         Agregar Categoría
                     </button>
-                    <a href="{{ route('Admin.categoria') }}" class="btn btn-danger ">Volver</a>
+                    <a href="{{ route('Admin.categorias_productos') }}" class="btn btn-danger ">Volver</a>
                 </div>
 
 

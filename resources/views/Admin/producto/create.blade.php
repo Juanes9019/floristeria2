@@ -17,13 +17,13 @@
         <form id="formulario_crear" method="POST" action="{{ route('Admin.producto.store') }}" novalidate>
             @csrf
             <div class="form-group">
-                <label for="id_categoria">Categoría Producto</label>
-                <select id="id_categoria" name="id_categoria"
+                <label for="id_categoria_producto">Categoría Producto</label>
+                <select id="id_categoria_producto" name="id_categoria_producto"
                     class="form-control @error('id_categoria') is-invalid  @enderror">
                     
                     <option selected disabled>Seleccione una Categoría</option>
                     @foreach($categorias as $categoria)
-                    <option value="{{ $categoria->id }}">
+                    <option value="{{ $categoria->id_categoria_producto }}">
                         {{ $categoria->nombre }}
                     </option>
                     @endforeach
@@ -97,7 +97,7 @@
 
             <div class="form-group">
                 <label for="estado">Estado</label>
-                <select name="estado" id="estado" class="form-control">
+                <select  name="estado" id="estado" class="form-control">
                     <option value="1" {{ old('estado') == '1' ? 'selected' : '' }}>Activo</option>
                 </select>
             </div>

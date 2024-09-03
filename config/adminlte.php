@@ -333,8 +333,8 @@ return [
             'label_color' => 'primary',
         ],
         [
-            'text' => 'Categorias',
-            'url' => 'admin/categoria',
+            'text' => 'Categorias Productos',
+            'url' => 'admin/categorias_productos',
             'icon' => 'fas fa-fw fa-list',
             'label_color' => 'warning',
         ],

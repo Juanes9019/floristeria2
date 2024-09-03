@@ -12,13 +12,13 @@
 <h2 class="text-center mb-5">EDITAR CATEGORIA</h2>
         <div class="row justify-content-center mt-5">
             <div class="col-md-8">
-            <form id="formulario_editar" method="POST" action="{{ route('Admin.categoria.update', ['id' => $categoria->id]) }}" novalidate>
+            <form id="formulario_editar" method="POST" action="{{ route('Admin.categoria_producto.update', ['id' => $categoria_producto->id_categoria_producto]) }}" novalidate>
                 @method('PUT')
                 @csrf            
 
                 <div class="form-group">
                     <label for="nombre">Nombre de la categoria</label>
-                    <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Aniversario" value="{{ old('nombre', $categoria->nombre) }}">
+                    <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Aniversario" value="{{ old('nombre', $categoria_producto->nombre) }}">
                     @error('nombre')
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{ $message }}</strong>
@@ -28,7 +28,7 @@
 
                 <div class="form-group">
                     <button  class="btn btn-warning" value="Editar categoria" onclick="editar()">Editar Categoría</button>
-                    <a href="{{ route('Admin.categoria') }}" class="btn btn-danger ">Volver</a>
+                    <a href="{{ route('Admin.categorias_productos') }}" class="btn btn-danger ">Volver</a>
                 </div>
             </form>
         </div>

@@ -48,7 +48,7 @@
                                 @foreach($productos as $producto)
                                 <tr>
                                     <td class="text-center">{{ ++$i }}</td>
-                                    <td class="text-center">{{$producto->categoria->nombre}}</td>
+                                    <td class="text-center">{{$producto->categoria_producto->nombre}}</td>
                                     <td class="text-center">{{ $producto->nombre }}</td>
                                     <td class="text-center">OE</td>
                                     <td class="text-center">{{ $producto->cantidad}}</td>

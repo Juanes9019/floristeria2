@@ -1,8 +1,9 @@
 <?php
 
+use App\Exports\ProveedorExport;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
-use App\Http\Controllers\Admin\CategoriaController;
+use App\Http\Controllers\Admin\Categoria_Producto_Controller;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\ProveedorController;
@@ -16,7 +17,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\carritoController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EnviarCorreo;
-
 
 
 // $role= Role::create(['name'=>'admin']);
@@ -78,7 +78,9 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::get('admin/proveedor/{id}/edit', [ProveedorController::class, 'edit'])->name('Admin.proveedor.edit');
     Route::put('admin/proveedor/{id}', [ProveedorController::class, 'update'])->name('Admin.proveedor.update');
     Route::delete('admin/proveedor/{id}', [ProveedorController::class, 'destroy'])->name('Admin.proveedor.destroy');
-    Route::get('admin/proveedor/{id}/status', [ProveedorController::class, 'change_Status'])->name('Admin.proveedor.status');
+    Route::get('/proveedores/export/{format}', [ProveedorController::class, 'export'])->name('Admin.proveedores.export');
+
+    // Route::get('admin/proveedor/{id}/status', [ProveedorController::class, 'change_Status'])->name('Admin.proveedor.status');
 
 
 
@@ -95,13 +97,13 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
 
 
     //rutas para la categoria
-    Route::get('admin/categoria', [CategoriaController::class, 'index'])->name('Admin.categoria');
-    Route::get('admin/categoria/create', [CategoriaController::class, 'create'])->name('Admin.categoria.create');
-    Route::post('admin/categoria', [CategoriaController::class, 'store'])->name('Admin.categoria.store');
-    Route::get('admin/categoria/{id}/edit', [CategoriaController::class, 'edit'])->name('Admin.categoria.edit');
-    Route::put('admin/categoria/{id}', [CategoriaController::class, 'update'])->name('Admin.categoria.update');
-    Route::delete('admin/categoria/{id}', [CategoriaController::class, 'destroy'])->name('Admin.categoria.destroy');
-    Route::get('admin/categoria/{id}/status', [CategoriaController::class, 'change_Status'])->name('Admin.categoria.status');
+    Route::get('admin/categorias_productos', [Categoria_Producto_Controller::class, 'index'])->name('Admin.categorias_productos');
+    Route::get('admin/categoria_producto/create', [Categoria_Producto_Controller::class, 'create'])->name('Admin.categoria_producto.create');
+    Route::post('admin/categoria_producto', [Categoria_Producto_Controller::class, 'store'])->name('Admin.categoria_producto.store');
+    Route::get('admin/categoria_producto/{id}/edit', [Categoria_Producto_Controller::class, 'edit'])->name('Admin.categoria_producto.edit');
+    Route::put('admin/categoria_producto/{id}', [Categoria_Producto_Controller::class, 'update'])->name('Admin.categoria_producto.update');
+    Route::delete('admin/categoria_producto/{id}', [Categoria_Producto_Controller::class, 'destroy'])->name('Admin.categoria_producto.destroy');
+    Route::get('admin/categoria_producto/{id}/status', [Categoria_Producto_Controller::class, 'change_Status'])->name('Admin.categoria_producto.status');
 
 
 

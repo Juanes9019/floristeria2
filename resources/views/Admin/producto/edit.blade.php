@@ -17,16 +17,16 @@
             @csrf
             <div class="form-group">
                 <label for="id_categoria">Categoría Producto</label>
-                <select id="id_categoria" name="id_categoria" class="form-control @error('id_categoria') is-invalid  @enderror">
+                <select id="id_categoria_producto" name="id_categoria_producto" class="form-control @error('id_categoria_producto') is-invalid  @enderror">
                     <option selected disabled>Seleccione una Categoría</option>
                     @foreach($categorias as $categoria)
-                    <option value="{{ $categoria->id}}" @if($categoria->id == $producto->id_categoria) {{'selected'}} @endif>
+                    <option value="{{ $categoria->id_categoria_producto}}" @if($categoria->id_categoria_producto == $producto->id_categoria_producto) {{'selected'}} @endif>
                         {{ $categoria->nombre }}
                     </option>
                     @endforeach
                 </select>
 
-                @error('id_categoria')
+                @error('categoria_producto')
                 <span class="invalid-feedback d-block" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>

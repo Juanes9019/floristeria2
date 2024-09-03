@@ -22,7 +22,7 @@
                                         <img src="{{ $producto->foto }}" class="card-img-top img-fluid" alt="{{ $producto->nombre }}">
                                         <div class="card-body text-center">
                                             <h5 class="card-title">{{ $producto->nombre }}</h5>
-                                            <p class="card-title"><strong>Categoria:</strong> {{ $producto->categoria->nombre }}</p>
+                                            <p class="card-title"><strong>Categoria:</strong> {{ $producto->categoria_producto->nombre }}</p>
                                             <p class="card-text"><strong>Precio:</strong> ${{ number_format($producto->precio, 0, ',', '.') }}</p>
                                             <div class="contenedor">
                                                 <a href="{{ route('view_arreglo.arreglo_view', ['id' => $producto->id]) }}" class="btn btn-5">Ver más</a>

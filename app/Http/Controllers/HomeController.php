@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\Categoria;
+use App\Models\Categoria_Producto;
 use App\Models\User;
 use App\Models\Pedido;
 use Illuminate\Support\Facades\DB;
@@ -90,7 +91,7 @@ class HomeController extends Controller
     public function show_all()
     {
         $productos = Producto::all();
-        $categoria_categoria = Categoria::all();
+        $categoria_categoria = Categoria_Producto::all();
 
         return view('view_arreglo.all_products', compact('productos','categoria_categoria'));
     }
@@ -98,7 +99,7 @@ class HomeController extends Controller
     public function productos_filtrar()
     {
         $productos = Producto::all();
-        $categoria_categoria = Categoria::all();
+        $categoria_categoria = Categoria_Producto::all();
 
         return view('view_arreglo.all_products', compact('productos','categoria_categoria'));
     }
