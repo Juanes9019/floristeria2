@@ -9,6 +9,7 @@
     --background-color: #f9f5f0;
     --dark-color: #151515;
     --boton: #17a2ff;
+    --mensajes: #ffcfd6;
 }
 
 
@@ -55,6 +56,19 @@
     border-radius: 3rem;
 }
 
+
+/* -**************************
+        layout
+************************** */
+
+.bell-icon {
+    color: #BE8C29; 
+}
+
+.dropdown-menu {
+    right: 0;
+    left: auto;
+}
 
 
 /* -**************************
@@ -264,6 +278,9 @@
     scale: 1.1;
 }
 
+
+
+
 /* -**************************
     Galeria de imagenes
 ************************** */
@@ -288,6 +305,26 @@
 .galeria-img-3{
     grid-column:2/4;
     grid-row: 1/3;
+}
+
+
+.carousel-control-prev,
+.carousel-control-next {
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.8); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    border-radius: 10px;
+}
+
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #fff; 
+    width: 30px; 
+    height: 20px;
 }
 
 
@@ -522,3 +559,6 @@ footer{
 .whatsapp{
     background-color: #25d366;
 }
+
+
+

@@ -20,4 +20,9 @@ class Pedido extends Model
     public function detalles(){
         return $this->hasMany(Detalle::class, 'id_pedido');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

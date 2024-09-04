@@ -4,13 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Notifications\EstadoPedido;
+use App\Mail\PedidoCambiado;
 use App\Models\Pedido;
+use App\Models\Inventario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Mail;
+
 
 class PedidoController extends Controller
 {
@@ -24,19 +28,38 @@ class PedidoController extends Controller
     public function cambiar_estado(Request $request, $id)
     {
         $pedido = Pedido::findOrFail($id);
+        $action = $request->input('action');
+    
+        if ($action === 'reject') {
+            $pedido->estado = 'rechazado';
 
-        if ($pedido->estado === 'nuevo') {
+        } elseif ($pedido->estado === 'nuevo') {
             $pedido->estado = 'preparacion';
+
+                    
+        foreach ($pedido->detalles as $detalle) {
+            $inventario = Inventario::where('id_producto', $detalle->id_producto)->first();
+            $inventario->cantidad -= $detalle->cantidad;
+            $inventario->save();
+        }
+            
         } elseif ($pedido->estado === 'preparacion') {
             $pedido->estado = 'en camino';
+
         } elseif ($pedido->estado === 'en camino') {
             $pedido->estado = 'entregado';
         }
-
+    
         $pedido->save();
-
+    
+        if ($pedido->user) {
+            $pedido->user->notify(new EstadoPedido($pedido)); 
+            Mail::to($pedido->user->email)->send(new PedidoCambiado($pedido));
+        }
+    
         return redirect()->back()->with('success', 'Estado del pedido actualizado correctamente.');
     }
+    
 
     public function rechazar(Request $request, $id)
     {
@@ -44,7 +67,6 @@ class PedidoController extends Controller
 
         if ($pedido->estado === 'nuevo') {
             $pedido->estado = 'rechazado';
-
         }
 
         $pedido->save();

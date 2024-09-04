@@ -7,7 +7,7 @@
         @include('view_arreglo.partials.msg')
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Información del arreglo floral') }}</div>
+                <div class="card-header" style="background-color: #facfd6;">{{ __('Información del arreglo floral') }}</div>
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -40,7 +40,7 @@
                         <div class="action-buttons1">
                             <input type="hidden" name="id" value="{{$productos->id}}">
 
-                            <a  href="/home"> Seguir comprando</a>
+                            <a  href="{{ route('home')}}"> Seguir comprando</a>
                             <input type="submit" name="btn" id="btn"class="btn btn-dark w-100" value="Agregar al carrito">
 
                         </div>

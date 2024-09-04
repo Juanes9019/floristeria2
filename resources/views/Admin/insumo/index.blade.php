@@ -34,22 +34,31 @@
                                     <tr>
                                     <tr>
                                         <th scope="col" class="text-center">Id insumo</th>
-                                        <th scope="col" class="text-center">Id categoria insumo</th>
+                                        <th scope="col" class="text-center">Categoria insumo</th>
                                         <th scope="col" class="text-center">Cantidad insumo</th>
-                                        <th scope="col" class="text-center">Precio</th>
+                                        <th scope="col" class="text-center">Costo unitario</th>
                                         <th scope="col" class="text-center">Perdida insumo</th>
+                                        <th scope="col" class="text-center">Costo total</th>
                                         <th scope="col" class="text-center">Acciones</th>
-                                        <th></th>
+                                        <th scope="col" class="text-center">Estado</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($insumos as $insumo)
                                         <tr>
                                             <td class="text-center">{{ ++$i }}</td>
-                                            <td class="text-center">{{ $insumo->id_categoria_insumo }}</td>
+                                            <td class="text-center">{{ $insumo->categoria_insumo->nombre }}</td>
                                             <td class="text-center">{{ $insumo->cantidad_insumo }}</td>
-                                            <td class="text-center">{{ $insumo->precio }}</td>
-                                            <td class="text-center">{{ $insumo->perdida_insumo }}</td>
+                                            <td class="text-center">{{ $insumo->costo_unitario }}</td>
+                                            <div class="btn-group btn-group-sm" role="group" aria-label="small button group">
+                                                <td class="text-center">
+                                                    <a href="{{ route('incrementarInsumo', ['id' => $insumo->id]) }}" class="btn btn-success efecto">+</a> 
+                                                    {{ $insumo->perdida_insumo }} 
+                                                    <a href="{{ route('decrementarInsumo', ['id' => $insumo->id]) }}" class="btn btn-danger efecto">-</a> 
+                                                </td>
+                                            </div>
+                                            <td class="text-center">{{ $insumo->costo_total}}</td>
                                             <td class="text-center">
                                                 <form action="{{ route('Admin.insumo.destroy', ['id' => $insumo->id]) }}" method="POST">
                                                     <a class="btn btn-sm btn-success"
@@ -61,6 +70,13 @@
                                                         <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
                                                     </button>
                                                 </form>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-sm {{ $insumo->estado == 1 ? 'btn-success' : 'btn-danger' }}"
+                                                href="{{ route('Admin.insumo.status', $insumo->id) }}">
+                                                {{ $insumo->estado == 1 ? 'Activo' : 'Inactivo' }}
+                                                <i class="fa fa-fw fa-sync"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach

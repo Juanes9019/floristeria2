@@ -83,9 +83,6 @@
                     @elseif ($section == 'historial')
                         @include('view_perfil.historial')
 
-                    @elseif ($section == 'favoritos')
-                    <h3>favoritos</h3>
-
                     @elseif ($section == 'mispqrs')
                         <h3>Mis PQRS</h3>
 

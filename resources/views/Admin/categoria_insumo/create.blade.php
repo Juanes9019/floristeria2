@@ -9,12 +9,12 @@
 
 
 
-<h2 class="text-center mb-5">CREAR UNA NUEVA SUB_CATEGORIA</h2>
+<h2 class="text-center mb-5">CREAR UNA NUEVA CATEGORIA INSUMO</h2>
     
 
     <div class="row justify-content-center mt-5">
         <div class="col-md-8">
-        <form id="formulario_crear" method="POST" action="{{ route('Admin.sub_categoria.store') }}" novalidate >
+        <form id="formulario_crear" method="POST" action="{{ route('Admin.categoria_insumo.store') }}" novalidate >
                 @csrf
                 <div class="form-group">
                     <label for="nombre">Nombre de la categoria</label>
@@ -28,8 +28,15 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="button" class="btn btn-primary" value="agregar sub_categoria" onclick="agregar()">
-                    <a href="{{ route('Admin.sub_categoria') }}" class="btn btn-primary ">Volver</a>
+                    <label for="estado">Estado</label>
+                    <select name="estado" id="estado" class="form-control">
+                        <option value="1" {{ old('estado') == '1' ? 'selected' : '' }}>Activo</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary" value="agregar categoria_insumo" onclick="agregar()">
+                    <a href="{{ route('Admin.categoria_insumo') }}" class="btn btn-primary ">Volver</a>
                 </div>
 
 
@@ -40,7 +47,7 @@
 function agregar() {
     Swal.fire({
         title: "¡Estas seguro!",
-        text: "¿Deseas agregar esta sub_categoria?",
+        text: "¿Deseas agregar esta categoria_insumo?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -49,8 +56,8 @@ function agregar() {
     }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire({
-                title: "!sub_categoria agregada!",
-                text: "La sub_categoria se agrego correctamente",
+                title: "!categoria_insumo agregada!",
+                text: "La categoria_insumo se agrego correctamente",
                 icon: "success"
             });
 

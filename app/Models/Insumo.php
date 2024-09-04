@@ -14,8 +14,14 @@ class Insumo extends Model
     protected $fillable = [
         'id_categoria_insumo',
         'cantidad_insumo',
-        'precio',
+        'costo_unitario',
         'perdida_insumo',
+        'costo_total',
+        'estado'
     ];
+
+    public function categoria_insumo(){
+        return $this->belongsTo(Categoria_insumo::class, 'id_categoria_insumo');
+    }
 
 }

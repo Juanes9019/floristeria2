@@ -24,6 +24,7 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -35,98 +36,138 @@
     @livewireStyles
     
 
+    <!-- Lightbox2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Lightbox2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/js/lightbox-plus-jquery.min.js"></script>
+
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/home') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<div id="app">
+    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url('/home') }}">
+                {{ config('app.name', 'Laravel') }}
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto"></ul>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Left Side Of Navbar -->
+                <ul class="navbar-nav me-auto"></ul>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Logo del carrito -->
-                        @if (Cart::content()->count())
+                <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav ms-auto d-flex align-items-center">
+
+                    <!-- Notificaciones -->
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            @if(auth()->check())
+                                @if(auth()->user()->unreadNotifications->count() > 0)
+                                    <i class="fa fa-bell bell-icon"></i>
+                                    <span class="badge badge-light">{{ auth()->user()->unreadNotifications->count() }}</span>
+                                @else
+                                    <i class="fa fa-bell bell-icon"></i>
+                                    <span class="badge badge-light">0</span>
+                                @endif
+                            @else
+                                <i class="fa fa-bell bell-icon"></i>
+                                <span class="badge badge-light">0</span>
+                            @endif
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            @if(auth()->check())
+                                @php
+                                    $notifications = auth()->user()->unreadNotifications->take(6);
+                                @endphp
+                                @forelse($notifications as $notification)
+                                    <a class="dropdown-item" href="{{ $notification->data['url'] ?? '#' }}">
+                                        Pedido #{{ $notification->data['pedido_id'] }}: {{ $notification->data['mensaje'] }}
+                                    </a>
+                                @empty
+                                    <a class="dropdown-item" href="#">No tienes notificaciones.</a>
+                                @endforelse
+                            @else
+                                <a class="dropdown-item" href="#">No estás registrado.</a>
+                            @endif
+                        </div>
+                    </li>
+
+                    <!-- Logo del carrito -->
+                    <li class="nav-item position-relative me-4">
+                        <a class="nav-link d-flex align-items-center position-relative" href="{{ route('home/carrito') }}">
+                            <i class="fas fa-shopping-cart" style="color: #5c5353;"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {{ Cart::content()->count() }}
+                                <span class="visually-hidden">unread messages</span>
+                            </span>
+                        </a>
+                    </li>
+
+                    <!-- Authentication Links -->
+                    @guest
+                        @if (Route::has('login'))
                             <li class="nav-item">
-                                <a class="nav-link position-relative" href="{{ route('home/carrito') }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray" viewBox="0 0 16 16" style="margin-top: 10px;">
-                                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
-                                    </svg>
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        {{ Cart::content()->count() }}
-                                        <span class="visually-hidden">unread messages</span>
-                                    </span>
-                                </a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar sesión') }}</a>
                             </li>
                         @endif
-
-                        <!-- Authentication Links -->
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                @guest
-                                    @if (Route::has('login'))
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar sesión') }}</a>
-                                        </li>
-                                    @endif
-                                    @if (Route::has('register'))
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('register') }}">{{ __('Regístrate') }}</a>
-                                        </li>
-                                    @endif
-                                @else
-                                    <li class="nav-item dropdown">
-                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                            {{ Auth::user()->name }}
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                            @if (Auth::user()->id_rol == 1) <!-- Admin Role -->
-                                                <a class="dropdown-item" href="{{ route('perfilUser') }}">
-                                                    {{ __('Perfil') }}
-                                                </a>
-                                                <a class="dropdown-item" href="{{ route('dashboard') }}">
-                                                    {{ __('Panel de administrador') }}
-                                                </a>
-                                            @elseif (Auth::user()->id_rol == 2) <!-- Client Role -->
-                                                <a class="dropdown-item" href="{{ route('perfilUser') }}">
-                                                    {{ __('Perfil') }}
-                                                </a>
-                                            @elseif (Auth::user()->id_rol == 3) <!-- Manager Role -->
-                                                <a class="dropdown-item" href="{{ route('perfilManager') }}">
-                                                    {{ __('Perfil') }}
-                                                </a>
-                                                <a class="dropdown-item" href="{{ route('dashboard') }}">
-                                                    {{ __('Panel de manager') }}
-                                                </a>
-                                            @endif
-                                            <a class="dropdown-item" href="{{ route('logout') }}"
-                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                {{ __('Cerrar sesión') }}
-                                            </a>
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                                @csrf
-                                            </form>
-                                        </div>
-                                    </li>
-                                @endguest
-                            </ul>
-                </div>
+                        @if (Route::has('register'))
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">{{ __('Regístrate') }}</a>
+                            </li>
+                        @endif
+                    @else
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ Auth::user()->name }}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                @if (Auth::user()->id_rol == 1) 
+                                    <a class="dropdown-item" href="{{ route('perfilUser') }}">
+                                        {{ __('Perfil') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                        {{ __('Panel de administrador') }}
+                                    </a>
+                                @elseif (Auth::user()->id_rol == 2) 
+                                    <a class="dropdown-item" href="{{ route('perfilUser') }}">
+                                        {{ __('Perfil') }}
+                                    </a>
+                                @elseif (Auth::user()->id_rol == 3) 
+                                    <a class="dropdown-item" href="{{ route('perfilManager') }}">
+                                        {{ __('Perfil') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                        {{ __('Panel de manager') }}
+                                    </a>
+                                @endif
+                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    {{ __('Cerrar sesión') }}
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                    @endguest
+                </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <main>
-            @yield('content')
-        </main>
-    </div>
+    <main>
+        @yield('content')
+    </main>
+</div>
+
+
 
 <!-- Bootstrap JS -->
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>

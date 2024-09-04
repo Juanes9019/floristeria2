@@ -17,12 +17,12 @@
         <form id="formulario_crear" method="POST" action="{{ route('Admin.insumo.store') }}" novalidate >
                 @csrf
                 <div class="form-group">
-                        <label for="id_categoria_insumo">Sub_categoria</label>
+                        <label for="id_categoria_insumo">Categoria_insumo</label>
                         <select name="id_categoria_insumo" id="id_categoria_insumo"
                             class="form-control @error('id_categoria_insumo') is-invalid  @enderror">
                             <option selected disabled>Seleccione una opción</option>
-                            @foreach ($sub_categoria as $id => $nombre)
-                                <option value="{{ $id }}" {{ old('id_sub_categoria') == $id ? 'selected' : '' }}>
+                            @foreach ($categoria_insumo as $id => $nombre)
+                                <option value="{{ $id }}" {{ old('id_categoria_insumo') == $id ? 'selected' : '' }}>
                                     {{ $nombre }} </option>
                             @endforeach
                         </select>
@@ -46,10 +46,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="precio">Precio Insumo</label>
-                    <input type="number" name="precio" class="form-control  @error('precio') is-invalid  @enderror" id="precio" placeholder="Precio Insumo" value="{{ old('precio') }}">
+                    <label for="costo_unitario">Costo Unitario</label>
+                    <input type="number" name="costo_unitario" class="form-control  @error('costo_unitario') is-invalid  @enderror" id="costo_unitario" placeholder="2222" value="{{ old('costo_unitario') }}">
 
-                    @error('precio')
+                    @error('costo_unitario')
                         <span class="invalid-feedback d-block" role="alert">
                             <strong>{{$message}}</strong>
                         </span>
@@ -65,6 +65,24 @@
                             <strong>{{$message}}</strong>
                         </span>
                     @enderror
+                </div>
+
+                <!-- <div class="form-group">
+                    <label for="costo_total">Costo Total</label>
+                    <input type="number" name="costo_total" class="form-control  @error('costo_total') is-invalid  @enderror" id="costo_total" placeholder="2222" value="{{ old('costo_total') }}">
+
+                    @error('costo_total')
+                        <span class="invalid-feedback d-block" role="alert">
+                            <strong>{{$message}}</strong>
+                        </span>
+                    @enderror
+                </div> -->
+
+                <div class="form-group">
+                    <label for="estado">Estado</label>
+                    <select name="estado" id="estado" class="form-control">
+                        <option value="1" {{ old('estado') == '1' ? 'selected' : '' }}>Activo</option>
+                    </select>
                 </div>
 
                 <div class="form-group">

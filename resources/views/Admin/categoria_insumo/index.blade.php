@@ -10,13 +10,13 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                <b>Control de sub_categorias</b>
+                                <b>Control de categoria insumos</b>
                             </span>
 
                             <div class="float-right">
-                                <a href="{{ route('Admin.sub_categoria.create') }}" class="btn btn-primary btn-sm float-right"
+                                <a href="{{ route('Admin.categoria_insumo.create') }}" class="btn btn-primary btn-sm float-right"
                                     data-placement="left">
-                                    {{ __('Registrar sub_categorias') }}
+                                    {{ __('Registrar categoria insumos') }}
                                 </a>
                             </div>
                         </div>
@@ -34,21 +34,23 @@
                                     <tr>
                                     <tr>
                                         <th scope="col" class="text-center">No</th>
-                                        <th scope="col" class="text-center">Nombre de la Sub_categoria</th>
+                                        <th scope="col" class="text-center">Nombre de la categoria insumo</th>
+                                        <th scope="col" class="text-center">Id Proovedor</th>
                                         <th scope="col" class="text-center">Acciones</th>
-
+                                        <th scope="col" class="text-center">Estado</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($sub_categorias as $sub)
+                                    @foreach($categoria_insumos as $cat)
                                         <tr>
                                             <td class="text-center">{{ ++$i }}</td>
-                                            <td class="text-center">{{ $sub->nombre }}</td>
+                                            <td class="text-center">{{ $cat->nombre }}</td>
+                                            <td class="text-center">{{ $cat->proveedor->nombre }}</td>
                                             <td class="text-center">
-                                                <form action="{{ route('Admin.sub_categoria.destroy', ['id' => $sub->id]) }}" method="POST">
+                                                <form action="{{ route('Admin.categoria_insumo.destroy', ['id' => $cat->id]) }}" method="POST">
                                                     <a class="btn btn-sm btn-success"
-                                                        href="{{ route('Admin.sub_categoria.edit', ['id' => $sub->id]) }}"><i
+                                                        href="{{ route('Admin.categoria_insumo.edit', ['id' => $cat->id]) }}"><i
                                                             class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
 
                                                     @csrf
@@ -57,6 +59,13 @@
                                                         <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
                                                     </button>
                                                 </form>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-sm {{ $cat->estado == 1 ? 'btn-success' : 'btn-danger' }}"
+                                                href="{{ route('Admin.categoria_insumo.status', $cat->id) }}">
+                                                {{ $cat->estado == 1 ? 'Activo' : 'Inactivo' }}
+                                                <i class="fa fa-fw fa-sync"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach

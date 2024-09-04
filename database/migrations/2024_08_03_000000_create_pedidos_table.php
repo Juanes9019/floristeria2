@@ -17,6 +17,7 @@ return new class extends Migration
             $table->decimal('total', 10, 2);
             $table->timestamp('fechapedido');
             $table->enum('estado', ["nuevo", "preparacion", "en camino", "entregado","rechazado"])->default("nuevo");
+            $table->string('comprobante_url')->nullable();
             $table->timestamps();
         });
     }

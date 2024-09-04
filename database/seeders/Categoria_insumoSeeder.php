@@ -7,27 +7,31 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 
-class Sub_categoriaSeeder extends Seeder
+class Categoria_insumoSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('sub_categorias')->insert([
+        DB::table('categoria_insumos')->insert([
             'nombre' => 'Flores',
+            'id_proveedor' => 1,
         ]);
 
-        DB::table('sub_categorias')->insert([
+        DB::table('categoria_insumos')->insert([
             'nombre' => 'Peluches',
+            'id_proveedor' => 2,
         ]);
 
-        DB::table('sub_categorias')->insert([
+        DB::table('categoria_insumos')->insert([
             'nombre' => 'Dulces',
+            'id_proveedor' => 1,
         ]);
 
-        DB::table('sub_categorias')->insert([
+        DB::table('categoria_insumos')->insert([
             'nombre' => 'Canastos',
+            'id_proveedor' => 1,
         ]);
     }
 }

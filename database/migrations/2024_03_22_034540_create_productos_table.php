@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('cantidad')->default(0);
             $table->decimal('precio', 10, 2);
             $table->text('foto')->nullable();
-            $table->integer('estado')->default(1); //1-Activo   0-Inactivo
+            $table->integer('estado')->default(1);
             $table->timestamps();
         });
     }
