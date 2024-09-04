@@ -19,9 +19,9 @@
                     </div>
                 </div>
                 @if ($message = Session::get('success'))
-                    <div class="alert alert-success">
-                        <p>{{ $message }}</p>
-                    </div>
+                <div class="alert alert-success">
+                    <p>{{ $message }}</p>
+                </div>
                 @endif
 
                 <div class="card-body">
@@ -39,37 +39,37 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach($pedidos as $item)
+                                @foreach($pedidos as $item)
                                 <tr>
                                     <td class="text-center">{{ ++$i }}</td>
                                     <td class="text-center">{{ $item->user_id }}</td>
                                     <td class="text-center">{{ number_format($item->total, 0, ',', '.') }}</td>
                                     <td class="text-center">{{ $item->fechapedido }}</td>
                                     <td class="text-center">
-    <div class="image-container">
-        <img src="{{ $item->comprobante_url }}" alt="Comprobante de pago" class="thumbnail">
-        <div class="overlay-wrapper">
-            <div class="image-overlay">
-                <img src="{{ $item->comprobante_url }}" alt="Comprobante de pago" class="full-image">
-            </div>
-        </div>
-    </div>
-</td>
+                                        <div class="image-container">
+                                            <img src="{{ $item->comprobante_url }}" alt="Comprobante de pago" class="thumbnail">
+                                            <div class="overlay-wrapper">
+                                                <div class="image-overlay">
+                                                    <img src="{{ $item->comprobante_url }}" alt="Comprobante de pago" class="full-image">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td class="text-center">{{ $item->estado }}</td>
                                     <td class="text-center">
                                         <form action="{{ route('cambiar_estado', $item->id) }}" method="POST">
                                             @csrf
                                             <input type="hidden" name="action" value="accept">
                                             @if ($item->estado === 'nuevo')
-                                                <button type="submit" class="btn btn-primary">Aceptar Pedido</button>
+                                            <button type="submit" class="btn btn-primary">Aceptar Pedido</button>
                                             @elseif ($item->estado === 'preparacion')
-                                                <button type="submit" class="btn btn-warning">En Preparación</button>
+                                            <button type="submit" class="btn btn-warning">En Preparación</button>
                                             @elseif ($item->estado === 'en camino')
-                                                <button type="submit" class="btn btn-info">En Camino</button>
+                                            <button type="submit" class="btn btn-info">En Camino</button>
                                             @elseif ($item->estado === 'entregado')
-                                                <button type="submit" class="btn btn-success" disabled>Entregado</button>
+                                            <button type="submit" class="btn btn-success" disabled>Entregado</button>
                                             @elseif ($item->estado === 'rechazado')
-                                                <button type="submit" class="btn btn-primary" disabled>Nuevo</button>
+                                            <button type="submit" class="btn btn-primary" disabled>Nuevo</button>
                                             @endif
                                         </form>
                                     </td>
@@ -78,15 +78,15 @@
                                             @csrf
                                             <input type="hidden" name="action" value="reject">
                                             @if ($item->estado === 'nuevo')
-                                                <button type="submit" class="btn btn-danger">Rechazar</button>
+                                            <button type="submit" class="btn btn-danger">Rechazar</button>
                                             @elseif ($item->estado === 'preparacion')
-                                                <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
+                                            <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
                                             @elseif ($item->estado === 'en camino')
-                                                <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
+                                            <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
                                             @elseif ($item->estado === 'entregado')
-                                                <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
+                                            <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
                                             @elseif ($item->estado === 'rechazado')
-                                                <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
+                                            <button type="submit" class="btn btn-danger" disabled>Rechazar</button>
                                             @endif
                                         </form>
                                     </td>
@@ -94,7 +94,7 @@
                                         <a href="{{ route('pedidos.detalles', $item->id) }}" class="btn btn-info">Ver Detalles</a>
                                     </td>
                                 </tr>
-                            @endforeach
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -131,7 +131,8 @@
         justify-content: center;
         align-items: center;
         pointer-events: none;
-        z-index: 1000; /* Asegúrate de que esté por encima del contenido */
+        z-index: 1000;
+        /* Asegúrate de que esté por encima del contenido */
     }
 
     .image-overlay {
@@ -147,7 +148,8 @@
         opacity: 0;
         transition: opacity 0.3s ease;
         overflow: hidden;
-        z-index: 1001; /* Asegúrate de que esté por encima del overlay-wrapper */
+        z-index: 1001;
+        /* Asegúrate de que esté por encima del overlay-wrapper */
     }
 
     .image-container:hover .image-overlay {
