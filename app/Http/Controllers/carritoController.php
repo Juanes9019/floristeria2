@@ -111,7 +111,7 @@ class carritoController extends Controller
         return back()->with("success", "¡Quitaste una unidad más!");
     }
     
-    
+
     public function confirmarCarrito(Request $request)
     {
         $request->validate([
@@ -122,67 +122,75 @@ class carritoController extends Controller
             'direccion' => 'required|string|max:255',
             'instrucciones_entrega' => 'nullable|string|max:500',
             'telefono' => 'required|string|max:20',
+            'comprobante_pago' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
     
-        $pedido = new Pedido();
-        $pedido->total = Cart::total();
-        $pedido->fechapedido = now();
-        $pedido->estado = "Nuevo";
-        $pedido->user_id = auth()->user()->id; 
-        $pedido->save();
+        //sube el archivo a imgur
+        $file = $request->file('comprobante_pago'); //obtiene el archivo subido en el campo 
+
+        $response = Http::withHeaders([ // se hace una peticion http con la informacion del CLIENT ID haci la api de imgur
+            'Authorization' => 'Client-ID b00a4e0e1ff8717',
+        ])->post('https://api.imgur.com/3/image', [ 
+            'image' => base64_encode(file_get_contents($file)), //el contenido lo convierte en base64 en el cuerpo 
+        ]);
     
-        $administradores = User::whereHas('role', function($query) {
-            $query->where('nombre', 'Admin'); 
-        })->get();
-    
-        foreach ($administradores as $admin) {
-            $admin->notify(new PedidoNotificacion($pedido));
+        if ($response->successful()) { // si la solicitud es exitosa se subio la imagen bien
+            $imgurUrl = $response->json()['data']['link']; // obtiene la url de la respuesta exitosa
+        
+            $pedido = new Pedido();
+            $pedido->total = Cart::total();
+            $pedido->fechapedido = now();
+            $pedido->estado = "Nuevo";
+            $pedido->user_id = auth()->user()->id; 
+            $pedido->comprobante_url = $imgurUrl; 
+            $pedido->save();
+        
+            $administradores = User::whereHas('role', function($query) {
+                $query->where('nombre', 'Admin'); 
+            })->get(); // filtra los usuarios que tengan el rol de administrador
+        
+            foreach ($administradores as $admin) { //recorre todos los usuarios y les manda la notificacion
+                $admin->notify(new PedidoNotificacion($pedido));
+            }
+
+            try {
+                // Guardar los detalles del pedido
+                foreach (Cart::content() as $item) {
+                    $inventario = Inventario::where('id_producto', $item->id)->first();
+                    
+                    if (!$inventario) {
+                        throw new \Exception('Inventario no encontrado para el producto: ' . $item->id);
+                    }
+            
+                    if ($inventario->cantidad < $item->qty) {
+                        // Si la cantidad no es suficiente, lanzar una excepción
+                        throw new \Exception("Lamentamos informarte que la cantidad que deseas no se encuentra disponible en este momento. Cantidad disponible: $inventario->cantidad");
+                    } else {
+                        // Crear y guardar el detalle del pedido
+                        $detalle = new Detalle();
+                        $detalle->id_pedido = $pedido->id;
+                        $detalle->id_producto = $item->id;
+                        $detalle->precio = $item->price;
+                        $detalle->cantidad = $item->qty;
+                        $detalle->subtotal = $item->price * $item->qty;
+                        
+                        $producto = Producto::find($item->id);
+                        $detalle->imagen = $producto ? $producto->foto : null;
+            
+                        $detalle->save();
+                    }
+                }
+            } catch (\Exception $e) {
+                return response()->view('errors.error', ['error' => $e->getMessage()]);
+            }            
+            
+            Cart::destroy();
+            
+            return redirect()->back()->with("success", "Arreglo adquirido con éxito, pedido en camino");
+        } else {
+            return back()->withErrors(['comprobante_pago' => 'Error al subir la imagen a Imgur. Por favor, inténtalo nuevamente.']);
         }
-    
-        foreach(Cart::content() as $item){
-            $inventario = Inventario::where('id_producto', $item->id)->first();
-    
-            if ($inventario->cantidad < $item->qty) {
-                return back()->withErrors(["status" => "Lamentamos informarte que la cantidad que deseas no se encuentra disponible en este momento. Cantidad disponible: $inventario->cantidad"]);
-            } else {
-                $detalle = new Detalle();
-                $detalle->id_pedido = $pedido->id;
-                $detalle->id_producto = $item->id;
-                $detalle->precio = $item->price;
-                $detalle->cantidad = $item->qty;
-                $detalle->subtotal = $item->price * $item->qty;
-    
-                $producto = Producto::find($item->id);
-                $detalle->imagen = $producto->foto;
-    
-                $detalle->save();
-    
-                // $inventario->cantidad -= $item->qty;
-                // $inventario->save();
-            }}
-    
-        Cart::destroy();
-
-        $datosEnvio = $request->only([
-            'nombre_destinatario', 
-            'fecha', 
-            'departamento', 
-            'ciudad', 
-            'direccion', 
-            'instrucciones_entrega', 
-            'telefono'
-        ]);
-
-        $pdf = Pdf::loadView('pdf.pdf', [
-            'pedido' => $pedido,
-            'datosEnvio' => $datosEnvio,
-        ]);
-
-        // Enviar el correo con el PDF adjunto
-        Mail::to(auth()->user()->email)->send(new EnviarCorreo($pedido, $pdf->output()));
-
-        return redirect()->back()->with("success", "Arreglo adquirido con éxito, pedido en camino");
-    }   
+    }
 
     
     

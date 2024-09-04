@@ -33,6 +33,7 @@
                                     <th class="text-center">Usuario</th>
                                     <th class="text-center">Total</th>
                                     <th class="text-center">Fecha_pedido</th>
+                                    <th class="text-center">Comprobante de pago</th>
                                     <th class="text-center">Estado</th>
                                     <th class="text-center" colspan="3">Acción</th>
                                 </tr>
@@ -44,6 +45,16 @@
                                     <td class="text-center">{{ $item->user_id }}</td>
                                     <td class="text-center">{{ number_format($item->total, 0, ',', '.') }}</td>
                                     <td class="text-center">{{ $item->fechapedido }}</td>
+                                    <td class="text-center">
+    <div class="image-container">
+        <img src="{{ $item->comprobante_url }}" alt="Comprobante de pago" class="thumbnail">
+        <div class="overlay-wrapper">
+            <div class="image-overlay">
+                <img src="{{ $item->comprobante_url }}" alt="Comprobante de pago" class="full-image">
+            </div>
+        </div>
+    </div>
+</td>
                                     <td class="text-center">{{ $item->estado }}</td>
                                     <td class="text-center">
                                         <form action="{{ route('cambiar_estado', $item->id) }}" method="POST">
@@ -98,6 +109,54 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    .image-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .thumbnail {
+        max-width: 100px;
+        max-height: 100px;
+    }
+
+    .overlay-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none;
+        z-index: 1000; /* Asegúrate de que esté por encima del contenido */
+    }
+
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        overflow: hidden;
+        z-index: 1001; /* Asegúrate de que esté por encima del overlay-wrapper */
+    }
+
+    .image-container:hover .image-overlay {
+        opacity: 1;
+    }
+
+    .full-image {
+        max-width: 90%;
+        max-height: 90%;
     }
 </style>
 
