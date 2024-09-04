@@ -11,12 +11,15 @@
                         <span id="card_title">
                             <b>Control de pedidos</b>
                         </span>
-                        <div class="float-right">
-                            <a href="{{ route('export.pdf') }}" class="btn btn-danger btn-sm">
-                                <i class="fas fa-file-pdf"></i> Exportar PDF
-                            </a>
-                        </div>
                     </div>
+                </div>
+                <div class="card-body">
+                    <a href="{{ route('export.pdf') }}" class="btn btn-danger btn-sm">
+                        <i class="fas fa-file-pdf"></i> Exportar PDF
+                    </a>
+                    <a href="{{ route('export.excel') }}" class="btn btn-success btn-sm">
+                        <i class="fas fa-file-excel"></i> Exportar Excel
+                    </a>
                 </div>
                 @if ($message = Session::get('success'))
                 <div class="alert alert-success">

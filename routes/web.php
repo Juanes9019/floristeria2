@@ -142,6 +142,8 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::post('admin/pedido/{id}/rechazar', [PedidoController::class, 'rechazar'])->name('rechazar');
     Route::get('admin/pedido/{id}/detalles', [PedidoController::class, 'mostrar'])->name('pedidos.detalles');
     Route::get('/export-pdf', [ExportController::class, 'exportarPDF'])->name('export.pdf');
+    Route::get('/export-excel', [ExportController::class, 'exportExcel'])->name('export.excel');
+
     
     // Rutas para el detalle
     Route::get('admin/detalle', [DetalleController::class, 'index'])->name('detalles');
