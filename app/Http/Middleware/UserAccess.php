@@ -13,13 +13,19 @@ class UserAccess
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $roleId)
+    public function handle(Request $request, Closure $next, ...$roleIds)
     {
-        if (auth()->check() && auth()->user()->id_rol == $roleId) {
-            return $next($request);
+        // Verificar si el usuario está autenticado
+        if (auth()->check()) {
+            // Verificar si el rol del usuario está en la lista de roles permitidos
+            if (in_array(auth()->user()->id_rol, $roleIds)) {
+                return $next($request);
+            }
         }
     
+        // Si el usuario no tiene el rol adecuado, mostrar la página de acceso denegado
         return response()->view('errors.accesoDenegado');
     }
+    
     
 }
