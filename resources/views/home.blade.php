@@ -33,7 +33,7 @@
             <i class="fas fa-truck" style="color: #FFB083;"></i>
             <div class="feature-content">
                 <span>Envío gratuito</span>
-                <p>Envios gratuitos en el sector de girardota.</p>
+                <p class="text_page">Envios gratuitos en el sector de girardota.</p>
             </div>
         </div>
     </section>
@@ -43,7 +43,7 @@
             <i class="fas fa-gift"></i>
             <div class="feature-content">
                 <span>Arreglos florales</span>
-                <p>Regala hermosos arreglos florales.</p>
+                <p class="text_page">Regala hermosos arreglos florales.</p>
             </div>
         </div>
     </section>
@@ -63,17 +63,19 @@
             <i class="fas fa-headset"></i>
             <div class="feature-content">
                 <span>Servicio al cliente 24/7</span>
-                <p>Número 999-888-7777.</p>
+                <p class="text_page">Número 999-888-7777.</p>
             </div>
         </div>
     </section>
 </main>
 
 <section class="container top-products">
-    <h1 class="heading-1">Sección de Productos</h1>
+    
+    <h1 class="heading-1 titulo_carta">Sección de Productos</h1>
 
     <div class="container-options">
         <a href="{{route('all_products')}}"><span>Todos los productos</span></a>
+        <a href="{{route('personalizados')}}"><span>Arreglos personalizados</span></a>
     </div>
 
     <div id="productosCarrusel" class="carousel slide" data-ride="carousel" data-interval="3000">
@@ -83,14 +85,23 @@
                 <div class="row">
                     @foreach ($chunk as $producto)
                     <div class="col-md-3 mb-4">
-                        <div class="card h-100">
-                            <img src="{{ $producto->foto }}" class="card-img-top img-fluid" alt="{{ $producto->nombre }}">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">{{ $producto->nombre }}</h5>
-                                <p class="card-title"><strong>Categoria:</strong> {{ $producto->categoria_producto->nombre }}</p>
-                                <p class="card-text"><strong>Precio:</strong> ${{ number_format($producto->precio, 0, ',', '.') }}</p>
-                                <div class="contenedor">
-                                    <a href="{{ route('view_arreglo.arreglo_view', ['id' => $producto->id]) }}" class="btn btn-5">Ver más</a>
+                        <div class="card-wrapper fondo_card" style="padding-top: 20px;">
+                            <div class="card h-100 card_view" style="border-top-left-radius: 45px; border-top-right-radius: 45px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
+                                <h5 class="card-title text-center titulo_carta">{{ $producto->nombre }}</h5>
+                                <p class="card-title text-center text_page"><strong>Categoria:</strong> {{ $producto->categoria_producto->nombre }}</p>
+                                <img src="{{ $producto->foto }}" class="card-img-top img-fluid" style="border-radius: 15px;;" alt="{{ $producto->nombre }}">
+                                <div class="card-body text-center">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <p class="card-text text-left text_price mb-0">
+                                            <strong>Precio:</strong> ${{ number_format($producto->precio, 0, ',', '.') }}
+                                        </p>
+                                        <a href="{{ route('add', ['id' => $producto->id]) }}" class="fondo_carrito d-flex justify-content-center align-items-center">
+                                            <i class="fas fa-shopping-cart icono_cart_home" ></i>
+                                        </a>
+                                    </div>
+                                    <div class="contenedor mt-2">
+                                        <a href="{{ route('view_arreglo.arreglo_view', ['id' => $producto->id]) }}" class="btn btn-5">Ver más</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -158,7 +169,7 @@
         </div>
 
         <div class="copyright">
-            <p>Desarrollado por floristeria la tata &copy; 2024</p>
+            <p class="text_page">Desarrollado por floristeria la tata &copy; 2024</p>
         </div>
     </div>
 </footer>

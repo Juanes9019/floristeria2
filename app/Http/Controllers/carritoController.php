@@ -125,7 +125,6 @@ class carritoController extends Controller
             'comprobante_pago' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
     
-        //sube el archivo a imgur
         $file = $request->file('comprobante_pago'); //obtiene el archivo subido en el campo 
 
         $response = Http::withHeaders([ // se hace una peticion http con la informacion del CLIENT ID haci la api de imgur

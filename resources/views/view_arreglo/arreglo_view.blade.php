@@ -7,7 +7,7 @@
         @include('view_arreglo.partials.msg')
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header" style="background-color: #facfd6;">{{ __('Información del arreglo floral') }}</div>
+                <div class="card-header titulo_carta" style="background-color: #facfd6; font-size: 17px;">{{ __('Información del arreglo floral') }}</div>
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -22,14 +22,14 @@
                         </div>
 
                         <div class="col-md-6 order-md-2">
-                            <h2>{{ $productos->nombre }}</h2>
+                            <h2 class="titulo_carta">{{ $productos->nombre }}</h2>
                             <div class="chips">
-                                <p><strong>Categoria:</strong> {{ $productos->categoria_producto->nombre }}</p>
-                                <p><strong>Descripcion:</strong> {{ $productos->descripcion }}</p>
+                                <p class="text_page"><strong>Categoria:</strong> {{ $productos->categoria_producto->nombre }}</p>
+                                <p class="text_page"><strong>Descripcion:</strong> {{ $productos->descripcion }}</p>
 
                                 <section></section>
                                 <div class="action-buttons">
-                                    <a> Precio: {{ number_format($productos->precio, 0) }} </a>
+                                    <a  > Precio: {{ number_format($productos->precio, 0) }} </a>
                                 </div>
                             </div>       
                         </div>

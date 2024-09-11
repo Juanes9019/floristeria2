@@ -248,9 +248,19 @@
     color: #000000;
 }
 
+.fondo_card{
+    background-color: #FFB6C1; 
+    padding-top: 10px; 
+    border-radius: 20px;
+}
+
+.card_view {
+    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1); 
+}
+
 
 .card{
-    border-radius: 15px;
+    border-radius: 35px;
     padding: 1rem;
 }
 
@@ -278,6 +288,49 @@
     scale: 1.1;
 }
 
+.titulo_carta {
+    font-family: "Concert One", sans-serif;
+    font-weight: 200; 
+    font-style: normal; 
+}
+
+.text_page {
+    font-family: "Zain", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+}
+
+
+.text_price{
+    font-family: "Teko", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500; 
+    font-style: normal;
+    font-size: 20px;
+}
+
+.icono_cart_home{
+    font-size: 20px; 
+    color: #535353;
+}
+
+.fondo_carrito {
+    background-color: #fff3d0; 
+    border-radius: 50%;      
+    width: 40px;          
+    height: 40px;        
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    text-decoration: none;  
+}
+
+.fondo_carrito:hover {
+    background-color: #f3e4b8; 
+    text-decoration: none;  
+}
 
 
 
