@@ -124,15 +124,10 @@
                         <div class="card-header bg-dark text-white">Total:</div>
                         <div class="card-body">
                             <p>Total: ${{ number_format($totalPrecio, 0) }}</p>
-                            <form action="{{ route('add')}}" methos=post>
+                            <form action="{{ route('add_personalizado') }}" method="POST">
                                 @csrf
-
-                                <div class="action-buttons1">
-                                    <input type="hidden" name="id" value="{{$productos->id}}">
-
-                                    <input type="submit" name="btn" id="btn"class="btn btn-dark w-100" value="Agregar al carrito">
-                                </div>
-                            </form> 
+                                <button type="submit" class="btn btn-dark w-100">Agregar Arreglo Personalizado al carrito</button>
+                            </form>
                         </div>
                     </div>
                 </div>

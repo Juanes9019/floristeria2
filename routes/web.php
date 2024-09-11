@@ -59,6 +59,7 @@ Route::get('/productos.filtrar', [HomeController::class, 'productos.filtrar'])->
 //rutas para el carrito
 Route::get('home/carrito', [carritoController::class, 'index'])->name('home/carrito');
 Route::get('carrito/add', [carritoController::class, 'add'])->name('add');
+Route::post('carrito/add_personalizado', [carritoController::class, 'add_personalizado'])->name('add_personalizado');
 Route::get('carrito/clear', [carritoController::class, 'clear'])->name('clear');
 Route::post('carrito/remove', [carritoController::class, 'removeItem'])->name('removeItem');
 

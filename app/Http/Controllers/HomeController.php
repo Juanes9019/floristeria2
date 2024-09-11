@@ -193,18 +193,16 @@ public function agregarFlor(Request $request)
     $found = false;
     foreach ($floresSeleccionadas as &$florSeleccionada) {
         if ($florSeleccionada['nombre'] === $nombre) {
-            // Si ya existe, sumar la cantidad
             $florSeleccionada['cantidad'] += $request->cantidad;
             $found = true;
             break;
         }
     }
 
-    // Si no se encontró, agregar una nueva entrada
     if (!$found) {
         $floresSeleccionadas[] = [
             'nombre' => $nombre,
-            'color' => $request->color,  // Asegúrate de que el color también se guarde en la sesión
+            'color' => $request->color,  
             'cantidad' => $request->cantidad,
             'precio' => $flor->precio
         ];
@@ -261,6 +259,8 @@ public function agregarAccesorio(Request $request)
     session()->put('accesoriosSeleccionados', $accesoriosSeleccionados);
     return redirect()->route('personalizados')->with('success', 'Accesorio agregado exitosamente.');
 }
+
+
 
 
 public function actualizarAccesorio(Request $request, $key)
