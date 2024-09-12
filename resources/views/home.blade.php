@@ -169,7 +169,7 @@
         </div>
 
         <div class="copyright">
-            <p class="text_page">Desarrollado por floristeria la tata &copy; 2024</p>
+            <p class="text_page">Desarrollado por floristeria la tata &copy; 2024, jamd</p>
         </div>
     </div>
 </footer>
