@@ -18,6 +18,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\carritoController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EnviarCorreo;
+use Illuminate\Support\Facades\Auth;
+
 
 
 Route::get('/', [HomeController::class, 'vista_inicial'])->name('/');

@@ -12,7 +12,7 @@
 <h2 class="text-center mb-5">EDITAR Producto</h2>
 <div class="row justify-content-center mt-5">
     <div class="col-md-8">
-        <form id="formulario_editar" method="POST" action="{{ route('Admin.producto.update', $producto->id) }}" novalidate>
+        <form id="formulario_editar" method="POST" action="{{ route('Admin.producto.update', $producto->id) }}"  enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="form-group">
@@ -83,12 +83,10 @@
 
             <div class="form-group">
                 <label for="foto">Foto</label>
-                <input type="text" id="foto" name="foto" class="form-control  @error('foto') is-invalid  @enderror"
-                    placeholder="www.imgur.com" value="{{ $producto->foto }}">
-
+                <input type="file" id="foto" name="foto" class="form-control @error('foto') is-invalid @enderror">
                 @error('foto')
                 <span class="invalid-feedback d-block" role="alert">
-                    <strong>{{$message}}</strong>
+                    <strong>{{ $message }}</strong>
                 </span>
                 @enderror
             </div>

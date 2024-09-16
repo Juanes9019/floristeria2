@@ -42,8 +42,7 @@ class productosController extends Controller
         ]);
 
         // Procesar la imagen
-        // $file = $request->file('foto');
-        $file = $request->file('foto'); //obtiene el archivo subido en el campo 
+        $file = $request->file('foto'); 
         $response = Http::withHeaders([
             'Authorization' => 'Client-ID b00a4e0e1ff8717',
         ])->post('https://api.imgur.com/3/image', [
@@ -57,8 +56,6 @@ class productosController extends Controller
         $producto->descripcion = $request->descripcion;
         $producto->cantidad = $request->cantidad;
         $producto->precio = $request->precio;
-        // $producto->precio_total = $request->precio * $request->cantidad;
-        
         
         if ($response->successful()) { 
             $foto = $response->json()['data']['link']; 
@@ -96,7 +93,8 @@ class productosController extends Controller
             'descripcion' => 'required',
             'cantidad' => 'required|integer',
             'precio' => 'required|numeric',
-            'foto' => 'required', 
+            'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            
         ]);
 
         // Asignación de los campos del usuario desde el formulario
@@ -105,7 +103,21 @@ class productosController extends Controller
         $producto->descripcion = $request->input('descripcion');
         $producto->cantidad = $request->input('cantidad');
         $producto->precio = $request->input('precio');
-        $producto->foto = $request->input('foto');
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $response = Http::withHeaders([
+                'Authorization' => 'Client-ID b00a4e0e1ff8717',
+            ])->post('https://api.imgur.com/3/image', [
+                'image' => base64_encode(file_get_contents($file)),
+            ]);
+    
+            if ($response->successful()) {
+                $foto = $response->json()['data']['link'];
+                $producto->foto = $foto;
+            }
+        }
+
+
         if ($request->has('estado')) {
             $producto->estado = $request->estado;
         }

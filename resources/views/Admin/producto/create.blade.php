@@ -75,9 +75,6 @@
                 <label for="precio">Precio</label>
                 <input type="number" id="precio" name="precio" class="form-control  @error('precio') is-invalid  @enderror"
                     placeholder="200.000" value="{{ old('precio', $producto->precio)}}">
-
-
-
                 @error('precio')
                 <span class="invalid-feedback d-block" role="alert">
                     <strong>{{$message}}</strong>
@@ -85,16 +82,6 @@
                 @enderror
             </div>
 
-            <!-- <div class="form-group">
-                <label for="precio_total">Precio Total</label>
-                <input type="number" id="precio_total" name="precio_total" disabled class="form-control  @error('precio_total') is-invalid  @enderror"  value="{{ old('', $producto->precio_total) }}">
-
-                @error('precio_total')
-                <span class="invalid-feedback d-block" role="alert">
-                    <strong>{{$message}}</strong>
-                </span>
-                @enderror
-            </div> -->
 
             <div class="form-group">
                 <label for="foto">Foto</label>
