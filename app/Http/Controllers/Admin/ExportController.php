@@ -8,6 +8,8 @@ use PDF;
 use App\Models\Pedido;
 use App\Models\Detalle;
 use App\Models\Producto;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PedidoExport;
 
 class ExportController extends Controller
 {
@@ -18,6 +20,11 @@ class ExportController extends Controller
         $pdf = PDF::loadView('pdf.export_pedidos', compact('pedidos'));
 
         return $pdf->download('pedidos.pdf');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new PedidoExport, 'pedido.xlsx');
     }
 
     public function exportar_detalle()

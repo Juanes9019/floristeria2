@@ -32,11 +32,34 @@ Route::POST('/perfil/perfil/update_informacion', [HomeController::class, 'update
 
 Route::get('/arreglo/{id}', [HomeController::class, 'show'])->name('view_arreglo.arreglo_view');
 Route::get('/all_products', [HomeController::class, 'show_all'])->name('all_products');
+Route::get('/personalizados', [HomeController::class, 'personalizados'])->name('personalizados');
+
+
+//rutas para las flores personalizadas
+Route::post('/agregar-flor', [HomeController::class, 'agregarFlor'])->name('agregarFlor');
+Route::patch('/actualizar-flor/{key}', [HomeController::class, 'actualizarFlor'])->name('actualizarFlor');
+Route::delete('/eliminar-flor/{key}', [HomeController::class, 'eliminarFlor'])->name('eliminarFlor');
+
+
+//personalizadas de accesorios
+Route::post('/agregar-accesorio', [HomeController::class, 'agregarAccesorio'])->name('agregarAccesorio');
+Route::patch('/actualizar-Accesorio/{key}', [HomeController::class, 'actualizarAccesorio'])->name('actualizarAccesorio');
+Route::delete('/eliminar-Accesorio/{key}', [HomeController::class, 'eliminarAccesorio'])->name('eliminarAccesorio');
+
+
+//personalizadas de comestibles 
+Route::post('/agregar-comestible', [HomeController::class, 'agregarComestible'])->name('agregarComestible');
+Route::patch('/actualizar-Comestible/{key}', [HomeController::class, 'actualizarComestible'])->name('actualizarComestible');
+Route::delete('/eliminar-Comestible/{key}', [HomeController::class, 'eliminarComestible'])->name('eliminarComestible');
+
+
+
 Route::get('/productos.filtrar', [HomeController::class, 'productos.filtrar'])->name('productos.filtrar');
 
 //rutas para el carrito
 Route::get('home/carrito', [carritoController::class, 'index'])->name('home/carrito');
 Route::get('carrito/add', [carritoController::class, 'add'])->name('add');
+Route::post('carrito/add_personalizado', [carritoController::class, 'add_personalizado'])->name('add_personalizado');
 Route::get('carrito/clear', [carritoController::class, 'clear'])->name('clear');
 Route::post('carrito/remove', [carritoController::class, 'removeItem'])->name('removeItem');
 
@@ -47,12 +70,14 @@ Route::get('carrito/decrementar', [carritoController::class, 'decrementar'])->na
 
 Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito'])->name('confirmarCarrito');
 
+
+
 //midleware para controlar el acceso solo a los administradores
-Route::middleware(['auth', 'user-access:1'])->group(function () {
+Route::middleware(['auth', 'user-access:1,3'])->group(function () {
 
     //ruta para dashboard
     Route::get('dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
-    
+
     //rutas para los usuarios
     Route::get('admin/users', [UserController::class, 'index'])->name('Admin.users');
     Route::get('admin/users/create', [UserController::class, 'create'])->name('Admin.users.create');
@@ -142,6 +167,8 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::post('admin/pedido/{id}/rechazar', [PedidoController::class, 'rechazar'])->name('rechazar');
     Route::get('admin/pedido/{id}/detalles', [PedidoController::class, 'mostrar'])->name('pedidos.detalles');
     Route::get('/export-pdf', [ExportController::class, 'exportarPDF'])->name('export.pdf');
+    Route::get('/export-excel', [ExportController::class, 'exportExcel'])->name('export.excel');
+
     
     // Rutas para el detalle
     Route::get('admin/detalle', [DetalleController::class, 'index'])->name('detalles');

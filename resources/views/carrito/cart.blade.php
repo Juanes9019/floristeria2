@@ -37,7 +37,7 @@
                         @foreach (Cart::content() as $item)
                         <tr class="align-middle">
                             <td class="text-center">
-                                <img src="{{ $item->options['image'] }}" alt="imagen no disponible" width="100">
+                                <img src="{{ $item->options['image'] ?? 'https://i.imgur.com/nwIes3v.jpg' }}" alt="imagen no disponible" width="100">
                             </td>
                             <td class="text-center">{{ $item->name }}</td>
                             <td class="text-center">

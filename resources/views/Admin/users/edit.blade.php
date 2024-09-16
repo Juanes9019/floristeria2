@@ -73,16 +73,25 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="type">Tipo de cuenta</label>
-                    <select name="type" id="type" class="form-control @error('type') is-invalid @enderror">
-                        <option selected disabled>Seleccionar una opción</option>
-                        <option value="user" {{ old('type', $usuarios->type) == 'user' ? 'selected' : '' }}>User</option>
-                        <option value="admin" {{ old('type', $usuarios->type) == 'admin' ? 'selected' : '' }}>Admin</option>
-                    </select>
-                    @error('type')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                <label for="id_rol">Tipo de cuenta</label>
+                <select id="id_rol" name="id_rol"
+                    class="form-control @error('id_rol') is-invalid  @enderror">
+                    
+                    <option selected disabled>Seleccione un Rol</option>
+                    @foreach($roles as $rol)
+                    <option value="{{ $rol->id }}">
+                        {{ $rol->nombre }}
+                    </option>
+                    @endforeach
+                </select>
+
+                @error('id_rol')
+                <span class="invalid-feedback d-block" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+            </div>
+
 
 
                 <div class="form-group mb-3">
