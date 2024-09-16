@@ -18,7 +18,7 @@
                 @csrf
                 <div class="form-group">
                     <label for="nombre">Nombre de la categoria</label>
-                    <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Ocasiones especiales" value="{{ old('nombre') }}">
+                    <input type="text" id="nombre" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" placeholder="Ocasiones especiales" value="{{old('nombre', $categoria_producto->nombre)  }}">
 
                     @error('nombre')
                         <span class="invalid-feedback d-block" role="alert">
@@ -26,6 +26,13 @@
                         </span>
                     @enderror
                 </div>
+
+                <div class="form-group">
+                <label for="estado">Estado</label>
+                <select  name="estado" id="estado" class="form-control">
+                    <option value="1" {{ old('estado') == '1' ? 'selected' : '' }}>Activo</option>
+                </select>
+            </div>
 
                 <div class="form-group">
                     <button  class="btn btn-success" value="agregar categoria" onclick="agregar()">

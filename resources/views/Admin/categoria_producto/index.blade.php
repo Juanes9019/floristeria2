@@ -61,16 +61,20 @@
                                             <a class="btn btn-sm btn-success"
                                                 href="{{ route('Admin.categoria_producto.edit', ['id' => $categoria_producto->id_categoria_producto]) }}"><i
                                                     class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
+                                    </td>
+                                    <td>
 
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$categoria_producto->id_categoria_producto}}')">
-                                                <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
-                                            </button>
-                                            <a class="btn btn-sm {{ $categoria_producto->estado == 1 ? 'btn-success' : 'btn-danger' }}" href="{{ route('Admin.categoria_producto.status', ['id' => $categoria_producto->id_categoria_producto]) }}">
-                                                {{ $categoria_producto->estado == 1 ? 'Activo' : 'Inactivo' }}
-                                                <i class="fa fa-fw fa-sync"></i>
-                                            </a>
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$categoria_producto->id_categoria_producto}}')">
+                                            <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-sm {{ $categoria_producto->estado == 1 ? 'btn-success' : 'btn-danger' }}" href="{{ route('Admin.categoria_producto.status', ['id' => $categoria_producto->id_categoria_producto]) }}">
+                                            {{ $categoria_producto->estado == 1 ? 'Activo' : 'Inactivo' }}
+                                            <i class="fa fa-fw fa-sync"></i>
+                                        </a>
                                         </form>
                                     </td>
                                 </tr>

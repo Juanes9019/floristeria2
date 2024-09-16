@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('descripcion');
             $table->integer('cantidad')->default(0);
             $table->decimal('precio', 10, 2);
-            $table->text('foto')->nullable();
+            $table->string('foto');
             $table->integer('estado')->default(1);
             $table->timestamps();
         });

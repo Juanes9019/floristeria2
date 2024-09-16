@@ -33,9 +33,9 @@
                             <thead class="thead">
                                 <tr>
                                     <th scope="col" class="text-center">No</th>
-                                    <th scope="col" class="text-center">Categoria Producto</th>
                                     <th scope="col" class="text-center">Nombre</th>
-                                    <th scope="col" class="text-center">Descripcion</th>
+                                    <th scope="col" class="text-center">Categoria Producto</th>
+                                    <th scope="col" class="text-center">Descripción</th>
                                     <th scope="col" class="text-center">Cantidad</th>
                                     <th scope="col" class="text-center">Precio</th>
                                     <th scope="col" class="text-center">Foto</th>
@@ -48,12 +48,15 @@
                                 @foreach($productos as $producto)
                                 <tr>
                                     <td class="text-center">{{ ++$i }}</td>
-                                    <td class="text-center">{{$producto->categoria_producto->nombre}}</td>
                                     <td class="text-center">{{ $producto->nombre }}</td>
-                                    <td class="text-center">OE</td>
+                                    <td class="text-center">{{$producto->categoria_producto->nombre}}</td>
+                                    <td class="text-center">Oe</td>
                                     <td class="text-center">{{ $producto->cantidad}}</td>
                                     <td class="text-center">{{ number_format($producto->precio, 0, ',', '.') }}</td>
-                                    <td class="text-center">{{ $producto->foto }}</td>
+                                    <!-- <td class="text-center">{{ number_format($producto->precio_total, 0, ',', '.') }}</td> -->
+                                    <td class="text-center">
+                                        <img src="{{ $producto->fotto }}" alt="Foto" class="thumbnail">
+                                    </td>
                                     <td class="text-center">{{ $producto->estado == 1 ? 'Activo': 'Inactivo' }} </td>
                                     <td class="text-center">
                                         <a class="btn btn-sm btn-warning" href="{{ route('Admin.producto.edit', ['id' => $producto->id]) }}">

@@ -37,7 +37,7 @@ class ProveedoresTable extends Component
             $this->ordenarForma = 'asc';
         }
 
-        $this->resetPage(); // Resetea la página al cambiar el orden
+        $this->resetPage(); 
         $this->primeraCarga = false;
     }
 

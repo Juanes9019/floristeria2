@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Categoria_Producto;
 use Illuminate\Http\Request;
 use App\Models\Producto;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,8 +23,8 @@ class productosController extends Controller
     public function create()
     {
         $producto = new Producto(); 
-        $categorias = Categoria_Producto::all();
-        return view('Admin.producto.create', compact('categorias','producto'));
+        $categorias_productos = Categoria_Producto::all();
+        return view('Admin.producto.create', compact('producto','categorias_productos'));
     }
 
 
@@ -36,15 +37,19 @@ class productosController extends Controller
             'descripcion' => 'required',
             'cantidad' => 'required|integer',
             'precio' => 'required|numeric',
-            'foto' => 'required', 
+            'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+             
         ]);
 
         // Procesar la imagen
         // $file = $request->file('foto');
-        // $fileName = time() . '_' . $file->getClientOriginalName();
-        // $filePath = $file->storeAs('productos', $fileName, 'public');
+        $file = $request->file('foto'); //obtiene el archivo subido en el campo 
+        $response = Http::withHeaders([
+            'Authorization' => 'Client-ID b00a4e0e1ff8717',
+        ])->post('https://api.imgur.com/3/image', [
+            'image' => base64_encode(file_get_contents($file)),
+        ]);
 
-        // Crear un nuevo producto con la información proporcionada y la ruta de la imagen
         $producto = new Producto;
 
         $producto->id_categoria_producto = $request->id_categoria_producto;
@@ -52,7 +57,15 @@ class productosController extends Controller
         $producto->descripcion = $request->descripcion;
         $producto->cantidad = $request->cantidad;
         $producto->precio = $request->precio;
-        $producto->foto = $request->foto;
+        // $producto->precio_total = $request->precio * $request->cantidad;
+        
+        
+        if ($response->successful()) { 
+            $foto = $response->json()['data']['link']; 
+            $producto->foto = $foto;
+        }else{
+            $producto->foto = "storage\app\public\productos\arreglo_1.jpg";
+        }
 
         if ($request->has('estado')) {
              $producto->estado = 1;
@@ -63,7 +76,8 @@ class productosController extends Controller
         ->with('success', 'insumo creado con éxito.');
     }
     
-    public function edit($id)    {
+    public function edit($id)
+    {
         $producto = Producto::find($id);
         $categorias = Categoria_Producto::all();
         return view('Admin.producto.edit', compact('producto','categorias'));

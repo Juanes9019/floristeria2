@@ -19,39 +19,27 @@ class Categoria_Producto_Controller extends Controller
 
     public function create()
     {
-        return view('Admin.categoria_producto.create');
-    }
+        $categoria_producto = new Categoria_Producto();
+        return view('Admin.categoria_producto.create', compact('categoria_producto'));
+        }
 
     public function store(Request $request)
     {
-        // Validación de los datos del formulario
-        $data = $request->validate([
+        $request->validate([
             'nombre' => 'required',
         ]);
 
-        // Intentar insertar en la base de datos
-        try {
-            $result = DB::table('categorias_productos')->insert([
-                'nombre' => $data['nombre'],
-            ]);
+        
+        $categoria_producto = new Categoria_Producto;
 
-            // Log del resultado de la inserción
-            Log::info('Resultado de la inserción: ' . ($result ? 'Éxito' : 'Fallo'));
-
-            if ($result) {
-                // Log para verificar que intentó redirigir
-                Log::info('Intentando redireccionar');
-                return redirect()->route('Admin.categorias_productos');
-            } else {
-                dd('Error al insertar en la base de datos');
-            }
-        } catch (\Exception $e) {
-            // Log del error
-            Log::error('Error al insertar en la base de datos: ' . $e->getMessage());
-
-            // Imprimir el mensaje de la excepción para obtener más detalles
-            dd('Error al insertar en la base de datos: ' . $e->getMessage());
+        $categoria_producto->nombre = $request->nombre;
+        if ($request->has('estado')) {
+             $categoria_producto->estado = 1;
         }
+
+        $categoria_producto->save();
+        return redirect()->route('Admin.categorias_productos')
+        ->with('success', 'Categoria de productos creado con éxito.');       
     }
 
     /**
@@ -97,11 +85,22 @@ class Categoria_Producto_Controller extends Controller
                 $categoria_producto->delete();
                 return redirect()->route("Admin.categorias_productos")->with('success', 'Categoría eliminada exitosamente');
             } catch (\Illuminate\Database\QueryException $e) {
-                // Si hay una violación de restricción de integridad referencial, captura la excepción
                 return redirect()->route("Admin.categorias_productos")->with('error', 'No se puede eliminar la categoría porque está asociada a uno o más productos.');
             }
         } else {
             return redirect()->route("Admin.categorias_productos")->with('error', 'No se pudo encontrar la categoría');
         }
+    }
+    public function change_Status($id)
+    {
+        $categoria_producto = Categoria_Producto::find($id);
+        if ($categoria_producto->estado == 1) {
+            $categoria_producto->estado = 0;
+        } else {
+            $categoria_producto->estado = 1;
+        }
+
+        $categoria_producto->save();
+        return redirect()->back();
     }
 }

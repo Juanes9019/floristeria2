@@ -14,17 +14,17 @@
 
 <div class="row justify-content-center mt-5">
     <div class="col-md-8">
-        <form id="formulario_crear" method="POST" action="{{ route('Admin.producto.store') }}" novalidate>
+        <form id="formulario_crear" method="POST" action="{{ route('Admin.producto.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="id_categoria_producto">Categoría Producto</label>
                 <select id="id_categoria_producto" name="id_categoria_producto"
-                    class="form-control @error('id_categoria') is-invalid  @enderror">
-                    
+                    class="form-control @error('id_categoria_producto') is-invalid  @enderror">
+
                     <option selected disabled>Seleccione una Categoría</option>
-                    @foreach($categorias as $categoria)
-                    <option value="{{ $categoria->id_categoria_producto }}">
-                        {{ $categoria->nombre }}
+                    @foreach($categorias_productos as $categoria_producto)
+                    <option value="{{$categoria_producto->id_categoria_producto}}">
+                    {{ $categoria_producto->nombre }}
                     </option>
                     @endforeach
                 </select>
@@ -76,6 +76,8 @@
                 <input type="number" id="precio" name="precio" class="form-control  @error('precio') is-invalid  @enderror"
                     placeholder="200.000" value="{{ old('precio', $producto->precio)}}">
 
+
+
                 @error('precio')
                 <span class="invalid-feedback d-block" role="alert">
                     <strong>{{$message}}</strong>
@@ -83,21 +85,30 @@
                 @enderror
             </div>
 
-            <div class="form-group">
-                <label for="foto">Foto</label>
-                <input type="text" id="foto" name="foto" class="form-control  @error('foto') is-invalid  @enderror"
-                    placeholder="www.imgurl.com" value="{{ old('foto', $producto->foto) }}">
+            <!-- <div class="form-group">
+                <label for="precio_total">Precio Total</label>
+                <input type="number" id="precio_total" name="precio_total" disabled class="form-control  @error('precio_total') is-invalid  @enderror"  value="{{ old('', $producto->precio_total) }}">
 
-                @error('foto')
+                @error('precio_total')
                 <span class="invalid-feedback d-block" role="alert">
                     <strong>{{$message}}</strong>
+                </span>
+                @enderror
+            </div> -->
+
+            <div class="form-group">
+                <label for="foto">Foto</label>
+                <input type="file" id="foto" name="foto" class="form-control @error('foto') is-invalid @enderror" value="{{ old('foto', $producto->foto) }}">
+                @error('foto')
+                <span class="invalid-feedback d-block" role="alert">
+                    <strong>{{ $message }}</strong>
                 </span>
                 @enderror
             </div>
 
             <div class="form-group">
                 <label for="estado">Estado</label>
-                <select  name="estado" id="estado" class="form-control">
+                <select name="estado" id="estado" class="form-control">
                     <option value="1" {{ old('estado') == '1' ? 'selected' : '' }}>Activo</option>
                 </select>
             </div>
@@ -128,11 +139,8 @@
                     text: "La categoria se agrego correctamente",
                     icon: "success"
                 });
-
-                // Prevent the form from submitting automatically
                 event.preventDefault();
 
-                // Manually submit the form
                 document.getElementById('formulario_crear').submit();
             }
         });

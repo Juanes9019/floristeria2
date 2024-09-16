@@ -40,7 +40,7 @@
                     <p>{{ $message }}</p>
                 </div>
                 @endif
-                
+
 
 
 
@@ -50,9 +50,10 @@
                             <input wire:model.live.debounce.300ms="buscar" type="text" class="form-control" placeholder="Buscar...">
                         </div>
                     </div>
+
                     <div class="table-responsive mt-3">
-                        <table class="table table-striped table-hover">
-                            <thead class="thead">
+                        <table class="table">
+                            <thead class="table-dark">
                                 <tr>
                                     <th scope="col" class="text-center" wire:click="sortBy('id')">
                                         No
@@ -117,9 +118,12 @@
                                         </svg>
                                         @endif
                                     </th>
+                                    <th class="text-center"></th>
                                     <th scope="col" class="text-center">
                                         Acciones
                                     </th>
+                                    <th class="text-center"></th>
+
                                 </tr>
                             </thead>
 
@@ -148,14 +152,21 @@
                                     <td>
                                         <a class="btn btn-sm {{ $proveedor->estado == 1 ? 'btn-success' : 'btn-danger' }}"
                                             wire:click="changeStatus({{ $proveedor->id }})"
+                                            wire:loading.attr="disabled"
+                                            wire:target="changeStatus({{ $proveedor->id }})"
                                             style="cursor: pointer;">
                                             {{ $proveedor->estado == 1 ? 'Activo' : 'Inactivo' }}
-                                            <i class="fas fa-toggle-{{ $proveedor->estado == 1 ? 'on' : 'off' }}"></i>
+                                            <!-- <i class="fas fa-toggle-{{ $proveedor->estado == 1 ? 'on' : 'off' }}"></i> -->
                                         </a>
+
+                                        <div wire:loading wire:target="changeStatus({{ $proveedor->id }})">
+                                            <span class="spinner-border spinner-border-sm"></span>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
+
                         </table>
                         <label>Páginas</label>
                         <select wire:model.live="porPagina">
