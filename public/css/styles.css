@@ -614,4 +614,26 @@ footer{
 }
 
 
+/* -**************************
+boton agregar personalizado
+************************** */
+
+.custom-btn {
+    background: linear-gradient(135deg, #ff6f61, #de5d83);
+    border: none;
+    color: #fff;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center; 
+}
+
+.custom-btn i {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+.custom-btn:hover {
+    color: #fff;
+}
 

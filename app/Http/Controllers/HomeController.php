@@ -142,7 +142,7 @@ class HomeController extends Controller
 
 public function personalizados(Request $request)
 {
-    $flores = Flor::all();
+    $flores = Flor::with('colores')->get();
     $accesorios = Accesorio::all();
     $comestibles = Comestible::all();
 
@@ -248,46 +248,59 @@ public function agregarAccesorio(Request $request)
     ]);
 
     $accesorio = Accesorio::find($request->accesorio_id);
+    $nombre = $accesorio->nombre;
 
     $accesoriosSeleccionados = session()->get('accesoriosSeleccionados', []);
-    $accesoriosSeleccionados[] = [
-        'nombre' => $accesorio->nombre,
-        'cantidad' => $request->cantidad,
-        'precio' => $accesorio->precio
-    ];
+    $found = false;
+
+    foreach ($accesoriosSeleccionados as &$accesorioSeleccionado) {
+        if ($accesorioSeleccionado['nombre'] === $nombre) {
+            $accesorioSeleccionado['cantidad'] += $request->cantidad;
+            $found = true;
+            break;
+        }
+    }
+
+    if (!$found) {
+        $accesoriosSeleccionados[] = [
+            'nombre' => $nombre,
+            'cantidad' => $request->cantidad,
+            'precio' => $accesorio->precio
+        ];
+    }
 
     session()->put('accesoriosSeleccionados', $accesoriosSeleccionados);
     return redirect()->route('personalizados')->with('success', 'Accesorio agregado exitosamente.');
 }
 
 
-
-
 public function actualizarAccesorio(Request $request, $key)
 {
     $action = $request->input('action');
-    $accesorio = session('accesorioSeleccionadas', []);
+    $accesorios = session('accesoriosSeleccionados', []);
 
-    if (isset($accesorio[$key])) {
+    if (isset($accesorios[$key])) {
         if ($action == 'incrementar') {
-            $accesorio[$key]['cantidad']++;
+            $accesorios[$key]['cantidad']++;
         } elseif ($action == 'decrementar') {
-            $accesorio[$key]['cantidad'] = max(1, $accesorio[$key]['cantidad'] - 1);
+            $accesorios[$key]['cantidad'] = max(1, $accesorios[$key]['cantidad'] - 1);
         }
-        session(['accesorioSeleccionadas' => $accesorio]);
+        session(['accesoriosSeleccionados' => $accesorios]);
     }
 
     return redirect()->back();
 }
 
+
 public function eliminarAccesorio($key)
 {
-    $accesorio = session('accesorioSeleccionadas', []);
-    unset($flores[$key]);
-    session(['accesorioSeleccionadas' => $accesorio]);
+    $accesorios = session('accesoriosSeleccionados', []);
+    unset($accesorios[$key]);
+    session(['accesoriosSeleccionados' => array_values($accesorios)]);
 
     return redirect()->back();
 }
+
 
 public function agregarComestible(Request $request)
 {
@@ -297,13 +310,26 @@ public function agregarComestible(Request $request)
     ]);
 
     $comestible = Comestible::find($request->comestible_id);
+    $nombre = $comestible->nombre;
 
     $comestiblesSeleccionados = session()->get('comestiblesSeleccionados', []);
-    $comestiblesSeleccionados[] = [
-        'nombre' => $comestible->nombre,
-        'cantidad' => $request->cantidad,
-        'precio' => $comestible->precio
-    ];
+    $found = false;
+
+    foreach ($comestiblesSeleccionados as &$comestibleSeleccionado) {
+        if ($comestibleSeleccionado['nombre'] === $nombre) {
+            $comestibleSeleccionado['cantidad'] += $request->cantidad;
+            $found = true;
+            break;
+        }
+    }
+
+    if (!$found) {
+        $comestiblesSeleccionados[] = [
+            'nombre' => $nombre,
+            'cantidad' => $request->cantidad,
+            'precio' => $comestible->precio
+        ];
+    }
 
     session()->put('comestiblesSeleccionados', $comestiblesSeleccionados);
     return redirect()->route('personalizados')->with('success', 'Comestible agregado exitosamente.');
@@ -312,28 +338,30 @@ public function agregarComestible(Request $request)
 public function actualizarComestible(Request $request, $key)
 {
     $action = $request->input('action');
-    $comestible = session('comestibleSeleccionadas', []);
+    $comestibles = session('comestiblesSeleccionados', []);
 
-    if (isset($comestible[$key])) {
+    if (isset($comestibles[$key])) {
         if ($action == 'incrementar') {
-            $comestible[$key]['cantidad']++;
+            $comestibles[$key]['cantidad']++;
         } elseif ($action == 'decrementar') {
-            $comestible[$key]['cantidad'] = max(1, $comestible[$key]['cantidad'] - 1);
+            $comestibles[$key]['cantidad'] = max(1, $comestibles[$key]['cantidad'] - 1);
         }
-        session(['comestibleSeleccionadas' => $comestible]);
+        session(['comestiblesSeleccionados' => $comestibles]);
     }
 
     return redirect()->back();
 }
 
+
 public function eliminarComestible($key)
 {
-    $comestible = session('comestibleSeleccionadas', []);
-    unset($flores[$key]);
-    session(['comestibleSeleccionadas' => $comestible]);
+    $comestibles = session('comestiblesSeleccionados', []);
+    unset($comestibles[$key]);
+    session(['comestiblesSeleccionados' => array_values($comestibles)]);
 
     return redirect()->back();
 }
+
 
 
 

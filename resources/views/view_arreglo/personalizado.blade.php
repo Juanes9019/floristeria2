@@ -6,26 +6,30 @@
     <div class="row justify-content-center">
         <div class="col-md-9 mt-4">
             <div class="card">
-                <div class="card-header" style="background-color: #FFB6C1;">{{ __('Arreglo personalizado') }}</div>
+            <div class="card-header text-black" style="background-color: #FFB6C1;">{{ __('Arreglo personalizado') }}</div>
                 <div class="card-body">
-                    @if (session('success'))
-                        <div class="alert alert-success" role="alert">
+                @if (session('success'))
+                    <div class="alert alert-success d-flex align-items-center" role="alert">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <div>
                             {{ session('success') }}
                         </div>
-                    @endif
+                    </div>
+                @endif
 
                     <!-- Botones para abrir los modales -->
                     <div class="d-flex justify-content-between mb-4">
-                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#florModal">
-                            Agregar Flores
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#florModal">
+                            <i class="fas fa-seedling"></i> Agregar Flores
                         </button>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accesoriosModal">
-                            Agregar Accesorios
+                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#accesoriosModal">
+                            <i class="fas fa-gift"></i> Agregar Accesorios
                         </button>
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#comestiblesModal">
-                            Agregar Comestibles
+                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#comestiblesModal">
+                            <i class="fas fa-apple-alt"></i> Agregar Comestibles
                         </button>
                     </div>
+
 
                     <!-- Mostrar flores seleccionadas -->
                     <div class="card mt-4">
@@ -34,19 +38,29 @@
                             @if(session('floresSeleccionadas'))
                                 <ul class="list-group">
                                     @foreach(session('floresSeleccionadas') as $key => $i)
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            {{ $i['nombre'] }} - Cantidad: {{ $i['cantidad'] }}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <div>
+                                                <strong>{{ $i['nombre'] }}</strong> - Cantidad: {{ $i['cantidad'] }}
+                                            </div>
+                                            <div class="btn-group" role="group" aria-label="Acciones">
+                                            <div class="me-2">
                                                 <form action="{{ route('actualizarFlor', $key) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('PATCH')
-                                                    <button type="submit" name="action" value="decrementar" class="btn btn-outline-success btn-sm">-</button>
-                                                    <button type="submit" name="action" value="incrementar" class="btn btn-outline-success btn-sm">+</button>
+                                                    <button type="submit" name="action" value="decrementar" class="btn btn-outline-primary btn-sm">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <button type="submit" name="action" value="incrementar" class="btn btn-outline-primary btn-sm">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
                                                 </form>
+                                            </div>
                                                 <form action="{{ route('eliminarFlor', $key) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                        <i class="fas fa-trash"></i> Eliminar
+                                                    </button>
                                                 </form>
                                             </div>
                                         </li>
@@ -66,18 +80,25 @@
                                 <ul class="list-group">
                                     @foreach(session('accesoriosSeleccionados') as $key => $i)
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            {{ $i['nombre'] }} - Cantidad: {{ $i['cantidad'] }}
                                             <div>
+                                                <strong>{{ $i['nombre'] }}</strong> - Cantidad: {{ $i['cantidad'] }}
+                                            </div>                                            <div>
                                                 <form action="{{ route('actualizarAccesorio', $key) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('PATCH')
-                                                    <button type="submit" name="action" value="decrementar" class="btn btn-outline-success btn-sm">-</button>
-                                                    <button type="submit" name="action" value="incrementar" class="btn btn-outline-success btn-sm">+</button>
+                                                    <button type="submit" name="action" value="decrementar" class="btn btn-outline-primary btn-sm">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <button type="submit" name="action" value="incrementar" class="btn btn-outline-primary btn-sm">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
                                                 </form>
                                                 <form action="{{ route('eliminarAccesorio', $key) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                        <i class="fas fa-trash"></i> Eliminar
+                                                    </button>
                                                 </form>
                                             </div>
                                         </li>
@@ -97,18 +118,25 @@
                                 <ul class="list-group">
                                     @foreach(session('comestiblesSeleccionados') as $key => $i)
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            {{ $i['nombre'] }} - Cantidad: {{ $i['cantidad'] }}
                                             <div>
+                                                <strong>{{ $i['nombre'] }}</strong> - Cantidad: {{ $i['cantidad'] }}
+                                            </div>                                            <div>
                                                 <form action="{{ route('actualizarComestible', $key) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('PATCH')
-                                                    <button type="submit" name="action" value="decrementar" class="btn btn-outline-success btn-sm">-</button>
-                                                    <button type="submit" name="action" value="incrementar" class="btn btn-outline-success btn-sm">+</button>
+                                                    <button type="submit" name="action" value="decrementar" class="btn btn-outline-primary btn-sm">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <button type="submit" name="action" value="incrementar" class="btn btn-outline-primary btn-sm">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
                                                 </form>
                                                 <form action="{{ route('eliminarComestible', $key) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                        <i class="fas fa-trash"></i> Eliminar
+                                                    </button>
                                                 </form>
                                             </div>
                                         </li>
@@ -124,10 +152,12 @@
                         <div class="card-header bg-dark text-white">Total:</div>
                         <div class="card-body">
                             <p>Total: ${{ number_format($totalPrecio, 0) }}</p>
-                            <form action="{{ route('add_personalizado') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-dark w-100">Agregar Arreglo Personalizado al carrito</button>
-                            </form>
+                            <div class="d-flex justify-content-center">
+                                <form action="{{ route('add_personalizado') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn custom-btn d-flex align-items-center justify-content-center text-white"><i class="fas fa-cart-plus me-2"></i>Agregar Arreglo Personalizado al carrito</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -135,6 +165,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- poppap flores -->
 <div class="modal fade" id="florModal" tabindex="-1" aria-labelledby="florModalLabel" aria-hidden="true">
@@ -152,19 +183,20 @@
                     <select id="flor" name="flor_id" class="form-select">
                         <option value="">Selecciona una flor</option>
                         @foreach($flores as $flor)
-                            <option value="{{ $flor->id }}">{{ $flor->nombre }}</option>
+                            <option value="{{ $flor->id }}" data-colores='@json($flor->colores)'>{{ $flor->nombre }}</option>
                         @endforeach
                     </select>
 
                     <!-- Seleccionar color -->
                     <label for="color" class="mt-3">Selecciona el color:</label>
                     <select id="color" name="color" class="form-select">
-                        <option value="">Selecciona una color</option>
-                        <option value="Blanco">Blanco</option>
-                        <option value="Rojo">Rojo</option>
-                        <option value="Amarillo">Amarillo</option>
-                        <option value="Morado">Morado</option>
+                        <option value="">Selecciona un color</option>
                     </select>
+
+                    <!-- Contenedor de la imagen -->
+                    <div id="imagen-flor-container" class="mt-3">
+                        <img id="imagen-flor" src="" alt="Imagen de la flor" style="max-width: 100%; display: none;">
+                    </div>
 
                     <label for="cantidad" class="mt-3">Cantidad:</label>
                     <input type="number" id="cantidad" name="cantidad" class="form-control" min="1" value="1">

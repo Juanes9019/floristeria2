@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FlorSeeder::class);
         $this->call(AccesoriosSeeder::class);
         $this->call(ComestiblesSeeder::class);
+        $this->call(ColoresSeeder::class);
     }
 }
