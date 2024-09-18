@@ -55,7 +55,7 @@ class productosController extends Controller
         $producto->foto = $request->foto;
 
         if ($request->has('estado')) {
-             $producto->estado = 1;
+            $producto->estado = 1;
         }
 
         $producto->save();

@@ -36,58 +36,27 @@
 
         <div class="col-md-7 full-height">
             <div class="card h-100">
-            @if(session('success'))
-                <div class="alert alert-success text-center">
-                    {{ session('success') }}
+            @if (session('success'))
+                <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <div>
+                        {{ session('success') }}
+                    </div>
                 </div>
             @endif
                 <div class="card-header">{{ __('Informacion') }}</div>
                 <div class="card-body">
                     @if ($section == 'edit-info')
-                    <form id="formulario_informacion" method="POST" action="{{ route('update_informacion') }}" novalidate>
-                        @csrf
-
-                        <div class="form-group">
-                            <label for="tbNombres" class="col-form-label">Nombres:</label>
-                            <input type="text" name="name" class="form-control" id="tbNombres" value="{{ $user->name }}" />
-                        </div>
-
-                        <br>
-
-                        <div class="form-group">
-                            <label for="tbApellidos" class="col-form-label">Apellidos:</label>
-                            <input type="text" name="surname" class="form-control" id="tbApellidos" value="{{ $user->surname }}" />
-                        </div>
-
-                        <br>
-
-                        <div class="form-group">
-                            <label for="tbCelular" class="col-form-label">Celular:</label>
-                            <input type="text" name="celular" class="form-control" id="tbCelular" value="{{ $user->celular }}" />
-                        </div>
-
-                        <br>
-
-                        <div class="form-group">
-                            <label for="tbDireccion" class="col-form-label">Dirección:</label>
-                            <input type="text" name="direccion" class="form-control" id="tbDireccion" value="{{ $user->direccion }}" />
-                        </div>
-
-                        <br>
-
-                        <div class="form-group text-center">
-                            <button type="submit" id="BtnAplicar" class="btn btn-warning mt-3">Aplicar Cambios</button>
-                        </div>
-                    </form>
+                        @include('view_perfil.editar_info')
 
                     @elseif ($section == 'historial')
                         @include('view_perfil.historial')
 
                     @elseif ($section == 'mispqrs')
-                        <h3>Mis PQRS</h3>
+                        @include('view_perfil.crear_pqrs')
 
                     @elseif ($section == 'historial_pqrs')
-                    <h3>Historial PQRS</h3>
+                        @include('view_perfil.historial_pqrs')                        
 
                     @endif
                 </div>

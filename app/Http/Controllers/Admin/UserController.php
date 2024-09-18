@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Pqrs;
 use App\Models\Roles;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -116,4 +117,38 @@ return redirect()->route('Admin.users', ['id' => $usuarios->id])
             ->with('success', 'Usuario eliminado con éxito');
 
     }
+
+    public function index_pqrs()
+    {
+        $pqrs = Pqrs::all();
+        $i = 0; 
+        $fecha = now()->format('Y-m-d');
+        return view('Admin.pqrs.index', compact('pqrs','fecha' ,'i'));
+    }
+    
+
+
+    public function responderPqrs(Request $request, $id)
+    {
+    $data = $request->validate([
+        'respuesta' => 'required',
+    ]);
+
+    try {
+        $pqrs = Pqrs::findOrFail($id);
+
+        $pqrs->respuesta = $data['respuesta'];
+        $pqrs->fecha_respuesta = now();
+        $pqrs->estado = 'Respondido'; 
+        $pqrs->save();
+
+
+        return redirect()->route('Admin.users.pqrs')->with('success', 'Respuesta enviada con éxito');
+    } catch (\Exception $e) {
+        Log::error('Error al responder la PQRS: ' . $e->getMessage());
+
+        return back()->with('error', 'Error al responder la PQRS: ' . $e->getMessage());
+    }
+}
+
 }

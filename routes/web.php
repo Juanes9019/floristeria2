@@ -29,6 +29,8 @@ Auth::routes();
 
 Route::get('/perfil/perfil/{section?}', [HomeController::class, 'perfilUser'])->name('perfilUser');
 Route::POST('/perfil/perfil/update_informacion', [HomeController::class, 'update_informacion'])->name('update_informacion');
+Route::post('/pqrs', [HomeController::class, 'pqrs'])->name('pqrs');
+
 
 Route::get('/arreglo/{id}', [HomeController::class, 'show'])->name('view_arreglo.arreglo_view');
 Route::get('/all_products', [HomeController::class, 'show_all'])->name('all_products');
@@ -64,7 +66,6 @@ Route::get('carrito/clear', [carritoController::class, 'clear'])->name('clear');
 Route::post('carrito/remove', [carritoController::class, 'removeItem'])->name('removeItem');
 
 
-
 Route::get('carrito/incrementar', [carritoController::class, 'incrementar'])->name('incrementarCantidad');
 Route::get('carrito/decrementar', [carritoController::class, 'decrementar'])->name('decrementarCantidad');
 
@@ -85,6 +86,10 @@ Route::middleware(['auth', 'user-access:1,3'])->group(function () {
     Route::get('admin/users/{id}/edit', [UserController::class, 'edit'])->name('Admin.users.edit');
     Route::put('admin/users/{id}', [UserController::class, 'update'])->name('Admin.users.update');
     Route::delete('admin/users/{id}', [UserController::class, 'destroy'])->name('Admin.users.destroy');
+
+    Route::get('admin/users/pqrs', [UserController::class, 'index_pqrs'])->name('Admin.users.pqrs');
+    Route::put('/pqrs/{id}/responder', [UserController::class, 'responderPqrs'])->name('pqrs.responder');    
+
 
     //rutas para los roles
     Route::get('admin/roles', [RolesController::class, 'index'])->name('Admin.roles');

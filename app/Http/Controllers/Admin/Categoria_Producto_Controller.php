@@ -24,32 +24,26 @@ class Categoria_Producto_Controller extends Controller
 
     public function store(Request $request)
     {
-        // Validación de los datos del formulario
         $data = $request->validate([
             'nombre' => 'required',
         ]);
 
-        // Intentar insertar en la base de datos
         try {
             $result = DB::table('categorias_productos')->insert([
                 'nombre' => $data['nombre'],
             ]);
 
-            // Log del resultado de la inserción
             Log::info('Resultado de la inserción: ' . ($result ? 'Éxito' : 'Fallo'));
 
             if ($result) {
-                // Log para verificar que intentó redirigir
                 Log::info('Intentando redireccionar');
                 return redirect()->route('Admin.categorias_productos');
             } else {
                 dd('Error al insertar en la base de datos');
             }
         } catch (\Exception $e) {
-            // Log del error
             Log::error('Error al insertar en la base de datos: ' . $e->getMessage());
 
-            // Imprimir el mensaje de la excepción para obtener más detalles
             dd('Error al insertar en la base de datos: ' . $e->getMessage());
         }
     }

@@ -325,6 +325,12 @@ return [
             'icon' => 'fas fa-fw fa-building', 
             'label_color' => 'primary',
         ],
+        [
+            'text' => 'Pqrs',
+            'url' => '/admin/users/pqrs',
+            'icon' => 'fas fa-fw fa-comments',
+            'label_color' => 'primary',
+        ],
         ['header' => 'GESTION DE TIENDA'],
         [
             'text' => 'Inventario',

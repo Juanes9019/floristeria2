@@ -7,12 +7,14 @@ use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Categoria_Producto;
 use App\Models\User;
+use App\Models\Pqrs;
 use App\Models\Pedido;
 use App\Models\TipoFlor;
 use App\Models\Flor;
 use App\Models\Accesorio;
 use App\Models\Comestible;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -85,10 +87,12 @@ class HomeController extends Controller
         $user = Auth::user();
         $rol = $user->role->nombre;
         $pedidos = Pedido::where('user_id', $user->id)->get();
+        $pqrs = Pqrs::all();
+        $fecha = now()->format('Y-m-d');
         
         $activeSection = $section;
     
-        return view('view_perfil.perfil', compact('user', 'rol', 'section', 'pedidos', 'i', 'activeSection'));
+        return view('view_perfil.perfil', compact('user','fecha', 'rol', 'pqrs','section', 'pedidos', 'i', 'activeSection'));
     }
     
 
@@ -363,8 +367,39 @@ public function eliminarComestible($key)
 }
 
 
+    public function pqrs(Request $request)
+    {
+        $data = $request->validate([
+            'fecha_envio' => 'required',
+            'tipo' => 'required',
+            'motivo' => 'required',
+            'descripcion' => 'required',
+        ]);
 
+        try {
+            $pqrs = new Pqrs();
 
+            $pqrs->user_id = auth()->user()->id;
+            $pqrs->fecha_envio = $data['fecha_envio'];
+            $pqrs->tipo = $data['tipo'];
+            $pqrs->motivo = $data['motivo'];
+            $pqrs->descripcion = $data['descripcion'];
+            $pqrs->save();
+
+            Log::info('Resultado de la inserción: ' . ($pqrs ? 'Éxito' : 'Fallo'));
+
+            if ($pqrs) {
+                Log::info('Intentando redireccionar');
+                return redirect()->route('perfilUser', ['section' => 'mispqrs'])->with('success', 'Pqrs enviada con éxito');
+            } else {
+                dd('Error al insertar en la base de datos');
+            }
+        } catch (\Exception $e) {
+            Log::error('Error al insertar en la base de datos: ' . $e->getMessage());
+
+            dd('Error al insertar en la base de datos: ' . $e->getMessage());
+        }
+    }
 
     public function productos_filtrar()
     {
