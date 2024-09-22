@@ -177,9 +177,13 @@ public function personalizados(Request $request)
         $totalPrecio += $comestible['precio'] * $comestible['cantidad'];
     }
 
+    $totalPrecio  += 30000;
+
     // Retornar la vista con totales
     return view('view_arreglo.personalizado', compact('flores', 'accesorios', 'comestibles', 'floresSeleccionadas', 'accesoriosSeleccionados', 'comestiblesSeleccionados', 'totalElementos', 'totalPrecio'));
 }
+
+
 
 
 public function agregarFlor(Request $request)

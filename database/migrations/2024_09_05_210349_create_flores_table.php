@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('flores', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->decimal('precio', 10, 2);  
+            $table->decimal('precio', 10, 2);
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@
 :root{
     --primary-color: #FFB6C1;
     --secundary-color: #FFE599; 
+    --secundary-color_obs: #ffdf7d; 
     --tertiary-color: #444444; 
     --background-color: #f9f5f0;
     --dark-color: #151515;
@@ -225,14 +226,18 @@
     margin-bottom: 3rem;
 }
 
-.container-options{
+.container-options {
     display: flex;
     justify-content: center;
     gap: 2rem;
     margin-bottom: 1rem;
 }
 
-.container-options span{
+.container-options a {
+    text-decoration: none;
+}
+
+.container-options span {
     color: #000;
     background-color: var(--secundary-color);
     padding: .7rem 3rem;
@@ -243,10 +248,14 @@
     transition: ease 0.5s;
 }
 
-.container-options span.active{
-    background-color: var(--secundary-color);
-    color: #000000;
+.container-options a:hover {
+    text-decoration: none;
 }
+
+.container-options span:hover {
+    background-color: var(--secundary-color_obs);
+}
+
 
 .fondo_card{
     background-color: #FFB6C1; 

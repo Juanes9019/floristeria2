@@ -169,44 +169,52 @@
 
 <!-- poppap flores -->
 <div class="modal fade" id="florModal" tabindex="-1" aria-labelledby="florModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg"> 
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="florModalLabel">Seleccionar Flor</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('agregarFlor') }}" method="POST">
-                    @csrf
-                    <!-- Seleccionar flor directamente -->
-                    <label for="flor">Selecciona la flor:</label>
-                    <select id="flor" name="flor_id" class="form-select">
-                        <option value="">Selecciona una flor</option>
-                        @foreach($flores as $flor)
-                            <option value="{{ $flor->id }}" data-colores='@json($flor->colores)'>{{ $flor->nombre }}</option>
-                        @endforeach
-                    </select>
+                <div class="row">
+                    <div class="col-md-6">
+                        <form action="{{ route('agregarFlor') }}" method="POST">
+                            @csrf
+                            <label for="flor">Selecciona la flor:</label>
+                            <select id="flor" name="flor_id" class="form-select">
+                                <option value="">Selecciona una flor</option>
+                                @foreach($flores as $flor)
+                                    <option value="{{ $flor->id }}" data-colores='@json($flor->colores)'>{{ $flor->nombre }}</option>
+                                @endforeach
+                            </select>
 
-                    <!-- Seleccionar color -->
-                    <label for="color" class="mt-3">Selecciona el color:</label>
-                    <select id="color" name="color" class="form-select">
-                        <option value="">Selecciona un color</option>
-                    </select>
+                            <label for="color" class="mt-3">Selecciona el color:</label>
+                            <select id="color" name="color" class="form-select">
+                                <option value="">Selecciona un color</option>
+                            </select>
 
-                    <!-- Contenedor de la imagen -->
-                    <div id="imagen-flor-container" class="mt-3">
-                        <img id="imagen-flor" src="" alt="Imagen de la flor" style="max-width: 100%; display: none;">
+                            <label for="cantidad" class="mt-3">Cantidad:</label>
+                            <input type="number" id="cantidad" name="cantidad" class="form-control" min="1" value="1">
+
+                            <button type="submit" class="btn btn-primary mt-3">Agregar Flor</button>
+                        </form>
                     </div>
 
-                    <label for="cantidad" class="mt-3">Cantidad:</label>
-                    <input type="number" id="cantidad" name="cantidad" class="form-control" min="1" value="1">
-
-                    <button type="submit" class="btn btn-primary mt-3">Agregar Flor</button>
-                </form>
+                    <div class="col-md-6">
+                        <div id="imagen-flor-container" class="text-center div_tamaño">
+                            <img id="imagen-flor" src="ruta/default.jpg" alt="Imagen de la flor" style="max-width: 100%; display: block;">
+                        </div>
+                        <div id="descripcion-flor" class="mt-3">
+                            <p>por favor selecciona una flor y un color, para mostrar la imagen</p>
+                        </div>
+                    </div>
+                </div> 
             </div>
         </div>
     </div>
 </div>
+
+
 
 <!-- poppap accesorios -->
 <div class="modal fade" id="accesoriosModal" tabindex="-1" aria-labelledby="accesoriosModalLabel" aria-hidden="true">
@@ -265,5 +273,10 @@
         </div>
     </div>
 </div>
-
+<style>
+    .div_tamaño {
+        width: 70%; 
+        margin: 0 auto; 
+    }
+</style>
 @endsection

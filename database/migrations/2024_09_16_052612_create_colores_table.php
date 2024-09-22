@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('imagen'); 
             $table->unsignedBigInteger('id_flor'); 
             $table->foreign('id_flor')->references('id')->on('flores')->onDelete('cascade');
+            $table->string('descripcion');  
             $table->timestamps();
         });
     }
