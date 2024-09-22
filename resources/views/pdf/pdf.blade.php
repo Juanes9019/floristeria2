@@ -94,7 +94,7 @@
                     <th>Nombre</th>
                     <th>Cantidad</th>
                     <th>Precio</th>
-                    <th>Importe</th>
+                    <th>Subtotal</th>
                 </tr>
             </thead>
             <tbody>
