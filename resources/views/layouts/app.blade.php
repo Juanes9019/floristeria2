@@ -124,7 +124,7 @@
                                     <a class="dropdown-item" href="{{ route('perfilUser') }}">
                                         {{ __('Perfil') }}
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                    <a class="dropdown-item" href="{{ route('dashboard.index') }}">
                                         {{ __('Panel de administrador') }}
                                     </a>
                                 @elseif (Auth::user()->id_rol == 2) 

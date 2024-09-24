@@ -305,6 +305,13 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'Buscar',
         ],
+        
+        [
+            'text' => 'Dashboard',
+            'url' => 'admin/dashboard',
+            'icon' => 'fas fa-fw fa-bar-',
+            'label_color' => 'warning',
+        ],
 
         ['header' => 'GESTION DE USUARIOS'],
         [
@@ -319,24 +326,12 @@ return [
             'icon' => 'fas fa-fw fa-user-shield',
             'label_color' => 'warning',
         ],
+        ['header' => 'GESTION DE COMPRA'],
         [
             'text' => 'Proveedores',
             'url' => '/admin/proveedores',
             'icon' => 'fas fa-fw fa-building', 
             'label_color' => 'primary',
-        ],
-        ['header' => 'GESTION DE TIENDA'],
-        [
-            'text' => 'Inventario',
-            'url' => 'admin/inventario',
-            'icon' => 'fas fa-box',
-            'label_color' => 'primary',
-        ],
-        [
-            'text' => 'Categorias',
-            'url' => 'admin/categoria',
-            'icon' => 'fas fa-fw fa-list',
-            'label_color' => 'warning',
         ],
         [
             'text' => 'Categoria Insumos',
@@ -351,23 +346,30 @@ return [
             'label_color' => 'warning',
         ],
         [
+            'text' => 'Compras',
+            'url' => 'admin/compras',
+            'icon' => 'fas fa-fw fa-shopping-bag',
+            'label_color' => 'warning',
+        ],
+        
+        ['header' => 'GESTION DE VENTA'],
+        [
+            'text' => 'Inventario',
+            'url' => 'admin/inventario',
+            'icon' => 'fas fa-box',
+            'label_color' => 'primary',
+        ],
+        [
+            'text' => 'Categorias',
+            'url' => 'admin/categoria',
+            'icon' => 'fas fa-fw fa-list',
+            'label_color' => 'warning',
+        ],
+        [
             'text' => 'Productos',
             'url' => 'admin/productos',
             'icon' => 'fas fa-fw fa-store-alt',            
             'label_color' => 'primary',
-        ],
-        ['header' => 'GESTION DE COMPRA Y VENTA'],
-        [
-            'text' => 'Detalles compra',
-            'url' => 'admin/detalles_compra',
-            'icon' => 'fas fa-fw fa-shopping-bag',
-            'label_color' => 'warning',
-        ],
-        [
-            'text' => 'Detalle venta',
-            'url' => 'admin/detalle',
-            'icon' => 'fas fa-file-alt', 
-            'label_color' => 'warning',
         ],
         [
             'text' => 'Pedidos',
@@ -375,7 +377,12 @@ return [
             'icon' => 'fas fa-shopping-cart', 
             'label_color' => 'primary',
         ],
-        
+        [
+            'text' => 'Detalle venta',
+            'url' => 'admin/detalle',
+            'icon' => 'fas fa-file-alt', 
+            'label_color' => 'warning',
+        ],
     ],
     /*
     |--------------------------------------------------------------------------

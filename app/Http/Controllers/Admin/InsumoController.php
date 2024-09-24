@@ -28,18 +28,19 @@ class InsumoController extends Controller
         // Validación de los datos del formulario
         $data = $request->validate([
             'id_categoria_insumo' => 'required',
+            'nombre' => 'required',
             'cantidad_insumo' => 'required',
             'costo_unitario' => 'required',
             'perdida_insumo' => 'required',
-            // 'costo_total' => 'required',
         ]);
 
         $insumo = new Insumo;
         $insumo->id_categoria_insumo = $request->id_categoria_insumo;
+        $insumo->nombre = $request->nombre;
         $insumo->cantidad_insumo = $request->cantidad_insumo;
         $insumo->costo_unitario = $request->costo_unitario;
         $insumo->perdida_insumo = $request->perdida_insumo;
-        $insumo->costo_total = $request->costo_unitario * $request->cantidad_insumo;
+        $insumo->costo_perdida = $request->costo_unitario * $request->perdida_insumo;
 
         if ($request->has('estado')) {
             $insumo->estado = 1;
@@ -51,32 +52,6 @@ class InsumoController extends Controller
         return redirect()->route('Admin.insumo')
             ->with('success', 'insumo creado con éxito.');
     
-        // // Intentar insertar en la base de datos
-        // try {
-        //     $result = DB::table('insumos')->insert([
-        //         'id_categoria_insumo' => $data['id_categoria_insumo'],
-        //         'cantidad_insumo' => $data['cantidad_insumo'],
-        //         'precio' => $data['precio'],
-        //         'perdida_insumo' => $data['perdida_insumo'],
-        //     ]);
-    
-        //     // Log del resultado de la inserción
-        //     Log::info('Resultado de la inserción: ' . ($result ? 'Éxito' : 'Fallo'));
-    
-        //     if ($result) {
-        //         // Log para verificar que intentó redirigir
-        //         Log::info('Intentando redireccionar');
-        //         return redirect()->route('Admin.insumo');
-        //     } else {
-        //         dd('Error al insertar en la base de datos');
-        //     }
-        // } catch (\Exception $e) {
-        //     // Log del error
-        //     Log::error('Error al insertar en la base de datos: ' . $e->getMessage());
-        
-        //     // Imprimir el mensaje de la excepción para obtener más detalles
-        //     dd('Error al insertar en la base de datos: ' . $e->getMessage());
-        // }
     }
 
     public function edit($id)    {
@@ -93,10 +68,10 @@ class InsumoController extends Controller
         // Validaciones y lógica de actualización
         $request->validate([
             'id_categoria_insumo' => 'required',
+            'nombre' => 'required',
             'cantidad_insumo' => 'required',
             'costo_unitario' => 'required',
             'perdida_insumo' => 'required',
-            // 'costo_total' => 'required',
         ]);
 
         //Calcula la nueva cantidad restando la pérdida
@@ -104,13 +79,15 @@ class InsumoController extends Controller
 
         // Asignación de los campos del usuario desde el formulario
         $insumos->id_categoria_insumo = $request->input('id_categoria_insumo');
+        $insumos->nombre = $request->input('nombre');
         $insumos->cantidad_insumo = $request -> $nueva_cantidad > 0 ? $nueva_cantidad : 0;
         $insumos->costo_unitario = $request->input('costo_unitario');
         $insumos->perdida_insumo = $request->input('perdida_insumo');
-        $insumos->costo_total = $request->costo_unitario * $request->cantidad_insumo;
+        $insumos->costo_perdida = $request->costo_unitario * $request->perdida_insumo;
         if ($request->has('estado')) {
             $insumos->estado = $request->estado;
         }
+        
 
         $insumos->save();
 
@@ -131,34 +108,46 @@ class InsumoController extends Controller
     }
 
     public function incrementarInsumo($id)
-{
-    $insumo = Insumo::find($id);
-    
-    // Incrementa la pérdida de insumo en 1
-    $insumo->perdida_insumo += 1;
-    
-    // Reduce la cantidad de insumo en 1
-    $insumo->cantidad_insumo = max(0, $insumo->cantidad_insumo - 1);
-    
-    $insumo->save();
-
-    return redirect()->route('Admin.insumo')->with('success', 'Insumo actualizado con éxito.');
-}
-    
-public function decrementarInsumo($id)
-{
-    $insumo = Insumo::find($id);
-    
-    // Decrementa la pérdida de insumo en 1, asegurando que no sea menor que 0
-    if ($insumo->perdida_insumo > 0) {
-        $insumo->perdida_insumo -= 1;
-        $insumo->cantidad_insumo += 1; // Aumenta la cantidad de insumo
+    {
+        $insumo = Insumo::find($id);
+        
+        // Verifica si la cantidad de insumo es mayor a 0 antes de incrementar la pérdida
+        if ($insumo->cantidad_insumo > 0) {
+            // Incrementa la pérdida de insumo en 1
+            $insumo->perdida_insumo += 1;
+        
+            // Reduce la cantidad de insumo en 1
+            $insumo->cantidad_insumo = max(0, $insumo->cantidad_insumo - 1);
+            $insumo->costo_perdida = $insumo->costo_unitario * $insumo->perdida_insumo;
+            $insumo->save();
+        
+            return redirect()->route('Admin.insumo')->with('success', 'Insumo incrementado.');
+        } else {
+            return redirect()->route('Admin.insumo')->with('error', 'No se puede incrementar la pérdida, la cantidad de insumo es 0.');
+        }
     }
-
-    $insumo->save();
-
-    return redirect()->route('Admin.insumo')->with('success', 'Insumo actualizado con éxito.');
-}
+    
+    
+    public function decrementarInsumo($id)
+    {
+        $insumo = Insumo::find($id);
+        
+        // Solo decrementa la pérdida y aumenta la cantidad si la pérdida es mayor que 0
+        if ($insumo->perdida_insumo > 0) {
+            // Decrementa la pérdida de insumo en 1
+            $insumo->perdida_insumo -= 1;
+    
+            // Aumenta la cantidad de insumo en 1 solo si la cantidad era 0 antes de este incremento
+            $insumo->cantidad_insumo += 1;
+            $insumo->costo_perdida = $insumo->costo_unitario * $insumo->perdida_insumo;
+            $insumo->save();
+        
+            return redirect()->route('Admin.insumo')->with('success', 'Insumo decrementado.');
+        } else {
+            return redirect()->route('Admin.insumo')->with('error', 'No se puede decrementar la pérdida, no hay pérdida registrada.');
+        }
+    }
+    
 
     public function change_Status($id)
     {
@@ -172,5 +161,4 @@ public function decrementarInsumo($id)
         $insumo->save();
         return redirect()->back();
     }
-
 }

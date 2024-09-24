@@ -33,12 +33,13 @@
                                 <thead class="thead">
                                     <tr>
                                     <tr>
-                                        <th scope="col" class="text-center">Id insumo</th>
+                                        <th scope="col" class="text-center">No</th>
                                         <th scope="col" class="text-center">Categoria insumo</th>
+                                        <th scope="col" class="text-center">Nombre</th>
                                         <th scope="col" class="text-center">Cantidad insumo</th>
                                         <th scope="col" class="text-center">Costo unitario</th>
                                         <th scope="col" class="text-center">Perdida insumo</th>
-                                        <th scope="col" class="text-center">Costo total</th>
+                                        <th scope="col" class="text-center">Costo Perdida</th>
                                         <th scope="col" class="text-center">Acciones</th>
                                         <th scope="col" class="text-center">Estado</th>
                                         
@@ -49,8 +50,9 @@
                                         <tr>
                                             <td class="text-center">{{ ++$i }}</td>
                                             <td class="text-center">{{ $insumo->categoria_insumo->nombre }}</td>
+                                            <td class="text-center">{{ $insumo->nombre }}</td>
                                             <td class="text-center">{{ $insumo->cantidad_insumo }}</td>
-                                            <td class="text-center">{{ $insumo->costo_unitario }}</td>
+                                            <td class="text-center">{{ number_format($insumo->costo_unitario, 0, ',', '.') }}</td>
                                             <div class="btn-group btn-group-sm" role="group" aria-label="small button group">
                                                 <td class="text-center">
                                                     <a href="{{ route('incrementarInsumo', ['id' => $insumo->id]) }}" class="btn btn-success efecto">+</a> 
@@ -58,7 +60,7 @@
                                                     <a href="{{ route('decrementarInsumo', ['id' => $insumo->id]) }}" class="btn btn-danger efecto">-</a> 
                                                 </td>
                                             </div>
-                                            <td class="text-center">{{ $insumo->costo_total}}</td>
+                                            <td class="text-center">{{ number_format($insumo->costo_perdida, 0, ',', '.')}}</td>
                                             <td class="text-center">
                                                 <form action="{{ route('Admin.insumo.destroy', ['id' => $insumo->id]) }}" method="POST">
                                                     <a class="btn btn-sm btn-success"

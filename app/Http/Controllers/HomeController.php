@@ -43,11 +43,6 @@ class HomeController extends Controller
         return view('home', compact('productos'));
     }
 
-    public function dashboard()
-    {
-        return view('Admin.dashboard');
-    }
-
     public function update_informacion(Request $request)
     {
         // Obtener el usuario autenticado

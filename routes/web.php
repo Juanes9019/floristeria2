@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Admin\CategoriaController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\ProveedorController;
@@ -10,6 +11,8 @@ use App\Http\Controllers\Admin\Categoria_insumoController;;
 use App\Http\Controllers\Admin\productosController;
 use App\Http\Controllers\Admin\pedidoController;
 use App\Http\Controllers\Admin\detalleController;
+use App\Http\Controllers\Admin\CompraController;
+use App\Http\Controllers\Admin\DetalleCompraController;
 use App\Http\Controllers\Admin\inventarioController;
 use App\Http\Controllers\Admin\InsumoController;
 use App\Http\Controllers\Admin\ExportController;
@@ -43,7 +46,6 @@ Route::post('carrito/remove', [carritoController::class, 'removeItem'])->name('r
 
 Route::get('/ciudades', [CiudadController::class, 'obtenerCiudades']);
 
-
 Route::get('carrito/incrementar', [carritoController::class, 'incrementar'])->name('incrementarCantidad');
 Route::get('carrito/decrementar', [carritoController::class, 'decrementar'])->name('decrementarCantidad');
 
@@ -53,8 +55,9 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
 Route::middleware(['auth', 'user-access:1'])->group(function () {
 
     //ruta para dashboard
-    Route::get('dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
-    
+    Route::get('admin/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
     //rutas para los usuarios
     Route::get('admin/users', [UserController::class, 'index'])->name('Admin.users');
     Route::get('admin/users/create', [UserController::class, 'create'])->name('Admin.users.create');
@@ -71,7 +74,6 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::put('admin/roles/{id}', [RolesController::class, 'update'])->name('Admin.roles.update');
     Route::delete('admin/roles/{id}', [RolesController::class, 'destroy'])->name('Admin.roles.destroy');
 
-
     //rutas para los proveedor
     Route::get('admin/proveedores', [ProveedorController::class, 'index'])->name('Admin.proveedores');
     Route::get('admin/proveedor/create', [ProveedorController::class, 'create'])->name('Admin.proveedor.create');
@@ -80,31 +82,6 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::put('admin/proveedor/{id}', [ProveedorController::class, 'update'])->name('Admin.proveedor.update');
     Route::delete('admin/proveedor/{id}', [ProveedorController::class, 'destroy'])->name('Admin.proveedor.destroy');
     Route::get('admin/proveedor/{id}/status', [ProveedorController::class, 'change_Status'])->name('Admin.proveedor.status');
-
-
-
-    //rutas para los productos
-    Route::get('admin/productos', [productosController::class, 'index'])->name('Admin.productos');
-    Route::get('admin/producto/create', [productosController::class, 'create'])->name('Admin.producto.create');
-    Route::post('admin/producto', [productosController::class, 'store'])->name('Admin.producto.store');
-    Route::get('admin/producto/{id}/edit', [productosController::class, 'edit'])->name('Admin.producto.edit');
-    Route::put('admin/producto/{id}', [productosController::class, 'update'])->name('Admin.producto.update');
-    Route::delete('admin/producto/{id}', [productosController::class, 'destroy'])->name('Admin.producto.destroy');
-    Route::get('admin/producto/{id}/status', [productosController::class, 'change_Status'])->name('Admin.producto.status');
-    Route::get('/export_producto_pdf', [ExportController::class, 'exportar_producto'])->name('export_producto.pdf');
-
-
-
-    //rutas para la categoria
-    Route::get('admin/categoria', [CategoriaController::class, 'index'])->name('Admin.categoria');
-    Route::get('admin/categoria/create', [CategoriaController::class, 'create'])->name('Admin.categoria.create');
-    Route::post('admin/categoria', [CategoriaController::class, 'store'])->name('Admin.categoria.store');
-    Route::get('admin/categoria/{id}/edit', [CategoriaController::class, 'edit'])->name('Admin.categoria.edit');
-    Route::put('admin/categoria/{id}', [CategoriaController::class, 'update'])->name('Admin.categoria.update');
-    Route::delete('admin/categoria/{id}', [CategoriaController::class, 'destroy'])->name('Admin.categoria.destroy');
-    Route::get('admin/categoria/{id}/status', [CategoriaController::class, 'change_Status'])->name('Admin.categoria.status');
-
-
 
     //rutas para la categoria_insumo
     Route::get('admin/categoria_insumo', [Categoria_insumoController::class, 'index'])->name('Admin.categoria_insumo');
@@ -126,8 +103,20 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::get('admin/insumo/{id}/decrementarInsumo', [InsumoController::class, 'decrementarInsumo'])->name('decrementarInsumo');
     Route::get('admin/insumo/{id}/status', [InsumoController::class, 'change_Status'])->name('Admin.insumo.status');
 
-
+    // Rutas para el controlador CompraController
+    Route::get('admin/compras', [CompraController::class, 'index'])->name('Admin.compra.index');
+    Route::get('admin/compras/create', [CompraController::class, 'create'])->name('Admin.compra.create');
+    Route::post('admin/compras', [CompraController::class, 'store'])->name('Admin.compra.store');
+    Route::get('admin/compras/{id}', [CompraController::class, 'show'])->name('compra.detalles');
+    route::get('/categorias/{idProveedor}', [CompraController::class, 'getCategorias'])->name('categorias');
+    Route::get('/insumos/{idCategoria}', [CompraController::class, 'getInsumos'])->name('insumos');
     
+
+    //Ruta para el detalle Compra
+    Route::get('admin/DetalleCompra', [DetalleCompraController::class, 'index'])->name('detalles');
+
+
+
     //rutas para los inventario
     Route::get('admin/inventario', [inventarioController::class, 'index'])->name('Admin.inventario');
     Route::get('admin/inventario/create', [inventarioController::class, 'create'])->name('Admin.inventario.create');
@@ -136,16 +125,35 @@ Route::middleware(['auth', 'user-access:1'])->group(function () {
     Route::put('admin/inventario/{id}', [inventarioController::class, 'update'])->name('Admin.inventario.update');
     Route::delete('admin/inventario/{id}', [inventarioController::class, 'destroy'])->name('Admin.inventario.destroy');
 
+    //rutas para la categoria
+    Route::get('admin/categoria', [CategoriaController::class, 'index'])->name('Admin.categoria');
+    Route::get('admin/categoria/create', [CategoriaController::class, 'create'])->name('Admin.categoria.create');
+    Route::post('admin/categoria', [CategoriaController::class, 'store'])->name('Admin.categoria.store');
+    Route::get('admin/categoria/{id}/edit', [CategoriaController::class, 'edit'])->name('Admin.categoria.edit');
+    Route::put('admin/categoria/{id}', [CategoriaController::class, 'update'])->name('Admin.categoria.update');
+    Route::delete('admin/categoria/{id}', [CategoriaController::class, 'destroy'])->name('Admin.categoria.destroy');
+    Route::get('admin/categoria/{id}/status', [CategoriaController::class, 'change_Status'])->name('Admin.categoria.status');
+
+    //rutas para los productos
+    Route::get('admin/productos', [productosController::class, 'index'])->name('Admin.productos');
+    Route::get('admin/producto/create', [productosController::class, 'create'])->name('Admin.producto.create');
+    Route::post('admin/producto', [productosController::class, 'store'])->name('Admin.producto.store');
+    Route::get('admin/producto/{id}/edit', [productosController::class, 'edit'])->name('Admin.producto.edit');
+    Route::put('admin/producto/{id}', [productosController::class, 'update'])->name('Admin.producto.update');
+    Route::delete('admin/producto/{id}', [productosController::class, 'destroy'])->name('Admin.producto.destroy');
+    Route::get('admin/producto/{id}/status', [productosController::class, 'change_Status'])->name('Admin.producto.status');
+    Route::get('/export_producto_pdf', [ExportController::class, 'exportar_producto'])->name('export_producto.pdf');
+
     // Rutas para el pedido
     Route::get('admin/pedido', [PedidoController::class, 'index'])->name('pedidos');
     Route::post('admin/pedido/{id}/cambiar-estado', [PedidoController::class, 'cambiar_estado'])->name('cambiar_estado');
     Route::post('admin/pedido/{id}/rechazar', [PedidoController::class, 'rechazar'])->name('rechazar');
     Route::get('admin/pedido/{id}/detalles', [PedidoController::class, 'mostrar'])->name('pedidos.detalles');
     Route::get('/export-pdf', [ExportController::class, 'exportarPDF'])->name('export.pdf');
-    
+
     // Rutas para el detalle
     Route::get('admin/detalle', [DetalleController::class, 'index'])->name('detalles');
-    Route::get('/export_detalle_pdf', [ExportController::class, 'exportar_detalle'])->name('export_detalle.pdf');
+    Route::get('/export_detalle_pdf', [ExportController::class, 'exportar_detalle'])->name('export_detalle.pdf');    
 
 });
 
