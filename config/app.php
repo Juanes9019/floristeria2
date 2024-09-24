@@ -169,7 +169,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,    
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
     ])->toArray(),
 
     /*

@@ -5,10 +5,12 @@
 :root{
     --primary-color: #FFB6C1;
     --secundary-color: #FFE599; 
+    --secundary-color_obs: #ffdf7d; 
     --tertiary-color: #444444; 
     --background-color: #f9f5f0;
     --dark-color: #151515;
     --boton: #17a2ff;
+    --mensajes: #ffcfd6;
 }
 
 
@@ -224,14 +226,18 @@
     margin-bottom: 3rem;
 }
 
-.container-options{
+.container-options {
     display: flex;
     justify-content: center;
     gap: 2rem;
     margin-bottom: 1rem;
 }
 
-.container-options span{
+.container-options a {
+    text-decoration: none;
+}
+
+.container-options span {
     color: #000;
     background-color: var(--secundary-color);
     padding: .7rem 3rem;
@@ -242,14 +248,28 @@
     transition: ease 0.5s;
 }
 
-.container-options span.active{
-    background-color: var(--secundary-color);
-    color: #000000;
+.container-options a:hover {
+    text-decoration: none;
+}
+
+.container-options span:hover {
+    background-color: var(--secundary-color_obs);
+}
+
+
+.fondo_card{
+    background-color: #FFB6C1; 
+    padding-top: 10px; 
+    border-radius: 20px;
+}
+
+.card_view {
+    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1); 
 }
 
 
 .card{
-    border-radius: 15px;
+    border-radius: 35px;
     padding: 1rem;
 }
 
@@ -277,6 +297,49 @@
     scale: 1.1;
 }
 
+.titulo_carta {
+    font-family: "Concert One", sans-serif;
+    font-weight: 200; 
+    font-style: normal; 
+}
+
+.text_page {
+    font-family: "Zain", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+}
+
+
+.text_price{
+    font-family: "Teko", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500; 
+    font-style: normal;
+    font-size: 20px;
+}
+
+.icono_cart_home{
+    font-size: 20px; 
+    color: #535353;
+}
+
+.fondo_carrito {
+    background-color: #fff3d0; 
+    border-radius: 50%;      
+    width: 40px;          
+    height: 40px;        
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+    text-decoration: none;  
+}
+
+.fondo_carrito:hover {
+    background-color: #f3e4b8; 
+    text-decoration: none;  
+}
 
 
 
@@ -558,3 +621,28 @@ footer{
 .whatsapp{
     background-color: #25d366;
 }
+
+
+/* -**************************
+boton agregar personalizado
+************************** */
+
+.custom-btn {
+    background: linear-gradient(135deg, #ff6f61, #de5d83);
+    border: none;
+    color: #fff;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center; 
+}
+
+.custom-btn i {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+.custom-btn:hover {
+    color: #fff;
+}
+

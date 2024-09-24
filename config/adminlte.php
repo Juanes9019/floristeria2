@@ -334,6 +334,25 @@ return [
             'label_color' => 'primary',
         ],
         [
+            'text' => 'Pqrs',
+            'url' => '/admin/users/pqrs',
+            'icon' => 'fas fa-fw fa-comments',
+            'label_color' => 'primary',
+        ],
+        ['header' => 'GESTION DE TIENDA'],
+        [
+            'text' => 'Inventario',
+            'url' => 'admin/inventario',
+            'icon' => 'fas fa-box',
+            'label_color' => 'primary',
+        ],
+        [
+            'text' => 'Categorias Productos',
+            'url' => 'admin/categorias_productos',
+            'icon' => 'fas fa-fw fa-list',
+            'label_color' => 'warning',
+        ],
+        [
             'text' => 'Categoria Insumos',
             'url' => 'admin/categoria_insumo',
             'icon' => 'fas fa-fw fa-list',

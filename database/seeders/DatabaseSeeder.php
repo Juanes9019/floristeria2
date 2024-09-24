@@ -14,11 +14,15 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RolSeeder::class);
         $this->call(UserSeeder::class);
-        $this->call(CategoriaSeeder::class);
+        $this->call(Categoria_Producto_Seeder::class);
         $this->call(ProveedorSeeder::class);
         $this->call(Categoria_insumoSeeder::class);
         $this->call(ProductoSeeder::class);
         $this->call(InventarioSeeder::class);
+        $this->call(FlorSeeder::class);
+        $this->call(AccesoriosSeeder::class);
+        $this->call(ComestiblesSeeder::class);
+        $this->call(ColoresSeeder::class);
         $this->call(InsumoSeeder::class);
     }
 }

@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Proveedor;
+use App\Exports\ProveedorExport;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Excel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -15,9 +18,8 @@ class ProveedorController extends Controller
 {
     public function index()
     {
-        $proveedores = Proveedor::all();
-        $i = 0;
-        return view('Admin.proveedor.index', compact('proveedores', 'i'));
+
+        return view('Admin.proveedor.index');
     }
 
     public function create()
@@ -122,22 +124,48 @@ class ProveedorController extends Controller
     {
         $proveedor = Proveedor::find($id);
 
+        if ($proveedor->estado == 1) {
+            return redirect()->route('Admin.proveedores')
+                ->with('error', 'No se puede eliminar un proveedor Activo');
+        }
+
         $proveedor->delete();
 
         return redirect()->route('Admin.proveedores')
             ->with('success', 'proveedor eliminado con éxito');
     }
 
-    public function change_Status($id)
+    public function export($format)
     {
-        $proveedor = Proveedor::find($id);
-        if ($proveedor->estado == 1) {
-            $proveedor->estado = 0;
-        } else {
-            $proveedor->estado = 1;
-        }
+        $export = new ProveedorExport;
 
-        $proveedor->save();
-        return redirect()->back();
+        switch ($format) {
+            case 'pdf':
+                $pdf = Pdf::loadView('exports.proveedores', [
+                    'proveedores' => Proveedor::all()
+                ])->setPaper('a4', 'portait') // Puedes cambiar a 'portrait' si prefieres
+                    ->setOption('margin-left', '10mm')
+                    ->setOption('margin-right', '10mm')
+                    ->setOption('margin-top', '10mm')
+                    ->setOption('margin-bottom', '10mm');
+                return $pdf->download('proveedores.pdf');
+            case 'xlsx':
+            default:
+                return $export->download('proveedores.xlsx', Excel::XLSX);
+        }
     }
+
+
+    // public function change_Status($id)
+    // {
+    //     $proveedor = Proveedor::find($id);
+    //     if ($proveedor->estado == 1) {
+    //         $proveedor->estado = 0;
+    //     } else {
+    //         $proveedor->estado = 1;
+    //     }
+
+    //     $proveedor->save();
+    //     return redirect()->back();
+    // }
 }

@@ -15,8 +15,14 @@ class Proveedor extends Model
         'nombre',
         'telefono',
         'correo',
-        'celular',
         'ubicacion',
         'estado'
     ];
+
+    public function scopeSearch($query, $value)
+    {
+        $query->where('nombre', 'like', "%{$value}%")
+                     ->orWhere('telefono', 'like', "%{$value}%")
+                     ->orWhere('correo', 'like', "%{$value}%");
+    }
 }

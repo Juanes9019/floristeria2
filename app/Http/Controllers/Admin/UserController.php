@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Pqrs;
+use App\Models\Roles;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -58,7 +60,9 @@ class UserController extends Controller
     public function edit($id)
 {
     $usuarios = User::find($id);
-    return view('Admin.users.edit', compact('usuarios'));
+    $roles = Roles::all();
+
+    return view('Admin.users.edit', compact('usuarios','roles'));
 }
 
     
@@ -74,6 +78,7 @@ $request->validate([
     'email' => 'required|email',
     'celular' => 'required',
     'direccion' => 'required',
+    'id_rol' => 'required',
     'password' => ['nullable', 'string', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/'],
 ]);
 
@@ -83,6 +88,7 @@ $usuarios->surname = $request->input('surname');
 $usuarios->email = $request->input('email');
 $usuarios->celular = $request->input('celular');
 $usuarios->direccion = $request->input('direccion');
+$usuarios->id_rol = $request->input('id_rol');
 $usuarios->password = $request->input('password');
 
 // Si el campo 'type' está presente en la solicitud, asigna el nuevo valor
@@ -111,4 +117,38 @@ return redirect()->route('Admin.users', ['id' => $usuarios->id])
             ->with('success', 'Usuario eliminado con éxito');
 
     }
+
+    public function index_pqrs()
+    {
+        $pqrs = Pqrs::all();
+        $i = 0; 
+        $fecha = now()->format('Y-m-d');
+        return view('Admin.pqrs.index', compact('pqrs','fecha' ,'i'));
+    }
+    
+
+
+    public function responderPqrs(Request $request, $id)
+    {
+    $data = $request->validate([
+        'respuesta' => 'required',
+    ]);
+
+    try {
+        $pqrs = Pqrs::findOrFail($id);
+
+        $pqrs->respuesta = $data['respuesta'];
+        $pqrs->fecha_respuesta = now();
+        $pqrs->estado = 'Respondido'; 
+        $pqrs->save();
+
+
+        return redirect()->route('Admin.users.pqrs')->with('success', 'Respuesta enviada con éxito');
+    } catch (\Exception $e) {
+        Log::error('Error al responder la PQRS: ' . $e->getMessage());
+
+        return back()->with('error', 'Error al responder la PQRS: ' . $e->getMessage());
+    }
+}
+
 }

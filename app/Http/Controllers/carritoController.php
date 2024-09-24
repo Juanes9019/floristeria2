@@ -79,6 +79,64 @@ class carritoController extends Controller
         return redirect()->back()->with("success", "Arreglo floral agregado correctamente al carrito");
     }
 
+    public function add_personalizado()
+    {
+        $floresSeleccionadas = session()->get('floresSeleccionadas', []);
+        $accesoriosSeleccionados = session()->get('accesoriosSeleccionados', []);
+        $comestiblesSeleccionados = session()->get('comestiblesSeleccionados', []);
+
+        $totalPrecio = 0;
+        $nombreArreglo = 'Arreglo Personalizado';
+
+        $items = [];
+
+        foreach ($floresSeleccionadas as $flor) {
+            $totalPrecio += $flor['precio'] * $flor['cantidad'];
+            $items[] = [
+                'id' => null, 
+                'name' => $flor['nombre'],
+                'qty' => $flor['cantidad'],
+                'price' => $flor['precio']
+            ];
+        }
+
+        foreach ($accesoriosSeleccionados as $accesorio) {
+            $totalPrecio += $accesorio['precio'] * $accesorio['cantidad'];
+            $items[] = [
+                'id' => null, 
+                'name' => $accesorio['nombre'],
+                'qty' => $accesorio['cantidad'],
+                'price' => $accesorio['precio']
+            ];
+        }
+
+        foreach ($comestiblesSeleccionados as $comestible) {
+            $totalPrecio += $comestible['precio'] * $comestible['cantidad'];
+            $items[] = [
+                'id' => null, 
+                'name' => $comestible['nombre'],
+                'qty' => $comestible['cantidad'],
+                'price' => $comestible['precio']
+            ];
+        }
+
+        Cart::add([
+            'id' => 'arreglo-personalizado',
+            'name' => $nombreArreglo,
+            'qty' => 1, 
+            'price' => $totalPrecio,
+            'options' => [
+                'items' => $items
+            ]
+        ]);
+
+        session()->forget('floresSeleccionadas');
+        session()->forget('accesoriosSeleccionados');
+        session()->forget('comestiblesSeleccionados');
+
+        return redirect()->route('personalizados')->with('success', 'Arreglo personalizado agregado al carrito exitosamente.');
+    }
+
     public function removeItem(Request $request)
     {
 
@@ -111,10 +169,9 @@ class carritoController extends Controller
         return back()->with("success", "¡Quitaste una unidad más!");
     }
     
-    
+
     public function confirmarCarrito(Request $request)
     {
-        // Validar los datos del formulario
         $request->validate([
             'nombre_destinatario' => 'required|string|max:255',
             'fecha' => 'required|date',
@@ -123,78 +180,105 @@ class carritoController extends Controller
             'direccion' => 'required|string|max:255',
             'instrucciones_entrega' => 'nullable|string|max:500',
             'telefono' => 'required|string|max:20',
+            'comprobante_pago' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
     
-        $pedido = new Pedido();
-        $pedido->total = Cart::total();
-        $pedido->fechapedido = now();
-        $pedido->estado = "Nuevo";
-        $pedido->user_id = auth()->user()->id; 
-        $pedido->save();
+        $file = $request->file('comprobante_pago'); // obtiene el archivo subido en el campo
     
-        $administradores = User::whereHas('role', function($query) {
-            $query->where('nombre', 'Admin'); 
-        })->get();
+        $response = Http::withHeaders([
+            'Authorization' => 'Client-ID b00a4e0e1ff8717',
+        ])->post('https://api.imgur.com/3/image', [
+            'image' => base64_encode(file_get_contents($file)), // convierte el contenido en base64 en el cuerpo
+        ]);
     
-        foreach ($administradores as $admin) {
-            $admin->notify(new PedidoNotificacion($pedido));
-        }
+        if ($response->successful()) {
+            $imgurUrl = $response->json()['data']['link']; // obtiene la URL de la respuesta exitosa
     
-        foreach(Cart::content() as $item){
-            // Restar del inventario
-            // $inventario = Inventario::where('id_producto', $item->id)->first();
+            $pedido = new Pedido();
+            $pedido->total = Cart::total();
+            $pedido->fechapedido = now();
+            $pedido->estado = "Nuevo";
+            $pedido->user_id = auth()->user()->id;
+            $pedido->comprobante_url = $imgurUrl;
+            $pedido->save();
     
-            // if ($inventario->cantidad < $item->qty) {
-            //     return back()->withErrors(["status" => "Lamentamos informarte que la cantidad que deseas no se encuentra disponible en este momento. Cantidad disponible: $inventario->cantidad"]);
-            // } else {
-                $detalle = new Detalle();
-                $detalle->id_pedido = $pedido->id;
-                $detalle->id_producto = $item->id;
-                $detalle->precio = $item->price;
-                $detalle->cantidad = $item->qty;
-                $detalle->subtotal = $item->price * $item->qty;
+            $administradores = User::whereHas('role', function($query) {
+                $query->where('nombre', 'Admin');
+            })->get();
     
-                $producto = Producto::find($item->id);
-                $detalle->imagen = $producto->foto;
-    
-                $detalle->save();
-    
-                // $inventario->cantidad -= $item->qty;
-                // $inventario->save();
+            foreach ($administradores as $admin) {
+                $admin->notify(new PedidoNotificacion($pedido));
             }
     
-        Cart::destroy();
+            try {
+                foreach (Cart::content() as $item) {
+                    if ($item->id === 'arreglo-personalizado') {
 
-    $datosEnvio = $request->only([
-        'nombre_destinatario', 
-        'fecha', 
-        'departamento', 
-        'ciudad', 
-        'direccion', 
-        'instrucciones_entrega', 
-        'telefono'
-    ]);
-
-    // Generar el PDF con los datos del pedido y del envío
-    $pdf = Pdf::loadView('pdf.pdf', [
-        'pedido' => $pedido,
-        'datosEnvio' => $datosEnvio,
-    ]);
-
-    // Enviar el correo con el PDF adjunto
-    Mail::to(auth()->user()->email)->send(new EnviarCorreo($pedido, $pdf->output()));
-
-    return redirect()->back()->with("success", "Arreglo adquirido con éxito, pedido en camino");
-}
-
+                        $detalle = new Detalle();
+                        $detalle->id_pedido = $pedido->id;
+                        $detalle->id_producto = null; 
+                        $detalle->precio = $item->price;
+                        $detalle->cantidad = $item->qty;
+                        $detalle->subtotal = $item->price * $item->qty;
+                        $detalle->opciones = json_encode($item->options);
+                        $detalle->imagen = null; 
+                        $detalle->save();
+                    } else {
+                        // Producto estándar
+                        $inventario = Inventario::where('id_producto', $item->id)->first();
     
+                        if (!$inventario) {
+                            throw new \Exception('Inventario no encontrado para el producto: ' . $item->id);
+                        }
     
+                        if ($inventario->cantidad < $item->qty) {
+                            throw new \Exception("Lamentamos informarte que la cantidad que deseas no se encuentra disponible en este momento. Cantidad disponible: $inventario->cantidad");
+                        } else {
+                            $detalle = new Detalle();
+                            $detalle->id_pedido = $pedido->id;
+                            $detalle->id_producto = $item->id;
+                            $detalle->precio = $item->price;
+                            $detalle->cantidad = $item->qty;
+                            $detalle->subtotal = $item->price * $item->qty;
+    
+                            $producto = Producto::find($item->id);
+                            $detalle->imagen = $producto ? $producto->foto : null;
+    
+                            $detalle->save();
+                        }
+                    }
+                }
+            } catch (\Exception $e) {
+                \Log::error('Error al guardar los detalles del pedido: ' . $e->getMessage() . ' en el archivo: ' . $e->getFile() . ' en la línea: ' . $e->getLine());
+                \Log::info('Contenido del carrito: ', Cart::content()->toArray());
+                return response()->view('errors.error', ['error' => 'Error al procesar el pedido. Por favor, inténtalo nuevamente.']);
+            }
+    
+            Cart::destroy();
 
-        public function pdf(){
-            $pdf = Pdf::loadView('pdf.pdf');
-        
-            return $pdf->stream();
+            $datosEnvio = $request->only([
+                'nombre_destinatario', 
+                'fecha', 
+                'departamento', 
+                'ciudad', 
+                'direccion', 
+                'instrucciones_entrega', 
+                'telefono'
+            ]);
+
+            // Generar el PDF con los datos del pedido y del envío
+            $pdf = Pdf::loadView('pdf.pdf', [
+                'pedido' => $pedido,
+                'datosEnvio' => $datosEnvio,
+            ]);
+
+            // Enviar el correo con el PDF adjunto
+            Mail::to(auth()->user()->email)->send(new EnviarCorreo($pedido, $pdf->output()));
+    
+            return redirect()->back()->with("success", "Arreglo adquirido con éxito, pedido en camino");
+        } else {
+            \Log::error('Error al subir la imagen a Imgur: ' . $response->body());
+            return back()->withErrors(['comprobante_pago' => 'Error al subir la imagen a Imgur. Por favor, inténtalo nuevamente.']);
         }
-
-    
+    }
 }

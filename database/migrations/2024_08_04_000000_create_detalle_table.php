@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('detalles', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_pedido')->references('id')->on('pedidos');
-            $table->foreignId('id_producto')->references('id')->on('productos');
+            $table->foreignId('id_producto')->nullable()->constrained('productos');
             $table->decimal('precio', 10, 2);
             $table->integer('cantidad');
             $table->decimal('subtotal', 10, 2);
-            $table->string('imagen');
+            $table->string('imagen')->nullable();
+            $table->json('opciones')->nullable();
             $table->timestamps();
         });
     }

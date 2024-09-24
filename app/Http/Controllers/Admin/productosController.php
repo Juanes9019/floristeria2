@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Categoria_Producto;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +22,7 @@ class productosController extends Controller
     public function create()
     {
         $producto = new Producto(); 
-        $categorias = DB::table('categorias')->get();
+        $categorias = Categoria_Producto::all();
         return view('Admin.producto.create', compact('categorias','producto'));
     }
 
@@ -30,7 +31,7 @@ class productosController extends Controller
     {
         
         $request->validate([
-            'id_categoria' => 'required',
+            'id_categoria_producto' => 'required',
             'nombre' => 'required|string',
             'descripcion' => 'required',
             'cantidad' => 'required|integer',
@@ -46,7 +47,7 @@ class productosController extends Controller
         // Crear un nuevo producto con la información proporcionada y la ruta de la imagen
         $producto = new Producto;
 
-        $producto->id_categoria = $request->id_categoria;
+        $producto->id_categoria_producto = $request->id_categoria_producto;
         $producto->nombre = $request->nombre;
         $producto->descripcion = $request->descripcion;
         $producto->cantidad = $request->cantidad;
@@ -54,7 +55,7 @@ class productosController extends Controller
         $producto->foto = $request->foto;
 
         if ($request->has('estado')) {
-             $producto->estado = 1;
+            $producto->estado = 1;
         }
 
         $producto->save();
@@ -64,7 +65,7 @@ class productosController extends Controller
     
     public function edit($id)    {
         $producto = Producto::find($id);
-        $categorias = DB::table('categorias')->get();
+        $categorias = Categoria_Producto::all();
         return view('Admin.producto.edit', compact('producto','categorias'));
     }
 
@@ -72,10 +73,11 @@ class productosController extends Controller
     {
         // Encuentra la categoria por su ID
         $producto = Producto::find($id);
+        
 
         // Validaciones y lógica de actualización
         $request->validate([
-            'id_categoria' => 'required|exists:categorias,id',
+            'id_categoria_producto' => 'required|exists:categorias_productos,id_categoria_producto',
             'nombre' => 'required|string',
             'descripcion' => 'required',
             'cantidad' => 'required|integer',
@@ -84,12 +86,16 @@ class productosController extends Controller
         ]);
 
         // Asignación de los campos del usuario desde el formulario
-        $producto->id_categoria = $request->input('id_categoria');
+        $producto->id_categoria_producto = $request->input('id_categoria_producto');
         $producto->nombre = $request->input('nombre');
         $producto->descripcion = $request->input('descripcion');
         $producto->cantidad = $request->input('cantidad');
         $producto->precio = $request->input('precio');
         $producto->foto = $request->input('foto');
+        if ($request->has('estado')) {
+            $producto->estado = $request->estado;
+        }
+
 
         $producto->save();
 

@@ -16,18 +16,24 @@
                         </span>
 
                         <div class="float-right">
-                            <a href="{{ route('Admin.categoria.create') }}" class="btn btn-primary btn-sm float-right"
+                            <a href="{{ route('Admin.categoria_producto.create') }}" class="btn btn-primary btn-sm float-right"
                                 data-placement="left">
                                 {{ __('Registrar categorias') }}
                             </a>
                         </div>
                     </div>
                 </div>
-                @if ($message = Session::get('success'))
-                <div class="alert alert-success">
-                    <p>{{ $message }}</p>
-                </div>
+                @if ($message = Session::get('error'))
+                <script>
+                    Swal.fire({
+                        title: 'Error',
+                        text: '{{ $message }}',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                </script>
                 @endif
+
 
                 <div class="card-body">
                     <div class="table-responsive">
@@ -44,25 +50,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($categorias as $categoria)
+                                @foreach($categorias_productos as $categoria_producto)
                                 <tr>
                                     <td class="text-center">{{ ++$i }}</td>
-                                    <td class="text-center">{{ $categoria->nombre }}</td>
-                                    <td class="text-center">{{ $categoria->estado == 1 ? 'Activo' : 'Inactivo' }}</td>
+                                    <td class="text-center">{{ $categoria_producto->nombre }}</td>
+                                    <td class="text-center">{{ $categoria_producto->estado == 1 ? 'Activo' : 'Inactivo' }}</td>
 
                                     <td class="text-center">
-                                        <form id="form_eliminar_{{ $categoria->id }}" action="{{ route('Admin.categoria.destroy', ['id' => $categoria->id]) }}" method="POST">
+                                        <form id="form_eliminar_{{ $categoria_producto->id_categoria_producto }}" action="{{ route('Admin.categoria_producto.destroy', ['id' => $categoria_producto->id_categoria_producto]) }}" method="POST">
                                             <a class="btn btn-sm btn-success"
-                                                href="{{ route('Admin.categoria.edit', ['id' => $categoria->id]) }}"><i
+                                                href="{{ route('Admin.categoria_producto.edit', ['id' => $categoria_producto->id_categoria_producto]) }}"><i
                                                     class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
 
                                             @csrf
                                             @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$categoria->id}}')">
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$categoria_producto->id_categoria_producto}}')">
                                                 <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
                                             </button>
-                                            <a class="btn btn-sm {{ $categoria->estado == 1 ? 'btn-success' : 'btn-danger' }}" href="{{ route('Admin.categoria.status', $categoria->id) }}">
-                                                {{ $categoria->estado == 1 ? 'Activo' : 'Inactivo' }}
+                                            <a class="btn btn-sm {{ $categoria_producto->estado == 1 ? 'btn-success' : 'btn-danger' }}" href="{{ route('Admin.categoria_producto.status', ['id' => $categoria_producto->id_categoria_producto]) }}">
+                                                {{ $categoria_producto->estado == 1 ? 'Activo' : 'Inactivo' }}
                                                 <i class="fa fa-fw fa-sync"></i>
                                             </a>
                                         </form>

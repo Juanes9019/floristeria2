@@ -38,5 +38,15 @@ class InventarioSeeder extends Seeder
             'id_producto' => 5,
             'cantidad' => 10, 
         ]);
+
+        DB::table('inventario')->insert([
+            'id_producto' => 6,
+            'cantidad' => 10, 
+        ]);
+
+        DB::table('inventario')->insert([
+            'id_producto' => 7,
+            'cantidad' => 10, 
+        ]);
     }
 }

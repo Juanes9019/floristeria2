@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_categoria')->references('id')->on('categorias');
+            $table->foreignId('id_categoria_producto')->references('id_categoria_producto')->on('categorias_productos');
             $table->string("nombre");
             $table->text('descripcion');
             $table->integer('cantidad')->default(0);
