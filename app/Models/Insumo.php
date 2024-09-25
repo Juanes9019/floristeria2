@@ -25,4 +25,10 @@ class Insumo extends Model
         return $this->belongsTo(Categoria_insumo::class, 'id_categoria_insumo');
     }
 
+    public function scopeSearch($query, $value)
+    {
+        $query->where('nombre', 'like', "%{$value}%")
+                    ->orWhere('id_categoria_insumo', 'like', "%{$value}%");
+    }
+
 }
