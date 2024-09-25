@@ -10,63 +10,67 @@
 
 
 <h2 class="text-center mb-5">CREAR UNA NUEVA CATEGORIA</h2>
-    
 
-    <div class="row justify-content-center mt-5">
-        <div class="col-md-8">
-        <form id="formulario_crear" method="POST" action="{{ route('Admin.categoria_producto.store') }}" novalidate >
-                @csrf
-                <div class="form-group">
-                    <label for="nombre">Nombre de la categoria</label>
-                    <input type="text" id="nombre" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" placeholder="Ocasiones especiales" value="{{old('nombre', $categoria_producto->nombre)  }}">
 
-                    @error('nombre')
-                        <span class="invalid-feedback d-block" role="alert">
-                            <strong>{{$message}}</strong>
-                        </span>
-                    @enderror
-                </div>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+        <form id="formulario_crear" method="POST" action="{{ route('Admin.categoria_producto.store') }}" novalidate>
+            @csrf
+            <div class="form-group">
+                <label for="nombre">Nombre de la categoria</label>
+                <input type="text" id="nombre" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" placeholder="Ocasiones especiales" value="{{old('nombre', $categoria_producto->nombre)  }}">
 
-                <div class="form-group">
+                @error('nombre')
+                <span class="invalid-feedback d-block" role="alert">
+                    <strong>{{$message}}</strong>
+                </span>
+                @enderror
+            </div>
+
+
+
+            <div class="form-group">
                 <label for="estado">Estado</label>
-                <select  name="estado" id="estado" class="form-control">
-                    <option value="1" {{ old('estado') == '1' ? 'selected' : '' }}>Activo</option>
+                <select name="estado" id="estado" class="form-control">
+                    <option value="0" {{ old('estado') == '0' ? 'selected' : '' }}>Inactivo</option>
                 </select>
             </div>
 
-                <div class="form-group">
-                    <button  class="btn btn-success" value="agregar categoria" onclick="agregar()">
-                        Agregar Categoría
-                    </button>
-                    <a href="{{ route('Admin.categorias_productos') }}" class="btn btn-danger ">Volver</a>
-                </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-success" value="agregar categoria" onclick="agregar(event)">
+                    Agregar Categoría
+                </button>
+                <a href="{{ route('Admin.categorias_productos') }}" class="btn btn-danger ">Volver</a>
+            </div>
 
 
-            </form>
-        </div>
-    </div> 
+        </form>
+    </div>
+</div>
 <script>
-function agregar() {
-    Swal.fire({
-        title: "¡Estas seguro!",
-        text: "¿Deseas agregar esta categoria?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Si, agregar"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            Swal.fire({
-                title: "!categoria agregada!",
-                text: "La categoria se agrego correctamente",
-                icon: "success"
-            });
-            event.preventDefault();
-            document.getElementById('formulario_crear').submit();
-        }
-    });
-}
+    function agregar(event) {
+        event.preventDefault();
+
+        Swal.fire({
+            title: "¡Estas seguro!",
+            text: "¿Deseas agregar esta categoría?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, agregar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "!Categoría agregada!",
+                    text: "La categoría se agregó correctamente",
+                    icon: "success"
+                }).then(() => {
+                    document.getElementById('formulario_crear').submit(); // Envía el formulario después de la confirmación
+                });
+            }
+        });
+    }
 </script>
 
 @stop

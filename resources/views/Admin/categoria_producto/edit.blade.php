@@ -29,8 +29,8 @@
             <div class="form-group">
                 <label for="estado">Estado</label>
                 <select name="estado" id="estado" class="form-control">
-                    <option value="1" {{ $producto->estado == '1' ? 'selected' : '' }}>Activo</option>
-                    <option value="0" {{ $producto->estado == '0' ? 'selected' : '' }}>Inactivo</option>
+                    <option value="1" {{ $categoria_producto->estado == '1' ? 'selected' : '' }}>Activo</option>
+                    <option value="0" {{ $categoria_producto->estado == '0' ? 'selected' : '' }}>Inactivo</option>
                 </select>
             </div>
 

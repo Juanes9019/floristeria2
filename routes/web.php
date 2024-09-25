@@ -129,7 +129,7 @@ Route::middleware(['auth', 'user-access:1,3'])->group(function () {
     Route::get('admin/categoria_producto/{id}/edit', [Categoria_Producto_Controller::class, 'edit'])->name('Admin.categoria_producto.edit');
     Route::put('admin/categoria_producto/{id}', [Categoria_Producto_Controller::class, 'update'])->name('Admin.categoria_producto.update');
     Route::delete('admin/categoria_producto/{id}', [Categoria_Producto_Controller::class, 'destroy'])->name('Admin.categoria_producto.destroy');
-    Route::get('admin/categoria_producto/{id}/status', [Categoria_Producto_Controller::class, 'change_Status'])->name('Admin.categoria_producto.status');
+    // Route::get('admin/categoria_producto/{id}/status', [Categoria_Producto_Controller::class, 'change_Status'])->name('Admin.categoria_producto.status');
 
 
 
@@ -156,12 +156,12 @@ Route::middleware(['auth', 'user-access:1,3'])->group(function () {
 
     
     //rutas para los inventario
-    Route::get('admin/inventario', [inventarioController::class, 'index'])->name('Admin.inventario');
-    Route::get('admin/inventario/create', [inventarioController::class, 'create'])->name('Admin.inventario.create');
-    Route::post('admin/inventario', [inventarioController::class, 'store'])->name('Admin.inventario.store');
-    Route::get('admin/inventario/{id}/edit', [inventarioController::class, 'edit'])->name('Admin.inventario.edit');
-    Route::put('admin/inventario/{id}', [inventarioController::class, 'update'])->name('Admin.inventario.update');
-    Route::delete('admin/inventario/{id}', [inventarioController::class, 'destroy'])->name('Admin.inventario.destroy');
+    // Route::get('admin/inventario', [inventarioController::class, 'index'])->name('Admin.inventario');
+    // Route::get('admin/inventario/create', [inventarioController::class, 'create'])->name('Admin.inventario.create');
+    // Route::post('admin/inventario', [inventarioController::class, 'store'])->name('Admin.inventario.store');
+    // Route::get('admin/inventario/{id}/edit', [inventarioController::class, 'edit'])->name('Admin.inventario.edit');
+    // Route::put('admin/inventario/{id}', [inventarioController::class, 'update'])->name('Admin.inventario.update');
+    // Route::delete('admin/inventario/{id}', [inventarioController::class, 'destroy'])->name('Admin.inventario.destroy');
 
     // Rutas para el pedido
     Route::get('admin/pedido', [PedidoController::class, 'index'])->name('pedidos');

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Producto extends Model
 {
@@ -20,6 +21,11 @@ class Producto extends Model
         'foto',
         'estado'
     ];
+
+    public function getDescripcionLimitadaAttribute()
+    {
+        return Str::limit($this->descripcion, 25); 
+    }
 
     public function categoria_producto()
     {

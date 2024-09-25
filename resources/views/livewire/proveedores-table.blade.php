@@ -156,7 +156,7 @@
                                             wire:target="changeStatus({{ $proveedor->id }})"
                                             style="cursor: pointer;">
                                             {{ $proveedor->estado == 1 ? 'Activo' : 'Inactivo' }}
-                                            <!-- <i class="fas fa-toggle-{{ $proveedor->estado == 1 ? 'on' : 'off' }}"></i> -->
+                                            <i class="fas fa-toggle-{{ $proveedor->estado == 1 ? 'on' : 'off' }}"></i>
                                         </a>
 
                                         <div wire:loading wire:target="changeStatus({{ $proveedor->id }})">

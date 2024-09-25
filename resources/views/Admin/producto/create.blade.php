@@ -96,12 +96,12 @@
             <div class="form-group">
                 <label for="estado">Estado</label>
                 <select name="estado" id="estado" class="form-control">
-                    <option value="1" {{ old('estado') == '1' ? 'selected' : '' }}>Activo</option>
+                    <option value="0" {{ old('estado') == '0' ? 'selected' : '' }}>Inactivo</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <button type="button" class="btn btn-success" value="agregar insumo" onclick="agregar()">Agregar Producto</button>
+                <button type="button" class="btn btn-success" value="agregar insumo" onclick="agregar(event)">Agregar Producto</button>
                 <a href="{{ route('Admin.productos') }}" class="btn btn-primary ">Volver</a>
             </div>
 
@@ -110,25 +110,26 @@
     </div>
 </div>
 <script>
-    function agregar() {
+       function agregar(event) {
+        event.preventDefault();
+
         Swal.fire({
             title: "¡Estas seguro!",
-            text: "¿Deseas agregar esta categoria?",
+            text: "¿Deseas agregar esta categoría?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Si, agregar"
+            confirmButtonText: "Sí, agregar"
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire({
-                    title: "!categoria agregada!",
-                    text: "La categoria se agrego correctamente",
+                    title: "!Categoría agregada!",
+                    text: "La categoría se agregó correctamente",
                     icon: "success"
+                }).then(() => {
+                    document.getElementById('formulario_crear').submit(); 
                 });
-                event.preventDefault();
-
-                document.getElementById('formulario_crear').submit();
             }
         });
     }

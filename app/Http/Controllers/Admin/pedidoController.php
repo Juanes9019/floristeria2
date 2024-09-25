@@ -8,6 +8,7 @@ use App\Notifications\EstadoPedido;
 use App\Mail\PedidoCambiado;
 use App\Models\Pedido;
 use App\Models\Inventario;
+use App\Models\Producto;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -38,9 +39,9 @@ class PedidoController extends Controller
 
                     
         foreach ($pedido->detalles as $detalle) {
-            $inventario = Inventario::where('id_producto', $detalle->id_producto)->first();
-            $inventario->cantidad -= $detalle->cantidad;
-            $inventario->save();
+            $producto = Producto::where('id', $detalle->id_producto)->first();
+            $producto->cantidad -= $detalle->cantidad;
+            $producto->save();
         }
             
         } elseif ($pedido->estado === 'preparacion') {

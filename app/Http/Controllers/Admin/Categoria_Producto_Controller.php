@@ -12,9 +12,8 @@ class Categoria_Producto_Controller extends Controller
 {
     public function index()
     {
-        $categorias_productos = Categoria_Producto::all();
-        $i = 0;
-        return view('Admin.categoria_producto.index', compact('categorias_productos', 'i'));
+        
+        return view('Admin.categoria_producto.index');
     }
 
     public function create()
@@ -26,15 +25,22 @@ class Categoria_Producto_Controller extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required',
-        ]);
+            'nombre' => 'required|min:3|max:15|unique:categorias_productos',
+        ],
+        [
+            'nombre.required' => 'El campo :attribute es requerido',
+            'nombre.min' => 'El campo :attribute debe tener al menos :min caracteres',
+            'nombre.max' => 'El campo :attribute debe ser menor que :max caracteres',
+            'unique' => 'El :attribute ya existe.',
+        ]
+    );
 
         
         $categoria_producto = new Categoria_Producto;
 
         $categoria_producto->nombre = $request->nombre;
         if ($request->has('estado')) {
-             $categoria_producto->estado = 1;
+             $categoria_producto->estado = 0;
         }
 
         $categoria_producto->save();
@@ -66,6 +72,9 @@ class Categoria_Producto_Controller extends Controller
 
         // Actualiza los campos de la categoria utilizando el método save
         $categoria_producto->nombre = $request->input('nombre');
+        if ($request->has('estado')) {
+            $categoria_producto->estado = $request->estado;
+        }
         $categoria_producto->save();
 
         // Redirecciona a la vista de edición con un mensaje de éxito
@@ -80,27 +89,25 @@ class Categoria_Producto_Controller extends Controller
     {
         $categoria_producto = Categoria_Producto::find($id_categoria_producto);
 
-        if ($categoria_producto) {
-            try {
-                $categoria_producto->delete();
-                return redirect()->route("Admin.categorias_productos")->with('success', 'Categoría eliminada exitosamente');
-            } catch (\Illuminate\Database\QueryException $e) {
-                return redirect()->route("Admin.categorias_productos")->with('error', 'No se puede eliminar la categoría porque está asociada a uno o más productos.');
-            }
-        } else {
-            return redirect()->route("Admin.categorias_productos")->with('error', 'No se pudo encontrar la categoría');
-        }
-    }
-    public function change_Status($id)
-    {
-        $categoria_producto = Categoria_Producto::find($id);
         if ($categoria_producto->estado == 1) {
-            $categoria_producto->estado = 0;
-        } else {
-            $categoria_producto->estado = 1;
+            return redirect()->route('Admin.categorias_productos')
+                ->with('error', 'No se puede eliminar una Categoria Activa');
         }
+        $categoria_producto->delete();
 
-        $categoria_producto->save();
-        return redirect()->back();
+        return redirect()->route('Admin.categorias_productos')
+                ->with('success','Categoria Eliminada con éxito');
     }
+    // public function change_Status($id)
+    // {
+    //     $categoria_producto = Categoria_Producto::find($id);
+    //     if ($categoria_producto->estado == 1) {
+    //         $categoria_producto->estado = 0;
+    //     } else {
+    //         $categoria_producto->estado = 1;
+    //     }
+
+    //     $categoria_producto->save();
+    //     return redirect()->back();
+    // }
 }

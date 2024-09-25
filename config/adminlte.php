@@ -326,12 +326,12 @@ return [
             'label_color' => 'primary',
         ],
         ['header' => 'GESTION DE TIENDA'],
-        [
-            'text' => 'Inventario',
-            'url' => 'admin/inventario',
-            'icon' => 'fas fa-box',
-            'label_color' => 'primary',
-        ],
+        // [
+        //     'text' => 'Inventario',
+        //     'url' => 'admin/inventario',
+        //     'icon' => 'fas fa-box',
+        //     'label_color' => 'primary',
+        // ],
         [
             'text' => 'Categorias Productos',
             'url' => 'admin/categorias_productos',
