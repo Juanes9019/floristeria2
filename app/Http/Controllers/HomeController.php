@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Categoria_Producto;
+use App\Models\Categoria_insumo;
 use App\Models\User;
 use App\Models\Pqrs;
 use App\Models\Pedido;
@@ -13,6 +14,7 @@ use App\Models\TipoFlor;
 use App\Models\Flor;
 use App\Models\Accesorio;
 use App\Models\Comestible;
+use App\Models\Insumo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -139,44 +141,45 @@ class HomeController extends Controller
     return view('view_arreglo.all_products', compact('productos', 'categoria_categoria'));
 }
 
-public function personalizados(Request $request)
-{
-    $flores = Flor::with('colores')->get();
-    $accesorios = Accesorio::all();
-    $comestibles = Comestible::all();
+    public function personalizados(Request $request)
+    {
+        // Obtener todos los insumos disponibles
+        $insumos = Insumo::all();
+        $categorias_insumo  = Categoria_insumo::all();
 
-    // Recuperar los seleccionados de la sesión
-    $floresSeleccionadas = session()->get('floresSeleccionadas', []);
-    $accesoriosSeleccionados = session()->get('accesoriosSeleccionados', []);
-    $comestiblesSeleccionados = session()->get('comestiblesSeleccionados', []);
+        // Recuperar los insumos seleccionados de la sesión
+        $insumosSeleccionados = session()->get('insumosSeleccionados', []);
 
-    // Inicializar totales
-    $totalElementos = 0;
-    $totalPrecio = 0;
+        // Inicializar los totales
+        $totalElementos = 0;
+        $totalPrecio = 0;
 
-    // Calcular total de flores
-    foreach ($floresSeleccionadas as $flor) {
-        $totalElementos += $flor['cantidad'];
-        $totalPrecio += $flor['precio'] * $flor['cantidad'];
+        // Calcular el total de insumos seleccionados
+        foreach ($insumosSeleccionados as $insumo) {
+            $totalElementos += $insumo['cantidad'];
+            $totalPrecio += $insumo['precio'] * $insumo['cantidad'];
+        }
+
+        // Agregar un valor adicional de 30,000 al total (por ejemplo, por costos de personalización)
+        $totalPrecio += 30000;
+
+        // Retornar la vista con los totales y los insumos
+        return view('view_arreglo.personalizado', compact('insumos', 'categorias_insumo','insumosSeleccionados', 'totalElementos', 'totalPrecio'));
     }
 
-    // Calcular total de accesorios
-    foreach ($accesoriosSeleccionados as $accesorio) {
-        $totalElementos += $accesorio['cantidad'];
-        $totalPrecio += $accesorio['precio'] * $accesorio['cantidad'];
+    public function getInsumosPorCategoria($categoria_id)
+    {
+        $insumos = Insumo::where('id_categoria_insumo', $categoria_id)->get();
+    
+        if ($insumos->isEmpty()) {
+            return response()->json([], 204); 
+        }
+    
+        return response()->json($insumos);
     }
+    
 
-    // Calcular total de comestibles
-    foreach ($comestiblesSeleccionados as $comestible) {
-        $totalElementos += $comestible['cantidad'];
-        $totalPrecio += $comestible['precio'] * $comestible['cantidad'];
-    }
 
-    $totalPrecio  += 30000;
-
-    // Retornar la vista con totales
-    return view('view_arreglo.personalizado', compact('flores', 'accesorios', 'comestibles', 'floresSeleccionadas', 'accesoriosSeleccionados', 'comestiblesSeleccionados', 'totalElementos', 'totalPrecio'));
-}
 
 
 
