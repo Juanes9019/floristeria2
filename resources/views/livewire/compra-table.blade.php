@@ -5,17 +5,17 @@
                 <div class="card-header">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span id="card_title">
-                            <b>Control de insumos</b>
+                            <b>Control de Compras</b>
                         </span>
                         <div class="float-right">
-                            <a href="{{ route('Admin.insumo.create') }}" class="btn btn-primary btn-sm float-right"
+                            <a href="{{ route('Admin.compra.create') }}" class="btn btn-primary btn-sm float-right"
                                 data-placement="left">
-                                {{ __('Registrar insumos') }}
+                                {{ __('Registrar Compra') }}
                             </a>
                         </div>
                     </div>
                 </div>
-                
+
                 @if ($message = Session::get('success'))
                     <div class="alert alert-success">
                         <p>{{ $message }}</p>
@@ -48,9 +48,9 @@
                                         @endif
                                     </th>
 
-                                    <th scope="col" class="text-center" wire:click="sortBy('id_categoria_insumo')">
-                                        Categoria_insumo
-                                        @if ($ordenarColumna === 'id_categoria_insumo')
+                                    <th scope="col" class="text-center" wire:click="sortBy('created_at')">
+                                        Fecha de Compra
+                                        @if ($ordenarColumna === 'created_at')
                                             @if ($ordenarForma === 'asc')
                                                 <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
@@ -63,9 +63,9 @@
                                         @endif
                                     </th>
 
-                                    <th scope="col" class="text-center" wire:click="sortBy('nombre')">
-                                        Nombre
-                                        @if ($ordenarColumna === 'nombre')
+                                    <th scope="col" class="text-center" wire:click="sortBy('proveedor_id')">
+                                        Proveedor
+                                        @if ($ordenarColumna === 'proveedor_id')
                                             @if ($ordenarForma === 'asc')
                                                 <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
@@ -78,14 +78,9 @@
                                         @endif
                                     </th>
 
-                                    <th scope="col" class="text-center">Cantidad Insumo</th>
-                                    <th scope="col" class="text-center">Costo Unitario</th>
-                                    <th scope="col" class="text-center">Perdida Insumo</th>
-                                    <th scope="col" class="text-center">Costo Perdida</th>
-
-                                    <th scope="col" class="text-center" wire:click="sortBy('estado')">
-                                        Estado
-                                        @if ($ordenarColumna === 'estado')
+                                    <th scope="col" class="text-center" wire:click="sortBy('costo_total')">
+                                        Costo Total
+                                        @if ($ordenarColumna === 'costo_total')
                                             @if ($ordenarForma === 'asc')
                                                 <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
@@ -103,39 +98,14 @@
                             </thead>
 
                             <tbody>
-                                @foreach($insumos as $insumo)
+                                @foreach($compras as $compra)
                                     <tr>
-                                        <td class="text-center">{{ ($insumos->currentPage() - 1) * $insumos->perPage() + $loop->iteration }}</td>
-                                        <td class="text-center">{{ $insumo->categoria_insumo->nombre }}</td>
-                                        <td class="text-center">{{ $insumo->nombre }}</td>
-                                        <td class="text-center">{{ $insumo->cantidad_insumo }}</td>
-                                        <td class="text-center">{{ number_format($insumo->costo_unitario, 0, ',', '.') }}</td>
+                                        <td class="text-center">{{ ($compras->currentPage() - 1) * $compras->perPage() + $loop->iteration }}</td>
+                                        <td class="text-center">{{ $compra->created_at->format('d/m/Y H:i') }}</td>
+                                        <td class="text-center">{{ $compra->proveedor->nombre }}</td>
+                                        <td class="text-center">${{ number_format($compra->costo_total, 0, ',', '.') }}</td>
                                         <td class="text-center">
-                                            <div class="btn-group btn-group-sm" role="group" aria-label="small button group">
-                                                <a href="{{ route('incrementarInsumo', ['id' => $insumo->id]) }}" class="btn btn-success efecto">+</a>
-                                                {{ $insumo->perdida_insumo }}
-                                                <a href="{{ route('decrementarInsumo', ['id' => $insumo->id]) }}" class="btn btn-danger efecto">-</a>
-                                            </div>
-                                        </td>
-
-                                        <td class="text-center">{{ number_format($insumo->costo_perdida, 0, ',', '.') }}</td>
-
-                                        <td class="text-center">
-                                            <a class="btn btn-sm {{ $insumo->estado == 1 ? 'btn-success' : 'btn-danger' }}" wire:click="changeStatus({{ $insumo->id }})" style="cursor: pointer;">
-                                                {{ $insumo->estado == 1 ? 'Activo' : 'Inactivo' }}
-                                                <i class="fas fa-toggle-{{ $insumo->estado == 1 ? 'on' : 'off' }}"></i>
-                                            </a>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <form action="{{ route('Admin.insumo.destroy', ['id' => $insumo->id]) }}" method="POST">
-                                                <a class="btn btn-sm btn-success" href="{{ route('Admin.insumo.edit', ['id' => $insumo->id]) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">
-                                                    <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
-                                                </button>
-                                            </form>
+                                            <a href="{{ route('compra.detalles', $compra->id) }}" class="btn btn-info">Ver Detalles</a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -148,7 +118,7 @@
                             <option value="50">50</option>
                         </select>
                         <div class="mt-3">
-                            {{ $insumos->links() }}
+                            {{ $compras->links() }}
                         </div>
                     </div>
                 </div>

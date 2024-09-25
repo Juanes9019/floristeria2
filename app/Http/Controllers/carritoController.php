@@ -38,7 +38,7 @@ class carritoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except('add','index');
+        $this->middleware('auth')->except('add','index', 'incrementar', 'removeItem', 'decrementar', 'clear');
     }
 
     public function index()

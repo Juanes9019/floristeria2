@@ -31,7 +31,9 @@ class Insumo extends Model
     public function scopeSearch($query, $value)
     {
         $query->where('nombre', 'like', "%{$value}%")
-                    ->orWhere('id_categoria_insumo', 'like', "%{$value}%");
+              ->orWhere('id_categoria_insumo', 'like', "%{$value}%")
+              ->orWhereHas('categoria_insumo', function ($q) use ($value) {
+                  $q->where('nombre', 'like', "%{$value}%");
+              });
     }
-
 }
