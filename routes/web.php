@@ -38,6 +38,8 @@ Route::post('/pqrs', [HomeController::class, 'pqrs'])->name('pqrs');
 Route::get('/arreglo/{id}', [HomeController::class, 'show'])->name('view_arreglo.arreglo_view');
 Route::get('/all_products', [HomeController::class, 'show_all'])->name('all_products');
 Route::get('/personalizados', [HomeController::class, 'personalizados'])->name('personalizados');
+Route::get('/insumos/categoria/{categoria_id}', [HomeController::class, 'getInsumosPorCategoria']);
+
 
 
 //rutas para las flores personalizadas
