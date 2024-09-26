@@ -37,7 +37,7 @@
                                         </div>
                                         <div class="btn-group" role="group" aria-label="Acciones">
                                             <div class="me-2">
-                                                <form action="{{ route('actualizarInsumo', $key) }}" method="POST" style="display: inline;">
+                                                <form action="{{ route('actualizar_producto', $key) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('PATCH')
                                                     <button type="submit" name="action" value="decrementar" class="btn btn-outline-primary btn-sm">
@@ -48,7 +48,7 @@
                                                     </button>
                                                 </form>
                                             </div>
-                                            <form action="{{ route('eliminarInsumo', $key) }}" method="POST" style="display: inline;">
+                                            <form action="{{ route('eliminar_producto', $key) }}" method="POST" style="display: inline;">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-outline-danger btn-sm">
@@ -97,7 +97,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <form action="{{ route('agregarFlor') }}" method="POST">
+                        <form action="{{ route('agregar_producto') }}" method="POST">
                             @csrf
                             <!-- Selección de Categoría -->
                             <label for="categoria">Selecciona la categoría que desea:</label>

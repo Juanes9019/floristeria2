@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\DatosEnvio;
 use App\Models\Detalle;
 use App\Models\Inventario;
+use App\Models\Insumo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -80,70 +81,64 @@ class carritoController extends Controller
     }
 
     public function add_personalizado()
-    {
-        $floresSeleccionadas = session()->get('floresSeleccionadas', []);
-        $accesoriosSeleccionados = session()->get('accesoriosSeleccionados', []);
-        $comestiblesSeleccionados = session()->get('comestiblesSeleccionados', []);
+{
+    // Recuperar los insumos seleccionados de la sesión
+    $insumosSeleccionados = session()->get('insumosSeleccionados', []);
+    
+    $totalPrecio = 0;
+    $nombreArreglo = 'Arreglo Personalizado';
+    $items = [];
 
-        $totalPrecio = 0;
-        $nombreArreglo = 'Arreglo Personalizado';
-
-        $items = [];
-
-        foreach ($floresSeleccionadas as $flor) {
-            $totalPrecio += $flor['precio'] * $flor['cantidad'];
+    // Calcular el total y preparar los items para el carrito
+    foreach ($insumosSeleccionados as $insumo) {
+        $insumoBD = Insumo::find($insumo['id']);
+        
+        if ($insumoBD) {
+            $totalPrecio += $insumoBD->costo_unitario * $insumo['cantidad'];
             $items[] = [
                 'id' => null, 
-                'name' => $flor['nombre'],
-                'qty' => $flor['cantidad'],
-                'price' => $flor['precio']
+                'name' => $insumoBD->nombre,
+                'qty' => $insumo['cantidad'],
+                'price' => $insumoBD->costo_unitario,
+                'color' => $insumoBD->color // Agregar el color aquí
             ];
         }
-
-        foreach ($accesoriosSeleccionados as $accesorio) {
-            $totalPrecio += $accesorio['precio'] * $accesorio['cantidad'];
-            $items[] = [
-                'id' => null, 
-                'name' => $accesorio['nombre'],
-                'qty' => $accesorio['cantidad'],
-                'price' => $accesorio['precio']
-            ];
-        }
-
-        foreach ($comestiblesSeleccionados as $comestible) {
-            $totalPrecio += $comestible['precio'] * $comestible['cantidad'];
-            $items[] = [
-                'id' => null, 
-                'name' => $comestible['nombre'],
-                'qty' => $comestible['cantidad'],
-                'price' => $comestible['precio']
-            ];
-        }
-
-        Cart::add([
-            'id' => 'arreglo-personalizado',
-            'name' => $nombreArreglo,
-            'qty' => 1, 
-            'price' => $totalPrecio,
-            'options' => [
-                'items' => $items
-            ]
-        ]);
-
-        session()->forget('floresSeleccionadas');
-        session()->forget('accesoriosSeleccionados');
-        session()->forget('comestiblesSeleccionados');
-
-        return redirect()->route('personalizados')->with('success', 'Arreglo personalizado agregado al carrito exitosamente.');
     }
+
+    // Agregar un valor adicional de 30,000 al total
+    $totalPrecio += 30000;
+
+    // Agregar el arreglo personalizado al carrito
+    Cart::add([
+        'id' => 'arreglo-personalizado',
+        'name' => $nombreArreglo,
+        'qty' => 1, 
+        'price' => $totalPrecio,
+        'options' => [
+            'items' => $items
+        ]
+    ]);
+
+    // Limpiar la sesión de insumos seleccionados
+    session()->forget('insumosSeleccionados');
+
+    return redirect()->route('personalizados')->with('success', 'Arreglo personalizado agregado al carrito exitosamente.');
+}
+
 
     public function removeItem(Request $request)
     {
-
-        Cart::remove($request->rowId);
-
-        return redirect()->back()->with("success", "Arreglo floral eliminado correctamente del carrito");
+        $rowId = $request->input('rowId');
+    
+        if (Cart::get($rowId)) {
+            Cart::remove($rowId);
+            return redirect()->back()->with('success', 'Producto eliminado del carrito.');
+        } else {
+            return redirect()->back()->withErrors(['status' => 'No se pudo eliminar el producto.']);
+        }
     }
+    
+    
 
     public function clear()
     {

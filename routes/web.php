@@ -43,9 +43,9 @@ Route::get('/insumos/categoria/{categoria_id}', [HomeController::class, 'getInsu
 
 
 //rutas para las flores personalizadas
-Route::post('/agregar-flor', [HomeController::class, 'agregarFlor'])->name('agregarFlor');
-Route::patch('/actualizar-flor/{key}', [HomeController::class, 'actualizarFlor'])->name('actualizarFlor');
-Route::delete('/eliminar-flor/{key}', [HomeController::class, 'eliminarFlor'])->name('eliminarFlor');
+Route::post('/agregar-producto', [HomeController::class, 'agregar_producto'])->name('agregar_producto');
+Route::patch('/actualizar-producto/{key}', [HomeController::class, 'actualizar_producto'])->name('actualizar_producto');
+Route::delete('/eliminar-producto/{key}', [HomeController::class, 'eliminar_producto'])->name('eliminar_producto');
 
 
 //personalizadas de accesorios
@@ -68,7 +68,7 @@ Route::get('home/carrito', [carritoController::class, 'index'])->name('home/carr
 Route::get('carrito/add', [carritoController::class, 'add'])->name('add');
 Route::post('carrito/add_personalizado', [carritoController::class, 'add_personalizado'])->name('add_personalizado');
 Route::get('carrito/clear', [carritoController::class, 'clear'])->name('clear');
-Route::post('carrito/remove', [carritoController::class, 'removeItem'])->name('removeItem');
+Route::post('/carrito/eliminar', [CarritoController::class, 'removeItem'])->name('removeItem');
 
 
 Route::get('carrito/incrementar', [carritoController::class, 'incrementar'])->name('incrementarCantidad');
