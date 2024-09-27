@@ -23,6 +23,7 @@ class User extends Authenticatable
         'direccion',
         'id_rol', 
         'password',
+        'estado'
     ];
 
     protected $hidden = [
@@ -39,11 +40,31 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Roles::class, 'id_rol');
     }
+
+    public function rol() {
+        return $this->belongsTo(Roles::class, 'id_rol'); 
+    }
     
     protected function type(): Attribute
     {
         return new Attribute(
             get: fn($value) => ['user', 'admin'][$value] ?? 'unknown',
         );
+    }
+
+    public function permisos()
+    {
+        return $this->hasManyThrough(Permiso::class, 'permisos_rol', 'id_rol', 'id_permiso');
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Roles::class, 'permisos_rol', 'id_rol', 'id_permiso');
+    }
+
+    public function scopeSearch($query, $value)
+    {
+        $query->where('name', 'like', "%{$value}%")
+                     ->orWhere('email', 'like', "%{$value}%");
     }
 }

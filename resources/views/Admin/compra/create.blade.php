@@ -33,14 +33,10 @@
                 </select>
             </div>
 
-
             <div class="form-group">
                 <label for="id_insumo">Insumo</label>
                 <select id="id_insumo" name="id_insumo" class="form-control" onchange="updateCostoUnitario()">
                     <option selected disabled>Seleccione un insumo</option>
-                    @foreach($insumos as $insumo)
-                        <option value="{{ $insumo->id }}" data-costo="{{ $insumo->costo_unitario }}">{{ $insumo->nombre }}</option>
-                    @endforeach
                 </select>
             </div>
 
@@ -95,21 +91,19 @@
 let carrito = [];
 
 function agregarCarrito() {
-    const id_categoria_insumo = $('#id_categoria_insumo').val(); // Obtén el id de la categoría
-    const id_insumo = $('#id_insumo').val(); // ID del insumo
-    const nombre_insumo = $('#id_insumo option:selected').text(); // Nombre del insumo
+    const id_categoria_insumo = $('#id_categoria_insumo').val();
+    const id_insumo = $('#id_insumo').val();
+    const nombre_insumo = $('#id_insumo option:selected').text();
     const cantidad = $('#cantidad').val();
     const costo_unitario = $('#costo_unitario').val();
     const subtotal = cantidad * costo_unitario;
-    const total = subtotal;
 
     if (!id_categoria_insumo || !id_insumo || !cantidad || !costo_unitario) {
         Swal.fire("Error", "Por favor completa todos los campos", "error");
         return;
     }
 
-    // Agregar el nombre del insumo al objeto
-    const item = { id_categoria_insumo, id_insumo, nombre_insumo, cantidad, costo_unitario, subtotal, total };
+    const item = { id_categoria_insumo, id_insumo, nombre_insumo, cantidad, costo_unitario, subtotal, total: subtotal };
     carrito.push(item);
     actualizarCarrito();
 
@@ -118,7 +112,6 @@ function agregarCarrito() {
     $('#cantidad').val(''); 
     $('#costo_unitario').val(''); 
 }
-
 
 function actualizarCarrito() {
     const tabla = $('#tabla_carrito tbody');
@@ -129,7 +122,7 @@ function actualizarCarrito() {
         totalCarrito += item.subtotal;
         tabla.append(`
             <tr>
-                <td>${item.nombre_insumo}</td> <!-- Mostrar el nombre del insumo -->
+                <td>${item.nombre_insumo}</td>
                 <td>${item.cantidad}</td>
                 <td>${item.costo_unitario}</td>
                 <td>${item.subtotal.toFixed(2)}</td>
@@ -142,7 +135,6 @@ function actualizarCarrito() {
     $('#formulario_crear').append(`<input type="hidden" name="carrito" value='${JSON.stringify(carrito)}'>`);
 }
 
-
 function eliminarDelCarrito(index) {
     carrito.splice(index, 1);
     actualizarCarrito();
@@ -154,16 +146,13 @@ function finalizarCompra() {
         totalCarrito += item.subtotal;
     });
 
-    // Verificar que haya ítems en el carrito
     if (carrito.length === 0) {
         Swal.fire("Error", "El carrito está vacío", "error");
         return;
     }
 
-    // Añadir el total de la compra al formulario
     $('#formulario_crear').append(`<input type="hidden" name="costo_total" value='${totalCarrito.toFixed(2)}'>`);
     
-    // Mostrar mensaje de confirmación antes de finalizar la compra
     Swal.fire({
         title: '¿Estás seguro?',
         text: "Estás a punto de finalizar la compra.",
@@ -186,7 +175,7 @@ function updateCostoUnitario() {
 
 function updateHiddenFields() {
     $('#id_proveedor_hidden').val($('#id_proveedor_select').val());
-    $('#id_categoria_insumo_hidden').val($('#id_categoria_insumo_select').val());
+    $('#id_categoria_insumo_hidden').val($('#id_categoria_insumo').val());
 }
 
 $(document).ready(function() {
@@ -221,7 +210,7 @@ $(document).ready(function() {
                 success: function(data) {
                     $('#id_insumo').empty().append('<option selected disabled>Seleccione un insumo</option>');
                     data.forEach(function(insumo) {
-                        $('#id_insumo').append(`<option value="${insumo.id}" data-costo="${insumo.costo_unitario}">${insumo.nombre}</option>`);
+                        $('#id_insumo').append(`<option value="${insumo.id}" data-costo="${insumo.costo_unitario}">${insumo.nombre} ${insumo.color ? '- ' + insumo.color : ''}</option>`);
                     });
                 },
                 error: function(xhr, status, error) {
@@ -233,7 +222,5 @@ $(document).ready(function() {
         }
     });
 });
-
-
 </script>
 @endsection

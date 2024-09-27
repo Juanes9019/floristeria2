@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\Categoria_Producto;
+use App\Models\Categoria_insumo;
 use App\Models\User;
 use App\Models\Pqrs;
 use App\Models\Pedido;
@@ -13,6 +14,7 @@ use App\Models\TipoFlor;
 use App\Models\Flor;
 use App\Models\Accesorio;
 use App\Models\Comestible;
+use App\Models\Insumo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +31,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('vista_inicial','show','index','personalizados');
+        $this->middleware('auth')->except('vista_inicial','show','index','personalizados','agregar_producto');
     }
 
     /**
@@ -141,231 +143,156 @@ class HomeController extends Controller
     return view('view_arreglo.all_products', compact('productos', 'categoria_categoria'));
 }
 
-public function personalizados(Request $request)
+public function getInsumosPorCategoria($categoria_id)
 {
-    $flores = Flor::with('colores')->get();
-    $accesorios = Accesorio::all();
-    $comestibles = Comestible::all();
+    $insumos = Insumo::where('id_categoria_insumo', $categoria_id)->get();
 
-    // Recuperar los seleccionados de la sesión
-    $floresSeleccionadas = session()->get('floresSeleccionadas', []);
-    $accesoriosSeleccionados = session()->get('accesoriosSeleccionados', []);
-    $comestiblesSeleccionados = session()->get('comestiblesSeleccionados', []);
-
-    // Inicializar totales
-    $totalElementos = 0;
-    $totalPrecio = 0;
-
-    // Calcular total de flores
-    foreach ($floresSeleccionadas as $flor) {
-        $totalElementos += $flor['cantidad'];
-        $totalPrecio += $flor['precio'] * $flor['cantidad'];
+    if ($insumos->isEmpty()) {
+        return response()->json([], 204); 
     }
 
-    // Calcular total de accesorios
-    foreach ($accesoriosSeleccionados as $accesorio) {
-        $totalElementos += $accesorio['cantidad'];
-        $totalPrecio += $accesorio['precio'] * $accesorio['cantidad'];
-    }
-
-    // Calcular total de comestibles
-    foreach ($comestiblesSeleccionados as $comestible) {
-        $totalElementos += $comestible['cantidad'];
-        $totalPrecio += $comestible['precio'] * $comestible['cantidad'];
-    }
-
-    $totalPrecio  += 30000;
-
-    // Retornar la vista con totales
-    return view('view_arreglo.personalizado', compact('flores', 'accesorios', 'comestibles', 'floresSeleccionadas', 'accesoriosSeleccionados', 'comestiblesSeleccionados', 'totalElementos', 'totalPrecio'));
+    return response()->json($insumos);
 }
 
+    public function personalizados(Request $request)
+    {
+        // Obtener todos los insumos disponibles
+        $insumos = Insumo::all();
+        $categorias_insumo  = Categoria_insumo::all();
 
+        // Recuperar los insumos seleccionados de la sesión
+        $insumosSeleccionados = session()->get('insumosSeleccionados', []);
 
+        // Inicializar los totales
+        $totalElementos = 0;
+        $totalPrecio = 0;
 
-public function agregarFlor(Request $request)
-{
-    $request->validate([
-        'flor_id' => 'required',
-        'color' => 'required',
-        'cantidad' => 'required|integer|min:1'
-    ]);
-
-    $flor = Flor::find($request->flor_id);
-    $nombre = $flor->nombre . ' - ' . $request->color; 
-
-    $floresSeleccionadas = session()->get('floresSeleccionadas', []);
-    $found = false;
-    foreach ($floresSeleccionadas as &$florSeleccionada) {
-        if ($florSeleccionada['nombre'] === $nombre) {
-            $florSeleccionada['cantidad'] += $request->cantidad;
-            $found = true;
-            break;
+        // Calcular el total de insumos seleccionados
+        foreach ($insumosSeleccionados as $insumo) {
+            $insumoBD = Insumo::find($insumo['id']);
+            
+            if ($insumoBD) {
+                $totalElementos += $insumo['cantidad'];
+                $totalPrecio += $insumoBD->costo_unitario * $insumo['cantidad'];
+            }
         }
+        
+
+        // Agregar un valor adicional de 30,000 al total (por ejemplo, por costos de personalización)
+        $totalPrecio += 30000;
+
+        // Retornar la vista con los totales y los insumos
+        return view('view_arreglo.personalizado', compact('insumos', 'categorias_insumo','insumosSeleccionados', 'totalElementos', 'totalPrecio'));
     }
+    
 
-    if (!$found) {
-        $floresSeleccionadas[] = [
-            'nombre' => $nombre,
-            'color' => $request->color,  
-            'cantidad' => $request->cantidad,
-            'precio' => $flor->precio
-        ];
-    }
-
-    session()->put('floresSeleccionadas', $floresSeleccionadas);
-    return redirect()->route('personalizados')->with('success', 'Flor agregada exitosamente.');
-}
-
-
-public function actualizarFlor(Request $request, $key)
-{
-    $action = $request->input('action');
-    $flores = session('floresSeleccionadas', []);
-
-    if (isset($flores[$key])) {
-        if ($action == 'incrementar') {
-            $flores[$key]['cantidad']++;
-        } elseif ($action == 'decrementar') {
-            $flores[$key]['cantidad'] = max(1, $flores[$key]['cantidad'] - 1);
+    public function agregar_producto(Request $request)
+    {
+        // Validar los campos recibidos del formulario
+        $request->validate([
+            'categoria_id' => 'required',
+            'insumo_id' => 'required',
+            'cantidad' => 'required|integer|min:1'
+        ]);
+    
+        // Obtener el insumo seleccionado
+        $insumo = Insumo::find($request->insumo_id);
+    
+        // Verificar si la cantidad solicitada está disponible en el inventario
+        if ($insumo->cantidad_insumo < $request->cantidad) {
+            return redirect()->back()->withErrors("Lamentamos informarte que solo hay {$insumo->cantidad_insumo} unidades disponibles de {$insumo->nombre}. No puedes agregar más.");
         }
-        session(['floresSeleccionadas' => $flores]);
-    }
-
-    return redirect()->back();
-}
-
-public function eliminarFlor($key)
-{
-    $flores = session('floresSeleccionadas', []);
-    unset($flores[$key]);
-    session(['floresSeleccionadas' => $flores]);
-
-    return redirect()->back();
-}
-
-
-public function agregarAccesorio(Request $request)
-{
-    $request->validate([
-        'accesorio_id' => 'required',
-        'cantidad' => 'required|integer|min:1'
-    ]);
-
-    $accesorio = Accesorio::find($request->accesorio_id);
-    $nombre = $accesorio->nombre;
-
-    $accesoriosSeleccionados = session()->get('accesoriosSeleccionados', []);
-    $found = false;
-
-    foreach ($accesoriosSeleccionados as &$accesorioSeleccionado) {
-        if ($accesorioSeleccionado['nombre'] === $nombre) {
-            $accesorioSeleccionado['cantidad'] += $request->cantidad;
-            $found = true;
-            break;
+    
+        // Crear un nombre para el insumo que incluye el nombre y el color
+        $nombre = $insumo->nombre . ' - ' . $request->color;
+    
+        // Obtener los insumos seleccionados de la sesión
+        $insumosSeleccionados = session()->get('insumosSeleccionados', []);
+        
+        // Buscar si el insumo ya está en la lista
+        $found = false;
+        foreach ($insumosSeleccionados as &$insumoSeleccionado) {
+            if ($insumoSeleccionado['id'] === $insumo->id && $insumoSeleccionado['color'] === $request->color) {
+                // Si el insumo ya está, verifica si la cantidad total no excede la disponible
+                $nuevaCantidad = $insumoSeleccionado['cantidad'] + $request->cantidad;
+    
+                if ($nuevaCantidad > $insumo->cantidad) {
+                    return redirect()->back()->withErrors("Lamentamos informarte que no puedes agregar más de {$insumo->cantidad} unidades de {$insumo->nombre}.");
+                }
+    
+                // Si la cantidad es válida, incrementa la cantidad
+                $insumoSeleccionado['cantidad'] = $nuevaCantidad;
+                $found = true;
+                break;
+            }
         }
-    }
-
-    if (!$found) {
-        $accesoriosSeleccionados[] = [
-            'nombre' => $nombre,
-            'cantidad' => $request->cantidad,
-            'precio' => $accesorio->precio
-        ];
-    }
-
-    session()->put('accesoriosSeleccionados', $accesoriosSeleccionados);
-    return redirect()->route('personalizados')->with('success', 'Accesorio agregado exitosamente.');
-}
-
-
-public function actualizarAccesorio(Request $request, $key)
-{
-    $action = $request->input('action');
-    $accesorios = session('accesoriosSeleccionados', []);
-
-    if (isset($accesorios[$key])) {
-        if ($action == 'incrementar') {
-            $accesorios[$key]['cantidad']++;
-        } elseif ($action == 'decrementar') {
-            $accesorios[$key]['cantidad'] = max(1, $accesorios[$key]['cantidad'] - 1);
+    
+        // Si no se encontró el insumo, agregar uno nuevo
+        if (!$found) {
+            $insumosSeleccionados[] = [
+                'id' => $insumo->id,  // Agregar el ID del insumo
+                'nombre' => $nombre,
+                'color' => $request->color,
+                'cantidad' => $request->cantidad,
+                'precio' => $insumo->costo_unitario // Usar el costo unitario en lugar de precio
+            ];
         }
-        session(['accesoriosSeleccionados' => $accesorios]);
+    
+        // Guardar la lista de insumos seleccionados en la sesión
+        session()->put('insumosSeleccionados', $insumosSeleccionados);
+    
+        // Redirigir de vuelta a la página con un mensaje de éxito
+        return redirect()->route('personalizados')->with('success', 'Insumo agregado exitosamente.');
     }
+    
 
-    return redirect()->back();
-}
-
-
-public function eliminarAccesorio($key)
-{
-    $accesorios = session('accesoriosSeleccionados', []);
-    unset($accesorios[$key]);
-    session(['accesoriosSeleccionados' => array_values($accesorios)]);
-
-    return redirect()->back();
-}
+    
 
 
-public function agregarComestible(Request $request)
-{
-    $request->validate([
-        'comestible_id' => 'required',
-        'cantidad' => 'required|integer|min:1'
-    ]);
-
-    $comestible = Comestible::find($request->comestible_id);
-    $nombre = $comestible->nombre;
-
-    $comestiblesSeleccionados = session()->get('comestiblesSeleccionados', []);
-    $found = false;
-
-    foreach ($comestiblesSeleccionados as &$comestibleSeleccionado) {
-        if ($comestibleSeleccionado['nombre'] === $nombre) {
-            $comestibleSeleccionado['cantidad'] += $request->cantidad;
-            $found = true;
-            break;
+    public function actualizar_producto(Request $request, $key)
+    {
+        // Obtener la acción (incrementar o decrementar)
+        $action = $request->input('action');
+        
+        // Obtener la lista de insumos seleccionados de la sesión
+        $insumos = session('insumosSeleccionados', []);
+    
+        // Verificar si el insumo existe en la lista
+        if (isset($insumos[$key])) {
+            if ($action == 'incrementar') {
+                // Incrementar la cantidad del insumo
+                $insumos[$key]['cantidad']++;
+            } elseif ($action == 'decrementar') {
+                // Decrementar la cantidad del insumo, asegurándose de que no baje de 1
+                $insumos[$key]['cantidad'] = max(1, $insumos[$key]['cantidad'] - 1);
+            }
+            
+            // Actualizar la lista de insumos en la sesión
+            session(['insumosSeleccionados' => $insumos]);
         }
+    
+        // Redirigir de vuelta a la página
+        return redirect()->back()->with('success', 'Insumo actualizado exitosamente.');
     }
-
-    if (!$found) {
-        $comestiblesSeleccionados[] = [
-            'nombre' => $nombre,
-            'cantidad' => $request->cantidad,
-            'precio' => $comestible->precio
-        ];
-    }
-
-    session()->put('comestiblesSeleccionados', $comestiblesSeleccionados);
-    return redirect()->route('personalizados')->with('success', 'Comestible agregado exitosamente.');
-}
-
-public function actualizarComestible(Request $request, $key)
-{
-    $action = $request->input('action');
-    $comestibles = session('comestiblesSeleccionados', []);
-
-    if (isset($comestibles[$key])) {
-        if ($action == 'incrementar') {
-            $comestibles[$key]['cantidad']++;
-        } elseif ($action == 'decrementar') {
-            $comestibles[$key]['cantidad'] = max(1, $comestibles[$key]['cantidad'] - 1);
+    
+    public function eliminar_producto($key)
+    {
+        // Obtener la lista de insumos seleccionados de la sesión
+        $insumos = session('insumosSeleccionados', []);
+    
+        // Verificar si el insumo existe y eliminarlo
+        if (isset($insumos[$key])) {
+            unset($insumos[$key]);
         }
-        session(['comestiblesSeleccionados' => $comestibles]);
+    
+        // Actualizar la lista en la sesión
+        session(['insumosSeleccionados' => $insumos]);
+    
+        // Redirigir de vuelta a la página con un mensaje de éxito
+        return redirect()->back()->with('success', 'Insumo eliminado exitosamente.');
     }
+    
 
-    return redirect()->back();
-}
-
-
-public function eliminarComestible($key)
-{
-    $comestibles = session('comestiblesSeleccionados', []);
-    unset($comestibles[$key]);
-    session(['comestiblesSeleccionados' => array_values($comestibles)]);
-
-    return redirect()->back();
-}
 
 
     public function pqrs(Request $request)

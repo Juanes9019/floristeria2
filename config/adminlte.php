@@ -305,11 +305,10 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'Buscar',
         ],
-        
         [
             'text' => 'Dashboard',
             'url' => 'admin/dashboard',
-            'icon' => 'fas fa-fw fa-bar-',
+            'icon' => 'fas fa-fw fa-chart-line',
             'label_color' => 'warning',
         ],
 
@@ -334,18 +333,18 @@ return [
             'label_color' => 'primary',
         ],
         [
+            'text' => 'asignar permisos',
+            'url' => '/admin/permisos_rol',
+            'icon' => 'fas fa-fw fa-building', 
+            'label_color' => 'primary',
+        ],
+        [
             'text' => 'Pqrs',
             'url' => '/admin/users/pqrs',
             'icon' => 'fas fa-fw fa-comments',
             'label_color' => 'primary',
         ],
         ['header' => 'GESTION DE TIENDA'],
-        // [
-        //     'text' => 'Inventario',
-        //     'url' => 'admin/inventario',
-        //     'icon' => 'fas fa-box',
-        //     'label_color' => 'primary',
-        // ],
         [
             'text' => 'Categorias Productos',
             'url' => 'admin/categorias_productos',
@@ -372,12 +371,6 @@ return [
         ],
         
         ['header' => 'GESTION DE VENTA'],
-        [
-            'text' => 'Inventario',
-            'url' => 'admin/inventario',
-            'icon' => 'fas fa-box',
-            'label_color' => 'primary',
-        ],
         [
             'text' => 'Categorias',
             'url' => 'admin/categoria',

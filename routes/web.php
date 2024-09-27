@@ -23,8 +23,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\carritoController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EnviarCorreo;
-use App\Models\GenerarProducto;
 use Illuminate\Support\Facades\Auth;
+use App\Models\GenerarProducto;
+
 
 
 
@@ -43,12 +44,14 @@ Route::post('/pqrs', [HomeController::class, 'pqrs'])->name('pqrs');
 Route::get('/arreglo/{id}', [HomeController::class, 'show'])->name('view_arreglo.arreglo_view');
 Route::get('/all_products', [HomeController::class, 'show_all'])->name('all_products');
 Route::get('/personalizados', [HomeController::class, 'personalizados'])->name('personalizados');
+Route::get('/insumos/categoria/{categoria_id}', [HomeController::class, 'getInsumosPorCategoria']);
+
 
 
 //rutas para las flores personalizadas
-Route::post('/agregar-flor', [HomeController::class, 'agregarFlor'])->name('agregarFlor');
-Route::patch('/actualizar-flor/{key}', [HomeController::class, 'actualizarFlor'])->name('actualizarFlor');
-Route::delete('/eliminar-flor/{key}', [HomeController::class, 'eliminarFlor'])->name('eliminarFlor');
+Route::post('/agregar-producto', [HomeController::class, 'agregar_producto'])->name('agregar_producto');
+Route::patch('/actualizar-producto/{key}', [HomeController::class, 'actualizar_producto'])->name('actualizar_producto');
+Route::delete('/eliminar-producto/{key}', [HomeController::class, 'eliminar_producto'])->name('eliminar_producto');
 
 
 //personalizadas de accesorios
@@ -71,7 +74,7 @@ Route::get('home/carrito', [carritoController::class, 'index'])->name('home/carr
 Route::get('carrito/add', [carritoController::class, 'add'])->name('add');
 Route::post('carrito/add_personalizado', [carritoController::class, 'add_personalizado'])->name('add_personalizado');
 Route::get('carrito/clear', [carritoController::class, 'clear'])->name('clear');
-Route::post('carrito/remove', [carritoController::class, 'removeItem'])->name('removeItem');
+Route::post('/carrito/eliminar', [CarritoController::class, 'removeItem'])->name('removeItem');
 
 
 Route::get('carrito/incrementar', [carritoController::class, 'incrementar'])->name('incrementarCantidad');
@@ -82,7 +85,7 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
 
 
 //midleware para controlar el acceso solo a los administradores
-Route::middleware(['auth', 'user-access:1,3'])->group(function () {
+//Route::middleware(['auth', 'user-access:1,3,4'])->group(function () {
 
     //ruta para dashboard
     Route::get('admin/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
@@ -96,8 +99,11 @@ Route::middleware(['auth', 'user-access:1,3'])->group(function () {
     Route::put('admin/users/{id}', [UserController::class, 'update'])->name('Admin.users.update');
     Route::delete('admin/users/{id}', [UserController::class, 'destroy'])->name('Admin.users.destroy');
 
+    Route::get('/usuarios/export/{format}', [UserController::class, 'export'])->name('Admin.users.export');
+
     Route::get('admin/users/pqrs', [UserController::class, 'index_pqrs'])->name('Admin.users.pqrs');
     Route::put('/pqrs/{id}/responder', [UserController::class, 'responderPqrs'])->name('pqrs.responder');
+
 
 
     //rutas para los roles
@@ -107,6 +113,16 @@ Route::middleware(['auth', 'user-access:1,3'])->group(function () {
     Route::get('admin/roles/{id}/edit', [RolesController::class, 'edit'])->name('Admin.roles.edit');
     Route::put('admin/roles/{id}', [RolesController::class, 'update'])->name('Admin.roles.update');
     Route::delete('admin/roles/{id}', [RolesController::class, 'destroy'])->name('Admin.roles.destroy');
+
+
+    Route::get('admin/permisos', [RolesController::class, 'permisos'])->name('Admin.permisos');
+    Route::get('admin/permisos_rol', [RolesController::class, 'permisos_rol'])->name('Admin.permisos_rol');
+    Route::post('admin/guardar_permiso', [RolesController::class, 'guardar_permiso'])->name('Admin.permisos.guardar_permiso');
+
+    //rutas para permiso
+    Route::put('/admin/permisos_rol/{id}', [RolesController::class, 'update_permiso_rol'])->name('permisos.update');
+
+
 
     //rutas para los proveedor
     Route::get('admin/proveedores', [ProveedorController::class, 'index'])->name('Admin.proveedores');
@@ -170,6 +186,8 @@ Route::middleware(['auth', 'user-access:1,3'])->group(function () {
     Route::get('admin/insumo/{id}/incrementarInsumo', [InsumoController::class, 'incrementarInsumo'])->name('incrementarInsumo');
     Route::get('admin/insumo/{id}/decrementarInsumo', [InsumoController::class, 'decrementarInsumo'])->name('decrementarInsumo');
     Route::get('admin/insumo/{id}/status', [InsumoController::class, 'change_Status'])->name('Admin.insumo.status');
+    Route::get('/insumos/export/{format}', [InsumoController::class, 'export'])->name('Admin.insumos.export');
+
 
     // Rutas para el controlador CompraController
     Route::get('admin/compras', [CompraController::class, 'index'])->name('Admin.compra.index');
@@ -186,21 +204,7 @@ Route::middleware(['auth', 'user-access:1,3'])->group(function () {
 
 
     //rutas para los inventario
-    // Route::get('admin/inventario', [inventarioController::class, 'index'])->name('Admin.inventario');
-    // Route::get('admin/inventario/create', [inventarioController::class, 'create'])->name('Admin.inventario.create');
-    // Route::post('admin/inventario', [inventarioController::class, 'store'])->name('Admin.inventario.store');
-    // Route::get('admin/inventario/{id}/edit', [inventarioController::class, 'edit'])->name('Admin.inventario.edit');
-    // Route::put('admin/inventario/{id}', [inventarioController::class, 'update'])->name('Admin.inventario.update');
-    // Route::delete('admin/inventario/{id}', [inventarioController::class, 'destroy'])->name('Admin.inventario.destroy');
 
-    //rutas para la categoria
-    // Route::get('admin/categoria', [CategoriaController::class, 'index'])->name('Admin.categoria');
-    // Route::get('admin/categoria/create', [CategoriaController::class, 'create'])->name('Admin.categoria.create');
-    // Route::post('admin/categoria', [CategoriaController::class, 'store'])->name('Admin.categoria.store');
-    // Route::get('admin/categoria/{id}/edit', [CategoriaController::class, 'edit'])->name('Admin.categoria.edit');
-    // Route::put('admin/categoria/{id}', [CategoriaController::class, 'update'])->name('Admin.categoria.update');
-    // Route::delete('admin/categoria/{id}', [CategoriaController::class, 'destroy'])->name('Admin.categoria.destroy');
-    // Route::get('admin/categoria/{id}/status', [CategoriaController::class, 'change_Status'])->name('Admin.categoria.status');
 
     //rutas para los productos
     Route::get('admin/productos', [productosController::class, 'index'])->name('Admin.productos');
@@ -223,8 +227,9 @@ Route::middleware(['auth', 'user-access:1,3'])->group(function () {
 
     // Rutas para el detalle
     Route::get('admin/detalle', [DetalleController::class, 'index'])->name('detalles');
-    Route::get('/export_detalle_pdf', [ExportController::class, 'exportar_detalle'])->name('export_detalle.pdf');
-});
+    Route::get('/export_detalle_pdf', [ExportController::class, 'exportar_detalle'])->name('export_detalle.pdf');    
+
+//});
 
 
 

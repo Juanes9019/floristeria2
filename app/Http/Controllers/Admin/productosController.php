@@ -15,6 +15,27 @@ class productosController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
+
+        // Verificar si el permiso 'productos' existe
+        $permiso = DB::table('permisos')
+            ->where('nombre', 'productos')
+            ->first();
+
+        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+        if (!$permiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+
+        // Verificar si el usuario tiene el permiso asociado a su rol
+        $tienePermiso = DB::table('permisos_rol')
+            ->where('id_rol', $user->id_rol)
+            ->where('id_permiso', $permiso->id)
+            ->exists();
+
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
         $productos = Producto::all();
         $i = 0;
         return view('Admin.producto.index', compact('productos', 'i'));
@@ -22,6 +43,27 @@ class productosController extends Controller
 
     public function create()
     {
+        $user = auth()->user();
+
+        // Verificar si el permiso 'productos' existe
+        $permiso = DB::table('permisos')
+            ->where('nombre', 'productos')
+            ->first();
+
+        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+        if (!$permiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+
+        // Verificar si el usuario tiene el permiso asociado a su rol
+        $tienePermiso = DB::table('permisos_rol')
+            ->where('id_rol', $user->id_rol)
+            ->where('id_permiso', $permiso->id)
+            ->exists();
+
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
         $producto = new Producto();
         $categorias_productos = Categoria_Producto::where('estado', 1)->get();
         return view('Admin.producto.create', compact('producto', 'categorias_productos'));
@@ -72,9 +114,29 @@ class productosController extends Controller
         return redirect()->route('Admin.productos')
             ->with('success', 'insumo creado con éxito.');
     }
+    
+    public function edit($id)    {
+        $user = auth()->user();
 
-    public function edit($id)
-    {
+    // Verificar si el permiso 'productos' existe
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'productos')
+                ->first();
+    
+    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+    if (!$permiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+                
+    // Verificar si el usuario tiene el permiso asociado a su rol
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    }
         $producto = Producto::find($id);
         $categorias = Categoria_Producto::where('estado', 1)->get();
         return view('Admin.producto.edit', compact('producto', 'categorias'));
@@ -97,21 +159,21 @@ class productosController extends Controller
         ], [
             'id_categoria_producto.required' => 'El campo categoría del producto es requerido.',
             'id_categoria_producto.exists' => 'La categoría seleccionada no es válida.',
-            
+
             'nombre.required' => 'El nombre del producto es requerido.',
             'nombre.string' => 'El nombre del producto debe ser una cadena de texto.',
             'nombre.unique' => 'El nombre del producto ya existe.',
-        
+
             'descripcion.required' => 'La descripción del producto es requerida.',
-            
+
             'cantidad.required' => 'La cantidad del producto es requerida.',
             'cantidad.integer' => 'La cantidad del producto debe ser un número entero.',
             'cantidad.min' => 'La cantidad no puede ser negativa. .',
-        
+
             'precio.required' => 'El precio del producto es requerido.',
             'precio.numeric' => 'El precio debe ser un valor numérico.',
             'precio.min' => 'El precio no puede ser negativo.',
-        
+
             'foto.required' => 'La imagen del producto es requerida.',
             'foto.image' => 'El archivo debe ser una imagen.',
             'foto.mimes' => 'La imagen debe ser de tipo jpeg, png o jpg.',
@@ -161,7 +223,7 @@ class productosController extends Controller
         }
         $producto->delete();
         return redirect()->route('Admin.productos')
-                ->with('success', 'producto eliminado con éxito');
+            ->with('success', 'producto eliminado con éxito');
     }
 
     public function change_Status($id)

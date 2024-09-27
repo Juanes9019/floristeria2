@@ -8,10 +8,36 @@ use App\Models\Insumo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Models\Categoria_insumo;
+use App\Exports\InsumoExport;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Excel;
 
 class InsumoController extends Controller
 {
     public function index(){
+
+        $user = auth()->user();
+
+    // Verificar si el permiso 'insumos' existe
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'insumos')
+                ->first();
+    
+    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+    if (!$permiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+                
+    // Verificar si el usuario tiene el permiso asociado a su rol
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+
         $insumos = Insumo::all();
         $i = 0; 
         return view('Admin.insumo.index', compact('insumos', 'i'));
@@ -19,6 +45,28 @@ class InsumoController extends Controller
 
     public function create()
     {
+        $user = auth()->user();
+
+    // Verificar si el permiso 'insumos' existe
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'insumos')
+                ->first();
+    
+    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+    if (!$permiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+                
+    // Verificar si el usuario tiene el permiso asociado a su rol
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+
         $categoria_insumo= DB::table('categoria_insumos')->pluck('nombre', 'id');
         return view('Admin.insumo.create', compact('categoria_insumo'));
     }
@@ -55,6 +103,27 @@ class InsumoController extends Controller
     }
 
     public function edit($id)    {
+        $user = auth()->user();
+
+    // Verificar si el permiso 'insumos' existe
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'insumos')
+                ->first();
+    
+    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+    if (!$permiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+                
+    // Verificar si el usuario tiene el permiso asociado a su rol
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    }
         $insumos = Insumo::find($id);
         $categoria_insumos = DB::table('categoria_insumos')->get();
         return view('Admin.insumo.edit', compact('insumos','categoria_insumos'));
@@ -94,17 +163,6 @@ class InsumoController extends Controller
         // Redirecciona a la vista de edición con un mensaje de éxito
         return redirect()->route('Admin.insumo', ['id' => $insumos->id])
         ->with('success', 'categoria actualizado exitosamente');
-    }
-
-    public function destroy($id)
-    {
-        $insumo = Insumo::find($id);
-
-        $insumo->delete();
-
-        return redirect()->route('Admin.insumo')
-            ->with('success', 'Insumo eliminado con éxito');
-
     }
 
     public function incrementarInsumo($id)
@@ -160,5 +218,47 @@ class InsumoController extends Controller
 
         $insumo->save();
         return redirect()->back();
+    }
+
+    public function export($format)
+    {
+        $export = new InsumoExport;
+
+        switch ($format) {
+            case 'pdf':
+                $pdf = Pdf::loadView('exports.insumos', [
+                    'insumos' => Insumo::all()
+                ])->setPaper('a4', 'portait') // Puedes cambiar a 'portrait' si prefieres
+                    ->setOption('margin-left', '10mm')
+                    ->setOption('margin-right', '10mm')
+                    ->setOption('margin-top', '10mm')
+                    ->setOption('margin-bottom', '10mm');
+                return $pdf->download('insumos.pdf');
+            case 'xlsx':
+            default:
+                return $export->download('insumos.xlsx', Excel::XLSX);
+        }
+    }
+
+    public function destroy($id)
+    {
+        $insumo = Insumo::find($id);
+
+        if ($insumo->estado == 1) {
+            return redirect()->route('Admin.insumo')
+                ->with('error', 'No se puede eliminar un insumo Activa');
+        }
+        try {
+            $insumo->delete();
+            return redirect()->route('Admin.insumo')
+                ->with('success','Insumo eliminado con éxito');
+        } catch (\Illuminate\Database\QueryException $e) {
+                if ($e->getCode() == 23000) {
+                    return redirect()->route('Admin.insumo')
+                        ->with('error', 'No se puede eliminar el insumo porque está asociado a una compra.');
+                }
+                return redirect()->route('Admin.insumo')
+                    ->with('error', 'Error al intentar eliminar el insumo.');
+        }     
     }
 }

@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('colores', function (Blueprint $table) {
+        Schema::create('permisos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('imagen'); 
-            $table->unsignedBigInteger('id_flor'); 
-            $table->foreign('id_flor')->references('id')->on('flores')->onDelete('cascade');
-            $table->string('descripcion');  
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('colores');
+        Schema::dropIfExists('permisos');
     }
 };

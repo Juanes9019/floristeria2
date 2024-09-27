@@ -43,7 +43,7 @@
                                     <th scope="col" class="text-center">Precio</th>
                                     <th scope="col" class="text-center">Foto</th>
                                     <th scope="col" class="text-center">Estado</th>
-                                    <th scope="col" class="text-center">Acciones</th>
+                                    <th scope="col" class="text-center" colspan="3">Acciones</th>
 
                                 </tr>
                             </thead>

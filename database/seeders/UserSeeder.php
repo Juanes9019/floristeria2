@@ -6,7 +6,6 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-
 class UserSeeder extends Seeder
 {
     /**
@@ -18,6 +17,8 @@ class UserSeeder extends Seeder
         //se obtienen los ids de los roles
         $adminRoleId = DB::table('roles')->where('nombre', 'Admin')->value('id');
         $clienteRoleId = DB::table('roles')->where('nombre', 'Cliente')->value('id');
+        $managerRoleId = DB::table('roles')->where('nombre', 'Manager')->value('id');
+        $repartidorRoleId = DB::table('roles')->where('nombre', 'Repartidor')->value('id');
 
         DB::table('users')->insert([
             'name' => 'Admin ',
@@ -40,6 +41,28 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => bcrypt('12345678'),
         ]);
+
+        DB::table('users')->insert([
+            'name' => 'Manager ',
+            'surname' => 'Manager User',
+            'email' => 'manager@correo.com',
+            'celular' => '3105078912',
+            'direccion' => 'CR10 #12-21',
+            'id_rol' => $managerRoleId,
+            'email_verified_at' => now(),
+            'password' => bcrypt('12345678'),
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'Repartidor ',
+            'surname' => 'Repartidor User',
+            'email' => 'repartidor@correo.com',
+            'celular' => '3105078912',
+            'direccion' => 'CR10 #12-21',
+            'id_rol' => $repartidorRoleId,
+            'email_verified_at' => now(),
+            'password' => bcrypt('12345678'),
+        ]);        
 
     }
 }

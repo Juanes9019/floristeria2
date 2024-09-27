@@ -23,4 +23,14 @@ class Categoria_insumo extends Model
     {
         return $this->hasMany(Insumo::class, 'id_categoria_insumo');
     }
+
+    public function scopeSearch($query, $value)
+    {
+        $query->where('id_proveedor', 'like', "%{$value}%")
+            ->orWhere('nombre', 'like', "%{$value}%")
+            ->orWhereHas('proveedor', function ($q) use ($value) {
+                $q->where('nombre', 'like', "%{$value}%");
+            });
+    }
+
 }

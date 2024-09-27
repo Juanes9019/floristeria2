@@ -24,4 +24,11 @@ class Compra extends Model
     {
         return $this->hasMany(DetalleCompraV2::class, 'compra_id');
     }
+
+    public function scopeSearch($query, $value)
+    {
+        $query->whereHas('proveedor', function ($q) use ($value) {
+            $q->where('nombre', 'like', "%{$value}%");
+        });
+    }
 }

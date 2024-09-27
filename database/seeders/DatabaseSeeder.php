@@ -22,10 +22,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(InventarioSeeder::class);
         $this->call(InsumoSeeder::class);
         $this->call(ProductoSeeder::class);
-        // $this->call(GenerarProductoSeeder::class);
-        $this->call(FlorSeeder::class);
-        $this->call(AccesoriosSeeder::class);
-        $this->call(ComestiblesSeeder::class);
-        $this->call(ColoresSeeder::class);
+        $this->call(PermisoSeeder::class);
+        $this->call(Permiso_RolSeeder::class);
     }
 }

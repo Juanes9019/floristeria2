@@ -9,11 +9,33 @@ use App\Models\Categoria_insumo;
 use App\Models\Insumo;
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CompraController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
+
+        // Verificar si el permiso 'detalle' existe
+        $permiso = DB::table('permisos')
+                    ->where('nombre', 'compras')
+                    ->first();
+        
+        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+        if (!$permiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+                    
+        // Verificar si el usuario tiene el permiso asociado a su rol
+        $tienePermiso = DB::table('permisos_rol')
+                        ->where('id_rol', $user->id_rol)
+                        ->where('id_permiso', $permiso->id)
+                        ->exists();
+        
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
         $compras = Compra::with('proveedor')->get(); // Asegúrate de obtener las compras y los proveedores
     
         return view('admin.compra.index', [
@@ -25,6 +47,28 @@ class CompraController extends Controller
 
     public function create()
     {
+        $user = auth()->user();
+
+        // Verificar si el permiso 'detalle' existe
+        $permiso = DB::table('permisos')
+                    ->where('nombre', 'compras')
+                    ->first();
+        
+        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+        if (!$permiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+                    
+        // Verificar si el usuario tiene el permiso asociado a su rol
+        $tienePermiso = DB::table('permisos_rol')
+                        ->where('id_rol', $user->id_rol)
+                        ->where('id_permiso', $permiso->id)
+                        ->exists();
+        
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+
         $categorias = Categoria_insumo::all();
         $insumos = Insumo::all();
         $proveedores = Proveedor::all(); // Aquí obtienes los proveedores
@@ -89,6 +133,27 @@ class CompraController extends Controller
 
     public function show($id)
     {
+        $user = auth()->user();
+
+        // Verificar si el permiso 'detalle' existe
+        $permiso = DB::table('permisos')
+                    ->where('nombre', 'compras')
+                    ->first();
+        
+        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+        if (!$permiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+                    
+        // Verificar si el usuario tiene el permiso asociado a su rol
+        $tienePermiso = DB::table('permisos_rol')
+                        ->where('id_rol', $user->id_rol)
+                        ->where('id_permiso', $permiso->id)
+                        ->exists();
+        
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
         $compra = Compra::with('detalles.insumo')->findOrFail($id);
         $i = 0; 
         return view('Admin.compra.show', compact('compra', 'i'));
