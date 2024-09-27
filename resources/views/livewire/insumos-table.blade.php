@@ -107,7 +107,9 @@
                                     <tr>
                                         <td class="text-center">{{ ($insumos->currentPage() - 1) * $insumos->perPage() + $loop->iteration }}</td>
                                         <td class="text-center">{{ $insumo->categoria_insumo->nombre }}</td>
-                                        <td class="text-center">{{ $insumo->nombre }}</td>
+                                        <td class="text-center">
+                                            {{ $insumo->nombre }}{{ $insumo->color ? ' - ' . $insumo->color : '' }}
+                                        </td>                                        
                                         <td class="text-center">{{ $insumo->cantidad_insumo }}</td>
                                         <td class="text-center">{{ number_format($insumo->costo_unitario, 0, ',', '.') }}</td>
                                         <td class="text-center">

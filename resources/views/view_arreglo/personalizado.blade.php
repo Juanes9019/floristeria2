@@ -16,6 +16,16 @@
                             </div>
                         </div>
                     @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
 
                     <!-- Botón para abrir el modal de agregar insumos -->
                     <div class="d-flex justify-content-between mb-4">
@@ -114,12 +124,6 @@
                                 <option value="">Selecciona un producto</option>
                             </select>
 
-                            <!-- Selección de Color -->
-                            <label for="color">Selecciona el color:</label>
-                            <select id="color" name="color" class="form-select" disabled>
-                                <option value="">Selecciona un color</option>
-                            </select>
-
                             <!-- Cantidad -->
                             <label for="cantidad" class="mt-3">Cantidad:</label>
                             <input type="number" id="cantidad" name="cantidad" class="form-control" min="1" value="1">
@@ -131,7 +135,7 @@
 
                     <div class="col-md-6">
                         <div id="imagen-insumo-container" class="text-center" style="max-width: 200px; margin: auto;">
-                            <img id="imagen-insumo" src="ruta/default.jpg" alt="Imagen del insumo" class="img-fluid" style="display: block;">
+                            <img id="imagen-insumo" src="ruta/default.jpg" alt="imagen producto" class="img-fluid" style="display: block;">
                         </div>
 
                         <div id="descripcion-insumo" class="mt-3">

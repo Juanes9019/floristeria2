@@ -29,7 +29,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('vista_inicial','show','index','personalizados');
+        $this->middleware('auth')->except('vista_inicial','show','index','personalizados','agregar_producto');
     }
 
     /**
@@ -185,52 +185,64 @@ public function getInsumosPorCategoria($categoria_id)
     
 
     public function agregar_producto(Request $request)
-{
-    // Validar los campos recibidos del formulario
-    $request->validate([
-        'categoria_id' => 'required',
-        'insumo_id' => 'required',
-        'color' => 'required',
-        'cantidad' => 'required|integer|min:1'
-    ]);
-
-    // Obtener el insumo seleccionado
-    $insumo = Insumo::find($request->insumo_id);
+    {
+        // Validar los campos recibidos del formulario
+        $request->validate([
+            'categoria_id' => 'required',
+            'insumo_id' => 'required',
+            'cantidad' => 'required|integer|min:1'
+        ]);
     
-    // Crear un nombre para el insumo que incluye el nombre y el color
-    $nombre = $insumo->nombre . ' - ' . $request->color;
-
-    // Obtener los insumos seleccionados de la sesión
-    $insumosSeleccionados = session()->get('insumosSeleccionados', []);
+        // Obtener el insumo seleccionado
+        $insumo = Insumo::find($request->insumo_id);
     
-    // Buscar si el insumo ya está en la lista
-    $found = false;
-    foreach ($insumosSeleccionados as &$insumoSeleccionado) {
-        if ($insumoSeleccionado['id'] === $insumo->id && $insumoSeleccionado['color'] === $request->color) {
-            // Si el insumo ya está, incrementa la cantidad
-            $insumoSeleccionado['cantidad'] += $request->cantidad;
-            $found = true;
-            break;
+        // Verificar si la cantidad solicitada está disponible en el inventario
+        if ($insumo->cantidad_insumo < $request->cantidad) {
+            return redirect()->back()->withErrors("Lamentamos informarte que solo hay {$insumo->cantidad_insumo} unidades disponibles de {$insumo->nombre}. No puedes agregar más.");
         }
+    
+        // Crear un nombre para el insumo que incluye el nombre y el color
+        $nombre = $insumo->nombre . ' - ' . $request->color;
+    
+        // Obtener los insumos seleccionados de la sesión
+        $insumosSeleccionados = session()->get('insumosSeleccionados', []);
+        
+        // Buscar si el insumo ya está en la lista
+        $found = false;
+        foreach ($insumosSeleccionados as &$insumoSeleccionado) {
+            if ($insumoSeleccionado['id'] === $insumo->id && $insumoSeleccionado['color'] === $request->color) {
+                // Si el insumo ya está, verifica si la cantidad total no excede la disponible
+                $nuevaCantidad = $insumoSeleccionado['cantidad'] + $request->cantidad;
+    
+                if ($nuevaCantidad > $insumo->cantidad) {
+                    return redirect()->back()->withErrors("Lamentamos informarte que no puedes agregar más de {$insumo->cantidad} unidades de {$insumo->nombre}.");
+                }
+    
+                // Si la cantidad es válida, incrementa la cantidad
+                $insumoSeleccionado['cantidad'] = $nuevaCantidad;
+                $found = true;
+                break;
+            }
+        }
+    
+        // Si no se encontró el insumo, agregar uno nuevo
+        if (!$found) {
+            $insumosSeleccionados[] = [
+                'id' => $insumo->id,  // Agregar el ID del insumo
+                'nombre' => $nombre,
+                'color' => $request->color,
+                'cantidad' => $request->cantidad,
+                'precio' => $insumo->costo_unitario // Usar el costo unitario en lugar de precio
+            ];
+        }
+    
+        // Guardar la lista de insumos seleccionados en la sesión
+        session()->put('insumosSeleccionados', $insumosSeleccionados);
+    
+        // Redirigir de vuelta a la página con un mensaje de éxito
+        return redirect()->route('personalizados')->with('success', 'Insumo agregado exitosamente.');
     }
-
-    // Si no se encontró el insumo, agregar uno nuevo
-    if (!$found) {
-        $insumosSeleccionados[] = [
-            'id' => $insumo->id,  // Agregar el ID del insumo
-            'nombre' => $nombre,
-            'color' => $request->color,
-            'cantidad' => $request->cantidad,
-            'precio' => $insumo->costo_unitario // Usar el costo unitario en lugar de precio
-        ];
-    }
-
-    // Guardar la lista de insumos seleccionados en la sesión
-    session()->put('insumosSeleccionados', $insumosSeleccionados);
-
-    // Redirigir de vuelta a la página con un mensaje de éxito
-    return redirect()->route('personalizados')->with('success', 'Insumo agregado exitosamente.');
-}
+    
 
     
 

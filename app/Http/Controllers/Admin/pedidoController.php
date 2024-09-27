@@ -8,6 +8,7 @@ use App\Notifications\EstadoPedido;
 use App\Mail\PedidoCambiado;
 use App\Models\Pedido;
 use App\Models\Inventario;
+use App\Models\Producto;
 use App\Models\Insumo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -54,10 +55,10 @@ class PedidoController extends Controller
                 }
             } else {
                 // Producto estándar
-                $inventario = Inventario::where('id_producto', $detalle->id_producto)->first();
-                if ($inventario) {
-                    $inventario->cantidad -= $detalle->cantidad;
-                    $inventario->save();
+                $producto = Producto::where('id', $detalle->id_producto)->first();
+                if ($producto) {
+                    $producto->cantidad -= $detalle->cantidad;
+                    $producto->save();
                 }
             }
         }

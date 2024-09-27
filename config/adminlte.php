@@ -305,11 +305,10 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'Buscar',
         ],
-        
         [
             'text' => 'Dashboard',
             'url' => 'admin/dashboard',
-            'icon' => 'fas fa-fw fa-bar-',
+            'icon' => 'fas fa-fw fa-chart-line',
             'label_color' => 'warning',
         ],
 
@@ -341,12 +340,6 @@ return [
         ],
         ['header' => 'GESTION DE TIENDA'],
         [
-            'text' => 'Inventario',
-            'url' => 'admin/inventario',
-            'icon' => 'fas fa-box',
-            'label_color' => 'primary',
-        ],
-        [
             'text' => 'Categorias Productos',
             'url' => 'admin/categorias_productos',
             'icon' => 'fas fa-fw fa-list',
@@ -372,12 +365,6 @@ return [
         ],
         
         ['header' => 'GESTION DE VENTA'],
-        [
-            'text' => 'Inventario',
-            'url' => 'admin/inventario',
-            'icon' => 'fas fa-box',
-            'label_color' => 'primary',
-        ],
         [
             'text' => 'Categorias',
             'url' => 'admin/categoria',
