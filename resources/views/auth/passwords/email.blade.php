@@ -43,7 +43,7 @@
                                                 <i class="input-icon uil uil-at"></i>
                                                 @error('email')
                                                     <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
+                                                        <strong>No hemos podido encontrar tu Email.</strong>
                                                     </span>
                                                 @enderror
                                             </div>

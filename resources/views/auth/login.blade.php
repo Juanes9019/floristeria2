@@ -39,7 +39,7 @@
                                                 <i class="input-icon uil uil-at"></i>
                                                 @error('email')
                                                     <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
+                                                        <strong>Correo o contraseña invalida</strong>
                                                     </span>
                                                 @enderror
                                             </div>
@@ -49,7 +49,7 @@
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                                 @error('password')
                                                     <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
+                                                        <strong>Correo o contraseña invalida</strong>
                                                     </span>
                                                 @enderror
                                             </div>
@@ -84,7 +84,7 @@
                                                 <i class="input-icon uil uil-user"></i>
                                                 @error('name')
                                                     <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
+                                                        <strong>nombre invalido</strong>
                                                     </span>
                                                 @enderror
                                             </div>
