@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comestibles', function (Blueprint $table) {
+        Schema::create('permisos_rol', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->enum('tipo', ['bebida', 'comida']);
-            $table->integer('estado')->default(1);
-            $table->decimal('precio', 10, 2);
+            $table->foreignId('id_rol')->constrained('roles');
+            $table->foreignId('id_permiso')->constrained('permisos');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comestibles');
+        Schema::dropIfExists('permisos_rol');
     }
 };

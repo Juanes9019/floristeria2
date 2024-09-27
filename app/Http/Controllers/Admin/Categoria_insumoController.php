@@ -15,6 +15,27 @@ class Categoria_insumoController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
+
+    // Verificar si el permiso 'categoria_insumos' existe
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'categoria_insumos')
+                ->first();
+    
+    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+    if (!$permiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+                
+    // Verificar si el usuario tiene el permiso asociado a su rol
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    }
         $categoria_insumos = Categoria_insumo::all();
         $i = 0; 
         return view('Admin.categoria_insumo.index', compact('categoria_insumos', 'i'));
@@ -25,7 +46,27 @@ class Categoria_insumoController extends Controller
      */
     public function create()
     {
-        
+        $user = auth()->user();
+
+    // Verificar si el permiso 'categoria_insumos' existe
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'categoria_insumos')
+                ->first();
+    
+    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+    if (!$permiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+                
+    // Verificar si el usuario tiene el permiso asociado a su rol
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    }
         $categoria_insumo = new Categoria_insumo();
         $proveedores= DB::table('proveedores')->get();
         return view('Admin.categoria_insumo.create', compact('categoria_insumo','proveedores'));
@@ -63,6 +104,27 @@ class Categoria_insumoController extends Controller
      */
     public function edit($id)
     {
+        $user = auth()->user();
+
+    // Verificar si el permiso 'categoria_insumos' existe
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'categoria_insumos')
+                ->first();
+    
+    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+    if (!$permiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+                
+    // Verificar si el usuario tiene el permiso asociado a su rol
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    }
         $categoria_insumo = Categoria_insumo::find($id);
         $proveedores= DB::table('proveedores')->get();
         return view('Admin.categoria_insumo.edit', compact('categoria_insumo','proveedores'));

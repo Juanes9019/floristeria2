@@ -23,6 +23,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\CorsMiddleware::class,
 
+
     ];
 
     /**
@@ -68,5 +69,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role'=> \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'user-access' => \App\Http\Middleware\UserAccess::class,
+        'check-permission' => \App\Http\Middleware\CheckPermission::class,
     ];
 }

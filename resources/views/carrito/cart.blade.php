@@ -52,7 +52,9 @@
                                 <form action="{{ route('removeItem') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="rowId" value="{{ $item->rowId }}">
-                                    <button type="submit" class="btn btn-sm text-danger"><i class="fa fa-trash fa-lg hover-scale"></i></button>
+                                    <button type="submit" class="btn btn-sm text-danger">
+                                        <i class="fa fa-trash fa-lg hover-scale"></i>
+                                    </button>
                                 </form>
                             </td>
                         </tr>
@@ -214,6 +216,22 @@
 
             document.getElementById('fecha').value = fecha;
         }
+
+        document.querySelector('form').addEventListener('submit', function(e) {
+    // Verifica si la sección de detalles de envío está colapsada
+    if (!document.getElementById('detallesEnvio').classList.contains('show')) {
+        document.getElementById('nombre_destinatario').removeAttribute('required');
+        document.getElementById('ciudad').removeAttribute('required');
+        document.getElementById('direccion').removeAttribute('required');
+        document.getElementById('telefono').removeAttribute('required');
+    }
+
+    // Verifica si la sección de métodos de pago está colapsada
+    if (!document.getElementById('metodosPago').classList.contains('show')) {
+        document.getElementById('comprobante_pago').removeAttribute('required');
+    }
+});
+
     </script> 
 
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\UsuarioExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -12,19 +13,53 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Excel;
 
 class UserController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
+    
+        // Verificar si el usuario tiene permiso para ver la vista de usuarios
+        $permiso = DB::table('permisos')
+                    ->where('nombre', 'usuarios')
+                    ->first();
+                    
+        $tienePermiso = DB::table('permisos_rol')
+                        ->where('id_rol', $user->id_rol)
+                        ->where('id_permiso', $permiso->id)
+                        ->exists();
+        
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+    
+        // Si tiene permiso, proceder a obtener los usuarios
         $usuarios = User::all();
-        $i = 0; 
-        return view('Admin.users.index', compact('usuarios', 'i'));
+        return view('Admin.users.index', compact('usuarios'));
     }
+    
 
     public function create()
     {
+        $user = auth()->user();
+    
+        // Verificar si el usuario tiene permiso para ver la vista de usuarios
+        $permiso = DB::table('permisos')
+                    ->where('nombre', 'usuarios')
+                    ->first();
+                    
+        $tienePermiso = DB::table('permisos_rol')
+                        ->where('id_rol', $user->id_rol)
+                        ->where('id_permiso', $permiso->id)
+                        ->exists();
+        
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+
         $user = new User();
         return view('Admin.users.create', compact('user'));
     }
@@ -59,6 +94,22 @@ class UserController extends Controller
 
     public function edit($id)
 {
+    $user = auth()->user();
+    
+        // Verificar si el usuario tiene permiso para ver la vista de usuarios
+        $permiso = DB::table('permisos')
+                    ->where('nombre', 'usuarios')
+                    ->first();
+                    
+        $tienePermiso = DB::table('permisos_rol')
+                        ->where('id_rol', $user->id_rol)
+                        ->where('id_permiso', $permiso->id)
+                        ->exists();
+        
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+        
     $usuarios = User::find($id);
     $roles = Roles::all();
 
@@ -120,6 +171,28 @@ return redirect()->route('Admin.users', ['id' => $usuarios->id])
 
     public function index_pqrs()
     {
+        $user = auth()->user();
+
+    // Verificar si el permiso 'pqrs' existe
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'pqrs')
+                ->first();
+    
+    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+    if (!$permiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+                
+    // Verificar si el usuario tiene el permiso asociado a su rol
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+
         $pqrs = Pqrs::all();
         $i = 0; 
         $fecha = now()->format('Y-m-d');
@@ -150,5 +223,23 @@ return redirect()->route('Admin.users', ['id' => $usuarios->id])
         return back()->with('error', 'Error al responder la PQRS: ' . $e->getMessage());
     }
 }
+public function export($format)
+    {
+        $export = new UsuarioExport;
 
+        switch ($format) {
+            case 'pdf':
+                $pdf = Pdf::loadView('exports.usuarios', [
+                    'usuarios' => User::all()
+                ])->setPaper('a4', 'portait') // Puedes cambiar a 'portrait' si prefieres
+                    ->setOption('margin-left', '10mm')
+                    ->setOption('margin-right', '10mm')
+                    ->setOption('margin-top', '10mm')
+                    ->setOption('margin-bottom', '10mm');
+                return $pdf->download('usuarios.pdf');
+            case 'xlsx':
+            default:
+                return $export->download('usuarios.xlsx', Excel::XLSX);
+        }
+    }
 }
