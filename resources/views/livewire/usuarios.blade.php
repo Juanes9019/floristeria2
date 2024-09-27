@@ -5,11 +5,11 @@
                 <div class="card-header">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span id="card_title">
-                            <b>Control de Proveedores</b>
+                            <b>Control de usuarios</b>
                         </span>
                         <div class="float-right">
-                            <a href="{{ route('Admin.proveedor.create') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
-                                {{ __('Registrar Proveedor') }}
+                            <a href="{{ route('Admin.users.create') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
+                                {{ __('Registrar un usuario') }}
                             </a>
                         </div>
                     </div>
@@ -21,10 +21,10 @@
                             Exportar
                         </button>
                         <div class="dropdown-menu" aria-labelledby="exportDropdown">
-                            <a class="dropdown-item" href="{{ route('Admin.proveedores.export', ['format' => 'xlsx']) }}">
+                            <a class="dropdown-item" href="{{ route('Admin.users.export', ['format' => 'xlsx']) }}">
                                 {{ __('Exportar a Excel') }}
                             </a>
-                            <a class="dropdown-item" href="{{ route('Admin.proveedores.export', ['format' => 'pdf']) }}">
+                            <a class="dropdown-item" href="{{ route('Admin.users.export', ['format' => 'pdf']) }}">
                                 {{ __('Exportar a PDF') }}
                             </a>
                         </div>
@@ -40,9 +40,6 @@
                     <p>{{ $message }}</p>
                 </div>
                 @endif
-                
-
-
 
                 <div class="card-body">
                     <div class="row">
@@ -72,9 +69,9 @@
                                         </svg>
                                         @endif
                                     </th>
-                                    <th scope="col" class="text-center" wire:click="sortBy('nombre')">
+                                    <th scope="col" class="text-center" wire:click="sortBy('name')">
                                         Nombre
-                                        @if ($ordenarColumna === 'nombre')
+                                        @if ($ordenarColumna === 'name')
                                         @if ($ordenarForma === 'asc')
                                         <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
@@ -91,13 +88,13 @@
                                         @endif
                                     </th>
                                     <th scope="col" class="text-center">
-                                        Telefono
-                                    </th>
-                                    <th scope="col" class="text-center">
                                         Correo
                                     </th>
                                     <th scope="col" class="text-center">
-                                        Ubicacion
+                                        Rol
+                                    </th>
+                                    <th scope="col" class="text-center" colspan="2">
+                                        Acciones
                                     </th>
                                     <th scope="col" class="text-center" wire:click="sortBy('estado')">
                                         Estado
@@ -117,40 +114,36 @@
                                         </svg>
                                         @endif
                                     </th>
-                                    <th scope="col" class="text-center" colspan="3">
-                                        Acciones
-                                    </th>
+                                    
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach($proveedores as $proveedor)
+                                @foreach($usuarios as $user)
                                 <tr>
-                                    <td class="text-center"> {{ ($proveedores->currentPage() - 1) * $proveedores->perPage() + $loop->iteration }}</td>
-                                    <td class="text-center">{{ $proveedor->nombre }}</td>
-                                    <td class="text-center">{{ $proveedor->telefono }}</td>
-                                    <td class="text-center">{{ $proveedor->correo }}</td>
-                                    <td class="text-center">{{ $proveedor->ubicacion }}</td>
-                                    <td class="text-center">{{ $proveedor->estado == 1 ? 'Activo' : 'Inactivo' }}</td>
+                                    <td class="text-center"> {{ ($usuarios->currentPage() - 1) * $usuarios->perPage() + $loop->iteration }}</td>
+                                    <td class="text-center">{{ $user->name }}</td>
+                                    <td class="text-center">{{ $user->email }}</td>
+                                    <td class="text-center">{{ $user->id_rol }}</td>
                                     <td class="text-center">
-                                        <a class="btn btn-sm btn-warning" href="{{ route('Admin.proveedor.edit', ['id' => $proveedor->id]) }}">
+                                        <a class="btn btn-sm btn-warning" href="{{ route('Admin.users.edit', ['id' => $user->id]) }}">
                                             <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
                                     </td>
                                     <td>
-                                        <form id="form_eliminar_{{ $proveedor->id }}" action="{{ route('Admin.proveedor.destroy', $proveedor->id) }}" method="post">
+                                        <form id="form_eliminar_{{ $user->id }}" action="{{ route('Admin.users.destroy', $user->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{ $proveedor->id }}')">
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{ $user->id }}')">
                                                 <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
                                             </button>
                                         </form>
                                     </td>
                                     <td>
-                                        <a class="btn btn-sm {{ $proveedor->estado == 1 ? 'btn-success' : 'btn-danger' }}"
-                                            wire:click="changeStatus({{ $proveedor->id }})"
+                                        <a class="btn btn-sm {{ $user->estado == 1 ? 'btn-success' : 'btn-danger' }}"
+                                            wire:click="changeStatus({{ $user->id }})"
                                             style="cursor: pointer;">
-                                            {{ $proveedor->estado == 1 ? 'Activo' : 'Inactivo' }}
-                                            <i class="fas fa-toggle-{{ $proveedor->estado == 1 ? 'on' : 'off' }}"></i>
+                                            {{ $user->estado == 1 ? 'Activo' : 'Inactivo' }}
+                                            <i class="fas fa-toggle-{{ $user->estado == 1 ? 'on' : 'off' }}"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -164,7 +157,7 @@
                             <option value="50">50</option>
                         </select>
                         <div class="mt-3">
-                            {{ $proveedores->links() }}
+                            {{ $usuarios->links() }}
                         </div>
                     </div>
                 </div>
@@ -173,26 +166,20 @@
     </div>
 </div>
 
-
 <script>
-    function eliminar(proveedorId) {
+    function eliminar(userId) {
         Swal.fire({
-            title: "¡Estas seguro!",
-            text: "¿Deseas Eliminar este proveedor?",
-            icon: "warning",
+            title: '¿Estás seguro?',
+            text: 'No podrás revertir esta acción',
+            icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Si, Eliminar"
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: "!Proveedor Eliminado!",
-                    text: "El proveedor se Eliminó Correctamente",
-                    icon: "success"
-                }).then(() => {
-                    document.getElementById('form_eliminar_' + proveedorId).submit();
-                });
+                document.getElementById('form_eliminar_' + userId).submit();
             }
         });
     }

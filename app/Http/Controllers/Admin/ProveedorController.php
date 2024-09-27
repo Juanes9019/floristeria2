@@ -14,16 +14,50 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
+
 class ProveedorController extends Controller
 {
     public function index()
-    {
+{
+    $user = auth()->user();
 
-        return view('Admin.proveedor.index');
+    // Verificar si el usuario tiene permiso para ver proveedores
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'proveedores')
+                ->first();
+                
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    
     }
+
+    // Continuar si tiene el permiso
+    $proveedor = Proveedor::all();
+    return view('Admin.proveedor.index', compact('proveedor'));
+}
 
     public function create()
     {
+        $user = auth()->user();
+
+    // Verificar si el usuario tiene permiso para ver proveedores
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'proveedores')
+                ->first();
+                
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    }
         $proveedor = new Proveedor();
         return view('Admin.proveedor.create', compact('proveedor'));
     }
@@ -74,6 +108,22 @@ class ProveedorController extends Controller
      */
     public function edit($id)
     {
+        $user = auth()->user();
+
+    // Verificar si el usuario tiene permiso para ver proveedores
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'proveedores')
+                ->first();
+                
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+
         $proveedor = Proveedor::find($id);
         return view('Admin.proveedor.edit', compact('proveedor'));
     }

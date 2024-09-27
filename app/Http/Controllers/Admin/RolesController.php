@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Roles;
+use App\Models\Permisos_rol;
+use App\Models\Permiso;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +14,22 @@ class RolesController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
+    
+        // Verificar si el usuario tiene permiso para ver la vista de roles
+        $permiso = DB::table('permisos')
+                    ->where('nombre', 'roles')
+                    ->first();
+                    
+        $tienePermiso = DB::table('permisos_rol')
+                        ->where('id_rol', $user->id_rol)
+                        ->where('id_permiso', $permiso->id)
+                        ->exists();
+        
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+
         $roles = Roles::all();
         $i = 0; 
         return view('Admin.roles.index', compact('roles', 'i'));
@@ -22,6 +40,21 @@ class RolesController extends Controller
      */
     public function create()
     {
+        $user = auth()->user();
+    
+        // Verificar si el usuario tiene permiso para ver la vista de roles
+        $permiso = DB::table('permisos')
+                    ->where('nombre', 'roles')
+                    ->first();
+                    
+        $tienePermiso = DB::table('permisos_rol')
+                        ->where('id_rol', $user->id_rol)
+                        ->where('id_permiso', $permiso->id)
+                        ->exists();
+        
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
         return view('Admin.roles.create');
     }
 
@@ -65,6 +98,22 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
+        $user = auth()->user();
+    
+        // Verificar si el usuario tiene permiso para ver la vista de roles
+        $permiso = DB::table('permisos')
+                    ->where('nombre', 'roles')
+                    ->first();
+                    
+        $tienePermiso = DB::table('permisos_rol')
+                        ->where('id_rol', $user->id_rol)
+                        ->where('id_permiso', $permiso->id)
+                        ->exists();
+        
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+        
         $rol = Roles::findOrFail($id);
 
         return view('Admin.roles.edit',['roles' => $rol]);
@@ -111,6 +160,26 @@ class RolesController extends Controller
         
         return redirect()->route("Admin.roles")->with('error', 'No se pudo borrar el registro. Es posible que esté siendo utilizado en otra parte del sistema.');
     }
+}
+
+
+
+public function permisos_rol()
+{
+    $roles = Roles::with('permisos')->get(); // Relación 'permisos' debe existir en tu modelo Roles.
+    $todos_los_permisos = Permiso::all(); // Obtén todos los permisos para los checkboxes.
+
+    return view('Admin.permisos.index', compact('roles', 'todos_los_permisos'));
+}
+
+public function update_permiso_rol(Request $request, $id)
+{
+    $role = Roles::findOrFail($id);
+
+    // Actualiza los permisos
+    $role->permisos()->sync($request->input('permisos', [])); // Actualiza los permisos asignados al rol
+
+    return redirect()->back()->with('success', 'Permisos actualizados correctamente.');
 }
 
 }
