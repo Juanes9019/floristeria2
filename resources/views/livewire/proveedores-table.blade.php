@@ -117,7 +117,7 @@
                                         </svg>
                                         @endif
                                     </th>
-                                    <th scope="col" class="text-center">
+                                    <th scope="col" class="text-center" colspan="3">
                                         Acciones
                                     </th>
                                 </tr>

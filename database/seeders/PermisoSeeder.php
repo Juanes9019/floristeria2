@@ -22,7 +22,7 @@ class PermisoSeeder extends Seeder
             ['nombre' => 'categoria_insumos'],
             ['nombre' => 'insumos'],
             ['nombre' => 'productos'],
-            ['nombre' => 'detalle_compra'],
+            ['nombre' => 'compras'],
             ['nombre' => 'detalle_venta'],
             ['nombre' => 'pedidos'],
             ['nombre' => 'pqrs'],

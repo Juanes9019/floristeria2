@@ -13,10 +13,14 @@ class Insumo extends Model
 
     protected $fillable = [
         'id_categoria_insumo',
+        'nombre',
+        'color',
         'cantidad_insumo',
         'costo_unitario',
         'perdida_insumo',
-        'costo_total',
+        'costo_perdida',
+        'imagen',
+        'descripcion',
         'estado'
     ];
 
@@ -24,4 +28,12 @@ class Insumo extends Model
         return $this->belongsTo(Categoria_insumo::class, 'id_categoria_insumo');
     }
 
+    public function scopeSearch($query, $value)
+    {
+        $query->where('nombre', 'like', "%{$value}%")
+              ->orWhere('id_categoria_insumo', 'like', "%{$value}%")
+              ->orWhereHas('categoria_insumo', function ($q) use ($value) {
+                  $q->where('nombre', 'like', "%{$value}%");
+              });
+    }
 }

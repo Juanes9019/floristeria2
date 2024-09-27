@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('insumos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_categoria_insumo')->references('id')->on('categoria_insumos');
-            $table->integer('cantidad_insumo');
+            $table->foreignId('id_categoria_insumo')->constrained('categoria_insumos');
+            $table->string('nombre');
+            $table->string('color')->nullable();
+            $table->integer('cantidad_insumo')->default(0);
             $table->decimal('costo_unitario', 10, 2);
             $table->integer('perdida_insumo');            
-            $table->decimal('costo_total', 10, 2);
+            $table->decimal('costo_perdida', 10, 2);
+            $table->string('imagen')->nullable(); 
+            $table->string('descripcion')->nullable();  
             $table->integer('estado')->default(1); //1-Activo   0-Inactivo
             $table->timestamps();
         });

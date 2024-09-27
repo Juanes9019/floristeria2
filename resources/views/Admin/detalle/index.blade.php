@@ -39,18 +39,30 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($detalles as $item)
-                                    <tr>
-                                        <td class="text-center">{{ ++$i }}</td>
-                                        <td class="text-center">{{ $item->id_pedido }}</td>
-                                        <td class="text-center">{{ $item->id_producto }}</td>
-                                        <td class="text-center">{{ number_format($item->precio, 0, ',', '.') }}</td>
-                                        <td class="text-center">{{ $item->cantidad }}</td>
-                                        <td class="text-center">{{ number_format($item->subtotal, 0, ',', '.') }}</td>
-                                        <td class="text-center"><img src="{{ $item->imagen }}" alt="Imagen del producto" style="width: 100px; height: auto;"></td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
+                                    @foreach($detalles as $item)
+                                        <tr>
+                                            <td class="text-center">{{ ++$i }}</td>
+                                            <td class="text-center">{{ $item->id_pedido }}</td>
+                                            <td class="text-center">
+                                                @if ($item->id_producto)
+                                                    {{ optional($item->producto)->nombre ?? 'Producto no disponible' }}
+                                                @else
+                                                    Arreglo personalizado
+                                                @endif
+                                            </td>
+                                            <td class="text-center">{{ number_format($item->precio, 0, ',', '.') }}</td>
+                                            <td class="text-center">{{ $item->cantidad }}</td>
+                                            <td class="text-center">{{ number_format($item->subtotal, 0, ',', '.') }}</td>
+                                            <td class="text-center">
+                                                @if ($item->imagen)
+                                                    <img src="{{ $item->imagen }}" alt="Imagen del producto" style="width: 100px; height: auto;">
+                                                @else
+                                                    <img src="https://i.imgur.com/ia1BeKH.png" alt="Imagen por defecto" style="width: 100px; height: auto;">
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
                             </table>
                         </div>
                     </div>

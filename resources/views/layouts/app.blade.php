@@ -145,7 +145,7 @@
                                     <a class="dropdown-item" href="{{ route('perfilUser') }}">
                                         {{ __('Perfil') }}
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                    <a class="dropdown-item" href="{{ route('dashboard.index') }}">
                                         {{ __('Panel de administrador') }}
                                     </a>
                                 @elseif (Auth::user()->id_rol == 2) 
@@ -153,19 +153,19 @@
                                         {{ __('Perfil') }}
                                     </a>
                                 @elseif (Auth::user()->id_rol == 3) 
-                                    <a class="dropdown-item" href="{{ route('perfilUser') }}">
-                                        {{ __('Perfil') }}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('dashboard') }}">
-                                        {{ __('Panel de manager') }}
-                                    </a>
+                                <a class="dropdown-item" href="{{ route('perfilUser') }}">
+                                    {{ __('Perfil') }}
+                                </a>
+                                <a class="dropdown-item" href="{{ route('dashboard.index') }}">
+                                    {{ __('Panel de manager') }}
+                                </a>
                                 @elseif (Auth::user()->id_rol == 4) 
-                                    <a class="dropdown-item" href="{{ route('perfilUser') }}">
-                                        {{ __('Perfil') }}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('dashboard') }}">
-                                        {{ __('Panel de repartidor') }}
-                                    </a>
+                                <a class="dropdown-item" href="{{ route('perfilUser') }}">
+                                    {{ __('Perfil') }}
+                                </a>
+                                <a class="dropdown-item" href="{{ route('dashboard.index') }}">
+                                    {{ __('Panel de repartidor') }}
+                                </a>
                                 @endif
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

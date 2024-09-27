@@ -25,11 +25,15 @@
                     @php $isActive = $activeSection === 'historial'; @endphp
                     <a href="{{ route('perfilUser', 'historial') }}" class="btn @if ($isActive) btn-primary @else btn-outline-primary @endif d-block mb-2 w-100">Historial de pedidos</a>
             
-                    @php $isActive = $activeSection === 'mispqrs'; @endphp
-                    <a href="{{ route('perfilUser', 'mispqrs') }}" class="btn @if ($isActive) btn-primary @else btn-outline-primary @endif d-block mb-2 w-100">Nueva PQRS</a>
-            
-                    @php $isActive = $activeSection === 'historial_pqrs'; @endphp
-                    <a href="{{ route('perfilUser', 'historial_pqrs') }}" class="btn @if ($isActive) btn-primary @else btn-outline-primary @endif d-block mb-2 w-100">Mis PQRS</a>
+                    @if (Auth::user()->id_rol != 1)
+
+                        @php $isActive = $activeSection === 'mispqrs'; @endphp
+                        <a href="{{ route('perfilUser', 'mispqrs') }}" class="btn @if ($isActive) btn-primary @else btn-outline-primary @endif d-block mb-2 w-100">Nueva PQRS</a>
+
+                        @php $isActive = $activeSection === 'historial_pqrs'; @endphp
+                        <a href="{{ route('perfilUser', 'historial_pqrs') }}" class="btn @if ($isActive) btn-primary @else btn-outline-primary @endif d-block mb-2 w-100">Mis PQRS</a>
+
+                    @endif                      
                 </div>
             </div>
         </div>
@@ -56,7 +60,7 @@
                         @include('view_perfil.crear_pqrs')
 
                     @elseif ($section == 'historial_pqrs')
-                        @include('view_perfil.historial_pqrs')                        
+                        @include('view_perfil.historial_pqrs')
 
                     @endif
                 </div>

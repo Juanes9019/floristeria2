@@ -23,7 +23,6 @@
 
             <form action="{{ route('confirmarCarrito') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <!-- Contenido del carrito -->
                 <table class="table table-striped">
                     <thead>
                         <th class="text-center">FOTO</th>
@@ -37,7 +36,7 @@
                         @foreach (Cart::content() as $item)
                         <tr class="align-middle">
                             <td class="text-center">
-                                <img src="{{ $item->options['image'] ?? 'https://i.imgur.com/nwIes3v.jpg' }}" alt="imagen no disponible" width="100">
+                                <img src="{{ $item->options['image'] ?? 'https://i.imgur.com/ia1BeKH.png' }}" alt="imagen no disponible" width="100">
                             </td>
                             <td class="text-center">{{ $item->name }}</td>
                             <td class="text-center">
@@ -53,7 +52,9 @@
                                 <form action="{{ route('removeItem') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="rowId" value="{{ $item->rowId }}">
-                                    <button type="submit" class="btn btn-sm text-danger"><i class="fa fa-trash fa-lg hover-scale"></i></button>
+                                    <button type="submit" class="btn btn-sm text-danger">
+                                        <i class="fa fa-trash fa-lg hover-scale"></i>
+                                    </button>
                                 </form>
                             </td>
                         </tr>
@@ -215,6 +216,22 @@
 
             document.getElementById('fecha').value = fecha;
         }
+
+        document.querySelector('form').addEventListener('submit', function(e) {
+    // Verifica si la sección de detalles de envío está colapsada
+    if (!document.getElementById('detallesEnvio').classList.contains('show')) {
+        document.getElementById('nombre_destinatario').removeAttribute('required');
+        document.getElementById('ciudad').removeAttribute('required');
+        document.getElementById('direccion').removeAttribute('required');
+        document.getElementById('telefono').removeAttribute('required');
+    }
+
+    // Verifica si la sección de métodos de pago está colapsada
+    if (!document.getElementById('metodosPago').classList.contains('show')) {
+        document.getElementById('comprobante_pago').removeAttribute('required');
+    }
+});
+
     </script> 
 
 @endsection

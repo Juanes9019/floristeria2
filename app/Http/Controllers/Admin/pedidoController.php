@@ -8,6 +8,7 @@ use App\Notifications\EstadoPedido;
 use App\Mail\PedidoCambiado;
 use App\Models\Pedido;
 use App\Models\Inventario;
+use App\Models\Insumo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -47,39 +48,58 @@ class PedidoController extends Controller
     }
 
     public function cambiar_estado(Request $request, $id)
-    {
-        $pedido = Pedido::findOrFail($id);
-        $action = $request->input('action');
-    
-        if ($action === 'reject') {
-            $pedido->estado = 'rechazado';
+{
+    $pedido = Pedido::findOrFail($id);
+    $action = $request->input('action');
 
-        } elseif ($pedido->estado === 'nuevo') {
-            $pedido->estado = 'preparacion';
+    if ($action === 'reject') {
+        $pedido->estado = 'rechazado';
 
-                    
+    } elseif ($pedido->estado === 'nuevo') {
+        $pedido->estado = 'preparacion';
+
+        // Restar los insumos del inventario
         foreach ($pedido->detalles as $detalle) {
-            $inventario = Inventario::where('id_producto', $detalle->id_producto)->first();
-            $inventario->cantidad -= $detalle->cantidad;
-            $inventario->save();
-        }
-            
-        } elseif ($pedido->estado === 'preparacion') {
-            $pedido->estado = 'en camino';
+            // Si es un insumo personalizado
+            if (is_null($detalle->id_producto)) {
+                $items = json_decode($detalle->opciones, true)['items'];
 
-        } elseif ($pedido->estado === 'en camino') {
-            $pedido->estado = 'entregado';
+                foreach ($items as $item) {
+                    // Aquí asumes que el nombre del insumo es único o se utiliza un ID
+                    $insumo = Insumo::where('nombre', $item['name'])->where('color', $item['color'])->first();
+                    
+                    if ($insumo) {
+                        $insumo->cantidad_insumo -= $item['qty'];
+                        $insumo->save();
+                    }
+                }
+            } else {
+                // Producto estándar
+                $inventario = Inventario::where('id_producto', $detalle->id_producto)->first();
+                if ($inventario) {
+                    $inventario->cantidad -= $detalle->cantidad;
+                    $inventario->save();
+                }
+            }
         }
-    
-        $pedido->save();
-    
-        if ($pedido->user) {
-            $pedido->user->notify(new EstadoPedido($pedido)); 
-            Mail::to($pedido->user->email)->send(new PedidoCambiado($pedido));
-        }
-    
-        return redirect()->back()->with('success', 'Estado del pedido actualizado correctamente.');
+        
+    } elseif ($pedido->estado === 'preparacion') {
+        $pedido->estado = 'en camino';
+
+    } elseif ($pedido->estado === 'en camino') {
+        $pedido->estado = 'entregado';
     }
+
+    $pedido->save();
+
+    if ($pedido->user) {
+        $pedido->user->notify(new EstadoPedido($pedido));
+        Mail::to($pedido->user->email)->send(new PedidoCambiado($pedido));
+    }
+
+    return redirect()->back()->with('success', 'Estado del pedido actualizado correctamente.');
+}
+
     
 
     public function rechazar(Request $request, $id)
