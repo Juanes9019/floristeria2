@@ -242,4 +242,29 @@ public function export($format)
                 return $export->download('usuarios.xlsx', Excel::XLSX);
         }
     }
+    public function login(Request $request)
+    {
+        // Validar las credenciales
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        // Intentar autenticar al usuario
+        if (Auth::attempt($request->only('email', 'password'))) {
+            // Obtener el usuario autenticado
+            $user = Auth::user();
+
+            // Retornar los datos del usuario, incluyendo el rol
+            return response()->json([
+                'role' => $user->role,
+                'message' => 'Inicio de sesión exitoso',
+            ], 200);
+        }
+
+        // Si las credenciales son incorrectas
+        return response()->json([
+            'message' => 'Credenciales incorrectas Deymar',
+      ],401);
+    }
 }
