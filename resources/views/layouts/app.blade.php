@@ -159,6 +159,13 @@
                                     <a class="dropdown-item" href="{{ route('dashboard') }}">
                                         {{ __('Panel de manager') }}
                                     </a>
+                                @elseif (Auth::user()->id_rol == 4) 
+                                    <a class="dropdown-item" href="{{ route('perfilUser') }}">
+                                        {{ __('Perfil') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                        {{ __('Panel de repartidor') }}
+                                    </a>
                                 @endif
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

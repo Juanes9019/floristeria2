@@ -20,6 +20,27 @@ class PedidoController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
+
+    // Verificar si el permiso 'pedidos' existe
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'pedidos')
+                ->first();
+    
+    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+    if (!$permiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+                
+    // Verificar si el usuario tiene el permiso asociado a su rol
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    }
         $pedidos = Pedido::all();
         $i = 0; 
         return view('Admin.pedido.index', compact('pedidos', 'i'));

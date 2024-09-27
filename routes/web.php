@@ -18,6 +18,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\carritoController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EnviarCorreo;
+use Illuminate\Support\Facades\Auth;
 
 
 Route::get('/', [HomeController::class, 'vista_inicial'])->name('/');
@@ -74,7 +75,7 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
 
 
 //midleware para controlar el acceso solo a los administradores
-Route::middleware(['auth', 'user-access:1,3'])->group(function () {
+Route::middleware(['auth', 'user-access:1,3,4'])->group(function () {
 
     //ruta para dashboard
     Route::get('dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
@@ -87,8 +88,11 @@ Route::middleware(['auth', 'user-access:1,3'])->group(function () {
     Route::put('admin/users/{id}', [UserController::class, 'update'])->name('Admin.users.update');
     Route::delete('admin/users/{id}', [UserController::class, 'destroy'])->name('Admin.users.destroy');
 
+    Route::get('/usuarios/export/{format}', [UserController::class, 'export'])->name('Admin.users.export');
+
     Route::get('admin/users/pqrs', [UserController::class, 'index_pqrs'])->name('Admin.users.pqrs');
     Route::put('/pqrs/{id}/responder', [UserController::class, 'responderPqrs'])->name('pqrs.responder');    
+
 
 
     //rutas para los roles
@@ -98,6 +102,15 @@ Route::middleware(['auth', 'user-access:1,3'])->group(function () {
     Route::get('admin/roles/{id}/edit', [RolesController::class, 'edit'])->name('Admin.roles.edit');
     Route::put('admin/roles/{id}', [RolesController::class, 'update'])->name('Admin.roles.update');
     Route::delete('admin/roles/{id}', [RolesController::class, 'destroy'])->name('Admin.roles.destroy');
+
+
+    Route::get('admin/permisos', [RolesController::class, 'permisos'])->name('Admin.permisos');
+    Route::get('admin/permisos_rol', [RolesController::class, 'permisos_rol'])->name('Admin.permisos_rol');
+    Route::post('admin/guardar_permiso', [RolesController::class, 'guardar_permiso'])->name('Admin.permisos.guardar_permiso');
+
+    //rutas para permiso
+    Route::put('/admin/permisos_rol/{id}', [RolesController::class, 'update_permiso_rol'])->name('permisos.update');
+
 
 
     //rutas para los proveedor

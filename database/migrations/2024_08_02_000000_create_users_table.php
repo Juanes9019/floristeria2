@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('direccion')->nullable();
             $table->foreignId('id_rol')->default(2)->constrained('roles');
             $table->string('password');
+            $table->integer('estado')->default(1); //1-Activo   0-Inactivo
             $table->rememberToken();
             $table->timestamps();
         });

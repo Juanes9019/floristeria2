@@ -12,6 +12,29 @@ use App\Models\Categoria_insumo;
 class InsumoController extends Controller
 {
     public function index(){
+
+        $user = auth()->user();
+
+    // Verificar si el permiso 'insumos' existe
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'insumos')
+                ->first();
+    
+    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+    if (!$permiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+                
+    // Verificar si el usuario tiene el permiso asociado a su rol
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+
         $insumos = Insumo::all();
         $i = 0; 
         return view('Admin.insumo.index', compact('insumos', 'i'));
@@ -19,6 +42,28 @@ class InsumoController extends Controller
 
     public function create()
     {
+        $user = auth()->user();
+
+    // Verificar si el permiso 'insumos' existe
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'insumos')
+                ->first();
+    
+    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+    if (!$permiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+                
+    // Verificar si el usuario tiene el permiso asociado a su rol
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+
         $categoria_insumo= DB::table('categoria_insumos')->pluck('nombre', 'id');
         return view('Admin.insumo.create', compact('categoria_insumo'));
     }
@@ -80,6 +125,27 @@ class InsumoController extends Controller
     }
 
     public function edit($id)    {
+        $user = auth()->user();
+
+    // Verificar si el permiso 'insumos' existe
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'insumos')
+                ->first();
+    
+    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+    if (!$permiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+                
+    // Verificar si el usuario tiene el permiso asociado a su rol
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    }
         $insumos = Insumo::find($id);
         $categoria_insumos = DB::table('categoria_insumos')->get();
         return view('Admin.insumo.edit', compact('insumos','categoria_insumos'));

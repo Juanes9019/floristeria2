@@ -326,6 +326,12 @@ return [
             'label_color' => 'primary',
         ],
         [
+            'text' => 'asignar permisos',
+            'url' => '/admin/permisos_rol',
+            'icon' => 'fas fa-fw fa-building', 
+            'label_color' => 'primary',
+        ],
+        [
             'text' => 'Pqrs',
             'url' => '/admin/users/pqrs',
             'icon' => 'fas fa-fw fa-comments',
