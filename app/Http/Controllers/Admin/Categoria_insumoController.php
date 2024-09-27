@@ -45,7 +45,7 @@ class Categoria_insumoController extends Controller
 
         $categoria_insumos = new Categoria_insumo;
         $categoria_insumos->nombre = $request->nombre;
-        $insumo->id_categoria_insumo = $request->id_categoria_insumo;
+        $categoria_insumos->id_proveedor = $request->input('id_proveedor');
         
         if ($request->has('estado')) {
             $categoria_insumos->estado = 1;

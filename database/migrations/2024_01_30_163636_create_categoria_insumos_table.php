@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('categoria_insumos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_proveedor')->references('id')->on('proveedores');
+            $table->foreignId('id_proveedor')->constrained('proveedores'); // Uso de la función `constrained`
             $table->string("nombre");
             $table->integer('estado')->default(1); //1-Activo   0-Inactivo
             $table->timestamps();

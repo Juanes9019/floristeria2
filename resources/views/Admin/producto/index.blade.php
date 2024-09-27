@@ -56,9 +56,9 @@
                                     <td class="text-center">{{$producto->descripcion_limitada}}</td>
                                     <td class="text-center">{{ $producto->cantidad}}</td>
                                     <td class="text-center">{{ number_format($producto->precio, 0, ',', '.') }}</td>
-                                    <!-- <td class="text-center justify-content-center">
+                                    <td class="text-center justify-content-center">
                                         <img src="{{ $producto->foto }}" alt="Foto" class="thumbnail" width="150" height="150" loading="lazy">
-                                    </td> -->
+                                    </td>
                                     <td class="text-center">{{ $producto->estado == 1 ? 'Activo': 'Inactivo' }} </td>
                                     <td class="text-center">
                                         <a class="btn btn-sm btn-warning" href="{{ route('Admin.producto.edit', ['id' => $producto->id]) }}">

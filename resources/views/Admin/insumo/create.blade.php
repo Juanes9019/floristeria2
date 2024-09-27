@@ -66,18 +66,7 @@
                         </span>
                     @enderror
                 </div>
-
-                <!-- <div class="form-group">
-                    <label for="costo_total">Costo Total</label>
-                    <input type="number" name="costo_total" class="form-control  @error('costo_total') is-invalid  @enderror" id="costo_total" placeholder="2222" value="{{ old('costo_total') }}">
-
-                    @error('costo_total')
-                        <span class="invalid-feedback d-block" role="alert">
-                            <strong>{{$message}}</strong>
-                        </span>
-                    @enderror
-                </div> -->
-
+                
                 <div class="form-group">
                     <label for="estado">Estado</label>
                     <select name="estado" id="estado" class="form-control">

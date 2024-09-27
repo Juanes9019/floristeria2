@@ -16,10 +16,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-use Cart;
+
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Cart;
 
 
 use App\Mail\EnviarCorreo;
@@ -213,24 +214,26 @@ class carritoController extends Controller
             try {
                 foreach (Cart::content() as $item) {
                     if ($item->id === 'arreglo-personalizado') {
+
                         $detalle = new Detalle();
                         $detalle->id_pedido = $pedido->id;
                         $detalle->id_producto = null; 
                         $detalle->precio = $item->price;
                         $detalle->cantidad = $item->qty;
                         $detalle->subtotal = $item->price * $item->qty;
+                        $detalle->opciones = json_encode($item->options);
                         $detalle->imagen = null; 
                         $detalle->save();
                     } else {
                         // Producto estándar
-                        $inventario = Inventario::where('id_producto', $item->id)->first();
+                        $producto= Producto::where('id_producto', $item->id)->first();
     
-                        if (!$inventario) {
+                        if (!$producto) {
                             throw new \Exception('Inventario no encontrado para el producto: ' . $item->id);
                         }
     
-                        if ($inventario->cantidad < $item->qty) {
-                            throw new \Exception("Lamentamos informarte que la cantidad que deseas no se encuentra disponible en este momento. Cantidad disponible: $inventario->cantidad");
+                        if ($producto->cantidad < $item->qty) {
+                            throw new \Exception("Lamentamos informarte que la cantidad que deseas no se encuentra disponible en este momento. Cantidad disponible: $producto->cantidad");
                         } else {
                             $detalle = new Detalle();
                             $detalle->id_pedido = $pedido->id;
@@ -247,7 +250,8 @@ class carritoController extends Controller
                     }
                 }
             } catch (\Exception $e) {
-                \Log::error('Error al guardar los detalles del pedido: ' . $e->getMessage());
+                \Log::error('Error al guardar los detalles del pedido: ' . $e->getMessage() . ' en el archivo: ' . $e->getFile() . ' en la línea: ' . $e->getLine());
+                \Log::info('Contenido del carrito: ', Cart::content()->toArray());
                 return response()->view('errors.error', ['error' => 'Error al procesar el pedido. Por favor, inténtalo nuevamente.']);
             }
     
@@ -278,14 +282,4 @@ class carritoController extends Controller
             return back()->withErrors(['comprobante_pago' => 'Error al subir la imagen a Imgur. Por favor, inténtalo nuevamente.']);
         }
     }
-
-    
-
-        public function pdf(){
-            $pdf = Pdf::loadView('pdf.pdf');
-        
-            return $pdf->stream();
-        }
-
-    
 }

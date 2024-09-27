@@ -17,9 +17,10 @@ class GenerarProductoSeeder extends Seeder
      */
     public function run(): void
     {
-        GenerarProducto::create([
-            'nombre' => 'Arreglo floral #1',
-            'id_insumo'=> 1
+        DB::table('generar_productos')->insert([
+            'nombre' => 'Arreglo #1',
+            'id_insumo' => 1,
+            
         ]);
         
     }

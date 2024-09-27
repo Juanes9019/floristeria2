@@ -7,26 +7,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('generar_productos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
             $table->foreignId('id_insumo')->constrained('insumos');
+            $table->foreignId('id_producto')->constrained('productos');
+            $table->integer('cantidad_utilizada');
             $table->timestamps();
-
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('generar_productos');
     }
-    
 };

@@ -94,17 +94,41 @@
                     <th>Nombre</th>
                     <th>Cantidad</th>
                     <th>Precio</th>
-                    <th>Importe</th>
+                    <th>Subtotal</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($pedido->detalles as $detalle)
-                <tr>
-                    <td>{{ $detalle->producto->nombre }}</td>
-                    <td>{{ $detalle->cantidad }}</td>
-                    <td>${{ number_format($detalle->precio, 0, ',', '.') }}</td>
-                    <td>${{ number_format($detalle->subtotal, 0, ',', '.') }}</td>
-                </tr>
+                    @if ($detalle->id_producto === null)
+                        <!-- Arreglo personalizado -->
+                        <tr>
+                            <td>Arreglo Personalizado</td>
+                            <td>{{ $detalle->cantidad }}</td>
+                            <td>${{ number_format($detalle->precio, 0, ',', '.') }}</td>
+                            <td>${{ number_format($detalle->subtotal, 0, ',', '.') }}</td>
+                        </tr>
+
+                        <!-- Verificar si 'opciones' no es nulo y contiene 'items' -->
+                        @if($detalle->opciones && json_decode($detalle->opciones)->items)
+                            @foreach (json_decode($detalle->opciones)->items as $item)
+                                <tr>
+                                    <td>- {{ $item->name }}</td>
+                                    <td>{{ $item->qty }}</td>
+                                    <td>${{ number_format($item->price, 0, ',', '.') }}</td>
+                                    <td>${{ number_format($item->qty * $item->price, 0, ',', '.') }}</td>
+                                </tr>
+                            @endforeach
+                        @endif
+
+                    @else
+                        <!-- Producto estándar -->
+                        <tr>
+                            <td>{{ $detalle->producto->nombre }}</td>
+                            <td>{{ $detalle->cantidad }}</td>
+                            <td>${{ number_format($detalle->precio, 0, ',', '.') }}</td>
+                            <td>${{ number_format($detalle->subtotal, 0, ',', '.') }}</td>
+                        </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>

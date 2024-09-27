@@ -10,12 +10,15 @@ class GenerarProducto extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'id_insumo',
-        'nombre',
-    ];
-    public function insumos():HasMany
+    protected $fillable = ['id_insumo', 'cantidad_utilizada'];
+
+    public function insumo()
     {
-        return $this->hasMany(Insumo::class,'id_insumo','id');
+        return $this->belongsTo(Insumo::class, 'id_insumo');
+    }
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'id_producto');
     }
 }
+    

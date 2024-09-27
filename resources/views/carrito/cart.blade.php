@@ -23,7 +23,6 @@
 
             <form action="{{ route('confirmarCarrito') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <!-- Contenido del carrito -->
                 <table class="table table-striped">
                     <thead>
                         <th class="text-center">FOTO</th>
@@ -37,7 +36,7 @@
                         @foreach (Cart::content() as $item)
                         <tr class="align-middle">
                             <td class="text-center">
-                                <img src="{{ $item->options['image'] ?? 'https://i.imgur.com/nwIes3v.jpg' }}" alt="imagen no disponible" width="100">
+                                <img src="{{ $item->options['image'] ?? 'https://i.imgur.com/ia1BeKH.png' }}" alt="imagen no disponible" width="100">
                             </td>
                             <td class="text-center">{{ $item->name }}</td>
                             <td class="text-center">

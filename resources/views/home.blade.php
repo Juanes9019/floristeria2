@@ -27,43 +27,43 @@
 </section>
 
 
-<main class="main-content">
-    <section class="container container-factures">
-        <div class="card-feature">
-            <i class="fas fa-truck" style="color: #FFB083;"></i>
-            <div class="feature-content">
-                <span>Envío gratuito</span>
-                <p class="text_page">Envios gratuitos en el sector de girardota.</p>
+<main class="main-content bg-gray-100 dark:bg-gray-800 p-6">
+    <section class="container container-factures mb-8">
+        <div class="card-feature flex items-center p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md">
+            <i class="fas fa-truck text-2xl text-orange-400"></i>
+            <div class="feature-content ml-4">
+                <span class="block text-lg font-semibold dark:text-white">Envío gratuito</span>
+                <p class="text_page text-gray-600 dark:text-gray-300">Envíos gratuitos en el sector de Girardota.</p>
             </div>
         </div>
     </section>
 
-    <section class="container container-factures">
-        <div class="card-feature">
-            <i class="fas fa-gift"></i>
-            <div class="feature-content">
-                <span>Arreglos florales</span>
-                <p class="text_page">Regala hermosos arreglos florales.</p>
+    <section class="container container-factures mb-8">
+        <div class="card-feature flex items-center p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md">
+            <i class="fas fa-gift text-2xl text-pink-500"></i>
+            <div class="feature-content ml-4">
+                <span class="block text-lg font-semibold dark:text-white">Arreglos florales</span>
+                <p class="text_page text-gray-600 dark:text-gray-300">Regala hermosos arreglos florales.</p>
             </div>
         </div>
     </section>
 
-    <section class="container container-factures">
-        <div class="card-feature">
-            <i class="fas fa-credit-card" style="color: #FFB083;"></i>
-            <div class="feature-content">
-                <span>Métodos de pago</span>
-                <p>Contamos con diferentes métodos de pago.</p>
+    <section class="container container-factures mb-8">
+        <div class="card-feature flex items-center p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md">
+            <i class="fas fa-credit-card text-2xl text-orange-400"></i>
+            <div class="feature-content ml-4">
+                <span class="block text-lg font-semibold dark:text-white">Métodos de pago</span>
+                <p class="text_page text-gray-600 dark:text-gray-300">Contamos con diferentes métodos de pago.</p>
             </div>
         </div>
     </section>
 
-    <section class="container container-factures">
-        <div class="card-feature">
-            <i class="fas fa-headset"></i>
-            <div class="feature-content">
-                <span>Servicio al cliente 24/7</span>
-                <p class="text_page">Número 999-888-7777.</p>
+    <section class="container container-factures mb-8">
+        <div class="card-feature flex items-center p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md">
+            <i class="fas fa-headset text-2xl text-blue-500"></i>
+            <div class="feature-content ml-4">
+                <span class="block text-lg font-semibold dark:text-white">Servicio al cliente 24/7</span>
+                <p class="text_page text-gray-600 dark:text-gray-300">Número 999-888-7777.</p>
             </div>
         </div>
     </section>
@@ -71,7 +71,7 @@
 
 <section class="container top-products">
     
-    <h1 class="heading-1 titulo_carta">Sección de Productos</h1>
+    <h1 class="heading-1 titulo_carta text-2xl font-bold mb-6 dark:text-white">Sección de Productos</h1>
 
     <div class="container-options">
         <a href="{{route('all_products')}}"><span>Todos los productos</span></a>
@@ -173,7 +173,6 @@
         </div>
     </div>
 </footer>
-
 
 
 @endsection

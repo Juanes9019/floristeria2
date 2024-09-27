@@ -12,12 +12,12 @@ class Flor extends Model
     protected $table = 'flores';
 
     protected $fillable = [
-        'tipo_flor_id', 
         'nombre','precio'
     ];
 
-    public function tipoFlor()
+
+    public function colores()
     {
-        return $this->belongsTo(TipoFlor::class, 'tipo_flor_id');
+        return $this->hasMany(Color::class, 'id_flor'); 
     }
 }

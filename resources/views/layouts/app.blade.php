@@ -22,6 +22,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -144,7 +145,7 @@
                                     <a class="dropdown-item" href="{{ route('perfilUser') }}">
                                         {{ __('Perfil') }}
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                    <a class="dropdown-item" href="{{ route('dashboard.index') }}">
                                         {{ __('Panel de administrador') }}
                                     </a>
                                 @elseif (Auth::user()->id_rol == 2) 
@@ -180,9 +181,10 @@
 </div>
 
 
-
 <!-- Bootstrap JS -->
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/flor.js') }}"></script>
+
 
 <!--carrusel -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

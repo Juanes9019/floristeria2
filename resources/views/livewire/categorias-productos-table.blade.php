@@ -17,6 +17,17 @@
                         </div>
                     </div>
                 </div>
+                @if ($message = Session::get('error'))
+                <script>
+                    Swal.fire({
+                        title: '¡Error!',
+                        text: '{{ $message }}',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                </script>
+                @endif
+
                 @if ($message = Session::get('success'))
                 <script>
                     Swal.fire({
@@ -29,8 +40,9 @@
                 @endif
 
 
+
                 <div class="card-body">
-                <div class="row">
+                    <div class="row">
                         <div class="col-md-6">
                             <input wire:model.live.debounce.300ms="buscar" type="text" class="form-control" placeholder="Buscar...">
                         </div>
@@ -42,7 +54,7 @@
                             <thead class="thead">
                                 <tr>
                                 <tr>
-                                <th scope="col" class="text-center" wire:click="sortBy('id_categoria_producto')">
+                                    <th scope="col" class="text-center" wire:click="sortBy('id_categoria_producto')">
                                         No
                                         @if ($ordenarColumna === 'id_categoria_producto')
                                         @if ($ordenarForma === 'asc')
@@ -109,18 +121,18 @@
                                     <td class="text-center">{{ $categoria_producto->estado == 1 ? 'Activo' : 'Inactivo' }}</td>
 
                                     <td class="text-center">
-                                            <a class="btn btn-sm btn-success"
-                                                href="{{ route('Admin.categoria_producto.edit', ['id' => $categoria_producto->id_categoria_producto]) }}"><i
-                                                    class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
+                                        <a class="btn btn-sm btn-success"
+                                            href="{{ route('Admin.categoria_producto.edit', ['id' => $categoria_producto->id_categoria_producto]) }}"><i
+                                                class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
                                     </td>
                                     <td>
-                                    <form id="form_eliminar_{{ $categoria_producto->id_categoria_producto }}" action="{{ route('Admin.categoria_producto.destroy', ['id' => $categoria_producto->id_categoria_producto]) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$categoria_producto->id_categoria_producto}}','{{$categoria_producto->estado}}')">
-                                            <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
-                                        </button>
-                                    </form>
+                                        <form id="form_eliminar_{{ $categoria_producto->id_categoria_producto }}" action="{{ route('Admin.categoria_producto.destroy', ['id' => $categoria_producto->id_categoria_producto]) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$categoria_producto->id_categoria_producto}}','{{$categoria_producto->estado}}')">
+                                                <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
+                                            </button>
+                                        </form>
                                     </td>
                                     <td>
                                         <a class="btn btn-sm {{ $categoria_producto->estado == 1 ? 'btn-success' : 'btn-danger' }}"
@@ -136,7 +148,7 @@
                                             <span class="spinner-border spinner-border-sm"></span>
                                         </div>
                                     </td>
-                                    
+
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -148,7 +160,7 @@
                             <option value="50">50</option>
                         </select>
                         <div class="mt-3">
-                        {{ $categorias_productos->links() }}
+                            {{ $categorias_productos->links() }}
                         </div>
 
                     </div>
@@ -169,24 +181,17 @@
             confirmButtonText: "OK"
         });
     } else {
-        // Si está inactiva, proceder con la eliminación
+        // Si la categoría no es activa, proceder a eliminar
         Swal.fire({
-            title: "¡Estás seguro!",
-            text: "¿Deseas eliminar esta categoría?",
+            title: "¿Estás seguro?",
+            text: "¡Esta acción no se puede deshacer!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sí, eliminar"
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar"
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: "!Categoría Eliminada!",
-                    text: "La categoría se eliminó correctamente.",
-                    icon: "success"
-                }).then(() => {
-                    document.getElementById('form_eliminar_' + categoriaId).submit();
-                });
+                document.getElementById(`form_eliminar_${categoriaId}`).submit();
             }
         });
     }
