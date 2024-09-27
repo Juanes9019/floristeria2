@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\ProveedorController;
-use App\Http\Controllers\Admin\Categoria_insumoController;;
+use App\Http\Controllers\Admin\Categoria_insumoController;
 use App\Http\Controllers\Admin\productosController;
 use App\Http\Controllers\Admin\pedidoController;
 use App\Http\Controllers\Admin\detalleController;
@@ -16,12 +16,17 @@ use App\Http\Controllers\Admin\CompraController;
 use App\Http\Controllers\Admin\DetalleCompraController;
 use App\Http\Controllers\Admin\inventarioController;
 use App\Http\Controllers\Admin\InsumoController;
+use App\Http\Controllers\Admin\GenerarProductoController;
+
 use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\carritoController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EnviarCorreo;
 use Illuminate\Support\Facades\Auth;
+use App\Models\GenerarProducto;
+
+
 
 
 Route::get('/', [HomeController::class, 'vista_inicial'])->name('/');
@@ -97,7 +102,7 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::get('/usuarios/export/{format}', [UserController::class, 'export'])->name('Admin.users.export');
 
     Route::get('admin/users/pqrs', [UserController::class, 'index_pqrs'])->name('Admin.users.pqrs');
-    Route::put('/pqrs/{id}/responder', [UserController::class, 'responderPqrs'])->name('pqrs.responder');    
+    Route::put('/pqrs/{id}/responder', [UserController::class, 'responderPqrs'])->name('pqrs.responder');
 
 
 
@@ -151,9 +156,16 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::get('admin/categoria_producto/{id}/edit', [Categoria_Producto_Controller::class, 'edit'])->name('Admin.categoria_producto.edit');
     Route::put('admin/categoria_producto/{id}', [Categoria_Producto_Controller::class, 'update'])->name('Admin.categoria_producto.update');
     Route::delete('admin/categoria_producto/{id}', [Categoria_Producto_Controller::class, 'destroy'])->name('Admin.categoria_producto.destroy');
-    Route::get('admin/categoria_producto/{id}/status', [Categoria_Producto_Controller::class, 'change_Status'])->name('Admin.categoria_producto.status');
-
-
+    // Route::get('admin/categoria_producto/{id}/status', [Categoria_Producto_Controller::class, 'change_Status'])->name('Admin.categoria_producto.status');
+    
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('generar_producto', [GenerarProductoController::class, 'index'])->name('generar_producto.index');
+        Route::post('generar_producto/agregar', [GenerarProductoController::class, 'agregarInsumo'])->name('agregarInsumo');
+        Route::delete('generar_producto/eliminar/{key}', [GenerarProductoController::class, 'eliminarInsumo'])->name('eliminarInsumo');
+        Route::patch('generar_producto/actualizar/{key}', [GenerarProductoController::class, 'actualizarInsumo'])->name('actualizarInsumo');
+        Route::post('generar_producto/create', [GenerarProductoController::class, 'generarProducto'])->name('generar_producto.create');
+        Route::get('generar_producto/filtrar_insumos', [GenerarProductoController::class, 'filtrarInsumosPorCategoria'])->name('filtrarInsumosPorCategoria');
+    });
 
     //rutas para la categoria_insumo
     Route::get('admin/categoria_insumo', [Categoria_insumoController::class, 'index'])->name('Admin.categoria_insumo');
@@ -184,7 +196,7 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::get('admin/compras/{id}', [CompraController::class, 'show'])->name('compra.detalles');
     route::get('/categorias/{idProveedor}', [CompraController::class, 'getCategorias'])->name('categorias');
     Route::get('/insumos/{idCategoria}', [CompraController::class, 'getInsumos'])->name('insumos');
-    
+
 
     //Ruta para el detalle Compra
     Route::get('admin/DetalleCompra', [DetalleCompraController::class, 'index'])->name('detalles');
@@ -192,12 +204,7 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
 
 
     //rutas para los inventario
-    Route::get('admin/inventario', [inventarioController::class, 'index'])->name('Admin.inventario');
-    Route::get('admin/inventario/create', [inventarioController::class, 'create'])->name('Admin.inventario.create');
-    Route::post('admin/inventario', [inventarioController::class, 'store'])->name('Admin.inventario.store');
-    Route::get('admin/inventario/{id}/edit', [inventarioController::class, 'edit'])->name('Admin.inventario.edit');
-    Route::put('admin/inventario/{id}', [inventarioController::class, 'update'])->name('Admin.inventario.update');
-    Route::delete('admin/inventario/{id}', [inventarioController::class, 'destroy'])->name('Admin.inventario.destroy');
+
 
     //rutas para los productos
     Route::get('admin/productos', [productosController::class, 'index'])->name('Admin.productos');
@@ -217,7 +224,7 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::get('/export-pdf', [ExportController::class, 'exportarPDF'])->name('export.pdf');
     Route::get('/export-excel', [ExportController::class, 'exportExcel'])->name('export.excel');
 
-    
+
     // Rutas para el detalle
     Route::get('admin/detalle', [DetalleController::class, 'index'])->name('detalles');
     Route::get('/export_detalle_pdf', [ExportController::class, 'exportar_detalle'])->name('export_detalle.pdf');    

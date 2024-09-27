@@ -70,17 +70,7 @@ class ProveedorController extends Controller
                 'nombre' => ['required', 'min:4', 'max:255'],
                 'telefono' => ['required', 'size:10'],
                 'correo' => 'required',
-                'ubicacion' => 'required',
-            ],
-            [
-                'nombre.required' => 'El campo :attribute es requerido',
-                'nombre.min' => 'El campo :attribute debe tener al menos :min caracteres',
-                'nombre.max' => 'El campo :attribute debe ser menor que :max caracteres',
-                'telefono.required' => 'El campo :attribute es requerido',
-                'telefono.size' => 'El campo :attribute debe tener :size caracteres.',
-                'correo.required' => 'El campo :attribute es requerido',
-                'ubicacion.required' => 'El campo :attribute es requerido',
-            ]
+                'ubicacion' => 'required',]
         );
 
 

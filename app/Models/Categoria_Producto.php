@@ -16,4 +16,9 @@ class Categoria_Producto extends Model
         'nombre',
         'estado'
     ];
+    public function scopeSearch($query, $value)
+    {
+        $query->where('nombre', 'like', "%{$value}%");
+                     
+    }
 }

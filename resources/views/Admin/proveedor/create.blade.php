@@ -30,7 +30,7 @@
 
                 <div class="form-group">
                     <label for="telefono">Telefono</label>
-                    <input type="text" name="telefono" class="form-control  id="telefono" placeholder="999-999-9999" value="{{ old('telefono') }}">
+                    <input type="tel" name="telefono" class="form-control  id="telefono" placeholder="999-999-9999" value="{{ old('telefono') }}">
 
                     @error('telefono')
                         <span class="invalid-feedback d-block" role="alert">

@@ -14,17 +14,17 @@
 
 <div class="row justify-content-center mt-5">
     <div class="col-md-8">
-        <form id="formulario_crear" method="POST" action="{{ route('Admin.producto.store') }}" novalidate>
+        <form id="formulario_crear" method="POST" action="{{ route('Admin.producto.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="id_categoria_producto">Categoría Producto</label>
                 <select id="id_categoria_producto" name="id_categoria_producto"
-                    class="form-control @error('id_categoria') is-invalid  @enderror">
-                    
+                    class="form-control @error('id_categoria_producto') is-invalid  @enderror">
+
                     <option selected disabled>Seleccione una Categoría</option>
-                    @foreach($categorias as $categoria)
-                    <option value="{{ $categoria->id_categoria_producto }}">
-                        {{ $categoria->nombre }}
+                    @foreach($categorias_productos as $categoria_producto)
+                    <option value="{{$categoria_producto->id_categoria_producto}}">
+                    {{ $categoria_producto->nombre }}
                     </option>
                     @endforeach
                 </select>
@@ -75,7 +75,6 @@
                 <label for="precio">Precio</label>
                 <input type="number" id="precio" name="precio" class="form-control  @error('precio') is-invalid  @enderror"
                     placeholder="200.000" value="{{ old('precio', $producto->precio)}}">
-
                 @error('precio')
                 <span class="invalid-feedback d-block" role="alert">
                     <strong>{{$message}}</strong>
@@ -83,27 +82,26 @@
                 @enderror
             </div>
 
+
             <div class="form-group">
                 <label for="foto">Foto</label>
-                <input type="text" id="foto" name="foto" class="form-control  @error('foto') is-invalid  @enderror"
-                    placeholder="www.imgurl.com" value="{{ old('foto', $producto->foto) }}">
-
+                <input type="file" id="foto" name="foto" class="form-control @error('foto') is-invalid @enderror" value="{{ old('foto', $producto->foto) }}">
                 @error('foto')
                 <span class="invalid-feedback d-block" role="alert">
-                    <strong>{{$message}}</strong>
+                    <strong>{{ $message }}</strong>
                 </span>
                 @enderror
             </div>
 
             <div class="form-group">
                 <label for="estado">Estado</label>
-                <select  name="estado" id="estado" class="form-control">
-                    <option value="1" {{ old('estado') == '1' ? 'selected' : '' }}>Activo</option>
+                <select name="estado" id="estado" class="form-control">
+                    <option value="0" {{ old('estado') == '0' ? 'selected' : '' }}>Inactivo</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <button type="button" class="btn btn-success" value="agregar insumo" onclick="agregar()">Agregar Producto</button>
+                <button type="button" class="btn btn-success" value="agregar insumo" onclick="agregar(event)">Agregar Producto</button>
                 <a href="{{ route('Admin.productos') }}" class="btn btn-primary ">Volver</a>
             </div>
 
@@ -112,28 +110,26 @@
     </div>
 </div>
 <script>
-    function agregar() {
+       function agregar(event) {
+        event.preventDefault();
+
         Swal.fire({
             title: "¡Estas seguro!",
-            text: "¿Deseas agregar esta categoria?",
+            text: "¿Deseas agregar esta categoría?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Si, agregar"
+            confirmButtonText: "Sí, agregar"
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire({
-                    title: "!categoria agregada!",
-                    text: "La categoria se agrego correctamente",
+                    title: "!Categoría agregada!",
+                    text: "La categoría se agregó correctamente",
                     icon: "success"
+                }).then(() => {
+                    document.getElementById('formulario_crear').submit(); 
                 });
-
-                // Prevent the form from submitting automatically
-                event.preventDefault();
-
-                // Manually submit the form
-                document.getElementById('formulario_crear').submit();
             }
         });
     }

@@ -25,10 +25,9 @@ class InsumoSeeder extends Seeder
 
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 1,
-            'nombre' => 'Clavel',
-            'color' => 'Rosado',
-            'cantidad_insumo' => 10,
-            'costo_unitario' => 9000 ,
+            'nombre' => 'Orquídeas',
+            'cantidad_insumo' => 0,
+            'costo_unitario' => 700,
             'perdida_insumo' => 0,
             'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/F3KjnwJ.jpeg', 
@@ -37,34 +36,9 @@ class InsumoSeeder extends Seeder
             
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 1,
-            'nombre' => 'Clavel',
-            'color' => 'Amarillo',
-            'cantidad_insumo' => 10,
-            'costo_unitario' => 9000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
-            'imagen' => 'https://i.imgur.com/ihurqZn.png',
-            'descripcion' => 'El clavel amarillo transmite alegría y amistad, perfecto para celebraciones y momentos de felicidad.'
-            ]);
-
-        DB::table('insumos')->insert([
-            'id_categoria_insumo' => 1,
-            'nombre' => 'Tulipán',
-            'color' => 'Blanco',
-            'cantidad_insumo' => 10,
-            'costo_unitario' => 11000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
-            'imagen' => 'https://i.imgur.com/NkIcRVK.png', 
-            'descripcion' => 'El tulipán blanco expresa elegancia y respeto, a menudo utilizado en ocasiones solemnes o para transmitir paz.'
-            ]);
-
-        DB::table('insumos')->insert([
-            'id_categoria_insumo' => 1,
-            'nombre' => 'Tulipán',
-            'color' => 'Morado',
-            'cantidad_insumo' => 10,
-            'costo_unitario' => 12000,
+            'nombre' => 'Gerberas',
+            'cantidad_insumo' => 0,
+            'costo_unitario' => 700,
             'perdida_insumo' => 0,
             'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/wkTkKas.jpeg', 

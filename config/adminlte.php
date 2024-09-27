@@ -378,6 +378,12 @@ return [
             'label_color' => 'warning',
         ],
         [
+            'text' => 'Generar Producto',
+            'url' => 'admin/generar_producto', // Ruta para crear un producto
+            'icon' => 'fas fa-fw fa-plus', // Icono para el menú
+            'label_color' => 'success', // Color de la etiqueta
+        ],
+        [
             'text' => 'Productos',
             'url' => 'admin/productos',
             'icon' => 'fas fa-fw fa-store-alt',            

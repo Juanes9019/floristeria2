@@ -11,87 +11,62 @@ use Illuminate\Support\Facades\DB;
 class Categoria_Producto_Controller extends Controller
 {
     public function index()
-{
-    $user = auth()->user();
-
-    // Verificar si el permiso 'categorias_productos' existe
-    $permiso = DB::table('permisos')
-                ->where('nombre', 'categorias_productos')
-                ->first();
-    
-    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
-    if (!$permiso) {
-        return response()->view('errors.accesoDenegado');
-    }
-                
-    // Verificar si el usuario tiene el permiso asociado a su rol
-    $tienePermiso = DB::table('permisos_rol')
-                    ->where('id_rol', $user->id_rol)
-                    ->where('id_permiso', $permiso->id)
-                    ->exists();
-    
-    if (!$tienePermiso) {
-        return response()->view('errors.accesoDenegado');
-    }
-
-    // Obtener las categorías de productos si el usuario tiene permiso
-    $categorias_productos = Categoria_Producto::all();
-    $i = 0;
-    return view('Admin.categoria_producto.index', compact('categorias_productos', 'i'));
-}
-
-
-    public function create()
     {
         $user = auth()->user();
 
-    // Verificar si el permiso 'categorias_productos' existe
-    $permiso = DB::table('permisos')
-                ->where('nombre', 'categorias_productos')
-                ->first();
-    
-    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
-    if (!$permiso) {
-        return response()->view('errors.accesoDenegado');
-    }
-                
-    // Verificar si el usuario tiene el permiso asociado a su rol
-    $tienePermiso = DB::table('permisos_rol')
-                    ->where('id_rol', $user->id_rol)
-                    ->where('id_permiso', $permiso->id)
-                    ->exists();
-    
-    if (!$tienePermiso) {
-        return response()->view('errors.accesoDenegado');
+        // Verificar si el permiso 'categorias_productos' existe
+        $permiso = DB::table('permisos')
+                    ->where('nombre', 'categorias_productos')
+                    ->first();
+        
+        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+        if (!$permiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+                    
+        // Verificar si el usuario tiene el permiso asociado a su rol
+        $tienePermiso = DB::table('permisos_rol')
+                        ->where('id_rol', $user->id_rol)
+                        ->where('id_permiso', $permiso->id)
+                        ->exists();
+        
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+        return view('Admin.categoria_producto.index');
     }
 
+    public function create()
+    {
+        $categoria_producto = new Categoria_Producto();
         return view('Admin.categoria_producto.create');
     }
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'nombre' => 'required',
-        ]);
+        $request->validate(
+            [
+                'nombre' => 'required|min:3|max:15|unique:categorias_productos',
+            ],
+            [
+                'nombre.required' => 'El campo :attribute es requerido',
+                'nombre.min' => 'El campo :attribute debe tener al menos :min caracteres',
+                'nombre.max' => 'El campo :attribute debe ser menor que :max caracteres',
+                'unique' => 'El :attribute ya existe.',
+            ]
+        );
 
-        try {
-            $result = DB::table('categorias_productos')->insert([
-                'nombre' => $data['nombre'],
-            ]);
 
-            Log::info('Resultado de la inserción: ' . ($result ? 'Éxito' : 'Fallo'));
+        $categoria_producto = new Categoria_Producto;
 
-            if ($result) {
-                Log::info('Intentando redireccionar');
-                return redirect()->route('Admin.categorias_productos');
-            } else {
-                dd('Error al insertar en la base de datos');
-            }
-        } catch (\Exception $e) {
-            Log::error('Error al insertar en la base de datos: ' . $e->getMessage());
-
-            dd('Error al insertar en la base de datos: ' . $e->getMessage());
+        $categoria_producto->nombre = $request->nombre;
+        if ($request->has('estado')) {
+            $categoria_producto->estado = 0;
         }
+
+        $categoria_producto->save();
+        return redirect()->route('Admin.categorias_productos')
+            ->with('success', 'Categoria de productos creado con éxito.');
     }
 
     /**
@@ -139,6 +114,9 @@ class Categoria_Producto_Controller extends Controller
 
         // Actualiza los campos de la categoria utilizando el método save
         $categoria_producto->nombre = $request->input('nombre');
+        if ($request->has('estado')) {
+            $categoria_producto->estado = $request->estado;
+        }
         $categoria_producto->save();
 
         // Redirecciona a la vista de edición con un mensaje de éxito
@@ -153,16 +131,25 @@ class Categoria_Producto_Controller extends Controller
     {
         $categoria_producto = Categoria_Producto::find($id_categoria_producto);
 
-        if ($categoria_producto) {
-            try {
-                $categoria_producto->delete();
-                return redirect()->route("Admin.categorias_productos")->with('success', 'Categoría eliminada exitosamente');
-            } catch (\Illuminate\Database\QueryException $e) {
-                // Si hay una violación de restricción de integridad referencial, captura la excepción
-                return redirect()->route("Admin.categorias_productos")->with('error', 'No se puede eliminar la categoría porque está asociada a uno o más productos.');
+        // Verifica si la categoría está activa
+        if ($categoria_producto->estado == 1) {
+            return redirect()->route('Admin.categorias_productos')
+                ->with('error', 'No se puede eliminar una Categoria Activa');
+        }
+
+        try {
+            $categoria_producto->delete();
+            return redirect()->route('Admin.categorias_productos')
+                ->with('success', 'Categoría Eliminada con éxito');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Verifica si es un error de integridad referencial
+            if ($e->getCode() == 23000) {
+                return redirect()->route('Admin.categorias_productos')
+                    ->with('error', 'No se puede eliminar la categoría porque está asociada a un producto.');
             }
-        } else {
-            return redirect()->route("Admin.categorias_productos")->with('error', 'No se pudo encontrar la categoría');
+            // Maneja otros posibles errores
+            return redirect()->route('Admin.categorias_productos')
+                ->with('error', 'Error al intentar eliminar la categoría.');
         }
     }
 }

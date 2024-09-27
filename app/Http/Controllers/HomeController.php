@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 
+
+
 class HomeController extends Controller
 {
     /**
@@ -40,14 +42,14 @@ class HomeController extends Controller
 
     public function vista_inicial()
     {
-        $productos = Producto::all();
+        $productos = Producto::where('estado', 1)->get();
         return view('home', compact('productos'));
     }
 
 
     public function index()
     {
-        $productos = Producto::all();
+        $productos = Producto::where('estado', 1)->get();
 
         return view('home', compact('productos'));
     }
@@ -329,8 +331,8 @@ public function getInsumosPorCategoria($categoria_id)
 
     public function productos_filtrar()
     {
-        $productos = Producto::all();
-        $categoria_categoria = Categoria_Producto::all();
+        $$productos = Producto::where('estado', 1)->get();
+        $categoria_categoria = Categoria_Producto::where('estado',1)->get();
 
         return view('view_arreglo.all_products', compact('productos','categoria_categoria'));
     }

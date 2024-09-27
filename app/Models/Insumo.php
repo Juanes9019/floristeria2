@@ -24,10 +24,15 @@ class Insumo extends Model
         'estado'
     ];
 
-    public function categoria_insumo(){
+    public function categoria_insumo()
+    {
         return $this->belongsTo(Categoria_insumo::class, 'id_categoria_insumo');
     }
 
+    public function generarProducto()
+    {
+        return $this->belongsTo(GenerarProducto::class, 'id_insumo');
+    }
     public function scopeSearch($query, $value)
     {
         $query->where('nombre', 'like', "%{$value}%")

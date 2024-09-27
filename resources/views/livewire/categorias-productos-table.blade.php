@@ -4,43 +4,40 @@
             <div class="card">
                 <div class="card-header">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
+
                         <span id="card_title">
-                            <b>Control de Proveedores</b>
+                            <b>Control de categorias</b>
                         </span>
+
                         <div class="float-right">
-                            <a href="{{ route('Admin.proveedor.create') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
-                                {{ __('Registrar Proveedor') }}
+                            <a href="{{ route('Admin.categoria_producto.create') }}" class="btn btn-primary btn-sm float-right"
+                                data-placement="left">
+                                {{ __('Registrar categorias') }}
                             </a>
                         </div>
                     </div>
                 </div>
-
-                <div class="card-body">
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Exportar
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="exportDropdown">
-                            <a class="dropdown-item" href="{{ route('Admin.proveedores.export', ['format' => 'xlsx']) }}">
-                                {{ __('Exportar a Excel') }}
-                            </a>
-                            <a class="dropdown-item" href="{{ route('Admin.proveedores.export', ['format' => 'pdf']) }}">
-                                {{ __('Exportar a PDF') }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                @if ($message = Session::get('success'))
-                <div class="alert alert-success">
-                    <p>{{ $message }}</p>
-                </div>
-                @elseif($message = Session::get('error'))
-                <div class="alert alert-danger">
-                    <p>{{ $message }}</p>
-                </div>
+                @if ($message = Session::get('error'))
+                <script>
+                    Swal.fire({
+                        title: '¡Error!',
+                        text: '{{ $message }}',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                </script>
                 @endif
 
+                @if ($message = Session::get('success'))
+                <script>
+                    Swal.fire({
+                        title: 'Categoría Eliminada',
+                        text: '{{ $message }}',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                </script>
+                @endif
 
 
 
@@ -51,13 +48,15 @@
                         </div>
                     </div>
 
-                    <div class="table-responsive mt-3">
-                        <table class="table">
-                            <thead class="table-dark">
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="thead">
                                 <tr>
-                                    <th scope="col" class="text-center" wire:click="sortBy('id')">
+                                <tr>
+                                    <th scope="col" class="text-center" wire:click="sortBy('id_categoria_producto')">
                                         No
-                                        @if ($ordenarColumna === 'id')
+                                        @if ($ordenarColumna === 'id_categoria_producto')
                                         @if ($ordenarForma === 'asc')
                                         <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
@@ -91,15 +90,6 @@
                                         </svg>
                                         @endif
                                     </th>
-                                    <th scope="col" class="text-center">
-                                        Telefono
-                                    </th>
-                                    <th scope="col" class="text-center">
-                                        Correo
-                                    </th>
-                                    <th scope="col" class="text-center">
-                                        Ubicacion
-                                    </th>
                                     <th scope="col" class="text-center" wire:click="sortBy('estado')">
                                         Estado
                                         @if ($ordenarColumna === 'estado')
@@ -118,54 +108,50 @@
                                         </svg>
                                         @endif
                                     </th>
-                                    <th scope="col" class="text-center" colspan="3">
-                                        Acciones
-                                    </th>
-                                    <th class="text-center"></th>
-
+                                    <th scope="col" class="text-center"></th>
+                                    <th scope="col" class="text-center">Acciones</th>
+                                    <th scope="col" class="text-center"></th>
                                 </tr>
                             </thead>
-
                             <tbody>
-                                @foreach($proveedores as $proveedor)
+                                @foreach($categorias_productos as $categoria_producto)
                                 <tr>
-                                    <td class="text-center"> {{ ($proveedores->currentPage() - 1) * $proveedores->perPage() + $loop->iteration }}</td>
-                                    <td class="text-center">{{ $proveedor->nombre }}</td>
-                                    <td class="text-center">{{ $proveedor->telefono }}</td>
-                                    <td class="text-center">{{ $proveedor->correo }}</td>
-                                    <td class="text-center">{{ $proveedor->ubicacion }}</td>
-                                    <td class="text-center">{{ $proveedor->estado == 1 ? 'Activo' : 'Inactivo' }}</td>
+                                    <td class="text-center"> {{ ($categorias_productos->currentPage() - 1) * $categorias_productos->perPage() + $loop->iteration }} </td>
+                                    <td class="text-center">{{ $categoria_producto->nombre }}</td>
+                                    <td class="text-center">{{ $categoria_producto->estado == 1 ? 'Activo' : 'Inactivo' }}</td>
+
                                     <td class="text-center">
-                                        <a class="btn btn-sm btn-warning" href="{{ route('Admin.proveedor.edit', ['id' => $proveedor->id]) }}">
-                                            <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
+                                        <a class="btn btn-sm btn-success"
+                                            href="{{ route('Admin.categoria_producto.edit', ['id' => $categoria_producto->id_categoria_producto]) }}"><i
+                                                class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
                                     </td>
                                     <td>
-                                        <form id="form_eliminar_{{ $proveedor->id }}" action="{{ route('Admin.proveedor.destroy', $proveedor->id) }}" method="post">
+                                        <form id="form_eliminar_{{ $categoria_producto->id_categoria_producto }}" action="{{ route('Admin.categoria_producto.destroy', ['id' => $categoria_producto->id_categoria_producto]) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{ $proveedor->id }}')">
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$categoria_producto->id_categoria_producto}}','{{$categoria_producto->estado}}')">
                                                 <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
                                             </button>
                                         </form>
                                     </td>
                                     <td>
-                                        <a class="btn btn-sm {{ $proveedor->estado == 1 ? 'btn-success' : 'btn-danger' }}"
-                                            wire:click="changeStatus({{ $proveedor->id }})"
+                                        <a class="btn btn-sm {{ $categoria_producto->estado == 1 ? 'btn-success' : 'btn-danger' }}"
+                                            wire:click="changeStatus({{ $categoria_producto->id_categoria_producto }})"
                                             wire:loading.attr="disabled"
-                                            wire:target="changeStatus({{ $proveedor->id }})"
+                                            wire:target="changeStatus({{ $categoria_producto->id_categoria_producto }})"
                                             style="cursor: pointer;">
-                                            {{ $proveedor->estado == 1 ? 'Activo' : 'Inactivo' }}
-                                            <i class="fas fa-toggle-{{ $proveedor->estado == 1 ? 'on' : 'off' }}"></i>
+                                            {{ $categoria_producto->estado == 1 ? 'Activo' : 'Inactivo' }}
+                                            <i class="fas fa-toggle-{{ $categoria_producto->estado == 1 ? 'on' : 'off' }}"></i>
                                         </a>
 
-                                        <div wire:loading wire:target="changeStatus({{ $proveedor->id }})">
+                                        <div wire:loading wire:target="changeStatus({{ $categoria_producto->id_categoria_producto }})">
                                             <span class="spinner-border spinner-border-sm"></span>
                                         </div>
                                     </td>
+
                                 </tr>
                                 @endforeach
                             </tbody>
-
                         </table>
                         <label>Páginas</label>
                         <select wire:model.live="porPagina">
@@ -174,8 +160,9 @@
                             <option value="50">50</option>
                         </select>
                         <div class="mt-3">
-                            {{ $proveedores->links() }}
+                            {{ $categorias_productos->links() }}
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -185,25 +172,28 @@
 
 
 <script>
-    function eliminar(proveedorId) {
+    function eliminar(categoriaId, estadoCategoria) {
+    if (estadoCategoria == 1) { 
         Swal.fire({
-            title: "¡Estas seguro!",
-            text: "¿Deseas Eliminar este proveedor?",
+            title: "¡Error!",
+            text: "No se puede eliminar una categoría activa.",
+            icon: "error",
+            confirmButtonText: "OK"
+        });
+    } else {
+        // Si la categoría no es activa, proceder a eliminar
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "¡Esta acción no se puede deshacer!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Si, Eliminar"
+            confirmButtonText: "Eliminar",
+            cancelButtonText: "Cancelar"
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: "!Proveedor Eliminado!",
-                    text: "El proveedor se Eliminó Correctamente",
-                    icon: "success"
-                }).then(() => {
-                    document.getElementById('form_eliminar_' + proveedorId).submit();
-                });
+                document.getElementById(`form_eliminar_${categoriaId}`).submit();
             }
         });
     }
+}
 </script>
