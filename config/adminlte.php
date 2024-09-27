@@ -305,6 +305,7 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'Buscar',
         ],
+        ['header' => 'GESTION DE ESTADISTICAS'],
         [
             'text' => 'Dashboard',
             'url' => 'admin/dashboard',
@@ -325,15 +326,8 @@ return [
             'icon' => 'fas fa-fw fa-user-shield',
             'label_color' => 'warning',
         ],
-        ['header' => 'GESTION DE COMPRA'],
         [
-            'text' => 'Proveedores',
-            'url' => '/admin/proveedores',
-            'icon' => 'fas fa-fw fa-building', 
-            'label_color' => 'primary',
-        ],
-        [
-            'text' => 'asignar permisos',
+            'text' => 'Asignar permisos',
             'url' => '/admin/permisos_rol',
             'icon' => 'fas fa-fw fa-building', 
             'label_color' => 'primary',
@@ -344,12 +338,12 @@ return [
             'icon' => 'fas fa-fw fa-comments',
             'label_color' => 'primary',
         ],
-        ['header' => 'GESTION DE TIENDA'],
+        ['header' => 'GESTION DE COMPRA'],
         [
-            'text' => 'Categorias Productos',
-            'url' => 'admin/categorias_productos',
-            'icon' => 'fas fa-fw fa-list',
-            'label_color' => 'warning',
+            'text' => 'Proveedores',
+            'url' => '/admin/proveedores',
+            'icon' => 'fas fa-fw fa-building', 
+            'label_color' => 'primary',
         ],
         [
             'text' => 'Categoria Insumos',
@@ -369,11 +363,11 @@ return [
             'icon' => 'fas fa-fw fa-shopping-bag',
             'label_color' => 'warning',
         ],
-        
-        ['header' => 'GESTION DE VENTA'],
+
+        ['header' => 'GESTION DE TIENDA'],
         [
-            'text' => 'Categorias',
-            'url' => 'admin/categoria',
+            'text' => 'Categorias Productos',
+            'url' => 'admin/categorias_productos',
             'icon' => 'fas fa-fw fa-list',
             'label_color' => 'warning',
         ],
@@ -389,6 +383,7 @@ return [
             'icon' => 'fas fa-fw fa-store-alt',            
             'label_color' => 'primary',
         ],
+        ['header' => 'GESTION DE VENTA'],
         [
             'text' => 'Pedidos',
             'url' => 'admin/pedido',

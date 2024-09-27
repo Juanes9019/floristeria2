@@ -119,10 +119,9 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::get('admin/permisos_rol', [RolesController::class, 'permisos_rol'])->name('Admin.permisos_rol');
     Route::post('admin/guardar_permiso', [RolesController::class, 'guardar_permiso'])->name('Admin.permisos.guardar_permiso');
 
-Route::middleware(['auth', 'user-access:1'])->group(function () {
     //rutas para permiso
     Route::put('/admin/permisos_rol/{id}', [RolesController::class, 'update_permiso_rol'])->name('permisos.update');
-});
+
 
 
     //rutas para los proveedor

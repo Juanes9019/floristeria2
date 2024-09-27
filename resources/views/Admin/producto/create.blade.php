@@ -62,7 +62,7 @@
             <div class="form-group">
                 <label for="cantidad">Cantidad</label>
                 <input type="number" id="cantidad" name="cantidad" class="form-control  
-                    @error('cantidad') is-invalid  @enderror" placeholder="1" value="{{ old('cantidad', $producto->cantidad) }}">
+                    @error('cantidad') is-invalid  @enderror" placeholder="1" value="{{ old('cantidad', $producto->cantidad) }} min="1" value="1"">
 
                 @error('cantidad')
                 <span class="invalid-feedback d-block" role="alert">
