@@ -160,6 +160,8 @@ Route::middleware(['auth', 'user-access:1,3'])->group(function () {
     Route::get('admin/insumo/{id}/incrementarInsumo', [InsumoController::class, 'incrementarInsumo'])->name('incrementarInsumo');
     Route::get('admin/insumo/{id}/decrementarInsumo', [InsumoController::class, 'decrementarInsumo'])->name('decrementarInsumo');
     Route::get('admin/insumo/{id}/status', [InsumoController::class, 'change_Status'])->name('Admin.insumo.status');
+    Route::get('/insumos/export/{format}', [InsumoController::class, 'export'])->name('Admin.insumos.export');
+
 
     // Rutas para el controlador CompraController
     Route::get('admin/compras', [CompraController::class, 'index'])->name('Admin.compra.index');

@@ -8,6 +8,9 @@ use App\Models\Insumo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Models\Categoria_insumo;
+use App\Exports\InsumoExport;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Excel;
 
 class InsumoController extends Controller
 {
@@ -96,17 +99,6 @@ class InsumoController extends Controller
         ->with('success', 'categoria actualizado exitosamente');
     }
 
-    public function destroy($id)
-    {
-        $insumo = Insumo::find($id);
-
-        $insumo->delete();
-
-        return redirect()->route('Admin.insumo')
-            ->with('success', 'Insumo eliminado con éxito');
-
-    }
-
     public function incrementarInsumo($id)
     {
         $insumo = Insumo::find($id);
@@ -160,5 +152,47 @@ class InsumoController extends Controller
 
         $insumo->save();
         return redirect()->back();
+    }
+
+    public function export($format)
+    {
+        $export = new InsumoExport;
+
+        switch ($format) {
+            case 'pdf':
+                $pdf = Pdf::loadView('exports.insumos', [
+                    'insumos' => Insumo::all()
+                ])->setPaper('a4', 'portait') // Puedes cambiar a 'portrait' si prefieres
+                    ->setOption('margin-left', '10mm')
+                    ->setOption('margin-right', '10mm')
+                    ->setOption('margin-top', '10mm')
+                    ->setOption('margin-bottom', '10mm');
+                return $pdf->download('insumos.pdf');
+            case 'xlsx':
+            default:
+                return $export->download('insumos.xlsx', Excel::XLSX);
+        }
+    }
+
+    public function destroy($id)
+    {
+        $insumo = Insumo::find($id);
+
+        if ($insumo->estado == 1) {
+            return redirect()->route('Admin.insumo')
+                ->with('error', 'No se puede eliminar un insumo Activa');
+        }
+        try {
+            $insumo->delete();
+            return redirect()->route('Admin.insumo')
+                ->with('success','Insumo eliminado con éxito');
+        } catch (\Illuminate\Database\QueryException $e) {
+                if ($e->getCode() == 23000) {
+                    return redirect()->route('Admin.insumo')
+                        ->with('error', 'No se puede eliminar el insumo porque está asociado a una compra.');
+                }
+                return redirect()->route('Admin.insumo')
+                    ->with('error', 'Error al intentar eliminar el insumo.');
+        }     
     }
 }

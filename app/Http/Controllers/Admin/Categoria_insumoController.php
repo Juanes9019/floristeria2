@@ -91,23 +91,32 @@ public function update(Request $request, $id)
 
     $categoria_insumos->save();
 
-    // Redireccionar a la vista de edición con un mensaje de éxito
-    return redirect()->route('Admin.categoria_insumo', ['id' => $categoria_insumos->id])
-        ->with('success', 'categoria_insumo actualizada exitosamente');
-}
+        // Redireccionar a la vista de edición con un mensaje de éxito
+        return redirect()->route('Admin.categoria_insumo', ['id' => $categoria_insumos->id])
+            ->with('success', 'categoria_insumo actualizada exitosamente');
+    }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    
     public function destroy($id)
     {
-        $categoria_insumos = Categoria_insumo::find($id);
+        $categoria_insumo = Categoria_insumo::find($id);
 
-        $categoria_insumos->delete();
-
-        return redirect()->route('Admin.categoria_insumo')
-            ->with('success', 'categoria_insumo eliminada con éxito');
-
+        if ($categoria_insumo->estado == 1) {
+            return redirect()->route('Admin.categoria_insumo')
+                ->with('error', 'No se puede eliminar una categoria Activa');
+        }
+        try {
+            $categoria_insumo->delete();
+            return redirect()->route('Admin.categoria_insumo')
+                ->with('success','Categoria eliminado con éxito');
+        } catch (\Illuminate\Database\QueryException $e) {
+                if ($e->getCode() == 23000) {
+                    return redirect()->route('Admin.categoria_insumo')
+                        ->with('error', 'No se puede eliminar la categoría porque está asociada a un insumo.');
+                }
+                return redirect()->route('Admin.categoria_insumo')
+                    ->with('error', 'Error al intentar eliminar la categoría.');
+        }     
     }
 
     public function change_Status($id)

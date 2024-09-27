@@ -15,11 +15,43 @@
                         </div>
                     </div>
                 </div>
-                
-                @if ($message = Session::get('success'))
-                    <div class="alert alert-success">
-                        <p>{{ $message }}</p>
+
+                <div class="card-body">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Exportar
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="exportDropdown">
+                            <a class="dropdown-item" href="{{ route('Admin.insumos.export', ['format' => 'xlsx']) }}">
+                                {{ __('Exportar a Excel') }}
+                            </a>
+                            <a class="dropdown-item" href="{{ route('Admin.insumos.export', ['format' => 'pdf']) }}">
+                                {{ __('Exportar a PDF') }}
+                            </a>
+                        </div>
                     </div>
+                </div>
+                
+                @if ($message = Session::get('error'))
+                <script>
+                    Swal.fire({
+                        title: '¡Error!',
+                        text: '{{ $message }}',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                </script>
+                @endif
+
+                @if ($message = Session::get('success'))
+                <script>
+                    Swal.fire({
+                        title: 'Insumo Eliminado',
+                        text: '{{ $message }}',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                </script>
                 @endif
 
                 <div class="card-body">
@@ -126,16 +158,17 @@
                                                 <i class="fas fa-toggle-{{ $insumo->estado == 1 ? 'on' : 'off' }}"></i>
                                             </a>
                                         </td>
-
+                                        <td>
+                                        <a class="btn btn-sm btn-success" href="{{ route('Admin.insumo.edit', ['id' => $insumo->id]) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
+                                        </td>
                                         <td class="text-center">
-                                            <form action="{{ route('Admin.insumo.destroy', ['id' => $insumo->id]) }}" method="POST">
-                                                <a class="btn btn-sm btn-success" href="{{ route('Admin.insumo.edit', ['id' => $insumo->id]) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm">
-                                                    <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
-                                                </button>
-                                            </form>
+                                        <form id="form_eliminar_{{ $insumo->id }}" action="{{ route('Admin.insumo.destroy', ['id' => $insumo->id]) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$insumo->id}}','{{$insumo->estado}}')">
+                                                <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
+                                            </button>
+                                        </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -156,3 +189,36 @@
         </div>
     </div>
 </div>
+
+<script>
+    function eliminar(id, estadoInsumo) {
+    if (estadoInsumo == 1) { 
+        Swal.fire({
+            title: "¡Error!",
+            text: "No se puede eliminar una insumo activo.",
+            icon: "error",
+            confirmButtonText: "OK"
+        });
+    } else {
+        Swal.fire({
+            title: "¡Estás seguro!",
+            text: "¿Deseas eliminar este insumo?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, eliminar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "!Insumo Eliminado!",
+                    text: "El insumo se eliminó correctamente.",
+                    icon: "success"
+                }).then(() => {
+                    document.getElementById('form_eliminar_' + id).submit();
+                });
+            }
+        });
+    }
+}
+</script>
