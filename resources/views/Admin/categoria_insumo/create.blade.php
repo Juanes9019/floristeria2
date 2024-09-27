@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="button" class="btn btn-primary" value="agregar categoria_insumo" onclick="agregar()">
+                    <input type="button" class="btn btn-primary" value="agregar categoria insumo" onclick="agregar()">
                     <a href="{{ route('Admin.categoria_insumo') }}" class="btn btn-primary ">Volver</a>
                 </div>
 
@@ -65,7 +65,7 @@
 function agregar() {
     Swal.fire({
         title: "¡Estas seguro!",
-        text: "¿Deseas agregar esta categoria_insumo?",
+        text: "¿Deseas agregar esta categoria insumo?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -74,8 +74,8 @@ function agregar() {
     }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire({
-                title: "!categoria_insumo agregada!",
-                text: "La categoria_insumo se agrego correctamente",
+                title: "!categoria insumo agregada!",
+                text: "La categoria insumo se agrego correctamente",
                 icon: "success"
             });
 

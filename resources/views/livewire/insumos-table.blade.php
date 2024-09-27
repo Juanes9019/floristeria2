@@ -34,24 +34,56 @@
                 
                 @if ($message = Session::get('error'))
                 <script>
-                    Swal.fire({
-                        title: '¡Error!',
-                        text: '{{ $message }}',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                </script>
-                @endif
+                    function eliminar(id, estadoInsumo) {
+                        if (estadoInsumo == 1) {
+                            Swal.fire({
+                                title: "¡Error!",
+                                text: "No se puede eliminar un insumo activo.",
+                                icon: "error",
+                                confirmButtonText: "OK"
+                            });
+                        } else {
+                            Swal.fire({
+                                title: "¡Estás seguro!",
+                                text: "¿Deseas eliminar este insumo?",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#3085d6",
+                                cancelButtonColor: "#d33",
+                                confirmButtonText: "Sí, eliminar"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    Swal.fire({
+                                        title: "!Insumo Eliminado!",
+                                        text: "El insumo se eliminó correctamente.",
+                                        icon: "success"
+                                    }).then(() => {
+                                        document.getElementById('form_eliminar_' + id).submit();
+                                    });
+                                }
+                            });
+                        }
+                    }
 
-                @if ($message = Session::get('success'))
-                <script>
-                    Swal.fire({
-                        title: 'Insumo Eliminado',
-                        text: '{{ $message }}',
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    });
+                    function showAlert(action) {
+                        let title, text;
+                        if (action === 'incrementar') {
+                            title = 'Insumo Incrementado';
+                            text = 'El insumo se ha incrementado correctamente.';
+                        } else if (action === 'decrementar') {
+                            title = 'Insumo Decrementado';
+                            text = 'El insumo se ha decrementado correctamente.';
+                        }
+
+                        Swal.fire({
+                            title: title,
+                            text: text,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        });
+                    }
                 </script>
+
                 @endif
 
                 <div class="card-body">
@@ -81,7 +113,7 @@
                                     </th>
 
                                     <th scope="col" class="text-center" wire:click="sortBy('id_categoria_insumo')">
-                                        Categoria_insumo
+                                        Categoria insumo
                                         @if ($ordenarColumna === 'id_categoria_insumo')
                                             @if ($ordenarForma === 'asc')
                                                 <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -114,6 +146,7 @@
                                     <th scope="col" class="text-center">Costo Unitario</th>
                                     <th scope="col" class="text-center">Perdida Insumo</th>
                                     <th scope="col" class="text-center">Costo Perdida</th>
+                                    <th scope="col" class="text-center">Imagen</th>
 
                                     <th scope="col" class="text-center" wire:click="sortBy('estado')">
                                         Estado
@@ -153,6 +186,7 @@
                                         </td>
 
                                         <td class="text-center">{{ number_format($insumo->costo_perdida, 0, ',', '.') }}</td>
+                                        <td class="text-center">{{ $insumo->imagen }}</td>
 
                                         <td class="text-center">
                                             <a class="btn btn-sm {{ $insumo->estado == 1 ? 'btn-success' : 'btn-danger' }}" wire:click="changeStatus({{ $insumo->id }})" style="cursor: pointer;">
@@ -160,17 +194,19 @@
                                                 <i class="fas fa-toggle-{{ $insumo->estado == 1 ? 'on' : 'off' }}"></i>
                                             </a>
                                         </td>
-                                        <td>
-                                        <a class="btn btn-sm btn-success" href="{{ route('Admin.insumo.edit', ['id' => $insumo->id]) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
-                                        </td>
                                         <td class="text-center">
-                                        <form id="form_eliminar_{{ $insumo->id }}" action="{{ route('Admin.insumo.destroy', ['id' => $insumo->id]) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$insumo->id}}','{{$insumo->estado}}')">
-                                                <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
-                                            </button>
-                                        </form>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <a class="btn btn-sm btn-success" href="{{ route('Admin.insumo.edit', ['id' => $insumo->id]) }}">
+                                                    <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}
+                                                </a>
+                                                <form id="form_eliminar_{{ $insumo->id }}" action="{{ route('Admin.insumo.destroy', ['id' => $insumo->id]) }}" method="POST" style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$insumo->id}}','{{$insumo->estado}}')">
+                                                        <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -197,7 +233,7 @@
     if (estadoInsumo == 1) { 
         Swal.fire({
             title: "¡Error!",
-            text: "No se puede eliminar una insumo activo.",
+            text: "No se puede eliminar un insumo activo.",
             icon: "error",
             confirmButtonText: "OK"
         });

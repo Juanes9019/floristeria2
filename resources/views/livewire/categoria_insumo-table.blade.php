@@ -94,8 +94,6 @@
                                         @endif
                                     </th>
 
-                                    <th scope="col" class="text-center">Acciones</th>
-
                                     <th scope="col" class="text-center" wire:click="sortBy('estado')">
                                         Estado
                                         @if ($ordenarColumna === 'estado')
@@ -110,6 +108,8 @@
                                             @endif
                                         @endif
                                     </th>
+
+                                    <th scope="col" class="text-center">Acciones</th>
                                 </tr>
                             </thead>
 
@@ -119,24 +119,26 @@
                                         <td class="text-center">{{ ($categoria_insumos->currentPage() - 1) * $categoria_insumos->perPage() + $loop->iteration }}</td>
                                         <td class="text-center">{{ $cat->nombre }}</td>
                                         <td class="text-center">{{ $cat->proveedor->nombre }}</td>
-                                        <td>
-                                        <a class="btn btn-sm btn-success" href="{{ route('Admin.categoria_insumo.edit', ['id' => $cat->id]) }}"><i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
-                                        </td>
-                                        <td class="text-center">
-                                        <form id="form_eliminar_{{ $cat->id }}" action="{{ route('Admin.categoria_insumo.destroy', ['id' => $cat->id]) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$cat->id}}','{{$cat->estado}}')">
-                                                <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
-                                            </button>
-                                        </form>
-                                        </td>
                                         <td class="text-center">
                                             <a class="btn btn-sm {{ $cat->estado == 1 ? 'btn-success' : 'btn-danger' }}"
                                                 wire:click="changeStatus({{ $cat->id }})" style="cursor: pointer;">
                                                 {{ $cat->estado == 1 ? 'Activo' : 'Inactivo' }}
                                                 <i class="fas fa-toggle-{{ $cat->estado == 1 ? 'on' : 'off' }}"></i>
                                             </a>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <a class="btn btn-sm btn-success" href="{{ route('Admin.categoria_insumo.edit', ['id' => $cat->id]) }}">
+                                                    <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}
+                                                </a>
+                                                <form id="form_eliminar_{{ $cat->id }}" action="{{ route('Admin.categoria_insumo.destroy', ['id' => $cat->id]) }}" method="POST" style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$cat->id}}','{{$cat->estado}}')">
+                                                        <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
+                                                    </button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -160,34 +162,28 @@
 
 <script>
     function eliminar(categoriaId, estadoCategoria) {
-    if (estadoCategoria == 1) { 
-        Swal.fire({
-            title: "¡Error!",
-            text: "No se puede eliminar una categoría activa.",
-            icon: "error",
-            confirmButtonText: "OK"
-        });
-    } else {
-        // Si está inactiva, proceder con la eliminación
-        Swal.fire({
-            title: "¡Estás seguro!",
-            text: "¿Deseas eliminar esta categoría?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sí, eliminar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: "!Categoría Eliminada!",
-                    text: "La categoría se eliminó correctamente.",
-                    icon: "success"
-                }).then(() => {
+        if (estadoCategoria == 1) { 
+            Swal.fire({
+                title: "¡Error!",
+                text: "No se puede eliminar una categoría activa.",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
+        } else {
+            // Si está inactiva, proceder con la eliminación
+            Swal.fire({
+                title: "¡Estás seguro!",
+                text: "¿Deseas eliminar esta categoría?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sí, eliminar"
+            }).then((result) => {
+                if (result.isConfirmed) {
                     document.getElementById('form_eliminar_' + categoriaId).submit();
-                });
-            }
-        });
+                }
+            });
+        }
     }
-}
 </script>

@@ -16,7 +16,7 @@
                 @method('PUT')
                 @csrf            
                 <div class="form-group">
-                        <label for="id_categoria_insumo">Categoria_insumo</label>
+                        <label for="id_categoria_insumo">Categoria insumo</label>
                         <select id="id_categoria_insumo" name="id_categoria_insumo" class="form-control @error('id_categoria_insumo') is-invalid  @enderror">
                             <option selected disabled>Seleccione una Categoría</option>
                             @foreach($categoria_insumos as $categoria)
@@ -34,10 +34,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="cantidad_insumo">Cantidad</label>
-                    <input type="number" name="cantidad_insumo" class="form-control  @error('cantidad_insumo') is-invalid  @enderror" id="cantidad_insumo" placeholder="Ingrese cantidad" value="{{ old('cantidad_insumo', $insumos->cantidad_insumo) }}">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Nombre..." value="{{ old('nombre', $insumos->nombre) }}">
 
-                    @error('cantidad_insumo')
+                    @error('nombre')
                         <span class="invalid-feedback d-block" role="alert">
                             <strong>{{$message}}</strong>
                         </span>
@@ -46,20 +46,9 @@
 
                 <div class="form-group">
                     <label for="costo_unitario">Costo Unitario</label>
-                    <input type="number" name="costo_unitario" class="form-control  @error('costo_unitario') is-invalid  @enderror" id="costo_unitario" placeholder="2222" value="{{ old('costo_unitario', $insumos->costo_unitario) }}">
+                    <input type="number" name="costo_unitario" class="form-control  @error('costo_unitario') is-invalid  @enderror" id="costo_unitario" placeholder="$$$" value="{{ old('costo_unitario', $insumos->costo_unitario) }}">
 
                     @error('costo_unitario')
-                        <span class="invalid-feedback d-block" role="alert">
-                            <strong>{{$message}}</strong>
-                        </span>
-                    @enderror
-                </div>
-                
-                <div class="form-group">
-                    <label for="perdida_insumo">Perdida Insumo</label>
-                    <input type="number" name="perdida_insumo" class="form-control  @error('perdida_insumo') is-invalid  @enderror" id="perdida_insumo" placeholder="2222" value="{{ old('perdida_insumo', $insumos->perdida_insumo) }}">
-
-                    @error('perdida_insumo')
                         <span class="invalid-feedback d-block" role="alert">
                             <strong>{{$message}}</strong>
                         </span>

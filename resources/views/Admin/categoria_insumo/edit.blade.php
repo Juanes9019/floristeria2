@@ -63,7 +63,7 @@
 function editar() {
     Swal.fire({
         title: "¡Estas seguro!",
-        text: "¿Deseas editar esta categoria_insumo?",
+        text: "¿Deseas editar esta categoria insumo?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -72,8 +72,8 @@ function editar() {
     }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire({
-                title: "!categoria_insumo Editada!",
-                text: "La categoria_insumo se edito correctamente",
+                title: "!categoria insumo Editada!",
+                text: "La categoria insumo se edito correctamente",
                 icon: "success"
             });
 

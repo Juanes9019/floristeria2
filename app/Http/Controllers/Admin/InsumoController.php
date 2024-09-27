@@ -77,18 +77,18 @@ class InsumoController extends Controller
         $data = $request->validate([
             'id_categoria_insumo' => 'required',
             'nombre' => 'required',
-            'cantidad_insumo' => 'required',
             'costo_unitario' => 'required',
-            'perdida_insumo' => 'required',
+            'imagen' => 'required',
         ]);
 
         $insumo = new Insumo;
         $insumo->id_categoria_insumo = $request->id_categoria_insumo;
         $insumo->nombre = $request->nombre;
-        $insumo->cantidad_insumo = $request->cantidad_insumo;
+        $insumo->cantidad_insumo = 0;
         $insumo->costo_unitario = $request->costo_unitario;
-        $insumo->perdida_insumo = $request->perdida_insumo;
+        $insumo->perdida_insumo = 0;
         $insumo->costo_perdida = $request->costo_unitario * $request->perdida_insumo;
+        $insumo->imagen = $request->imagen;
 
         if ($request->has('estado')) {
             $insumo->estado = 1;
@@ -138,21 +138,15 @@ class InsumoController extends Controller
         $request->validate([
             'id_categoria_insumo' => 'required',
             'nombre' => 'required',
-            'cantidad_insumo' => 'required',
             'costo_unitario' => 'required',
-            'perdida_insumo' => 'required',
+            'imagen' => 'required',
         ]);
-
-        //Calcula la nueva cantidad restando la pérdida
-        $nueva_cantidad = $insumos->cantidad_insumo - $request->input('perdida_insumo');
 
         // Asignación de los campos del usuario desde el formulario
         $insumos->id_categoria_insumo = $request->input('id_categoria_insumo');
         $insumos->nombre = $request->input('nombre');
-        $insumos->cantidad_insumo = $request -> $nueva_cantidad > 0 ? $nueva_cantidad : 0;
         $insumos->costo_unitario = $request->input('costo_unitario');
-        $insumos->perdida_insumo = $request->input('perdida_insumo');
-        $insumos->costo_perdida = $request->costo_unitario * $request->perdida_insumo;
+        $insumos->imange = $request->input('imagen');
         if ($request->has('estado')) {
             $insumos->estado = $request->estado;
         }
@@ -162,7 +156,7 @@ class InsumoController extends Controller
 
         // Redirecciona a la vista de edición con un mensaje de éxito
         return redirect()->route('Admin.insumo', ['id' => $insumos->id])
-        ->with('success', 'categoria actualizado exitosamente');
+        ->with('success', 'insumo actualizado exitosamente');
     }
 
     public function incrementarInsumo($id)

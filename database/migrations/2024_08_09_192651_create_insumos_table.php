@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('id_categoria_insumo')->constrained('categoria_insumos');
             $table->string('nombre');
             $table->string('color')->nullable();
-            $table->integer('cantidad_insumo')->default(0);
+            $table->integer('cantidad_insumo')->default(0); 
             $table->decimal('costo_unitario', 10, 2);
             $table->integer('perdida_insumo');            
             $table->decimal('costo_perdida', 10, 2);

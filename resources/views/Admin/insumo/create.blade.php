@@ -17,10 +17,10 @@
         <form id="formulario_crear" method="POST" action="{{ route('Admin.insumo.store') }}" novalidate >
                 @csrf
                 <div class="form-group">
-                        <label for="id_categoria_insumo">Categoria_insumo</label>
+                        <label for="id_categoria_insumo">Categoria insumo</label>
                         <select name="id_categoria_insumo" id="id_categoria_insumo"
                             class="form-control @error('id_categoria_insumo') is-invalid  @enderror">
-                            <option selected disabled>Seleccione una opción</option>
+                            <option selected disabled>Seleccione una categoria...</option>
                             @foreach ($categoria_insumo as $id => $nombre)
                                 <option value="{{ $id }}" {{ old('id_categoria_insumo') == $id ? 'selected' : '' }}>
                                     {{ $nombre }} </option>
@@ -35,10 +35,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="cantidad_insumo">Cantidad</label>
-                    <input type="number" name="cantidad_insumo" class="form-control  @error('cantidad_insumo') is-invalid  @enderror" id="cantidad_insumo" placeholder="Cantidad" value="{{ old('cantidad_insumo') }}">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Nombre..." value="{{ old('nombre') }}">
 
-                    @error('cantidad_insumo')
+                    @error('nombre')
                         <span class="invalid-feedback d-block" role="alert">
                             <strong>{{$message}}</strong>
                         </span>
@@ -47,7 +47,7 @@
 
                 <div class="form-group">
                     <label for="costo_unitario">Costo Unitario</label>
-                    <input type="number" name="costo_unitario" class="form-control  @error('costo_unitario') is-invalid  @enderror" id="costo_unitario" placeholder="2222" value="{{ old('costo_unitario') }}">
+                    <input type="number" name="costo_unitario" class="form-control  @error('costo_unitario') is-invalid  @enderror" id="costo_unitario" placeholder="$$$" value="{{ old('costo_unitario') }}">
 
                     @error('costo_unitario')
                         <span class="invalid-feedback d-block" role="alert">
@@ -55,18 +55,19 @@
                         </span>
                     @enderror
                 </div>
-                
-                <div class="form-group">
-                    <label for="perdida_insumo">Perdida Insumo</label>
-                    <input type="number" name="perdida_insumo" class="form-control  @error('perdida_insumo') is-invalid  @enderror" id="perdida_insumo" placeholder="Perdida" value="{{ old('perdida_insumo') }}">
 
-                    @error('perdida_insumo')
-                        <span class="invalid-feedback d-block" role="alert">
-                            <strong>{{$message}}</strong>
-                        </span>
+                <div class="form-group">
+                    <label for="imagen">Imagen</label>
+                    <input type="text" id="imagen" name="imagen" class="form-control  @error('imagen') is-invalid  @enderror"
+                        placeholder="imagen">
+
+                    @error('imagen')
+                    <span class="invalid-feedback d-block" role="alert">
+                        <strong>{{$message}}</strong>
+                    </span>
                     @enderror
                 </div>
-                
+                    
                 <div class="form-group">
                     <label for="estado">Estado</label>
                     <select name="estado" id="estado" class="form-control">
