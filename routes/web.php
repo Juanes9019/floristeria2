@@ -201,11 +201,6 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     //Ruta para el detalle Compra
     Route::get('admin/DetalleCompra', [DetalleCompraController::class, 'index'])->name('detalles');
 
-
-
-    //rutas para los inventario
-
-
     //rutas para los productos
     Route::get('admin/productos', [productosController::class, 'index'])->name('Admin.productos');
     Route::get('admin/producto/create', [productosController::class, 'create'])->name('Admin.producto.create');

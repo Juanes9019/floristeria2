@@ -20,17 +20,19 @@
 
             <div class="card-body">
                 @if (Cart::count())
+                <h1 class="text-center fs-4 p-3">Datos de Compra</h1>
+
 
             <form action="{{ route('confirmarCarrito') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <table class="table table-striped">
                     <thead>
-                        <th class="text-center">FOTO</th>
-                        <th class="text-center">NOMBRE</th>
-                        <th class="text-center">CANTIDAD</th>
-                        <th class="text-center">PRECIO</th>
-                        <th class="text-center">SUBTOTAL</th>
-                        <th class="text-center">ACCION</th>
+                        <th class="text-center">Foto</th>
+                        <th class="text-center">Nombre</th>
+                        <th class="text-center">Cantidad</th>
+                        <th class="text-center">Precio</th>
+                        <th class="text-center">Subtotal</th>
+                        <th class="text-center">Acción</th>
                     </thead>
                     <tbody>
                         @foreach (Cart::content() as $item)
@@ -75,8 +77,6 @@
                 </table>
 
                 <div class="container mt-5">
-                    <h1 class="text-center fs-4 p-3">Datos de Compra</h1>
-
                     <div class="card mb-3" style="cursor: pointer;" data-bs-toggle="collapse" data-bs-target="#detallesEnvio" aria-expanded="false" aria-controls="detallesEnvio">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">Detalle de Envío</h5>

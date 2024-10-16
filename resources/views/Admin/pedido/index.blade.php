@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
@@ -58,7 +59,6 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="text-center">{{ $item->estado }}</td>
                                     <td class="text-center">
                                         <form action="{{ route('cambiar_estado', $item->id) }}" method="POST">
                                             @csrf
@@ -94,7 +94,7 @@
                                         </form>
                                     </td>
                                     <td>
-                                        <a href="{{ route('pedidos.detalles', $item->id) }}" class="btn btn-info">Ver Detalles</a>
+                                        <button type="button" class="btn btn-info verDetalleBtn" data-id="{{ $item->id }}">Ver detalle</button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -106,6 +106,34 @@
         </div>
     </div>
 </div>
+
+<div id="detalleModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document"> 
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalles del Pedido - id: <span id="pedidoId"></span></h5> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="detallePedidoContent">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- jQuery (para capturar el evento del botón) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style>
     .centrar-formulario {
@@ -163,6 +191,52 @@
         max-width: 90%;
         max-height: 90%;
     }
+
+    /* Personalizar la posición del modal */
+    .swal2-container {
+        position: fixed;
+        bottom: 0 !important;
+        top: auto !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        box-sizing: border-box;
+    }
+
+    .swal2-popup {
+        width: 100% !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+    }
 </style>
+
+<script>
+$(document).ready(function() {
+    $('.verDetalleBtn').on('click', function() {
+        var pedidoId = $(this).data('id');
+
+        $('#pedidoId').text(pedidoId);
+
+        $.ajax({
+            url: '/admin/pedido/' + pedidoId + '/detalles',     
+            method: 'GET',
+            success: function(response) {
+                // Inserta los datos en el modal
+                $('#detallePedidoContent').html(response);
+                // Muestra el modal
+                $('#detalleModal').modal('show');
+            },
+            error: function() {
+                alert('Error al cargar los detalles del pedido.');
+            }
+        });
+    });
+});
+
+
+</script>
 
 @stop
