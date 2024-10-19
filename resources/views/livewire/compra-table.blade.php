@@ -10,7 +10,7 @@
                         <div class="float-right">
                             <a href="{{ route('Admin.compra.create') }}" class="btn btn-primary btn-sm float-right"
                                 data-placement="left">
-                                {{ __('Registrar Compra') }}
+                                {{ __('Registrar') }}
                             </a>
                         </div>
                     </div>

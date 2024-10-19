@@ -7,6 +7,18 @@
                         <span id="card_title">
                             <b>Control de insumos</b>
                         </span>
+                        <div>
+                            <a href="{{ route('Admin.insumo.create') }}" class="btn btn-primary"
+                                data-placement="left">
+                                {{ __('Registrar') }}
+                            </a>
+                        </div>
+                        <div>
+                            <a href="{{ route('Admin.insumo.perdida') }}" class="btn btn-danger"
+                                data-placement="left">
+                                {{ __('Perdida') }}
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -15,11 +27,6 @@
                         <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Exportar
                         </button>
-                        <a href="{{ route('Admin.insumo.historialPerdidas') }}" class="btn btn-primary">Historial de Pérdidas</a>
-                        <a href="{{ route('Admin.insumo.create') }}" class="btn btn-primary"
-                                data-placement="left">
-                                {{ __('Registrar') }}
-                            </a>
                         <div class="dropdown-menu" aria-labelledby="exportDropdown">
                             <a class="dropdown-item" href="{{ route('Admin.insumos.export', ['format' => 'xlsx']) }}">
                                 {{ __('Exportar a Excel') }}
@@ -112,7 +119,7 @@
                                     </th>
 
                                     <th scope="col" class="text-center" wire:click="sortBy('id_categoria_insumo')">
-                                        Categoría insumo
+                                        Categoria insumo
                                         @if ($ordenarColumna === 'id_categoria_insumo')
                                             @if ($ordenarForma === 'asc')
                                                 <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -176,7 +183,17 @@
                                         </td>                                        
                                         <td class="text-center">{{ $insumo->cantidad_insumo }}</td>
                                         <td class="text-center">{{ number_format($insumo->costo_unitario, 0, ',', '.') }}</td>
-                                        
+                                        <!-- <td class="text-center">
+                                            <div class="btn-group btn-group-sm" role="group" aria-label="small button group">
+                                                <a href="{{ route('incrementarInsumo', ['id' => $insumo->id]) }}" class="btn btn-success efecto">+</a>
+                                                {{ $insumo->perdida_insumo }}
+                                                <a href="{{ route('decrementarInsumo', ['id' => $insumo->id]) }}" class="btn btn-danger efecto">-</a>
+                                            </div>
+                                        </td>
+
+                                        <td class="text-center">{{ number_format($insumo->costo_perdida, 0, ',', '.') }}</td> -->
+                                        <!-- <td class="text-center">{{ $insumo->imagen }}</td> -->
+
                                         <td class="text-center">
                                             <a class="btn btn-sm {{ $insumo->estado == 1 ? 'btn-success' : 'btn-danger' }}" wire:click="changeStatus({{ $insumo->id }})" style="cursor: pointer;">
                                                 {{ $insumo->estado == 1 ? 'Activo' : 'Inactivo' }}
@@ -188,6 +205,13 @@
                                                 <a class="btn btn-sm btn-success" href="{{ route('Admin.insumo.edit', ['id' => $insumo->id]) }}">
                                                     <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}
                                                 </a>
+                                                <!-- <form id="form_eliminar_{{ $insumo->id }}" action="{{ route('Admin.insumo.destroy', ['id' => $insumo->id]) }}" method="POST" style="display: inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$insumo->id}}','{{$insumo->estado}}')">
+                                                        <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
+                                                    </button>
+                                                </form> -->
                                             </div>
                                         </td>
                                     </tr>

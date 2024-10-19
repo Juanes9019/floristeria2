@@ -10,7 +10,7 @@
                         <div class="float-right">
                             <a href="{{ route('Admin.categoria_insumo.create') }}" class="btn btn-primary btn-sm float-right"
                                 data-placement="left">
-                                {{ __('Registrar categoría insumos') }}
+                                {{ __('Registrar') }}
                             </a>
                         </div>
                     </div>

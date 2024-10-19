@@ -9,7 +9,7 @@
 
 
 
-<h2 class="text-center mb-5">CREAR UNA NUEVO INSUMO</h2>
+<h2 class="text-center mb-5">Crear insumo</h2>
     
 
     <div class="row justify-content-center mt-5">
@@ -58,7 +58,7 @@
 
                 <div class="form-group">
                     <label for="imagen">Imagen</label>
-                    <input type="text" id="imagen" name="imagen" class="form-control  @error('imagen') is-invalid  @enderror"
+                    <input type="file" id="imagen" name="imagen" class="form-control  @error('imagen') is-invalid  @enderror"
                         placeholder="imagen">
 
                     @error('imagen')
@@ -67,16 +67,9 @@
                     </span>
                     @enderror
                 </div>
-                    
-                <div class="form-group">
-                    <label for="estado">Estado</label>
-                    <select name="estado" id="estado" class="form-control">
-                        <option value="1" {{ old('estado') == '1' ? 'selected' : '' }}>Activo</option>
-                    </select>
-                </div>
 
                 <div class="form-group">
-                    <input type="button" class="btn btn-primary" value="agregar insumo" onclick="agregar()">
+                    <input type="button" class="btn btn-primary" value="Agregar" onclick="agregar()">
                     <a href="{{ route('Admin.insumo') }}" class="btn btn-primary ">Volver</a>
                 </div>
 

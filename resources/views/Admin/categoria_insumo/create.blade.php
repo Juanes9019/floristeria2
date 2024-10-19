@@ -9,7 +9,7 @@
 
 
 
-<h2 class="text-center mb-5">CREAR UNA NUEVA CATEGORIA INSUMO</h2>
+<h2 class="text-center mb-5">Crear categoría</h2>
     
 
     <div class="row justify-content-center mt-5">
@@ -17,7 +17,7 @@
         <form id="formulario_crear" method="POST" action="{{ route('Admin.categoria_insumo.store') }}" novalidate >
                 @csrf
                 <div class="form-group">
-                    <label for="nombre">Nombre de la categoria</label>
+                    <label for="nombre">Nombre </label>
                     <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Ocasiones especiales" value="{{ old('nombre') }}">
 
                     @error('nombre')
@@ -46,14 +46,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="estado">Estado</label>
-                    <select name="estado" id="estado" class="form-control">
-                        <option value="1" {{ old('estado') == '1' ? 'selected' : '' }}>Activo</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <input type="button" class="btn btn-primary" value="agregar categoria insumo" onclick="agregar()">
+                    <input type="button" class="btn btn-primary" value="Agregar" onclick="agregar()">
                     <a href="{{ route('Admin.categoria_insumo') }}" class="btn btn-primary ">Volver</a>
                 </div>
 

@@ -9,7 +9,7 @@
 
 
 
-<h2 class="text-center mb-5">EDITAR CATEGORIA INSUMO</h2>
+<h2 class="text-center mb-5">Editar categoría</h2>
         <div class="row justify-content-center mt-5">
             <div class="col-md-8">
             <form id="formulario_editar" method="POST" action="{{ route('Admin.categoria_insumo.update', ['id' => $categoria_insumo->id]) }}" novalidate>
@@ -17,7 +17,7 @@
                 @csrf            
 
                 <div class="form-group">
-                    <label for="nombre">Nombre de la categoria</label>
+                    <label for="nombre">Nombre</label>
                     <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Hombre..." value="{{ old('nombre', $categoria_insumo->nombre) }}">
                     @error('nombre')
                     <span class="invalid-feedback d-block" role="alert">
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="button" class="btn btn-primary" value="Editar categoria insumo" onclick="editar()">
+                    <input type="button" class="btn btn-primary" value="Editar" onclick="editar()">
                     <a href="{{ route('Admin.categoria_insumo') }}" class="btn btn-primary ">Volver</a>
                 </div>
             </form>

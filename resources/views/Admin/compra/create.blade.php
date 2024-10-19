@@ -6,7 +6,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<h2 class="text-center mb-5">CREAR UNA COMPRA</h2>
+<h2 class="text-center mb-5">Crear una compra</h2>
 
 <div class="row justify-content-center mt-5">
     <div class="col-md-8">
@@ -52,8 +52,8 @@
 
             <div class="form-group">
                 <a href="{{ route('Admin.compra.index') }}" class="btn btn-primary">Volver</a>
-                <input type="button" class="btn btn-primary" value="Agregar al carrito" onclick="agregarCarrito()">
-                <input type="button" class="btn btn-success" value="Finalizar compra" onclick="finalizarCompra()">
+                <input type="button" class="btn btn-primary" value="Agregar" onclick="agregarCarrito()">
+                <input type="button" class="btn btn-success" value="Finalizar" onclick="finalizarCompra()">
             </div>
 
             <!-- Campos hidden para enviar datos adicionales -->

@@ -9,14 +9,14 @@
 
 
 
-<h2 class="text-center mb-5">EDITAR INSUMO</h2>
+<h2 class="text-center mb-5">Editar insumo</h2>
         <div class="row justify-content-center mt-5">
             <div class="col-md-8">
             <form id="formulario_editar" method="POST" action="{{ route('Admin.insumo.update', $insumos->id) }}" novalidate>
                 @method('PUT')
                 @csrf            
                 <div class="form-group">
-                        <label for="id_categoria_insumo">Categoria insumo</label>
+                        <label for="id_categoria_insumo">Categoría insumo</label>
                         <select id="id_categoria_insumo" name="id_categoria_insumo" class="form-control @error('id_categoria_insumo') is-invalid  @enderror">
                             <option selected disabled>Seleccione una Categoría</option>
                             @foreach($categoria_insumos as $categoria)
@@ -64,7 +64,7 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="button" class="btn btn-primary" value="Editar insumo" onclick="editar()">
+                    <input type="button" class="btn btn-primary" value="Editar" onclick="editar()">
                     <a href="{{ route('Admin.insumo') }}" class="btn btn-primary ">Volver</a>
                 </div>
             </form>

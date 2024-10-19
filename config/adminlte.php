@@ -346,7 +346,7 @@ return [
             'label_color' => 'primary',
         ],
         [
-            'text' => 'Categoria Insumos',
+            'text' => 'Categoría Insumos',
             'url' => 'admin/categoria_insumo',
             'icon' => 'fas fa-fw fa-list',
             'label_color' => 'primary',
