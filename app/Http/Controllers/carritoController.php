@@ -169,13 +169,13 @@ class carritoController extends Controller
     public function confirmarCarrito(Request $request)
 {
     $request->validate([
-        'nombre_destinatario' => 'required|string|max:255',
+        'nombre_destinatario' => 'required|string|max:80',
         'fecha' => 'required|date',
         'departamento' => 'required|string',
         'ciudad' => 'required|string',
-        'direccion' => 'required|string|max:255',
-        'instrucciones_entrega' => 'nullable|string|max:500',
-        'telefono' => 'required|string|max:20',
+        'direccion' => 'required|string|max:150|regex:/^[0-9a-zA-Z\s.,#-]+$/',
+        'instrucciones_entrega' => 'nullable|string|max:200',
+        'telefono' => 'required|string|max:15', 
         'comprobante_pago' => 'required|image|mimes:jpeg,png,jpg|max:2048',
     ]);
 
