@@ -305,77 +305,83 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'Buscar',
         ],
-        ['header' => 'GESTION DE ESTADISTICAS'],
+
+        ['header' => 'GESTIÓN DE ESTADÍSTICAS'],
         [
-            'text' => 'Dashboard',
-            'url' => 'admin/dashboard',
-            'icon' => 'fas fa-fw fa-chart-line',
-            'label_color' => 'warning',
+            'text' => 'Estadísticas',
+            'icon' => 'fas fa-chart-line',
+            'submenu' => [
+                [
+                    'text' => 'Dashboard',
+                    'url' => 'admin/dashboard',
+                    'icon' => 'fas fa-fw fa-chart-line',
+                ],
+            ],
         ],
 
-        ['header' => 'GESTION DE USUARIOS'],
+        ['header' => 'GESTIÓN DE USUARIOS'],
         [
-            'text' => 'Usuarios',
-            'url' => '/admin/users',
-            'icon' => 'fas fa-fw fa-user',
-            'label_color' => 'warning',
+            'text' => 'Usuarios y Roles',
+            'icon' => 'fas fa-users-cog',
+            'submenu' => [
+                [
+                    'text' => 'Usuarios',
+                    'url' => '/admin/users',
+                    'icon' => 'fas fa-fw fa-user',
+                ],
+                [
+                    'text' => 'Roles',
+                    'url' => '/admin/roles',
+                    'icon' => 'fas fa-fw fa-user-shield',
+                ],
+                [
+                    'text' => 'Asignar permisos',
+                    'url' => '/admin/permisos_rol',
+                    'icon' => 'fas fa-fw fa-key',
+                ],
+            ],
         ],
-        [
-            'text' => 'Roles',
-            'url' => '/admin/roles',
-            'icon' => 'fas fa-fw fa-user-shield',
-            'label_color' => 'warning',
-        ],
-        [
-            'text' => 'Asignar permisos',
-            'url' => '/admin/permisos_rol',
-            'icon' => 'fas fa-fw fa-building', 
-            'label_color' => 'primary',
-        ],
-        [
-            'text' => 'Pqrs',
-            'url' => '/admin/users/pqrs',
-            'icon' => 'fas fa-fw fa-comments',
-            'label_color' => 'primary',
-        ],
-        ['header' => 'GESTION DE COMPRA'],
-        [
-            'text' => 'Proveedores',
-            'url' => '/admin/proveedores',
-            'icon' => 'fas fa-fw fa-building', 
-            'label_color' => 'primary',
-        ],
-        [
-            'text' => 'Categoría Insumos',
-            'url' => 'admin/categoria_insumo',
-            'icon' => 'fas fa-fw fa-list',
-            'label_color' => 'primary',
-        ],
-        [
-            'text' => 'Insumos',
-            'url' => 'admin/insumo',
-            'icon' => 'fas fa-box',
-            'label_color' => 'warning',
-        ],
+
+        ['header' => 'GESTIÓN DE COMPRA'],
         [
             'text' => 'Compras',
-            'url' => 'admin/compras',
-            'icon' => 'fas fa-fw fa-shopping-bag',
-            'label_color' => 'warning',
+            'icon' => 'fas fa-shopping-basket',
+            'submenu' => [
+                [
+                    'text' => 'Proveedores',
+                    'url' => '/admin/proveedores',
+                    'icon' => 'fas fa-fw fa-building',
+                ],
+                [
+                    'text' => 'Categoría Insumos',
+                    'url' => 'admin/categoria_insumo',
+                    'icon' => 'fas fa-fw fa-list',
+                ],
+                [
+                    'text' => 'Insumos',
+                    'url' => 'admin/insumo',
+                    'icon' => 'fas fa-box',
+                ],
+                [
+                    'text' => 'Compras',
+                    'url' => 'admin/compras',
+                    'icon' => 'fas fa-fw fa-shopping-bag',
+                ],
+            ],
         ],
 
-        ['header' => 'GESTION DE TIENDA'],
+        ['header' => 'GESTIÓN DE TIENDA'],
         [
-            'text' => 'Categorias Productos',
-            'url' => 'admin/categorias_productos',
+            'text' => 'Categorias',
+            'url' => 'admin/categoria',
             'icon' => 'fas fa-fw fa-list',
             'label_color' => 'warning',
         ],
         [
             'text' => 'Generar Producto',
-            'url' => 'admin/generar_producto', // Ruta para crear un producto
-            'icon' => 'fas fa-fw fa-plus', // Icono para el menú
-            'label_color' => 'success', // Color de la etiqueta
+            'url' => 'admin/insumo_producto',
+            'icon' => 'fas fa-fw fa-plus',
+            'label_color' => 'success', 
         ],
         [
             'text' => 'Productos',
@@ -383,7 +389,6 @@ return [
             'icon' => 'fas fa-fw fa-store-alt',            
             'label_color' => 'primary',
         ],
-        ['header' => 'GESTION DE VENTA'],
         [
             'text' => 'Pedidos',
             'url' => 'admin/pedido',

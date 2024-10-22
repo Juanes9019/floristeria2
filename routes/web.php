@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\ProveedorController;
 use App\Http\Controllers\Admin\Categoria_insumoController;
-use App\Http\Controllers\Admin\productosController;
+use App\Http\Controllers\Admin\ProductoController;
 use App\Http\Controllers\Admin\pedidoController;
 use App\Http\Controllers\Admin\detalleController;
 use App\Http\Controllers\Admin\CompraController;
@@ -19,10 +19,12 @@ use App\Http\Controllers\Admin\InsumoController;
 use App\Http\Controllers\Admin\GenerarProductoController;
 
 use App\Http\Controllers\Admin\ExportController;
+use App\Http\Controllers\Admin\InsumoProductoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\carritoController;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EnviarCorreo;
+use App\Models\CategoriaProducto;
 use Illuminate\Support\Facades\Auth;
 use App\Models\GenerarProducto;
 
@@ -138,34 +140,30 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
 
 
     //rutas para los productos
-    Route::get('admin/productos', [productosController::class, 'index'])->name('Admin.productos');
-    Route::get('admin/producto/create', [productosController::class, 'create'])->name('Admin.producto.create');
-    Route::post('admin/producto', [productosController::class, 'store'])->name('Admin.producto.store');
-    Route::get('admin/producto/{id}/edit', [productosController::class, 'edit'])->name('Admin.producto.edit');
-    Route::put('admin/producto/{id}', [productosController::class, 'update'])->name('Admin.producto.update');
-    Route::delete('admin/producto/{id}', [productosController::class, 'destroy'])->name('Admin.producto.destroy');
-    Route::get('admin/producto/{id}/status', [productosController::class, 'change_Status'])->name('Admin.producto.status');
+    Route::get('admin/productos', [ProductoController::class, 'index'])->name('Admin.productos');
+    Route::get('producto/{id}', [ProductoController::class, 'show'])->name('Admin.producto.show');
+    Route::get('admin/producto/create', [ProductoController::class, 'create'])->name('Admin.producto.create');
+    Route::post('admin/producto', [ProductoController::class, 'store'])->name('Admin.producto.store');
+    Route::get('admin/producto/{id}/edit', [ProductoController::class, 'edit'])->name('Admin.producto.edit');
+    Route::put('admin/producto/{id}', [ProductoController::class, 'update'])->name('Admin.producto.update');
+    Route::delete('admin/producto/{id}', [ProductoController::class, 'destroy'])->name('Admin.producto.destroy');
+    Route::get('admin/producto/{id}/status', [ProductoController::class, 'change_Status'])->name('Admin.producto.status');
     Route::get('/export_producto_pdf', [ExportController::class, 'exportar_producto'])->name('export_producto.pdf');
 
 
 
     //rutas para la categoria
-    Route::get('admin/categorias_productos', [Categoria_Producto_Controller::class, 'index'])->name('Admin.categorias_productos');
-    Route::get('admin/categoria_producto/create', [Categoria_Producto_Controller::class, 'create'])->name('Admin.categoria_producto.create');
-    Route::post('admin/categoria_producto', [Categoria_Producto_Controller::class, 'store'])->name('Admin.categoria_producto.store');
-    Route::get('admin/categoria_producto/{id}/edit', [Categoria_Producto_Controller::class, 'edit'])->name('Admin.categoria_producto.edit');
-    Route::put('admin/categoria_producto/{id}', [Categoria_Producto_Controller::class, 'update'])->name('Admin.categoria_producto.update');
-    Route::delete('admin/categoria_producto/{id}', [Categoria_Producto_Controller::class, 'destroy'])->name('Admin.categoria_producto.destroy');
-    // Route::get('admin/categoria_producto/{id}/status', [Categoria_Producto_Controller::class, 'change_Status'])->name('Admin.categoria_producto.status');
+    Route::get('admin/categorias_productos', [CategoriaProducto::class, 'index'])->name('Admin.categorias_productos');
+    Route::get('admin/categoria_producto/create', [CategoriaProducto::class, 'create'])->name('Admin.categoria_producto.create');
+    Route::post('admin/categoria_producto', [CategoriaProducto::class, 'store'])->name('Admin.categoria_producto.store');
+    Route::get('admin/categoria_producto/{id}/edit', [CategoriaProducto::class, 'edit'])->name('Admin.categoria_producto.edit');
+    Route::put('admin/categoria_producto/{id}', [CategoriaProducto::class, 'update'])->name('Admin.categoria_producto.update');
+    Route::delete('admin/categoria_producto/{id}', [CategoriaProducto::class, 'destroy'])->name('Admin.categoria_producto.destroy');
     
-    Route::prefix('admin')->name('admin.')->group(function () {
-        Route::get('generar_producto', [GenerarProductoController::class, 'index'])->name('generar_producto.index');
-        Route::post('generar_producto/agregar', [GenerarProductoController::class, 'agregarInsumo'])->name('agregarInsumo');
-        Route::delete('generar_producto/eliminar/{key}', [GenerarProductoController::class, 'eliminarInsumo'])->name('eliminarInsumo');
-        Route::patch('generar_producto/actualizar/{key}', [GenerarProductoController::class, 'actualizarInsumo'])->name('actualizarInsumo');
-        Route::post('generar_producto/create', [GenerarProductoController::class, 'generarProducto'])->name('generar_producto.create');
-        Route::get('generar_producto/filtrar_insumos', [GenerarProductoController::class, 'filtrarInsumosPorCategoria'])->name('filtrarInsumosPorCategoria');
-    });
+   
+    Route::get('admin/insumo_producto', [InsumoProductoController::class, 'index'])->name('Admin.insumo_producto');
+        
+ 
 
     //rutas para la categoria_insumo
     Route::get('admin/categoria_insumo', [Categoria_insumoController::class, 'index'])->name('Admin.categoria_insumo');
@@ -207,13 +205,13 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::get('admin/DetalleCompra', [DetalleCompraController::class, 'index'])->name('detalles');
 
     //rutas para los productos
-    Route::get('admin/productos', [productosController::class, 'index'])->name('Admin.productos');
-    Route::get('admin/producto/create', [productosController::class, 'create'])->name('Admin.producto.create');
-    Route::post('admin/producto', [productosController::class, 'store'])->name('Admin.producto.store');
-    Route::get('admin/producto/{id}/edit', [productosController::class, 'edit'])->name('Admin.producto.edit');
-    Route::put('admin/producto/{id}', [productosController::class, 'update'])->name('Admin.producto.update');
-    Route::delete('admin/producto/{id}', [productosController::class, 'destroy'])->name('Admin.producto.destroy');
-    Route::get('admin/producto/{id}/status', [productosController::class, 'change_Status'])->name('Admin.producto.status');
+    Route::get('admin/productos', [ProductoController::class, 'index'])->name('Admin.productos');
+    Route::get('admin/producto/create', [ProductoController::class, 'create'])->name('Admin.producto.create');
+    Route::post('admin/producto', [ProductoController::class, 'store'])->name('Admin.producto.store');
+    Route::get('admin/producto/{id}/edit', [ProductoController::class, 'edit'])->name('Admin.producto.edit');
+    Route::put('admin/producto/{id}', [ProductoController::class, 'update'])->name('Admin.producto.update');
+    Route::delete('admin/producto/{id}', [ProductoController::class, 'destroy'])->name('Admin.producto.destroy');
+    Route::get('admin/producto/{id}/status', [ProductoController::class, 'change_Status'])->name('Admin.producto.status');
     Route::get('/export_producto_pdf', [ExportController::class, 'exportar_producto'])->name('export_producto.pdf');
 
     // Rutas para el pedido

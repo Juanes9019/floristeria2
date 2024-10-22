@@ -24,11 +24,17 @@ class Producto extends Model
 
     public function getDescripcionLimitadaAttribute()
     {
-        return Str::limit($this->descripcion, 25); 
+        return Str::limit($this->descripcion, 25);
     }
 
     public function categoria_producto()
     {
-        return $this->belongsTo(Categoria_Producto::class, 'id_categoria_producto');
+        return $this->belongsTo(CategoriaProducto::class, 'id_categoria_producto');
+    }
+    
+    public function insumos()
+    {
+        return $this->belongsToMany(Insumo::class, 'insumos_producto', 'id_producto', 'id_insumo')
+                    ->withPivot('cantidad_usada'); 
     }
 }
