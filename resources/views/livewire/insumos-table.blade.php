@@ -143,10 +143,6 @@
 
                                     <th scope="col" class="text-center">Cantidad Insumo</th>
                                     <th scope="col" class="text-center">Costo Unitario</th>
-                                    <!-- <th scope="col" class="text-center">Perdida Insumo</th>
-                                    <th scope="col" class="text-center">Costo Perdida</th> -->
-                                    <!-- <th scope="col" class="text-center">Imagen</th> -->
-
                                     <th scope="col" class="text-center" wire:click="sortBy('estado')">
                                         Estado
                                         @if ($ordenarColumna === 'estado')

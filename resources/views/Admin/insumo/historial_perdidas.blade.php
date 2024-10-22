@@ -17,7 +17,7 @@
             @foreach($historialPerdidas as $perdida)
             <tr>
                 <td>{{ $perdida->fecha_perdida }}</td>
-                <td>{{ $perdida->insumo->nombre }}</td>
+                <td>{{ $perdida->insumo->nombre }}{{ $perdida->insumo->color ? ' - ' . $perdida->insumo->color : '' }}</td>
                 <td>{{ $perdida->cantidad_perdida }}</td>
             </tr>
             @endforeach

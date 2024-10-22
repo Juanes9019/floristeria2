@@ -178,4 +178,51 @@ class CompraController extends Controller
         return response()->json($insumos);
     }
 
+    public function destroy($id)
+    {
+        try {
+            // Verificar si la compra existe
+            $compra = Compra::findOrFail($id);
+
+            // Verificar si tiene detalles y eliminarlos
+            $detalles = DetalleCompraV2::where('compra_id', $id)->get();
+            
+            foreach ($detalles as $detalle) {
+                // Buscar el insumo correspondiente al detalle
+                $insumo = Insumo::find($detalle->id_insumo);
+                if ($insumo) {
+                    // Comprobar si la cantidad del insumo actual es igual a la cantidad comprada en la compra
+                    if ($insumo->cantidad_insumo < $detalle->cantidad) {
+                        // Si la cantidad actual es menor, se ha utilizado parte del insumo y no se puede eliminar
+                        return redirect()->back()->with('error', 'No se puede eliminar la compra porque ya se ha utilizado parte de los insumos.');
+                    }
+                }
+            }
+
+            // Si todas las cantidades coinciden, se procede a restaurar y eliminar
+            foreach ($detalles as $detalle) {
+                // Restaurar la cantidad de insumos
+                $insumo = Insumo::find($detalle->id_insumo);
+                if ($insumo) {
+                    // Restaurar la cantidad al valor previo a la compra
+                    $insumo->cantidad_insumo -= $detalle->cantidad;
+                    $insumo->save();
+                }
+                $detalle->delete();
+            }
+
+            // Eliminar la compra
+            $compra->delete();
+
+            // Redirigir con un mensaje de éxito
+            return redirect()->route('Admin.compra.index')->with('success', 'Compra eliminada exitosamente');
+            
+        } catch (\Exception $e) {
+            // En caso de error, regresar con un mensaje de error
+            return redirect()->back()->with('error', 'Hubo un error al eliminar la compra: ' . $e->getMessage());
+        }
+    }
+
+
+
 }

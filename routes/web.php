@@ -199,6 +199,8 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::get('admin/compras/{id}', [CompraController::class, 'show'])->name('compra.detalles');
     route::get('/categorias/{idProveedor}', [CompraController::class, 'getCategorias'])->name('categorias');
     Route::get('/insumos/{idCategoria}', [CompraController::class, 'getInsumos'])->name('insumos');
+    Route::delete('/admin/compras/{id}', [CompraController::class, 'destroy'])->name('Admin.compra.destroy');
+
 
 
     //Ruta para el detalle Compra

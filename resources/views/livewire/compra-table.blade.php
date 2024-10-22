@@ -107,6 +107,13 @@
                                         <td class="text-center">
                                             <a href="{{ route('compra.detalles', $compra->id) }}" class="btn btn-info">Ver Detalles</a>
                                         </td>
+                                        <td>
+                                            <form action="{{ route('Admin.compra.destroy', $compra->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta compra?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Anular</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -126,3 +133,5 @@
         </div>
     </div>
 </div>
+
+

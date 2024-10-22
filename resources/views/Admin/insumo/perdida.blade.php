@@ -18,7 +18,7 @@
             </div>
 
             <div class="form-group">
-                <label for="cantidad_perdida">Cantidad Perdida:</label><br>
+                <label for="cantidad_perdida">Cantidad:</label><br>
                 <input type="number" name="cantidad_perdida" id="cantidad_perdida" placeholder="000" class="form-control" required>
             </div>
 
