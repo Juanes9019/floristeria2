@@ -372,43 +372,34 @@ return [
 
         ['header' => 'GESTIÓN DE TIENDA'],
         [
-            'text' => 'Tienda',
-            'icon' => 'fas fa-store',
-            'submenu' => [
-                [
-                    'text' => 'Categorías de Productos',
-                    'url' => 'admin/categorias_productos',
-                    'icon' => 'fas fa-fw fa-list',
-                ],
-                [
-                    'text' => 'Generar Producto',
-                    'url' => 'admin/generar_producto',
-                    'icon' => 'fas fa-fw fa-plus',
-                ],
-                [
-                    'text' => 'Productos',
-                    'url' => 'admin/productos',
-                    'icon' => 'fas fa-fw fa-store-alt',
-                ],
-            ],
+            'text' => 'Categorias',
+            'url' => 'admin/categoria',
+            'icon' => 'fas fa-fw fa-list',
+            'label_color' => 'warning',
         ],
-
-        ['header' => 'GESTIÓN DE VENTA'],
         [
-            'text' => 'Ventas',
-            'icon' => 'fas fa-shopping-cart',
-            'submenu' => [
-                [
-                    'text' => 'Pedidos',
-                    'url' => 'admin/pedido',
-                    'icon' => 'fas fa-fw fa-shopping-cart',
-                ],
-                [
-                    'text' => 'Detalle de Venta',
-                    'url' => 'admin/detalle',
-                    'icon' => 'fas fa-file-alt',
-                ],
-            ],
+            'text' => 'Generar Producto',
+            'url' => 'admin/insumo_producto',
+            'icon' => 'fas fa-fw fa-plus',
+            'label_color' => 'success', 
+        ],
+        [
+            'text' => 'Productos',
+            'url' => 'admin/productos',
+            'icon' => 'fas fa-fw fa-store-alt',            
+            'label_color' => 'primary',
+        ],
+        [
+            'text' => 'Pedidos',
+            'url' => 'admin/pedido',
+            'icon' => 'fas fa-shopping-cart', 
+            'label_color' => 'primary',
+        ],
+        [
+            'text' => 'Detalle venta',
+            'url' => 'admin/detalle',
+            'icon' => 'fas fa-file-alt', 
+            'label_color' => 'warning',
         ],
     ],
     /*

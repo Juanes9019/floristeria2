@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\InsumoProducto;
 
 class Insumo extends Model
 {
@@ -29,10 +30,10 @@ class Insumo extends Model
         return $this->belongsTo(Categoria_insumo::class, 'id_categoria_insumo');
     }
 
-    public function generarProducto()
-    {
-        return $this->belongsTo(GenerarProducto::class, 'id_insumo');
-    }
+    // public function generarProducto()
+    // {
+    //     return $this->belongsTo(GenerarProducto::class, 'id_insumo');
+    // }
     public function scopeSearch($query, $value)
     {
         $query->where('nombre', 'like', "%{$value}%")
@@ -41,4 +42,10 @@ class Insumo extends Model
                   $q->where('nombre', 'like', "%{$value}%");
               });
     }
+    public function productos()
+    {
+        return $this->belongsToMany(Producto::class, 'insumos_producto', 'id_insumo', 'id_producto')
+                    ->withPivot('cantidad_usada');
+    }
+    
 }

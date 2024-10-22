@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Categoria_Producto;
+use App\Models\CategoriaProducto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
-class Categoria_Producto_Controller extends Controller
+class CategoriaProductoController extends Controller
 {
     public function index()
     {
@@ -38,7 +38,7 @@ class Categoria_Producto_Controller extends Controller
 
     public function create()
     {
-        $categoria_producto = new Categoria_Producto();
+        $categoria_producto = new CategoriaProducto();
         return view('Admin.categoria_producto.create');
     }
 
@@ -57,7 +57,7 @@ class Categoria_Producto_Controller extends Controller
         );
 
 
-        $categoria_producto = new Categoria_Producto;
+        $categoria_producto = new CategoriaProducto();
 
         $categoria_producto->nombre = $request->nombre;
         if ($request->has('estado')) {
@@ -95,7 +95,7 @@ class Categoria_Producto_Controller extends Controller
     if (!$tienePermiso) {
         return response()->view('errors.accesoDenegado');
     }
-        $categoria_producto = Categoria_Producto::findOrFail($id_categoria_producto);
+        $categoria_producto = CategoriaProducto::findOrFail($id_categoria_producto);
         return view('Admin.categoria_producto.edit', ['categoria_producto' => $categoria_producto]);
     }
 
@@ -105,7 +105,7 @@ class Categoria_Producto_Controller extends Controller
     public function update(Request $request, $id_categoria_producto)
     {
         // Encuentra la categoria por su ID
-        $categoria_producto = Categoria_Producto::find($id_categoria_producto);
+        $categoria_producto = CategoriaProducto::find($id_categoria_producto);
 
         // Validaciones y lógica de actualización
         $request->validate([
@@ -129,7 +129,7 @@ class Categoria_Producto_Controller extends Controller
      */
     public function destroy($id_categoria_producto)
     {
-        $categoria_producto = Categoria_Producto::find($id_categoria_producto);
+        $categoria_producto = CategoriaProducto::find($id_categoria_producto);
 
         // Verifica si la categoría está activa
         if ($categoria_producto->estado == 1) {

@@ -4,7 +4,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
@@ -50,7 +49,8 @@
                             <tbody>
                                 @foreach($productos as $producto)
                                 <tr>
-                                    <td class="text-center">{{ ++$i }}</td>
+                                    
+                                    <td class="text-center">{{ $i++ }}</td>
                                     <td class="text-center">{{ $producto->nombre }}</td>
                                     <td class="text-center">{{$producto->categoria_producto->nombre}}</td>
                                     <td class="text-center">{{$producto->descripcion_limitada}}</td>
@@ -63,6 +63,14 @@
                                     <td class="text-center">
                                         <a class="btn btn-sm btn-warning" href="{{ route('Admin.producto.edit', ['id' => $producto->id]) }}">
                                             <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-sm btn-primary" href="{{ route('Admin.producto.show', ['id' => $producto->id]) }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                                            </svg> {{ __('Detalle') }}</a>
+                                    </td>
                                     <td>
                                         <form id="form_eliminar_{{ $producto->id }}" action="{{ route('Admin.producto.destroy', ['id' => $producto->id]) }}" method="POST">
                                             @csrf
@@ -90,46 +98,39 @@
     </div>
 </div>
 
-<style>
-    .centrar-formulario {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-</style>
 
 <script>
     function eliminar(productoId, estadoProducto) {
-    if (estadoProducto == 1) { 
-        Swal.fire({
-            title: "¡Error!",
-            text: "No se puede eliminar un Producto activo.",
-            icon: "error",
-            confirmButtonText: "OK"
-        });
-    } else {
-        // Si está inactiva, proceder con la eliminación
-        Swal.fire({
-            title: "¡Estás seguro!",
-            text: "¿Deseas eliminar esta producto?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sí, eliminar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: "!Categoría Eliminada!",
-                    text: "El producto se eliminó correctamente.",
-                    icon: "success"
-                }).then(() => {
-                    document.getElementById('form_eliminar_' + productoId).submit();
-                });
-            }
-        });
+        if (estadoProducto == 1) {
+            Swal.fire({
+                title: "¡Error!",
+                text: "No se puede eliminar un Producto activo.",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
+        } else {
+            // Si está inactiva, proceder con la eliminación
+            Swal.fire({
+                title: "¡Estás seguro!",
+                text: "¿Deseas eliminar esta producto?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sí, eliminar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "!Categoría Eliminada!",
+                        text: "El producto se eliminó correctamente.",
+                        icon: "success"
+                    }).then(() => {
+                        document.getElementById('form_eliminar_' + productoId).submit();
+                    });
+                }
+            });
+        }
     }
-}
 </script>
 
 @stop

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Categoria_Producto;
+use App\Models\CategoriaProducto;
+use App\Models\Insumo;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 use Illuminate\Support\Facades\Http;
@@ -11,76 +13,41 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 
-class productosController extends Controller
+
+class ProductoController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
 
-        // Verificar si el permiso 'productos' existe
-        $permiso = DB::table('permisos')
-            ->where('nombre', 'productos')
-            ->first();
-
-        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
-        if (!$permiso) {
-            return response()->view('errors.accesoDenegado');
-        }
-
-        // Verificar si el usuario tiene el permiso asociado a su rol
-        $tienePermiso = DB::table('permisos_rol')
-            ->where('id_rol', $user->id_rol)
-            ->where('id_permiso', $permiso->id)
-            ->exists();
-
-        if (!$tienePermiso) {
-            return response()->view('errors.accesoDenegado');
-        }
         $productos = Producto::all();
         $i = 0;
         return view('Admin.producto.index', compact('productos', 'i'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        $user = auth()->user();
 
-        // Verificar si el permiso 'productos' existe
-        $permiso = DB::table('permisos')
-            ->where('nombre', 'productos')
-            ->first();
 
-        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
-        if (!$permiso) {
-            return response()->view('errors.accesoDenegado');
-        }
 
-        // Verificar si el usuario tiene el permiso asociado a su rol
-        $tienePermiso = DB::table('permisos_rol')
-            ->where('id_rol', $user->id_rol)
-            ->where('id_permiso', $permiso->id)
-            ->exists();
+        $insumos = session()->get('insumos_agregados', []);
 
-        if (!$tienePermiso) {
-            return response()->view('errors.accesoDenegado');
-        }
         $producto = new Producto();
-        $categorias_productos = Categoria_Producto::where('estado', 1)->get();
-        return view('Admin.producto.create', compact('producto', 'categorias_productos'));
+        $categorias_productos = CategoriaProducto::where('estado', 1)->get();
+
+        return view('Admin.producto.create', compact('producto', 'categorias_productos', 'insumos'));
     }
 
 
     public function store(Request $request)
     {
-
+        // Validación de los datos
         $request->validate([
-            'id_categoria_producto' => 'required',
-            'nombre' => 'required|string',
-            'descripcion' => 'required',
-            'cantidad' => 'required|integer',
-            'precio' => 'required|numeric',
+            'id_categoria_producto' => 'required|exists:categorias_productos,id_categoria_producto',
+            'nombre' => 'required|string|unique:productos,nombre',
+            'descripcion' => 'required|string',
+            'precio' => 'required|numeric|min:0',
             'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-
+            'estado' => 'required|in:0,1',
         ]);
 
         // Procesar la imagen
@@ -91,54 +58,82 @@ class productosController extends Controller
             'image' => base64_encode(file_get_contents($file)),
         ]);
 
+        // Crear producto
         $producto = new Producto;
-
         $producto->id_categoria_producto = $request->id_categoria_producto;
         $producto->nombre = $request->nombre;
         $producto->descripcion = $request->descripcion;
-        $producto->cantidad = $request->cantidad;
         $producto->precio = $request->precio;
+        $producto->estado = $request->estado;
 
         if ($response->successful()) {
-            $foto = $response->json()['data']['link'];
-            $producto->foto = $foto;
+            $producto->foto = $response->json()['data']['link'];
         } else {
-            $producto->foto = "storage\app\public\productos\arreglo_1.jpg";
+            return redirect()->back()->withErrors('Error al subir la imagen a Imgur.');
         }
 
-        if ($request->has('estado')) {
-            $producto->estado = 0;
+        $producto->save(); // Guardar el producto antes de asociar insumos
+
+        // Manejar insumos seleccionados
+        $insumosSeleccionados = session('insumos_agregados', []);
+        if (!empty($insumosSeleccionados)) {
+            foreach ($insumosSeleccionados as $insumo) {
+                $insumoModel = Insumo::find($insumo['id']);
+                if ($insumoModel) {
+                    $insumoModel->cantidad_insumo -= $insumo['cantidad'];
+                    $insumoModel->save();
+                    $producto->insumos()->attach($insumoModel->id, ['cantidad_usada' => $insumo['cantidad']]);
+                }
+            }
+        } else {
+            return redirect()->back()->withErrors('No se han seleccionado insumos válidos.');
         }
 
-        $producto->save();
-        return redirect()->route('Admin.productos')
-            ->with('success', 'insumo creado con éxito.');
+        // Limpiar la sesión
+        session()->forget('insumos_agregados');
+
+        // Redirigir a la lista de productos con éxito
+
+        return redirect()->route('Admin.productos')->with('success', 'Producto creado exitosamente');
     }
-    
-    public function edit($id)    {
+
+    public function show($id)
+    {
+        
+        $producto = Producto::with('categoria_producto', 'insumos')->findOrFail($id);
+
+        // Retornar la vista con el producto
+        return view('Admin.producto.show', compact('producto'));
+    }
+
+
+
+
+    public function edit($id)
+    {
         $user = auth()->user();
 
-    // Verificar si el permiso 'productos' existe
-    $permiso = DB::table('permisos')
-                ->where('nombre', 'productos')
-                ->first();
-    
-    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
-    if (!$permiso) {
-        return response()->view('errors.accesoDenegado');
-    }
-                
-    // Verificar si el usuario tiene el permiso asociado a su rol
-    $tienePermiso = DB::table('permisos_rol')
-                    ->where('id_rol', $user->id_rol)
-                    ->where('id_permiso', $permiso->id)
-                    ->exists();
-    
-    if (!$tienePermiso) {
-        return response()->view('errors.accesoDenegado');
-    }
+        // Verificar si el permiso 'productos' existe
+        $permiso = DB::table('permisos')
+            ->where('nombre', 'productos')
+            ->first();
+
+        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+        if (!$permiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+
+        // Verificar si el usuario tiene el permiso asociado a su rol
+        $tienePermiso = DB::table('permisos_rol')
+            ->where('id_rol', $user->id_rol)
+            ->where('id_permiso', $permiso->id)
+            ->exists();
+
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
         $producto = Producto::find($id);
-        $categorias = Categoria_Producto::where('estado', 1)->get();
+        $categorias = CategoriaProducto::where('estado', 1)->get();
         return view('Admin.producto.edit', compact('producto', 'categorias'));
     }
 
