@@ -334,6 +334,11 @@ return [
                     'url' => '/admin/permisos_rol',
                     'icon' => 'fas fa-fw fa-key',
                 ],
+                [
+                    'text' => 'PQRS',
+                    'url' => 'admin/users/pqrs',
+                    'icon' => 'fas fa-fw fa-comments',
+                ],
             ],
         ],
 
