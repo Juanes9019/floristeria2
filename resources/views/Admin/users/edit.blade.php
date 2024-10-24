@@ -9,7 +9,7 @@
 
 
 
-<h2 class="text-center mb-5">EDITAR CATEGORIA</h2>
+<h2 class="text-center mb-5">Editar usuario</h2>
         <div class="row justify-content-center mt-5">
             <div class="col-md-8">
             <form id="formulario_editar" method="POST" action="{{ route('Admin.users.update', $usuarios->id) }}" novalidate>

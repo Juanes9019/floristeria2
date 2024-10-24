@@ -1,7 +1,7 @@
 @extends('adminlte::page')
 
 @section('content')
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
@@ -11,6 +11,12 @@
                             <span id="card_title">
                                 <b>Control de Permisos y Roles</b>
                             </span>
+                            <div class="float-right">
+                                <a href="{{ route('Admin.roles.create') }}" class="btn btn-primary btn-sm float-right"
+                                    data-placement="left">
+                                    {{ __('Registrar rol') }}
+                                </a>
+                            </div>
                         </div>
                     </div>
 
@@ -28,7 +34,7 @@
                                         <th scope="col" class="text-center">No</th>
                                         <th scope="col" class="text-center">Rol</th>
                                         <th scope="col" class="text-center">Permisos</th>
-                                        <th scope="col" class="text-center">Acciones</th>
+                                        <th scope="col" colspan="2" class="text-center">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -39,42 +45,61 @@
                                             <td class="text-center">{{ $role->permisos->pluck('nombre')->implode(', ') }}</td>
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-success" data-id="{{ $role->id }}" data-toggle="modal" data-target="#respuestaModal{{ $role->id }}">
-                                                    <i class="fas fa-reply"></i> {{ __('Editar Permisos') }}
+                                                    <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}
                                                 </button>
+                                            </td>
+                                            <td class="text-center">
+                                                <form action="{{ route('Admin.roles.destroy', ['id' => $role->id]) }}" method="POST">
+                                                    
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar Rol') }}
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="respuestaModal{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="respuestaModalLabel{{ $role->id }}" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="respuestaModalLabel{{ $role->id }}">Permisos para {{ $role->nombre }}</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form action="{{ route('permisos.update', ['id' => $role->id]) }}" method="post">
-                                                            @csrf  
-                                                            @method('PUT')
-                                                        
-                                                            @foreach($todos_los_permisos as $permiso)
-                                                                <input 
-                                                                    type="checkbox" 
-                                                                    name="permisos[]" 
-                                                                    value="{{ $permiso->id }}"
-                                                                    {{ $role->permisos->contains($permiso->id) ? 'checked' : '' }}> 
-                                                                <label for="permiso_{{ $permiso->id }}">{{ $permiso->nombre }}</label> <!-- Aquí obtenemos el nombre de la tabla permisos -->
-                                                                <br>
-                                                            @endforeach
-                                                        
-                                                            <button type="submit" class="btn btn-outline-secondary">Guardar</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+<div class="modal fade" id="respuestaModal{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="respuestaModalLabel{{ $role->id }}" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="respuestaModalLabel{{ $role->id }}">Permisos para {{ $role->nombre }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('permisos.update', ['id' => $role->id]) }}" method="post">
+                    @csrf  
+                    @method('PUT')
+                
+                    <!-- Campo para modificar el nombre del rol -->
+                    <div class="form-group">
+                        <label for="nombre_rol">Nombre del Rol</label>
+                        <input type="text" name="nombre_rol" class="form-control" value="{{ $role->nombre }}" required>
+                    </div>
+                
+                    <!-- Lista de permisos -->
+                    <div class="form-group checkboxes-container">
+                        @foreach($todos_los_permisos as $permiso)
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="permisos[]" value="{{ $permiso->id }}" 
+                            {{ $role->permisos->contains($permiso->id) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="permiso_{{ $permiso->id }}">{{ $permiso->nombre }}</label>
+                        </div>
+                        @endforeach
+                    </div>
+                
+                    <button type="submit" class="btn btn-outline-secondary">Guardar</button>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
                                     @endforeach
                                 </tbody>
                             </table>
@@ -92,7 +117,17 @@
             justify-content: center;
             align-items: center;
         }
+        .checkboxes-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.checkboxes-container .form-check {
+    width: 50%;
+}
+
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 @if (session('error'))

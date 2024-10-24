@@ -38,6 +38,7 @@ class UserController extends Controller
     
         // Si tiene permiso, proceder a obtener los usuarios
         $usuarios = User::all();
+        
         return view('Admin.users.index', compact('usuarios'));
     }
     
@@ -61,7 +62,9 @@ class UserController extends Controller
         }
 
         $user = new User();
-        return view('Admin.users.create', compact('user'));
+        
+        $roles = Roles::all();
+        return view('Admin.users.create', compact('user','roles'));
     }
 
     public function store(Request $request)
@@ -70,11 +73,14 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'surname' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:users,email',
             'celular' => 'required',
             'direccion' => 'required',
+            'id_rol' => 'required',
             'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/'],
+            'cpassword' => ['required', 'same:password']
         ]);
+        
 
 
         $user = new User;
@@ -83,12 +89,15 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->celular = $request->celular;
         $user->direccion = $request->direccion;
+        $user->id_rol = $request->id_rol;
         $user->password = Hash::make($request->password);
 
         $user->save();
+        
+    
 
         return redirect()->route('Admin.users')
-            ->with('success', 'usuario creado con éxito.');
+            ->with('success', 'Usuario creado con éxito.');
 
     }
 
@@ -161,12 +170,19 @@ return redirect()->route('Admin.users', ['id' => $usuarios->id])
     public function destroy($id)
     {
         $user = User::find($id);
-
-        $user->delete();
-
-        return redirect()->route('Admin.users')
+        if($user->estado == 0){
+            $user->delete();
+            return redirect()->route('Admin.users')
             ->with('success', 'Usuario eliminado con éxito');
+        }
+        else{
+            return redirect()->route('Admin.users')
+            ->with('error', 'El usuario solo se puede eliminar si está inactivo');
+        }
 
+        
+
+ 
     }
 
     public function index_pqrs()

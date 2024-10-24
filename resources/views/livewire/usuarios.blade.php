@@ -88,7 +88,7 @@
                                         @endif
                                     </th>
                                     <th scope="col" class="text-center">
-                                        Correo
+                                        Correo electrónico
                                     </th>
                                     <th scope="col" class="text-center">
                                         Rol
@@ -124,7 +124,7 @@
                                     <td class="text-center"> {{ ($usuarios->currentPage() - 1) * $usuarios->perPage() + $loop->iteration }}</td>
                                     <td class="text-center">{{ $user->name }}</td>
                                     <td class="text-center">{{ $user->email }}</td>
-                                    <td class="text-center">{{ $user->id_rol }}</td>
+                                    <td class="text-center">{{ $user->Role->nombre }}</td>
                                     <td class="text-center">
                                         <a class="btn btn-sm btn-warning" href="{{ route('Admin.users.edit', ['id' => $user->id]) }}">
                                             <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>

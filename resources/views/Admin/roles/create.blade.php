@@ -9,7 +9,7 @@
 
 
 
-<h2 class="text-center mb-5">CREAR UN NUEVO ROL</h2>
+<h2 class="text-center mb-5">Crear un nuevo rol</h2>
     
 
     <div class="row justify-content-center mt-5">
@@ -28,8 +28,8 @@
                 </div>
 
                 <div class="form-group">
-                    <input type="button" class="btn btn-primary" value="agregar rol" onclick="agregar()">
-                    <a href="{{ route('Admin.roles') }}" class="btn btn-primary ">Volver</a>
+                    <input type="button" class="btn btn-primary" value="Agregar rol" onclick="agregar()">
+                    <a href="{{ route('Admin.permisos_rol') }}" class="btn btn-primary ">Volver</a>
                 </div>
 
 
@@ -38,6 +38,23 @@
     </div> 
 <script>
 function agregar() {
+
+    var nombre = document.getElementById('nombre').value;
+    var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+
+    if (!nombre) {
+        Swal.fire('Error', 'Ingresa un nombre para el rol', 'error');
+        return false;
+     
+    } else if (!regex.test(nombre)) {
+        Swal.fire('Error', 'Solo se aceptan letras en el nombre', 'error');
+        return false;
+    } else if (nombre.length > 20) {
+        Swal.fire('Error', 'El nombre es demasiado largo, Máximo 20 caracteres', 'error');
+        return false;
+    
+    }
+
     Swal.fire({
         title: "¡Estas seguro!",
         text: "¿Deseas agregar este rol?",

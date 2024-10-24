@@ -330,12 +330,7 @@ return [
                     'icon' => 'fas fa-fw fa-user',
                 ],
                 [
-                    'text' => 'Roles',
-                    'url' => '/admin/roles',
-                    'icon' => 'fas fa-fw fa-user-shield',
-                ],
-                [
-                    'text' => 'Asignar permisos',
+                    'text' => 'Roles y permisos',
                     'url' => '/admin/permisos_rol',
                     'icon' => 'fas fa-fw fa-key',
                 ],

@@ -60,6 +60,37 @@
 
 </head>
 <body>
+    @php
+    if(auth()->check()) {
+        $user = auth()->user();
+
+        // Obtener los permisos asociados al rol del usuario
+        $permisos_usuario = DB::table('permisos_rol')
+                            ->where('id_rol', $user->id_rol)
+                            ->pluck('id_permiso')
+                            ->toArray();
+
+        // Obtener los IDs de los permisos específicos
+        $permiso_roles_id = DB::table('permisos')->where('nombre', 'roles')->value('id');
+        $permiso_usuarios_id = DB::table('permisos')->where('nombre', 'usuarios')->value('id');
+        $permiso_dashboard_id = DB::table('permisos')->where('nombre', 'dashboard')->value('id');
+        $permiso_pedidos_id = DB::table('permisos')->where('nombre', 'pedidos')->value('id');
+        $permiso_proveedores_id = DB::table('permisos')->where('nombre', 'proveedores')->value('id');
+        $permiso_categorias_productos_id = DB::table('permisos')->where('nombre', 'categorias_productos')->value('id');
+        $permiso_categoria_insumos_id = DB::table('permisos')->where('nombre', 'categoria_insumos')->value('id');
+        $permiso_insumos_id = DB::table('permisos')->where('nombre', 'insumos')->value('id');
+        $permiso_productos_id = DB::table('permisos')->where('nombre', 'productos')->value('id');
+        $permiso_compras_id = DB::table('permisos')->where('nombre', 'compras')->value('id');
+        $permiso_detalle_venta_id = DB::table('permisos')->where('nombre', 'detalle_venta')->value('id');
+        $permiso_pedidos_id = DB::table('permisos')->where('nombre', 'pedidos')->value('id');
+        $permiso_pqrs_id = DB::table('permisos')->where('nombre', 'pqrs')->value('id');
+        
+        // Depuración para ver los permisos que tiene el rol actual
+        //dd($permisos_usuario);  // Esto mostrará en pantalla los permisos del usuario actual.
+    }
+@endphp
+
+
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
@@ -136,32 +167,53 @@
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                @if (Auth::user()->id_rol == 1) 
-                                    <a class="dropdown-item" href="{{ route('perfilUser') }}">
-                                        {{ __('Perfil') }}
-                                    </a>
-                                    <a class="dropdown-item" href="{{ route('dashboard.index') }}">
-                                        {{ __('Panel de administrador') }}
-                                    </a>
-                                @elseif (Auth::user()->id_rol == 2) 
-                                    <a class="dropdown-item" href="{{ route('perfilUser') }}">
-                                        {{ __('Perfil') }}
-                                    </a>
-                                @elseif (Auth::user()->id_rol == 3) 
                                 <a class="dropdown-item" href="{{ route('perfilUser') }}">
                                     {{ __('Perfil') }}
                                 </a>
-                                <a class="dropdown-item" href="{{ route('dashboard.index') }}">
-                                    {{ __('Panel de manager') }}
-                                </a>
-                                @elseif (Auth::user()->id_rol == 4) 
-                                <a class="dropdown-item" href="{{ route('perfilUser') }}">
-                                    {{ __('Perfil') }}
-                                </a>
-                                <a class="dropdown-item" href="{{ route('dashboard.index') }}">
-                                    {{ __('Panel de repartidor') }}
-                                </a>
+
+                                <!-- Dropdown de permisos solo si tiene permisos -->
+                                @if(auth()->check() && (in_array($permiso_roles_id, $permisos_usuario) || in_array($permiso_usuarios_id, $permisos_usuario) || in_array($permiso_dashboard_id, $permisos_usuario) || in_array($permiso_pedidos_id, $permisos_usuario) || in_array($permiso_proveedores_id, $permisos_usuario) || in_array($permiso_categorias_productos_id, $permisos_usuario) || in_array($permiso_categoria_insumos_id, $permisos_usuario) || in_array($permiso_insumos_id, $permisos_usuario) || in_array($permiso_productos_id, $permisos_usuario) || in_array($permiso_compras_id, $permisos_usuario) || in_array($permiso_detalle_venta_id, $permisos_usuario) || in_array($permiso_pedidos_id, $permisos_usuario) || in_array($permiso_pqrs_id, $permisos_usuario)))
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Gestión
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            @if(in_array($permiso_dashboard_id, $permisos_usuario))
+                                <a class="dropdown-item" href="{{ route('dashboard.index') }}">Gestionar dashboard</a>
+                            @endif
+                            @if(in_array($permiso_usuarios_id, $permisos_usuario))
+                                <a class="dropdown-item" href="{{ route('Admin.users') }}">Gestionar usuarios</a>
+                            @endif
+                                            @if(in_array($permiso_roles_id, $permisos_usuario))
+                                <a class="dropdown-item" href="{{ route('Admin.permisos_rol') }}">Gestionar roles</a>
+                            @endif
+                            
+                            
+                            @if(in_array($permiso_proveedores_id, $permisos_usuario))
+                                <a class="dropdown-item" href="{{ route('Admin.proveedores') }}">Gestionar proveedores</a>
+                            @endif
+                            @if(in_array($permiso_categoria_insumos_id, $permisos_usuario))
+                                <a class="dropdown-item" href="{{ route('Admin.categoria_insumo') }}">Gestionar Categotía de insumos</a>
+                            @endif
+                            @if(in_array($permiso_insumos_id, $permisos_usuario))
+                                <a class="dropdown-item" href="{{ route('Admin.insumo') }}">Gestionar insumos</a>
+                            @endif
+                            @if(in_array($permiso_compras_id, $permisos_usuario))
+                                <a class="dropdown-item" href="{{ route('Admin.compra.index') }}">Gestionar compras</a>
+                            @endif
+                            @if(in_array($permiso_productos_id, $permisos_usuario))
+                                <a class="dropdown-item" href="{{ route('Admin.productos') }}">Gestionar productos</a>
+                            @endif
+                            @if(in_array($permiso_pedidos_id, $permisos_usuario))
+                                <a class="dropdown-item" href="{{ route('pedidos') }}">Gestionar pedidos</a>
+                            @endif
+                            @if(in_array($permiso_detalle_venta_id, $permisos_usuario))
+                                <a class="dropdown-item" href="{{ route('detalles') }}">Gestionar detalle de venta</a>
+                            @endif
+                                        </div>
+                                    </li>
                                 @endif
+
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Cerrar sesión') }}

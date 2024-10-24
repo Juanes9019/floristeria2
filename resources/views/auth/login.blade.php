@@ -65,7 +65,7 @@
                                             <br>
                                             @if (Route::has('password.request'))
                                                 <a href="{{ route('password.request') }}">
-                                                    {{ __('Olvidaste tu contraseña?') }}
+                                                    {{ __('¿Olvidaste tu contraseña?') }}
                                                 </a>
                                             @endif
                                         </form>

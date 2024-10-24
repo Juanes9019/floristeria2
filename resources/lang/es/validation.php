@@ -109,7 +109,7 @@ return [
     'starts_with'          => 'El :attribute debe comenzar con uno de los siguientes valores: :values.',
     'string'               => 'El :attribute debe ser una cadena de caracteres.',
     'timezone'             => 'El :attribute debe ser una zona horaria válida.',
-    'unique'               => 'El :attribute ya ha sido reigstrado antes.',
+    'unique'               => 'El :attribute ya ha sido registrado antes.',
     'uploaded'             => 'El :attribute no se pudo subir.',
     'url'                  => 'El formato de :attribute no es válido.',
     'uuid'                 => 'El :attribute debe ser un UUID válido.',

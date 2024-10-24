@@ -28,7 +28,7 @@
 
                 <div class="form-group">
                     <input type="button" class="btn btn-primary" value="Editar Rol" onclick="editar()">
-                    <a href="{{ route('Admin.roles') }}" class="btn btn-primary ">Volver</a>
+                    <a href="{{ route('Admin.permisos_rol') }}" class="btn btn-primary ">Volver</a>
                 </div>
             </form>
         </div>

@@ -80,7 +80,7 @@ class RolesController extends Controller
             if ($result) {
                 // Log para verificar que intentó redirigir
                 Log::info('Intentando redireccionar');
-                return redirect()->route('Admin.roles');
+                return redirect()->route('Admin.permisos_rol');
             } else {
                 dd('Error al insertar en la base de datos');
             }
@@ -137,7 +137,7 @@ class RolesController extends Controller
     $rol->save();
 
     // Redirecciona a la vista de edición con un mensaje de éxito
-    return redirect()->route('Admin.roles', ['id' => $rol->id])
+    return redirect()->route('Admin.permisos_rol', ['id' => $rol->id])
         ->with('success', 'rol actualizado exitosamente');
 }
 
@@ -151,14 +151,14 @@ class RolesController extends Controller
 
         if ($rol) {
             $rol->delete();
-            return redirect()->route("Admin.roles")->with('success', 'Rol eliminado exitosamente');
+            return redirect()->route("Admin.permisos_rol")->with('success', 'Rol eliminado exitosamente');
         } else {
-            return redirect()->route("Admin.roles")->with('error', 'No se pudo encontrar la rol');
+            return redirect()->route("Admin.permisos_rol")->with('error', 'No se pudo encontrar la rol');
         }
     } catch (\Exception $e) {
         // Captura cualquier error que ocurra durante la eliminación
         
-        return redirect()->route("Admin.roles")->with('error', 'No se pudo borrar el registro. Es posible que esté siendo utilizado en otra parte del sistema.');
+        return redirect()->route("Admin.permisos_rol")->with('error', 'No se pudo borrar el registro. Es posible que esté siendo utilizado en otra parte del sistema.');
     }
 }
 
@@ -166,6 +166,22 @@ class RolesController extends Controller
 
 public function permisos_rol()
 {
+    $user = auth()->user();
+    
+        // Verificar si el usuario tiene permiso para ver la vista de roles
+        $permiso = DB::table('permisos')
+                    ->where('nombre', 'roles')
+                    ->first();
+                    
+        $tienePermiso = DB::table('permisos_rol')
+                        ->where('id_rol', $user->id_rol)
+                        ->where('id_permiso', $permiso->id)
+                        ->exists();
+        
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+
     $roles = Roles::with('permisos')->get(); // Relación 'permisos' debe existir en tu modelo Roles.
     $todos_los_permisos = Permiso::all(); // Obtén todos los permisos para los checkboxes.
 
@@ -174,12 +190,27 @@ public function permisos_rol()
 
 public function update_permiso_rol(Request $request, $id)
 {
+    // Validaciones
+    $request->validate([
+        'nombre_rol' => 'required|string|max:255',
+        // Puedes omitir la validación de permisos si quieres permitir que no se envíen
+        // 'permisos' => 'array', // Asegúrate de que se envían permisos
+    ]);
+
+    // Encuentra el rol
     $role = Roles::findOrFail($id);
 
-    // Actualiza los permisos
-    $role->permisos()->sync($request->input('permisos', [])); // Actualiza los permisos asignados al rol
+    // Actualiza el nombre del rol
+    $role->nombre = $request->input('nombre_rol');
+    $role->save();
 
-    return redirect()->back()->with('success', 'Permisos actualizados correctamente.');
+    // Actualiza los permisos asociados al rol
+    // Utiliza un array vacío si no se envían permisos
+    $permisos = $request->input('permisos', []);
+    $role->permisos()->sync($permisos); // Esto ahora actualizará correctamente los permisos
+
+    return redirect()->route('Admin.permisos_rol')->with('success', 'Rol y permisos actualizados correctamente.');
 }
+
 
 }
