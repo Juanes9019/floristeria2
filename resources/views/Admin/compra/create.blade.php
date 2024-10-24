@@ -8,7 +8,7 @@
 
 <h2 class="text-center mb-5">Crear una compra</h2>
 
-<div class="row justify-content-center mt-5">
+<div class="w-75 mx-auto row justify-content-center mt-5">
     <div class="col-md-8">
         <form id="formulario_crear" method="POST" action="{{ route('Admin.compra.store') }}" novalidate>
             @csrf

@@ -15,6 +15,7 @@ class ProveedoresTable extends Component
     public $ordenarColumna = 'id';
     public $ordenarForma = 'asc';
     public $primeraCarga = true;
+    public $modal= false;
 
     protected $queryString = [
         'buscar' => ['except' => ''],
@@ -55,5 +56,13 @@ class ProveedoresTable extends Component
                 ->orderBy($this->ordenarColumna, $this->ordenarForma)
                 ->paginate($this->porPagina)
         ]);
+    }
+
+    public function openmodal(){
+        $this-> modal=true;
+    }
+    
+    public function closemodal(){
+        $this -> modal = false;
     }
 }
