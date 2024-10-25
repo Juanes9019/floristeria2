@@ -29,36 +29,33 @@
 
                     <!-- Botón para abrir el modal de agregar insumos -->
                     <div class="d-flex justify-content-between mb-4">
-                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#insumoModal">
-                            <i class="fas fa-box-open"></i> Agregar producto
-                        </button>
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#insumoModal"><i class="fas fa-box-open"></i> Agregar producto</button>
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_producto"><i class="fas fa-edit"></i> Personalizar producto predeterminado</button>
                     </div>
 
                     <!-- Mostrar insumos seleccionados -->
                     <div class="card mt-4">
                         <div class="card-header text-black" style="background-color: #FFB6C1;">Insumos seleccionados:</div>
                         <div class="card-body">
-                            @if(session('insumosSeleccionados'))
-                                <ul class="list-group">
-                                    @foreach(session('insumosSeleccionados') as $key => $insumo)
+                        @if(session('insumosPersonalizados'))
+                            <ul class="list-group">
+                                @foreach(session('insumosPersonalizados') as $key => $personalizado)
                                     <li class="list-group-item d-flex justify-content-between align-items-center">
                                         <div>
-                                            <strong>{{ $insumo['nombre'] }}</strong> - Cantidad: {{ $insumo['cantidad'] }}
+                                            <strong>{{ $personalizado['nombre_producto'] }} - Insumo: {{ $personalizado['nombre_insumo'] }}</strong> - Cantidad: {{ $personalizado['cantidad'] }}
                                         </div>
-                                        <div class="btn-group" role="group" aria-label="Acciones">
-                                            <div class="me-2">
-                                                <form action="{{ route('actualizar_producto', $key) }}" method="POST" style="display: inline;">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <button type="submit" name="action" value="decrementar" class="btn btn-outline-primary btn-sm">
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <button type="submit" name="action" value="incrementar" class="btn btn-outline-primary btn-sm">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                            <form action="{{ route('eliminar_producto', $key) }}" method="POST" style="display: inline;">
+                                        <div class="btn-group" role="group">
+                                            <form action="{{ route('actualizar_producto', $key) }}" method="POST">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" name="action" value="incrementar" class="btn btn-outline-primary btn-sm">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                                <button type="submit" name="action" value="decrementar" class="btn btn-outline-primary btn-sm">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('eliminar_producto', $key) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-outline-danger btn-sm">
@@ -67,11 +64,9 @@
                                             </form>
                                         </div>
                                     </li>
-                                    @endforeach
-                                </ul>
-                            @else
-                                <p>No hay insumos seleccionados</p>
-                            @endif
+                                @endforeach
+                            </ul>
+                        @endif
                         </div>
                     </div>
 
@@ -149,8 +144,108 @@
 </div>
 
 
+<!-- Modal para agregar insumos -->
+<div class="modal fade" id="modal_producto" tabindex="-1" aria-labelledby="productoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productoModalLabel">Seleccionar producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <form action="{{ route('agregar_producto') }}" method="POST">
+                            @csrf
+                            <label for="id_producto">Selecciona el producto que desea:</label>
+                            <select id="id_producto" name="id_producto" class="form-select">
+                                <option value="">Selecciona el producto</option>
+                                @foreach($productos as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                @endforeach
+                            </select>
+
+                            <label for="id_insumo">Selecciona el insumo:</label>
+                            <select id="id_insumo" name="id_insumo" class="form-select">
+                                <option value="">Selecciona el insumo</option>
+                                @foreach($insumos as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nombre }}</option>
+                                @endforeach
+                            </select>
+
+                            <label for="cantidad" class="mt-3">Cantidad:</label>
+                            <input type="number" id="cantidad" name="cantidad" class="form-control" min="1" value="1">
+
+                            <!-- Botón de envío -->
+                            <button type="submit" class="btn btn-primary mt-3">Agregar Producto modificado</button>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="imagen-producto-container" class="text-center" style="max-width: 200px; margin: auto;">
+                            <img id="imagen-producto" src="ruta/default.jpg" alt="imagen producto" class="img-fluid" style="display: block;">
+                        </div>
+
+                        <div id="descripcion-producto" class="mt-3">
+                            <p>Por favor selecciona un producto para ver más detalles.</p>
+                        </div>
+                        <div id="precio-producto" class="mt-3">
+                            <p><strong>Precio:</strong> $0.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
+   document.addEventListener('DOMContentLoaded', function() {
+    const selectProducto = document.getElementById('id_producto');
+    const imagenProducto = document.getElementById('imagen-producto');
+    const descripcionProducto = document.getElementById('descripcion-producto');
+    const precioProducto = document.getElementById('precio-producto');
+
+    // Asume que los datos de productos son generados en tu backend y están disponibles aquí
+    const productosData = @json($productos);
+
+    selectProducto.addEventListener('change', function() {
+        const productoId = this.value;
+
+        if (productoId) {
+            // Busca el producto correspondiente al ID seleccionado
+            const selectedProducto = productosData.find(producto => producto.id == productoId);
+
+            if (selectedProducto) {
+                // Actualiza la imagen del producto
+                imagenProducto.src = selectedProducto.foto || 'ruta/default.jpg';
+
+                // Actualiza la descripción
+                descripcionProducto.innerHTML = `
+                    <h5>${selectedProducto.nombre}</h5>
+                    <p>${selectedProducto.descripcion || 'Descripción no disponible'}</p>
+                `;
+
+                // Actualiza el precio
+                precioProducto.innerHTML = `<p><strong>Precio:</strong> $${parseFloat(selectedProducto.precio).toFixed(2)}</p>`;
+            } else {
+                // Mensaje de producto no encontrado
+                descripcionProducto.innerHTML = '<p>No se encontró el producto seleccionado.</p>';
+                precioProducto.innerHTML = '<p><strong>Precio:</strong> $0.00</p>';
+            }
+        } else {
+            // Restablece si no hay selección
+            imagenProducto.src = 'ruta/default.jpg';
+            descripcionProducto.innerHTML = '<p>Por favor selecciona un producto para ver más detalles.</p>';
+            precioProducto.innerHTML = '<p><strong>Precio:</strong> $0.00</p>';
+        }
+    });
+});
 
 </script>
+
+
+
+
 
 @endsection
