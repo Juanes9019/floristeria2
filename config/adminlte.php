@@ -288,125 +288,141 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Menu-Configuration
     |
     */
+    
 
     'menu' => [
-        // Navbar items:
-        // [
-        //     'type' => 'navbar-search',
-        //     'text' => 'search',
-        //     'topnav_right' => true,
-        // ],
-        [
-            'type' => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
+    // Navbar items:
+    // [
+    //     'type' => 'navbar-search',
+    //     'text' => 'search',
+    //     'topnav_right' => true,
+    // ],
 
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'Buscar',
-        ],
+    [
+        'type' => 'fullscreen-widget',
+        'topnav_right' => true,
+    ],
 
-        ['header' => 'GESTIÓN DE ESTADÍSTICAS'],
-        [
-            'text' => 'Estadísticas',
-            'icon' => 'fas fa-chart-line',
-            'submenu' => [
-                [
-                    'text' => 'Dashboard',
-                    'url' => 'admin/dashboard',
-                    'icon' => 'fas fa-fw fa-chart-line',
-                ],
+    [
+        'type' => 'sidebar-menu-search',
+        'text' => 'Buscar',
+    ],
+
+    ['header' => 'GESTIÓN DE ESTADÍSTICAS'],
+    [
+        'text' => 'Estadísticas',
+        'icon' => 'fas fa-chart-line',
+        'submenu' => [
+            [
+                'text' => 'Dashboard',
+                'url' => 'admin/dashboard',
+                'icon' => 'fas fa-fw fa-chart-line',
+                'can' => 'view-dashboard', // Verifica el permiso
             ],
-        ],
-
-        ['header' => 'GESTIÓN DE USUARIOS'],
-        [
-            'text' => 'Usuarios y Roles',
-            'icon' => 'fas fa-users-cog',
-            'submenu' => [
-                [
-                    'text' => 'Usuarios',
-                    'url' => '/admin/users',
-                    'icon' => 'fas fa-fw fa-user',
-                ],
-                [
-                    'text' => 'Roles y permisos',
-                    'url' => '/admin/permisos_rol',
-                    'icon' => 'fas fa-fw fa-key',
-                ],
-                [
-                    'text' => 'PQRS',
-                    'url' => 'admin/users/pqrs',
-                    'icon' => 'fas fa-fw fa-comments',
-                ],
-            ],
-        ],
-
-        ['header' => 'GESTIÓN DE COMPRA'],
-        [
-            'text' => 'Compras',
-            'icon' => 'fas fa-shopping-basket',
-            'submenu' => [
-                [
-                    'text' => 'Proveedores',
-                    'url' => '/admin/proveedores',
-                    'icon' => 'fas fa-fw fa-building',
-                ],
-                [
-                    'text' => 'Categoría Insumos',
-                    'url' => 'admin/categoria_insumo',
-                    'icon' => 'fas fa-fw fa-list',
-                ],
-                [
-                    'text' => 'Insumos',
-                    'url' => 'admin/insumo',
-                    'icon' => 'fas fa-box',
-                ],
-                [
-                    'text' => 'Compras',
-                    'url' => 'admin/compras',
-                    'icon' => 'fas fa-fw fa-shopping-bag',
-                ],
-            ],
-        ],
-
-        ['header' => 'GESTIÓN DE TIENDA'],
-        [
-            'text' => 'Ventas',
-            'icon' => 'fas fa-cash-register', // Caja registradora
-            'submenu' => [
-                [
-                    'text' => 'Categorias',
-                    'url' => 'admin/categoria',
-                    'icon' => 'fas fa-fw fa-list',
-                ],
-                [
-                    'text' => 'Generar Producto',
-                    'url' => 'admin/insumo_producto',
-                    'icon' => 'fas fa-fw fa-plus',
-                    'label_color' => 'success', 
-                ],
-                [
-                    'text' => 'Productos',
-                    'url' => 'admin/productos',
-                    'icon' => 'fas fa-fw fa-store-alt',            
-                    'label_color' => 'primary',
-                ],
-                [
-                    'text' => 'Pedidos',
-                    'url' => 'admin/pedido',
-                    'icon' => 'fas fa-shopping-cart', 
-                    'label_color' => 'primary',
-                ],
-                [
-                    'text' => 'Detalle venta',
-                    'url' => 'admin/detalle',
-                    'icon' => 'fas fa-file-alt', 
-                    'label_color' => 'warning',
-                ],
-            ], 
         ],
     ],
+
+    ['header' => 'GESTIÓN DE USUARIOS'],
+    [
+        'text' => 'Usuarios y Roles',
+        'icon' => 'fas fa-users-cog',
+        'submenu' => [
+            [
+                'text' => 'Usuarios',
+                'url' => '/admin/users',
+                'icon' => 'fas fa-fw fa-user',
+                'can' => 'view-users', // Verifica el permiso
+            ],
+            [
+                'text' => 'Roles y permisos',
+                'url' => '/admin/permisos_rol',
+                'icon' => 'fas fa-fw fa-key',
+                'can' => 'view-roles', // Verifica el permiso
+            ],
+            [
+                'text' => 'PQRS',
+                'url' => 'admin/users/pqrs',
+                'icon' => 'fas fa-fw fa-comments',
+                'can' => 'view-pqrs', // Verifica el permiso
+            ],
+        ],
+    ],
+
+    ['header' => 'GESTIÓN DE COMPRA'],
+    [
+        'text' => 'Compras',
+        'icon' => 'fas fa-shopping-basket',
+        'submenu' => [
+            [
+                'text' => 'Proveedores',
+                'url' => '/admin/proveedores',
+                'icon' => 'fas fa-fw fa-building',
+                'can' => 'view-providers', // Verifica el permiso
+            ],
+            [
+                'text' => 'Categoría Insumos',
+                'url' => 'admin/categoria_insumo',
+                'icon' => 'fas fa-fw fa-list',
+                'can' => 'view-insumo-categories', // Verifica el permiso
+            ],
+            [
+                'text' => 'Insumos',
+                'url' => 'admin/insumo',
+                'icon' => 'fas fa-box',
+                'can' => 'view-insumos', // Verifica el permiso
+            ],
+            [
+                'text' => 'Compras',
+                'url' => 'admin/compras',
+                'icon' => 'fas fa-fw fa-shopping-bag',
+                'can' => 'view-purchases', // Verifica el permiso
+            ],
+        ],
+    ],
+
+    ['header' => 'GESTIÓN DE TIENDA'],
+    [
+        'text' => 'Ventas',
+        'icon' => 'fas fa-cash-register',
+        'submenu' => [
+            [
+                'text' => 'Categorias',
+                'url' => 'admin/categoria',
+                'icon' => 'fas fa-fw fa-list',
+                'can' => 'view-product-categories', // Verifica el permiso
+            ],
+            [
+                'text' => 'Generar Producto',
+                'url' => 'admin/insumo_producto',
+                'icon' => 'fas fa-fw fa-plus',
+                'label_color' => 'success', 
+                'can' => 'view-products', // Verifica el permiso
+            ],
+            [
+                'text' => 'Productos',
+                'url' => 'admin/productos',
+                'icon' => 'fas fa-fw fa-store-alt',            
+                'label_color' => 'primary',
+                'can' => 'view-products', // Verifica el permiso
+            ],
+            [
+                'text' => 'Pedidos',
+                'url' => 'admin/pedido',
+                'icon' => 'fas fa-shopping-cart', 
+                'label_color' => 'primary',
+                'can' => 'view-orders', // Verifica el permiso
+            ],
+            [
+                'text' => 'Detalle venta',
+                'url' => 'admin/detalle',
+                'icon' => 'fas fa-file-alt', 
+                'label_color' => 'warning',
+                'can' => 'view-sales-detail', // Verifica el permiso
+            ],
+        ], 
+    ],
+],
+
     /*
     |--------------------------------------------------------------------------
     | Menu Filters

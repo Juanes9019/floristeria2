@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -67,4 +67,17 @@ class User extends Authenticatable
         $query->where('name', 'like', "%{$value}%")
                      ->orWhere('email', 'like', "%{$value}%");
     }
+
+    public function hasPermission($permission)
+{
+    $permisos_usuario = DB::table('permisos_rol')
+        ->where('id_rol', $this->id_rol)
+        ->pluck('id_permiso')
+        ->toArray();
+
+    // Supongamos que el nombre de tu permiso se corresponde con su ID
+    $permiso_id = DB::table('permisos')->where('nombre', $permission)->value('id');
+
+    return in_array($permiso_id, $permisos_usuario);
+}
 }
