@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Correo</label>
+                    <label for="email">Correo electrónico</label>
                     <input type="text" name="email" class="form-control  @error('email') is-invalid  @enderror" id="email" placeholder="floristeria@correo.com" value="{{ old('email', $usuarios->email) }}">
 
                     @error('email')

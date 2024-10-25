@@ -61,14 +61,15 @@
                                         </tr>
 
                                         <!-- Modal -->
-<div class="modal fade" id="respuestaModal{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="respuestaModalLabel{{ $role->id }}" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="respuestaModalLabel{{ $role->id }}">Permisos para {{ $role->nombre }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                                        @foreach($roles as $role)
+                                        <div class="modal fade" id="respuestaModal{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="respuestaModalLabel{{ $role->id }}" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="respuestaModalLabel{{ $role->id }}">Permisos para {{ $role->nombre }}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
             </div>
             <div class="modal-body">
                 <form action="{{ route('permisos.update', ['id' => $role->id]) }}" method="post">
@@ -99,6 +100,7 @@
         </div>
     </div>
 </div>
+@endforeach
 
                                     @endforeach
                                 </tbody>
@@ -151,5 +153,17 @@
         });
     </script>
 @endif
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Verificar si hay un nuevo rol creado en la sesión
+        @if(session('new_role_id'))
+            console.log('Sesión contiene new_role_id: {{ session('new_role_id') }}'); // Mensaje de depuración
+            $('#respuestaModal{{ session('new_role_id') }}').modal('show'); // Mostrar modal del rol recién creado
+        @else
+            console.log('No se encontró new_role_id en la sesión.');
+        @endif
+    });
+</script>
 @stop

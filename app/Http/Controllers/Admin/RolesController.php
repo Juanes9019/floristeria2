@@ -62,36 +62,26 @@ class RolesController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        // Validación de los datos del formulario
-        $data = $request->validate([
-            'nombre' => 'required',
+{
+    // Validación de los datos del formulario
+    $data = $request->validate([
+        'nombre' => 'required|unique:roles,nombre',
+    ]);
+
+    try {
+        // Insertar el rol y obtener el ID del nuevo rol
+        $rol_id = DB::table('roles')->insertGetId([
+            'nombre' => $data['nombre'],
         ]);
-    
-        // Intentar insertar en la base de datos
-        try {
-            $result = DB::table('roles')->insert([
-                'nombre' => $data['nombre'],
-            ]);
-    
-            // Log del resultado de la inserción
-            Log::info('Resultado de la inserción: ' . ($result ? 'Éxito' : 'Fallo'));
-    
-            if ($result) {
-                // Log para verificar que intentó redirigir
-                Log::info('Intentando redireccionar');
-                return redirect()->route('Admin.permisos_rol');
-            } else {
-                dd('Error al insertar en la base de datos');
-            }
-        } catch (\Exception $e) {
-            // Log del error
-            Log::error('Error al insertar en la base de datos: ' . $e->getMessage());
-        
-            // Imprimir el mensaje de la excepción para obtener más detalles
-            dd('Error al insertar en la base de datos: ' . $e->getMessage());
-        }
+
+        // Redirigir a la página de permisos con el nuevo rol_id en la sesión
+        return redirect()->route('Admin.permisos_rol')->with('new_role_id', $rol_id);
+    } catch (\Exception $e) {
+        Log::error('Error al insertar en la base de datos: ' . $e->getMessage());
+        return back()->with('error', 'Error al insertar el rol');
     }
+}
+
 
     /**
      * Show the form for editing the specified resource.
@@ -129,7 +119,7 @@ class RolesController extends Controller
 
     // Validaciones y lógica de actualización
     $request->validate([
-        'nombre' => 'required|min:5',
+        'nombre' => 'required|min:5|unique:roles,nombre',
     ]);
 
     // Actualiza los campos de la rol utilizando el método save
