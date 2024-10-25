@@ -377,7 +377,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Categorias',
-                    'url' => 'admin/categoria',
+                    'url' => 'admin/categorias_productos',
                     'icon' => 'fas fa-fw fa-list',
                 ],
                 [

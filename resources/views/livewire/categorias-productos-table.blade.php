@@ -1,4 +1,5 @@
 <div class="container-fluid">
+    
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
@@ -108,7 +109,7 @@
                                         </svg>
                                         @endif
                                     </th>
-                                    <th scope="col" class="text-center"></th>
+                                    
                                     <th scope="col" class="text-center">Acciones</th>
                                     <th scope="col" class="text-center"></th>
                                 </tr>
@@ -118,7 +119,20 @@
                                 <tr>
                                     <td class="text-center"> {{ ($categorias_productos->currentPage() - 1) * $categorias_productos->perPage() + $loop->iteration }} </td>
                                     <td class="text-center">{{ $categoria_producto->nombre }}</td>
-                                    <td class="text-center">{{ $categoria_producto->estado == 1 ? 'Activo' : 'Inactivo' }}</td>
+                                    <td>
+                                        <a class="btn btn-sm {{ $categoria_producto->estado == 1 ? 'btn-success' : 'btn-danger' }}"
+                                            wire:click="changeStatus({{ $categoria_producto->id_categoria_producto }})"
+                                            wire:loading.attr="disabled"
+                                            wire:target="changeStatus({{ $categoria_producto->id_categoria_producto }})"
+                                            style="cursor: pointer;">
+                                            {{ $categoria_producto->estado == 1 ? 'Activo' : 'Inactivo' }}
+                                            <i class="fas fa-toggle-{{ $categoria_producto->estado == 1 ? 'on' : 'off' }}"></i>
+                                        </a>
+
+                                        <div wire:loading wire:target="changeStatus({{ $categoria_producto->id_categoria_producto }})">
+                                            <span class="spinner-border spinner-border-sm"></span>
+                                        </div>
+                                    </td>
 
                                     <td class="text-center">
                                         <a class="btn btn-sm btn-success"
@@ -134,20 +148,8 @@
                                             </button>
                                         </form>
                                     </td>
-                                    <td>
-                                        <a class="btn btn-sm {{ $categoria_producto->estado == 1 ? 'btn-success' : 'btn-danger' }}"
-                                            wire:click="changeStatus({{ $categoria_producto->id_categoria_producto }})"
-                                            wire:loading.attr="disabled"
-                                            wire:target="changeStatus({{ $categoria_producto->id_categoria_producto }})"
-                                            style="cursor: pointer;">
-                                            {{ $categoria_producto->estado == 1 ? 'Activo' : 'Inactivo' }}
-                                            <i class="fas fa-toggle-{{ $categoria_producto->estado == 1 ? 'on' : 'off' }}"></i>
-                                        </a>
-
-                                        <div wire:loading wire:target="changeStatus({{ $categoria_producto->id_categoria_producto }})">
-                                            <span class="spinner-border spinner-border-sm"></span>
-                                        </div>
-                                    </td>
+                                    
+                                   
 
                                 </tr>
                                 @endforeach

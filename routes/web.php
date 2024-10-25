@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RolesController;
 use App\Http\Controllers\Admin\ProveedorController;
 use App\Http\Controllers\Admin\Categoria_insumoController;
+use App\Http\Controllers\Admin\CategoriaProductoController;
 use App\Http\Controllers\Admin\ProductoController;
 use App\Http\Controllers\Admin\pedidoController;
 use App\Http\Controllers\Admin\detalleController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Admin\DetalleCompraController;
 use App\Http\Controllers\Admin\inventarioController;
 use App\Http\Controllers\Admin\InsumoController;
 use App\Http\Controllers\Admin\GenerarProductoController;
+
 
 use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\InsumoProductoController;
@@ -153,12 +155,12 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
 
 
     //rutas para la categoria
-    Route::get('admin/categorias_productos', [CategoriaProducto::class, 'index'])->name('Admin.categorias_productos');
-    Route::get('admin/categoria_producto/create', [CategoriaProducto::class, 'create'])->name('Admin.categoria_producto.create');
-    Route::post('admin/categoria_producto', [CategoriaProducto::class, 'store'])->name('Admin.categoria_producto.store');
-    Route::get('admin/categoria_producto/{id}/edit', [CategoriaProducto::class, 'edit'])->name('Admin.categoria_producto.edit');
-    Route::put('admin/categoria_producto/{id}', [CategoriaProducto::class, 'update'])->name('Admin.categoria_producto.update');
-    Route::delete('admin/categoria_producto/{id}', [CategoriaProducto::class, 'destroy'])->name('Admin.categoria_producto.destroy');
+    Route::get('admin/categorias_productos', [CategoriaProductoController::class, 'index'])->name('Admin.categorias_productos');
+    Route::get('admin/categoria_producto/create', [CategoriaProductoController::class, 'create'])->name('Admin.categoria_producto.create');
+    Route::post('admin/categoria_producto', [CategoriaProductoController::class, 'store'])->name('Admin.categoria_producto.store');
+    Route::get('admin/categoria_producto/{id}/edit', [CategoriaProductoController::class, 'edit'])->name('Admin.categoria_producto.edit');
+    Route::put('admin/categoria_producto/{id}', [CategoriaProductoController::class, 'update'])->name('Admin.categoria_producto.update');
+    Route::delete('admin/categoria_producto/{id}', [CategoriaProductoController::class, 'destroy'])->name('Admin.categoria_producto.destroy');
     
    
     Route::get('admin/insumo_producto', [InsumoProductoController::class, 'index'])->name('Admin.insumo_producto');

@@ -4,7 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Categoria_Producto;
+use App\Models\CategoriaProducto;
 
 class CategoriasProductosTable extends Component
 {
@@ -43,7 +43,7 @@ class CategoriasProductosTable extends Component
 
     public function changeStatus($id)
     {
-        $proveedor = Categoria_Producto::find($id);
+        $proveedor = CategoriaProducto::find($id);
         $proveedor->estado = !$proveedor->estado;
         $proveedor->save();
     }
@@ -51,7 +51,7 @@ class CategoriasProductosTable extends Component
     public function render()
     {
         return view('livewire.categorias-productos-table', [
-            'categorias_productos' => Categoria_Producto::search($this->buscar)
+            'categorias_productos' => CategoriaProducto::search($this->buscar)
                 ->orderBy($this->ordenarColumna, $this->ordenarForma)
                 ->paginate($this->porPagina)
         ]);
