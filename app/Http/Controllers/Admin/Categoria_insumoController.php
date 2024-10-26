@@ -80,13 +80,11 @@ class Categoria_insumoController extends Controller
 
         $request->validate([
             'nombre' => 'required',
-            'id_proveedor' => 'required',
         ]);
 
 
         $categoria_insumos = new Categoria_insumo;
         $categoria_insumos->nombre = $request->nombre;
-        $categoria_insumos->id_proveedor = $request->input('id_proveedor');
         
         if ($request->has('estado')) {
             $categoria_insumos->estado = 1;
@@ -139,13 +137,10 @@ public function update(Request $request, $id)
     // Validaciones y lógica de actualización
     $request->validate([
         'nombre' => 'required',
-        'id_proveedor' => 'required',
-
     ]);
 
     // Asignación de los campos del usuario desde el formulario
     $categoria_insumos->nombre = $request->input('nombre');
-    $categoria_insumos->id_proveedor = $request->input('id_proveedor');
 
     if ($request->has('estado')) {
         $categoria_insumos->estado = $request->estado;

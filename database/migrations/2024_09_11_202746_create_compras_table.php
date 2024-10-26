@@ -13,6 +13,7 @@ class CreateComprasTable extends Migration
         $table->decimal('costo_total', 8, 2);    
         $table->timestamps();    
         $table->foreign('id_proveedor')->references('id')->on('proveedores')->onDelete('cascade');
+        $table->string('estado')->default('activa'); // O 'inactiva'
     });
 }
 
@@ -21,6 +22,8 @@ class CreateComprasTable extends Migration
         Schema::table('compras', function (Blueprint $table) {
             $table->dropForeign(['id_proveedor']);
             $table->dropColumn('id_proveedor');
+            $table->dropColumn('estado');
+
         });
     }
 }

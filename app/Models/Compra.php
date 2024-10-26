@@ -11,6 +11,7 @@ class Compra extends Model
     protected $fillable = [
         'id_proveedor',
         'costo_total',
+        'estado',
     ];
 
     protected $dates = ['created_at', 'updated_at']; // Asegúrate de que Laravel maneje estos campos como fechas
