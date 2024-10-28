@@ -150,7 +150,7 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
+    'layout_fixed_sidebar' => true,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
     'layout_dark_mode' => null,
@@ -317,7 +317,7 @@ return [
                 'text' => 'Dashboard',
                 'url' => 'admin/dashboard',
                 'icon' => 'fas fa-fw fa-chart-line',
-                'can' => 'view-dashboard', // Verifica el permiso
+                'can' => 'view-dashboard', 
             ],
         ],
     ],
@@ -331,19 +331,19 @@ return [
                 'text' => 'Usuarios',
                 'url' => '/admin/users',
                 'icon' => 'fas fa-fw fa-user',
-                'can' => 'view-users', // Verifica el permiso
+                'can' => 'view-users', 
             ],
             [
                 'text' => 'Roles y permisos',
                 'url' => '/admin/permisos_rol',
                 'icon' => 'fas fa-fw fa-key',
-                'can' => 'view-roles', // Verifica el permiso
+                'can' => 'view-roles', 
             ],
             [
                 'text' => 'PQRS',
                 'url' => 'admin/users/pqrs',
                 'icon' => 'fas fa-fw fa-comments',
-                'can' => 'view-pqrs', // Verifica el permiso
+                'can' => 'view-pqrs', 
             ],
         ],
     ],
@@ -357,25 +357,25 @@ return [
                 'text' => 'Proveedores',
                 'url' => '/admin/proveedores',
                 'icon' => 'fas fa-fw fa-building',
-                'can' => 'view-providers', // Verifica el permiso
+                'can' => 'view-providers', 
             ],
             [
                 'text' => 'Categoría Insumos',
                 'url' => 'admin/categoria_insumo',
                 'icon' => 'fas fa-fw fa-list',
-                'can' => 'view-insumo-categories', // Verifica el permiso
+                'can' => 'view-insumo-categories', 
             ],
             [
                 'text' => 'Insumos',
                 'url' => 'admin/insumo',
                 'icon' => 'fas fa-box',
-                'can' => 'view-insumos', // Verifica el permiso
+                'can' => 'view-insumos',
             ],
             [
                 'text' => 'Compras',
                 'url' => 'admin/compras',
                 'icon' => 'fas fa-fw fa-shopping-bag',
-                'can' => 'view-purchases', // Verifica el permiso
+                'can' => 'view-purchases', 
             ],
         ],
     ],
@@ -386,38 +386,38 @@ return [
         'icon' => 'fas fa-cash-register',
         'submenu' => [
             [
-                'text' => 'Categorias',
-                'url' => 'admin/categoria',
+                'text' => 'Categorias producto',
+                'url' => 'admin/categorias_productos',
                 'icon' => 'fas fa-fw fa-list',
-                'can' => 'view-product-categories', // Verifica el permiso
+                'can' => 'view-product-categories', 
             ],
             [
                 'text' => 'Generar Producto',
                 'url' => 'admin/insumo_producto',
                 'icon' => 'fas fa-fw fa-plus',
                 'label_color' => 'success', 
-                'can' => 'view-products', // Verifica el permiso
+                'can' => 'view-products', 
             ],
             [
                 'text' => 'Productos',
                 'url' => 'admin/productos',
                 'icon' => 'fas fa-fw fa-store-alt',            
                 'label_color' => 'primary',
-                'can' => 'view-products', // Verifica el permiso
+                'can' => 'view-products', 
             ],
             [
                 'text' => 'Pedidos',
                 'url' => 'admin/pedido',
                 'icon' => 'fas fa-shopping-cart', 
                 'label_color' => 'primary',
-                'can' => 'view-orders', // Verifica el permiso
+                'can' => 'view-orders', 
             ],
             [
                 'text' => 'Detalle venta',
                 'url' => 'admin/detalle',
                 'icon' => 'fas fa-file-alt', 
                 'label_color' => 'warning',
-                'can' => 'view-sales-detail', // Verifica el permiso
+                'can' => 'view-sales-detail', 
             ],
         ], 
     ],

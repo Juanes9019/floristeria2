@@ -76,7 +76,7 @@
 
                 <div class="form-group">
                     <button type="button" class="btn btn-warning" value="Editar proveedor" onclick="editar()">Editar Proveedor</button>
-                    <a href="{{ route('Admin.proveedores') }}" class="btn btn-danger ">Volver</a>
+                    <a href="{{ route('Admin.proveedores') }}" class="btn btn-danger ">Cancelar</a>
                 </div>
             </form>
         </div>

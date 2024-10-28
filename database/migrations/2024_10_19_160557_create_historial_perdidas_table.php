@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('historial_perdidas', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('insumo_id');  // Relacionar con la tabla de insumos
-            $table->integer('cantidad_perdida');      // Cantidad de insumo perdido
-            $table->timestamp('fecha_perdida');       // Fecha de la pérdida
+            $table->unsignedBigInteger('insumo_id');  
+            $table->integer('cantidad_perdida');    
+            $table->timestamp('fecha_perdida');     
             $table->timestamps();
     
             // Relaciones

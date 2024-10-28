@@ -51,7 +51,7 @@
             </div>
 
             <div class="form-group">
-                <a href="{{ route('Admin.compra.index') }}" class="btn btn-primary">Volver</a>
+                <a href="{{ route('Admin.compra.index') }}" class="btn btn-primary">Cancelar</a>
                 <input type="button" class="btn btn-primary" value="Agregar" onclick="agregarCarrito()">
                 <input type="button" class="btn btn-success" value="Finalizar" onclick="finalizarCompra()">
             </div>

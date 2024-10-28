@@ -111,16 +111,16 @@
                                             </a>
                                         </td>
                                         <td class="text-center">
-                                            <div class="btn-group" role="group" aria-label="Basic example">
-                                                <a class="btn btn-sm btn-success" href="{{ route('Admin.categoria_insumo.edit', ['id' => $cat->id]) }}">
-                                                    <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}
+                                            <div role="group" aria-label="Basic example">
+                                                <a class="px-3 mx-1 btn btn-sm btn-warning" href="{{ route('Admin.categoria_insumo.edit', ['id' => $cat->id]) }}">
+                                                    <i class="fa fa-fw fa-edit"></i> 
                                                 </a>
                                                 <form id="form_eliminar_{{ $cat->id }}" action="{{ route('Admin.categoria_insumo.destroy', ['id' => $cat->id]) }}" method="POST" style="display: inline;">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$cat->id}}','{{$cat->estado}}')">
-                                                        <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
-                                                    </button>
+                                                    <button type="button" class="px-3 mx-1 btn btn-danger btn-sm" onclick="eliminar('{{$cat->id}}','{{$cat->estado}}')">
+                                                        <i class="fa fa-fw fa-trash"></i> 
+                                                    </button>   
                                                 </form>
                                             </div>
                                         </td>

@@ -36,7 +36,7 @@
 
             <div class="form-group">
                 <button class="btn btn-warning" value="Editar categoria" onclick="editar()">Editar Categoría</button>
-                <a href="{{ route('Admin.categorias_productos') }}" class="btn btn-danger ">Volver</a>
+                <a href="{{ route('Admin.categorias_productos') }}" class="btn btn-danger ">Cancelar</a>
             </div>
         </form>
     </div>

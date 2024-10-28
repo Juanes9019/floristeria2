@@ -73,6 +73,7 @@
                                         </svg>
                                         @endif
                                     </th>
+
                                     <th scope="col" class="text-center" wire:click="sortBy('nombre')">
                                         Nombre
                                         @if ($ordenarColumna === 'nombre')
@@ -91,6 +92,7 @@
                                         </svg>
                                         @endif
                                     </th>
+                                    
                                     <th scope="col" class="text-center" wire:click="sortBy('estado')">
                                         Estado
                                         @if ($ordenarColumna === 'estado')
@@ -119,7 +121,7 @@
                                 <tr>
                                     <td class="text-center"> {{ ($categorias_productos->currentPage() - 1) * $categorias_productos->perPage() + $loop->iteration }} </td>
                                     <td class="text-center">{{ $categoria_producto->nombre }}</td>
-                                    <td>
+                                    <td class="text-center">
                                         <a class="btn btn-sm {{ $categoria_producto->estado == 1 ? 'btn-success' : 'btn-danger' }}"
                                             wire:click="changeStatus({{ $categoria_producto->id_categoria_producto }})"
                                             wire:loading.attr="disabled"
@@ -135,22 +137,20 @@
                                     </td>
 
                                     <td class="text-center">
-                                        <a class="btn btn-sm btn-success"
+                                        <a class="btn btn-sm btn-warning"
                                             href="{{ route('Admin.categoria_producto.edit', ['id' => $categoria_producto->id_categoria_producto]) }}"><i
-                                                class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
+                                                class="fa fa-fw fa-edit"></i></a>
                                     </td>
-                                    <td>
+                                    
+                                    <td class="text-center">
                                         <form id="form_eliminar_{{ $categoria_producto->id_categoria_producto }}" action="{{ route('Admin.categoria_producto.destroy', ['id' => $categoria_producto->id_categoria_producto]) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$categoria_producto->id_categoria_producto}}','{{$categoria_producto->estado}}')">
-                                                <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
+                                                <i class="fa fa-fw fa-trash"></i>
                                             </button>
                                         </form>
                                     </td>
-                                    
-                                   
-
                                 </tr>
                                 @endforeach
                             </tbody>

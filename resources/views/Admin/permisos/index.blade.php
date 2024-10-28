@@ -45,7 +45,7 @@
                                             <td class="text-center">{{ $role->permisos->pluck('nombre')->implode(', ') }}</td>
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-success" data-id="{{ $role->id }}" data-toggle="modal" data-target="#respuestaModal{{ $role->id }}">
-                                                    <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}
+                                                    <i class="fa fa-fw fa-edit"></i>
                                                 </button>
                                             </td>
                                             <td class="text-center">
@@ -53,8 +53,8 @@
                                                     
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm">
-                                                        <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar Rol') }}
+                                                    <button type="submit" class="btn btn-danger">
+                                                        <i class="fa fa-fw fa-trash"></i>
                                                     </button>
                                                 </form>
                                             </td>

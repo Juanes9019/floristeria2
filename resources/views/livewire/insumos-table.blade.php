@@ -181,8 +181,8 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group" role="group" aria-label="Basic example">
-                                                <a class="btn btn-sm btn-success" href="{{ route('Admin.insumo.edit', ['id' => $insumo->id]) }}">
-                                                    <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}
+                                                <a class="btn btn-sm btn-warning" href="{{ route('Admin.insumo.edit', ['id' => $insumo->id]) }}">
+                                                    <i class="fa fa-fw fa-edit"></i>    
                                                 </a>
                                             </div>
                                         </td>

@@ -81,10 +81,14 @@
                                 <td></td>
                             </tr>
 
+                            <tr>
+                                <td colspan="5" class="text-end"><strong>Envío:</strong></td>
+                                <td ><span id="costo-envio">0  </span></td>
+                            </tr>
                             <tr class="fx-bolder">
                                 <td colspan="4"></td>
                                 <td class="text-end"><strong>Total:</strong></td>
-                                <td class="text-center">{{ number_format(Cart::total(), 0, ',', '.') }}</td>
+                                <td> <span id="total-con-envio">{{ Cart::total() }}</span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -233,41 +237,84 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-    <script>
-        window.onload = function() {
-            var fecha = new Date();
-            var dia = fecha.getDate();
-            var mes = fecha.getMonth() + 1; 
-            var ano = fecha.getFullYear();
+<script>
+    window.onload = function() {
+        var fecha = new Date();
+        var dia = fecha.getDate();
+        var mes = fecha.getMonth() + 1; 
+        var ano = fecha.getFullYear();
 
-            if (dia < 10) {
-                dia = '0' + dia;
-            }
-
-            if (mes < 10) {
-                mes = '0' + mes;
-            }
-
-            fecha = ano + '-' + mes + '-' + dia;
-
-            document.getElementById('fecha').value = fecha;
+        if (dia < 10) {
+            dia = '0' + dia;
         }
 
-        document.querySelector('form').addEventListener('submit', function(e) {
-    // Verifica si la sección de detalles de envío está colapsada
-    if (!document.getElementById('detallesEnvio').classList.contains('show')) {
-        document.getElementById('nombre_destinatario').removeAttribute('required');
-        document.getElementById('ciudad').removeAttribute('required');
-        document.getElementById('direccion').removeAttribute('required');
-        document.getElementById('telefono').removeAttribute('required');
+        if (mes < 10) {
+            mes = '0' + mes;
+        }
+
+        fecha = ano + '-' + mes + '-' + dia;
+
+        document.getElementById('fecha').value = fecha;
     }
 
-    // Verifica si la sección de métodos de pago está colapsada
-    if (!document.getElementById('metodosPago').classList.contains('show')) {
-        document.getElementById('comprobante_pago').removeAttribute('required');
-    }
-});
+    document.querySelector('form').addEventListener('submit', function(e) {
+        // Verifica si la sección de detalles de envío está colapsada
+        if (!document.getElementById('detallesEnvio').classList.contains('show')) {
+            document.getElementById('nombre_destinatario').removeAttribute('required');
+            document.getElementById('ciudad').removeAttribute('required');
+            document.getElementById('direccion').removeAttribute('required');
+            document.getElementById('telefono').removeAttribute('required');
+        }
 
-    </script> 
+        // Verifica si la sección de métodos de pago está colapsada
+        if (!document.getElementById('metodosPago').classList.contains('show')) {
+            document.getElementById('comprobante_pago').removeAttribute('required');
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const ciudadSelect = document.getElementById('ciudad');
+        const costoEnvioElement = document.getElementById('costo-envio');
+        const totalConEnvioElement = document.getElementById('total-con-envio');
+
+        // Total base del carrito (obtenido del backend en tu Laravel Blade)
+        const totalCarritoBase = parseFloat("{{ Cart::total() }}");
+
+        // Lista de ciudades con costo de envío
+        const ciudadesConEnvio = [
+            "Medellín",
+            "Bello",
+            "Envigado",
+            "Itagüí",
+            "Sabaneta",
+            "La Estrella",
+            "Caldas",
+            "Copacabana",
+            "Barbosa",
+            "San Pedro de los Milagros",
+            "San Vicente Ferrer",
+            "San Jerónimo",
+            "San Rafael",
+            "San Roque",
+            "Santa Fé de Antioquia"
+        ];
+
+        ciudadSelect.addEventListener('change', function () {
+            const ciudad = ciudadSelect.value;
+            let costoEnvio = 0;
+
+            // Aplica el costo de 12,000 COP si la ciudad está en la lista
+            if (ciudadesConEnvio.includes(ciudad) && ciudad !== "Girardota") {
+                costoEnvio = 12000;
+            }
+
+            // Actualizar el costo de envío y el total con envío
+            costoEnvioElement.textContent = costoEnvio.toLocaleString('es-CO');
+            const totalConEnvio = totalCarritoBase + costoEnvio;
+            totalConEnvioElement.textContent = totalConEnvio.toLocaleString('es-CO');
+        });
+    });
+</script>
+
 
 @endsection

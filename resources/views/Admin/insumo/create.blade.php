@@ -70,7 +70,7 @@
 
                 <div class="form-group">
                     <input type="button" class="btn btn-primary" value="Agregar" onclick="agregar()">
-                    <a href="{{ route('Admin.insumo') }}" class="btn btn-primary ">Volver</a>
+                    <a href="{{ route('Admin.insumo') }}" class="btn btn-primary ">Cancelar</a>
                 </div>
 
 

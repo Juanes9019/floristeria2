@@ -93,9 +93,6 @@
                                     <th scope="col" class="text-center">
                                         Rol
                                     </th>
-                                    <th scope="col" class="text-center" colspan="2">
-                                        Acciones
-                                    </th>
                                     <th scope="col" class="text-center" wire:click="sortBy('estado')">
                                         Estado
                                         @if ($ordenarColumna === 'estado')
@@ -114,7 +111,9 @@
                                         </svg>
                                         @endif
                                     </th>
-                                    
+                                    <th scope="col" class="text-center" colspan="2">
+                                        Acciones
+                                    </th>
                                 </tr>
                             </thead>
 
@@ -126,19 +125,6 @@
                                     <td class="text-center">{{ $user->email }}</td>
                                     <td class="text-center">{{ $user->Role->nombre }}</td>
                                     <td class="text-center">
-                                        <a class="btn btn-sm btn-warning" href="{{ route('Admin.users.edit', ['id' => $user->id]) }}">
-                                            <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
-                                    </td>
-                                    <td>
-                                        <form id="form_eliminar_{{ $user->id }}" action="{{ route('Admin.users.destroy', $user->id) }}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{ $user->id }}')">
-                                                <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
-                                            </button>
-                                        </form>
-                                    </td>
-                                    <td>
                                         <a class="btn btn-sm {{ $user->estado == 1 ? 'btn-success' : 'btn-danger' }}"
                                             wire:click="changeStatus({{ $user->id }})"
                                             style="cursor: pointer;">
@@ -146,6 +132,20 @@
                                             <i class="fas fa-toggle-{{ $user->estado == 1 ? 'on' : 'off' }}"></i>
                                         </a>
                                     </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-sm btn-warning" href="{{ route('Admin.users.edit', ['id' => $user->id]) }}">
+                                            <i class="fa fa-fw fa-edit"></i></a>
+                                    </td>
+                                    <td>
+                                        <form id="form_eliminar_{{ $user->id }}" action="{{ route('Admin.users.destroy', $user->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{ $user->id }}')">
+                                                <i class="fa fa-fw fa-trash"></i> 
+                                            </button>
+                                        </form>
+                                    </td>
+                                    
                                 </tr>
                                 @endforeach
                             </tbody>

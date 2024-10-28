@@ -13,6 +13,7 @@ class Permiso_RolSeeder extends Seeder
      */
     public function run(): void
     {
+        
         DB::table('permisos_rol')->insert([
             'id_rol' => 1,
             'id_permiso' => 1,

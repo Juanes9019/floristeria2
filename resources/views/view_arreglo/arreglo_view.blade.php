@@ -24,8 +24,8 @@
                         <div class="col-md-6 order-md-2">
                             <h2 class="titulo_carta">{{ $productos->nombre }}</h2>
                             <div class="chips">
-                                <p class="text_page"><strong>Categoria:</strong> {{ $productos->categoria_producto->nombre }}</p>
-                                <p class="text_page"><strong>Descripcion:</strong> {{ $productos->descripcion }}</p>
+                                <p class="text_page"><strong>Categoría:</strong> {{ $productos->categoria_producto->nombre }}</p>
+                                <p class="text_page"><strong>Descripción:</strong> {{ $productos->descripcion }}</p>
 
                                 <section></section>
                                 <div class="action-buttons">

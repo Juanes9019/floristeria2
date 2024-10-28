@@ -36,7 +36,7 @@
 
                 <div class="form-group">
                     <input type="button" class="btn btn-primary" value="Editar" onclick="editar()">
-                    <a href="{{ route('Admin.categoria_insumo') }}" class="btn btn-primary ">Volver</a>
+                    <a href="{{ route('Admin.categoria_insumo') }}" class="btn btn-primary ">Cancelar</a>
                 </div>
             </form>
         </div>
