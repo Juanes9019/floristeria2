@@ -30,7 +30,7 @@
                 @if ($message = Session::get('success'))
                 <script>
                     Swal.fire({
-                        title: 'Categoría Eliminada',
+                        title: '',
                         text: '{{ $message }}',
                         icon: 'success',
                         confirmButtonText: 'OK'
@@ -79,21 +79,6 @@
                                         @endif
                                     </th>
 
-                                    <th scope="col" class="text-center" wire:click="sortBy('id_proveedor')">
-                                        Proveedor
-                                        @if ($ordenarColumna === 'id_proveedor')
-                                            @if ($ordenarForma === 'asc')
-                                                <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
-                                                </svg>
-                                            @else
-                                                <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
-                                                </svg>
-                                            @endif
-                                        @endif
-                                    </th>
-
                                     <th scope="col" class="text-center" wire:click="sortBy('estado')">
                                         Estado
                                         @if ($ordenarColumna === 'estado')
@@ -118,7 +103,6 @@
                                     <tr>
                                         <td class="text-center">{{ ($categoria_insumos->currentPage() - 1) * $categoria_insumos->perPage() + $loop->iteration }}</td>
                                         <td class="text-center">{{ $cat->nombre }}</td>
-                                        <td class="text-center">{{ $cat->proveedor->nombre }}</td>
                                         <td class="text-center">
                                             <a class="btn btn-sm {{ $cat->estado == 1 ? 'btn-success' : 'btn-danger' }}"
                                                 wire:click="changeStatus({{ $cat->id }})" style="cursor: pointer;">

@@ -38,7 +38,6 @@
                                     <th scope="col" class="text-center">Nombre</th>
                                     <th scope="col" class="text-center">Categoria Producto</th>
                                     <th scope="col" class="text-center">Descripción</th>
-                                    <th scope="col" class="text-center">Cantidad</th>
                                     <th scope="col" class="text-center">Precio</th>
                                     <th scope="col" class="text-center">Foto</th>
                                     <th scope="col" class="text-center">Estado</th>
@@ -54,7 +53,6 @@
                                     <td class="text-center">{{ $producto->nombre }}</td>
                                     <td class="text-center">{{$producto->categoria_producto->nombre}}</td>
                                     <td class="text-center">{{$producto->descripcion_limitada}}</td>
-                                    <td class="text-center">{{ $producto->cantidad}}</td>
                                     <td class="text-center">{{ number_format($producto->precio, 0, ',', '.') }}</td>
                                     <td class="text-center justify-content-center">
                                         <img src="{{ $producto->foto }}" alt="Foto" class="thumbnail" width="150" height="150" loading="lazy">

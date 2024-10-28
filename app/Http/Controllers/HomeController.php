@@ -154,37 +154,37 @@ public function getInsumosPorCategoria($categoria_id)
     return response()->json($insumos);
 }
 
-    public function personalizados(Request $request)
-    {
-        // Obtener todos los insumos disponibles
-        $insumos = Insumo::all();
-        $categorias_insumo  = Categoria_insumo::all();
+public function personalizados(Request $request)
+{
+    // Obtener todos los insumos disponibles
+    $productos = Producto::all();
+    $insumos = Insumo::all();
+    $categorias_insumo  = Categoria_insumo::all();
 
-        // Recuperar los insumos seleccionados de la sesión
-        $insumosSeleccionados = session()->get('insumosSeleccionados', []);
+    // Recuperar los insumos seleccionados de la sesión
+    $insumosSeleccionados = session()->get('insumosSeleccionados', []);
 
-        // Inicializar los totales
-        $totalElementos = 0;
-        $totalPrecio = 0;
+    // Inicializar los totales
+    $totalElementos = 0;
+    $totalPrecio = 0;
 
-        // Calcular el total de insumos seleccionados
-        foreach ($insumosSeleccionados as $insumo) {
-            $insumoBD = Insumo::find($insumo['id']);
-            
-            if ($insumoBD) {
-                $totalElementos += $insumo['cantidad'];
-                $totalPrecio += $insumoBD->costo_unitario * $insumo['cantidad'];
-            }
-        }
+    // Calcular el total de insumos seleccionados
+    foreach ($insumosSeleccionados as $insumo) {
+        $insumoBD = Insumo::find($insumo['id']);
         
-
-        // Agregar un valor adicional de 30,000 al total (por ejemplo, por costos de personalización)
-        $totalPrecio += 30000;
-
-        // Retornar la vista con los totales y los insumos
-        return view('view_arreglo.personalizado', compact('insumos', 'categorias_insumo','insumosSeleccionados', 'totalElementos', 'totalPrecio'));
+        if ($insumoBD) {
+            $totalElementos += $insumo['cantidad'];
+            $totalPrecio += $insumoBD->costo_unitario * $insumo['cantidad'];
+        }
     }
     
+
+    // Agregar un valor adicional de 30,000 al total (por ejemplo, por costos de personalización)
+    $totalPrecio += 30000;
+
+    // Retornar la vista con los totales y los insumos
+    return view('view_arreglo.personalizado', compact('insumos', 'categorias_insumo','insumosSeleccionados', 'totalElementos', 'totalPrecio','productos'));
+}
 
     public function agregar_producto(Request $request)
     {

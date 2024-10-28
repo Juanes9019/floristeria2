@@ -25,25 +25,7 @@
                     </span>
                     @enderror
                 </div>
-
-                <div class="form-group">
-                        <label for="id_proveedor">Proveedor</label>
-                        <select id="id_proveedor" name="id_proveedor" class="form-control @error('id_proveedor') is-invalid  @enderror">
-                            <option selected disabled>Seleccione un proveedor</option>
-                            @foreach($proveedores as $proveedor)
-                            <option value="{{ $proveedor->id}}" @if($proveedor->id == $categoria_insumo->id_proveedor) {{'selected'}} @endif>
-                                {{ $proveedor->nombre }}
-                            </option>
-                            @endforeach
-                        </select>
-
-                        @error('id_proveedor')
-                            <span class="invalid-feedback d-block" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                </div>
-
+                
                 <div class="form-group">
                     <label for="estado">Estado</label>
                     <select name="estado" id="estado" class="form-control">

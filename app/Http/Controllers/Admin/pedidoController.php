@@ -75,12 +75,16 @@ class PedidoController extends Controller
                     }
                 }
             } else {
-                // Producto estándar
-                $producto = Producto::where('id', $detalle->id_producto)->first();
+                $producto = Producto::find($detalle->id_producto);
                 if ($producto) {
-                    $producto->cantidad -= $detalle->cantidad;
-                    $producto->save();
+                    // Descontar los insumos que pertenecen al producto
+                    foreach ($producto->insumos as $insumo) {
+                        $cantidadUsada = $insumo->pivot->cantidad_usada; // cantidad usada en el producto
+                        $insumo->cantidad_insumo -= $cantidadUsada * $detalle->cantidad; // descontar por la cantidad del pedido
+                        $insumo->save();
+                    }
                 }
+                
             }
         }
         

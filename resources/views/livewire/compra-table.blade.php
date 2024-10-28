@@ -1,3 +1,5 @@
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <div class=" container-fluid">
     <div class="row">
         <div class="col-sm-12">
@@ -92,7 +94,7 @@
                                             @endif
                                         @endif
                                     </th>
-
+                                    <th scope="col" class="text-center">Estado</th>
                                     <th scope="col" class="text-center">Acciones</th>
                                 </tr>
                             </thead>
@@ -104,14 +106,17 @@
                                         <td class="text-center">{{ $compra->created_at->format('d/m/Y H:i') }}</td>
                                         <td class="text-center">{{ $compra->proveedor->nombre }}</td>
                                         <td class="text-center">${{ number_format($compra->costo_total, 0, ',', '.') }}</td>
+                                        <td class="text-center">{{ $compra->estado }}</td>
                                         <td class="text-center">
                                             <a href="{{ route('compra.detalles', $compra->id) }}" class="btn btn-info">Ver Detalles</a>
                                         </td>
                                         <td>
-                                            <form action="{{ route('Admin.compra.destroy', $compra->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta compra?');">
+                                            <form id="form_eliminar_{{$compra->id}}" action="{{ route('Admin.compra.destroy', $compra->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Anular</button>
+                                                <button type="button" class="btn btn-danger" onclick="eliminar('{{$compra->id}}')">
+                                                    <i class="fa fa-fw fa-trash"></i> {{ __('Anular') }}
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>
@@ -134,4 +139,23 @@
     </div>
 </div>
 
+<script>
+function eliminar(compraId) {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: 'No podrás revertir esta acción',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById('form_eliminar_' + compraId).submit();
+        }
+    });
+}
+
+</script>
 
