@@ -7,30 +7,8 @@
                         <span id="card_title">
                             <b>Control de usuarios</b>
                         </span>
-                        <div class="float-right">
-                            <a href="{{ route('Admin.users.create') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
-                                {{ __('Registrar un usuario') }}
-                            </a>
-                        </div>
                     </div>
                 </div>
-
-                <div class="card-body">
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Exportar
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="exportDropdown">
-                            <a class="dropdown-item" href="{{ route('Admin.users.export', ['format' => 'xlsx']) }}">
-                                {{ __('Exportar a Excel') }}
-                            </a>
-                            <a class="dropdown-item" href="{{ route('Admin.users.export', ['format' => 'pdf']) }}">
-                                {{ __('Exportar a PDF') }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
                 @if ($message = Session::get('success'))
                 <div class="alert alert-success">
                     <p>{{ $message }}</p>
@@ -42,11 +20,31 @@
                 @endif
 
                 <div class="card-body">
-                    <div class="row">
+                    <div class="d-flex justify-content-between align-items-center">
                         <div class="col-md-6">
                             <input wire:model.live.debounce.300ms="buscar" type="text" class="form-control" placeholder="Buscar...">
                         </div>
+                
+                        <div class="d-flex">
+                            <div class="dropdown mr-2">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Exportar
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="exportDropdown">
+                                    <a class="dropdown-item" href="{{ route('Admin.users.export', ['format' => 'xlsx']) }}">
+                                    {{ __('Exportar a Excel') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('Admin.users.export', ['format' => 'pdf']) }}">
+                                    {{ __('Exportar a PDF') }}
+                                    </a>
+                                </div>
+                            </div>
+                            <a href="{{ route('Admin.users.create') }}" class="btn btn-primary btn-sm float-right" data-placement="left">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+                            </a>
+                        </div>
                     </div>
+                </div>
                     <div class="table-responsive mt-3">
                         <table class="table table-striped table-hover">
                             <thead class="thead">

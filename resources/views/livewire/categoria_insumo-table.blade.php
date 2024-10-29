@@ -7,12 +7,6 @@
                         <span id="card_title">
                             <b>Control de Categoría Insumos</b>
                         </span>
-                        <div class="float-right">
-                            <a href="{{ route('Admin.categoria_insumo.create') }}" class="btn btn-primary btn-sm float-right"
-                                data-placement="left">
-                                {{ __('Registrar') }}
-                            </a>
-                        </div>
                     </div>
                 </div>
 
@@ -38,12 +32,20 @@
                 </script>
                 @endif
 
+
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-9">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="col-md-6">
                             <input wire:model.live.debounce.300ms="buscar" type="text" class="form-control" placeholder="Buscar...">
                         </div>
+                
+                        <div class="d-flex">
+                            <a href="{{ route('Admin.categoria_insumo.create') }}" class="btn btn-primary btn-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+                            </a>
+                        </div>
                     </div>
+                </div>
 
                     <div class="table-responsive mt-3">
                         <table class="table table-striped table-hover">

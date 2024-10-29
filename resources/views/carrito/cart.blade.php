@@ -104,66 +104,114 @@
                         <div class="collapse show mt-3" id="detallesEnvio">
                             <div class="card card-body">
                                 <div class="form-group">
-                                    <label for="nombre_destinatario">Nombre del destinatario:</label>
-                                    <input type="text" class="form-control" id="nombre_destinatario" name="nombre_destinatario" placeholder="Ingresa el nombre del destinatario" required>
-                                    @error('nombre_destinatario')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                    
-                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="nombre_destinatario">Nombre del destinatario:</label>
+                                            <input type="text" class="form-control" id="nombre_destinatario" name="nombre_destinatario" placeholder="Ingresa el nombre del destinatario" required>
+                                            @error('nombre_destinatario')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
 
-                                    <label for="fecha">Fecha:</label>
-                                    <input type="date" class="form-control" id="fecha" name="fecha" readonly>
-                                    @error('fecha')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-
-                                    <br>
-
-                                    <label for="departamento">Departamento:</label>
-                                    <input type="text" class="form-control" id="departamento" name="departamento" value="Antioquia" readonly>
-                                    @error('departamento')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-
-                                    <br>
-
-                                    <div class="form-group">
-                                        <label for="ciudad">Ciudad:</label>
-                                        <select class="form-control" id="ciudad" name="ciudad" required>
-                                            <option value="" disabled selected>Seleccione una ciudad</option>
-                                            @foreach($cities as $city)
-                                                <option value="{{ $city }}">{{ $city }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('ciudad')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
+                                        <div class="col-md-6">
+                                            <label for="fecha">Fecha:</label>
+                                            <input type="date" class="form-control" id="fecha" name="fecha" readonly>
+                                            @error('fecha')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                     </div>
 
-                                    <br>
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <label for="departamento">Departamento:</label>
+                                            <input type="text" class="form-control" id="departamento" name="departamento" value="Antioquia" readonly>
+                                            @error('departamento')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
 
-                                    <label for="direccion">Dirección:</label>
-                                    <input type="text" class="form-control" id="direccion" name="direccion" required>
-                                    @error('direccion')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
+                                        <div class="col-md-6">
+                                            <label for="ciudad">Ciudad:</label>
+                                            <select class="form-control" id="ciudad" name="ciudad" required>
+                                                <option value="" disabled selected>Seleccione una ciudad</option>
+                                                @foreach($cities as $city)
+                                                    <option value="{{ $city }}">{{ $city }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('ciudad')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
 
-                                    <br>
+                                    <div class="row mt-3">
+                                        <div class="col-md-3">
+                                            <label for="tipo_via">Tipo de Vía:</label>
+                                            <select class="form-control" id="tipo_via" name="tipo_via" required onchange="actualizarDireccion()">
+                                                <option value="" disabled selected>Seleccione tipo de vía</option>
+                                                <option value="Calle">Calle</option>
+                                                <option value="Carrera">Carrera</option>
+                                                <option value="Avenida">Avenida</option>
+                                                <option value="Transversal">Transversal</option>
+                                            </select>
+                                            @error('tipo_via')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
 
-                                    <label for="instrucciones_entrega">Instrucciones para la entrega:</label>
-                                    <textarea class="form-control" id="instrucciones_entrega" name="instrucciones_entrega" placeholder="Dejar en recepción o en la puerta"></textarea>
-                                    @error('instrucciones_entrega')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
+                                        <div class="col-md-3">
+                                            <label for="numero_via">Número de Vía Principal:</label>
+                                            <input type="text" class="form-control" id="numero_via" name="numero_via" required oninput="actualizarDireccion()">
+                                            @error('numero_via')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
 
-                                    <br>
+                                        <div class="col-md-3">
+                                            <label for="via_secundaria">Número de Vía Secundaria:</label>
+                                            <input type="text" class="form-control" id="via_secundaria" name="via_secundaria" required oninput="actualizarDireccion()">
+                                            @error('via_secundaria')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
 
-                                    <label for="telefono">Teléfono:</label>
-                                    <input type="number" class="form-control" id="telefono" name="telefono" placeholder="999-999-9999" required>
-                                    @error('telefono')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
+                                        <div class="col-md-3">
+                                            <label for="detalle_adicional">Detalle adicional:</label>
+                                            <input type="text" class="form-control" id="detalle_adicional" name="detalle_adicional" oninput="actualizarDireccion()">
+                                            @error('detalle_adicional')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <label for="direccion">Dirección completa:</label>
+                                            <input type="text" class="form-control" id="direccion" name="direccion" readonly>
+                                            @error('direccion')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="telefono">Teléfono:</label>
+                                            <input type="number" class="form-control" id="telefono" name="telefono" placeholder="999-999-9999" required>
+                                            @error('telefono')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <label for="instrucciones_entrega">Instrucciones para la entrega:</label>
+                                            <textarea class="form-control" id="instrucciones_entrega" name="instrucciones_entrega" placeholder="Dejar en recepción o en la puerta"></textarea>
+                                            @error('instrucciones_entrega')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -236,6 +284,20 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<script>
+    function actualizarDireccion() {
+        const tipoVia = document.getElementById("tipo_via").value || "";
+        const numeroVia = document.getElementById("numero_via").value || "";
+        const viaSecundaria = document.getElementById("via_secundaria").value || "";
+        const detalleAdicional = document.getElementById("detalle_adicional").value || "";
+        
+        // Arma la dirección completa
+        const direccionCompleta = `${tipoVia} ${numeroVia} #${viaSecundaria} ${detalleAdicional}`.trim();
+        
+        // Actualiza el campo de dirección solo lectura
+        document.getElementById("direccion").value = direccionCompleta;
+    }
+</script>
 
 <script>
     window.onload = function() {

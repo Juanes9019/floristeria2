@@ -20,9 +20,6 @@
                 </div>
                 @endif
 
-
-
-
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="col-md-6">
@@ -121,7 +118,6 @@
                                         Acciones
                                     </th>
                                     <th class="text-center"></th>
-
                                 </tr>
                             </thead>
 

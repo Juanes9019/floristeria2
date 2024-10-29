@@ -9,27 +9,7 @@
                         </span>
                     </div>
                 </div>
-
-                <div class="card-body">
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Exportar
-                        </button>
-                        <a href="{{ route('Admin.insumo.historialPerdidas') }}" class="btn btn-primary">Historial de Pérdidas</a>
-                        <a href="{{ route('Admin.insumo.create') }}" class="btn btn-primary"
-                                data-placement="left">
-                                {{ __('Registrar') }}
-                            </a>
-                        <div class="dropdown-menu" aria-labelledby="exportDropdown">
-                            <a class="dropdown-item" href="{{ route('Admin.insumos.export', ['format' => 'xlsx']) }}">
-                                {{ __('Exportar a Excel') }}
-                            </a>
-                            <a class="dropdown-item" href="{{ route('Admin.insumos.export', ['format' => 'pdf']) }}">
-                                {{ __('Exportar a PDF') }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
+    
                 
                 @if ($message = Session::get('error'))
                 <script>
@@ -86,11 +66,31 @@
                 @endif
 
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-9">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="col-md-6">
                             <input wire:model.live.debounce.300ms="buscar" type="text" class="form-control" placeholder="Buscar...">
                         </div>
+                
+                        <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Exportar
+                        </button>
+                        <a href="{{ route('Admin.insumo.historialPerdidas') }}" class="btn btn-primary">Historial de Pérdidas</a>
+                        <a href="{{ route('Admin.insumo.create') }}" class="btn btn-primary"
+                                data-placement="left">
+                                {{ __('Registrar') }}
+                            </a>
+                        <div class="dropdown-menu" aria-labelledby="exportDropdown">
+                            <a class="dropdown-item" href="{{ route('Admin.insumos.export', ['format' => 'xlsx']) }}">
+                                {{ __('Exportar a Excel') }}
+                            </a>
+                            <a class="dropdown-item" href="{{ route('Admin.insumos.export', ['format' => 'pdf']) }}">
+                                {{ __('Exportar a PDF') }}
+                            </a>
+                        </div>
                     </div>
+                    </div>
+                </div>
 
                     <div class="table-responsive mt-3">
                         <table class="table table-striped table-hover">
