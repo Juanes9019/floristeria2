@@ -15,6 +15,7 @@ class ProductoSeeder extends Seeder
      */
     public function run(): void
     {
+
         Producto::create([
             'nombre' => 'Arreglo floral 1',
             'precio' => 150000,

@@ -20,12 +20,13 @@
 
 
 .banner {
-    background-image: linear-gradient(100deg, #000000, #00000020), url('https://floristeria.s3.sa-east-1.amazonaws.com/fondo_flores.jpg');
+    background-image: linear-gradient(100deg, rgba(0, 0, 0, 0.836), rgba(39, 1, 1, 0.281)), url('https://i.imgur.com/OAgMfG7.jpeg');
     height: 55rem; 
     background-size: cover;
     background-position: center;
-    margin-top: 0; /* Eliminar margen superior */
+    margin-top: 0; 
 }
+
 
 .content-banner{
     max-width: 90rem;
@@ -35,6 +36,7 @@
 
 .content-banner p{
     color: var(--primary-color);
+    
     font-size: 1.2rem;
     margin-bottom: 1rem;
     font-weight: 500;
@@ -42,12 +44,16 @@
 
 .content-banner h2{
     color: #fff;
+    font-family: "Concert One", sans-serif;
+
     font-size: 3.5rem;
     font-weight: 500;
     line-height: 1.2;
 }
 
 .content-banner a{
+    font-family: "Zain", sans-serif;
+    font-size: 18px;
     margin-top: 2rem;
     text-decoration: none;
     color: #000000;
@@ -55,6 +61,13 @@
     display: inline-block;
     padding: 1rem 3rem;
     border-radius: 3rem;
+}
+
+.content-banner a:hover{
+    font-family: "Zain", sans-serif;
+    font-size: 18px;
+    text-decoration: none;
+    color: #000;
 }
 
 
@@ -118,6 +131,11 @@
     font-weight: 700;
     font-size: 1.2rem;
     color: var(--dark-color);
+}
+
+.feature-content p{
+    font-family: "Zain", sans-serif;
+
 }
 
 .heading-1{
@@ -307,6 +325,11 @@
     font-family: "Zain", sans-serif;
     font-weight: 400;
     font-style: normal;
+    font-size: 20px;
+}
+
+.letra{
+    font-family: "Zain", sans-serif;
     font-size: 20px;
 }
 
@@ -529,7 +552,8 @@ footer{
 }
 
 .title-footer{
-    font-weight: 600;
+    font-family: "Concert One", sans-serif;
+    font-weight: 100;
     font-size: 1.6rem;
     text-transform: uppercase;
     color: #000;
@@ -644,4 +668,14 @@ boton agregar personalizado
 
 .custom-btn:hover {
     color: #fff;
+}
+
+
+.boton_anular{
+    background-color: #fc4f4f;
+    width: 80px;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 6px 10px rgb(245, 170, 193);
 }

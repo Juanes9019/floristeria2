@@ -29,7 +29,7 @@
 
                 <div class="form-group">
                     <input type="button" class="btn btn-primary" value="Agregar rol" onclick="agregar()">
-                    <a href="{{ route('Admin.permisos_rol') }}" class="btn btn-primary ">Volver</a>
+                    <a href="{{ route('Admin.permisos_rol') }}" class="btn btn-primary ">Cancelar</a>
                 </div>
 
 

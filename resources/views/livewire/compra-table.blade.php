@@ -9,12 +9,6 @@
                         <span id="card_title">
                             <b>Control de Compras</b>
                         </span>
-                        <div class="float-right">
-                            <a href="{{ route('Admin.compra.create') }}" class="btn btn-primary btn-sm float-right"
-                                data-placement="left">
-                                {{ __('Registrar') }}
-                            </a>
-                        </div>
                     </div>
                 </div>
 
@@ -25,11 +19,18 @@
                 @endif
 
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-9">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="col-md-6">
                             <input wire:model.live.debounce.300ms="buscar" type="text" class="form-control" placeholder="Buscar...">
                         </div>
+                
+                        <div class="d-flex">
+                            <a href="{{ route('Admin.compra.create') }}" class="btn btn-primary btn-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+                            </a>
+                        </div>
                     </div>
+                </div>
 
                     <div class="table-responsive mt-3">
                         <table class="table table-striped table-hover">
@@ -96,6 +97,7 @@
                                     </th>
                                     <th scope="col" class="text-center">Estado</th>
                                     <th scope="col" class="text-center">Acciones</th>
+                                    <th></th>
                                 </tr>
                             </thead>
 
@@ -110,12 +112,12 @@
                                         <td class="text-center">
                                             <a href="{{ route('compra.detalles', $compra->id) }}" class="btn btn-info">Ver Detalles</a>
                                         </td>
-                                        <td>
+                                        <td >
                                             <form id="form_eliminar_{{$compra->id}}" action="{{ route('Admin.compra.destroy', $compra->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="button" class="btn btn-danger" onclick="eliminar('{{$compra->id}}')">
-                                                    <i class="fa fa-fw fa-trash"></i> {{ __('Anular') }}
+                                                <button type="button" class="boton_anular" onclick="eliminar('{{$compra->id}}')">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>                                                
                                                 </button>
                                             </form>
                                         </td>
@@ -138,6 +140,7 @@
         </div>
     </div>
 </div>
+
 
 <script>
 function eliminar(compraId) {

@@ -57,33 +57,32 @@
                                     <td class="text-center justify-content-center">
                                         <img src="{{ $producto->foto }}" alt="Foto" class="thumbnail" width="150" height="150" loading="lazy">
                                     </td>
-                                    <td class="text-center">{{ $producto->estado == 1 ? 'Activo': 'Inactivo' }} </td>
-                                    <td class="text-center">
-                                        <a class="btn btn-sm btn-warning" href="{{ route('Admin.producto.edit', ['id' => $producto->id]) }}">
-                                            <i class="fa fa-fw fa-edit"></i> {{ __('Editar') }}</a>
-                                    </td>
-                                    <td class="text-center">
-                                        <a class="btn btn-sm btn-primary" href="{{ route('Admin.producto.show', ['id' => $producto->id]) }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
-                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
-                                            </svg> {{ __('Detalle') }}</a>
-                                    </td>
-                                    <td>
-                                        <form id="form_eliminar_{{ $producto->id }}" action="{{ route('Admin.producto.destroy', ['id' => $producto->id]) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$producto->id}}','{{$producto->estado}}')">
-                                                <i class="fa fa-fw fa-trash"></i> {{ __('Eliminar') }}
-                                            </button>
-                                        </form>
-                                    </td>
                                     <td class="text-center">
                                         <a class="btn btn-sm {{ $producto->estado == 1 ? 'btn-success' : 'btn-danger' }}"
                                             href="{{ route('Admin.producto.status', $producto->id) }}">
                                             {{ $producto->estado == 1 ? 'Activo' : 'Inactivo' }}
                                             <i class="fas fa-toggle-{{ $producto->estado == 1 ? 'on' : 'off' }}"></i>
                                         </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-sm btn-warning" href="{{ route('Admin.producto.edit', ['id' => $producto->id]) }}">
+                                            <i class="fa fa-fw fa-edit"></i> </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-sm btn-primary" href="{{ route('Admin.producto.show', ['id' => $producto->id]) }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                                            </svg></a>
+                                    </td>
+                                    <td>
+                                        <form id="form_eliminar_{{ $producto->id }}" action="{{ route('Admin.producto.destroy', ['id' => $producto->id]) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$producto->id}}','{{$producto->estado}}')">
+                                                <i class="fa fa-fw fa-trash"></i>
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach

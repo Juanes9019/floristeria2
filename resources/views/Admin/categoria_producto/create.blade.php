@@ -40,7 +40,7 @@
                 <button type="button" class="btn btn-success" value="agregar categoria" onclick="agregar(event)">
                     Agregar Categoría
                 </button>
-                <a href="{{ route('Admin.categorias_productos') }}" class="btn btn-danger ">Volver</a>
+                <a href="{{ route('Admin.categorias_productos') }}" class="btn btn-danger ">Cancelar</a>
             </div>
 
 

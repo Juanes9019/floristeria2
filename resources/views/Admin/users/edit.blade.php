@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="form-group">
-                <label for="id_rol">Tipo de cuenta</label>
+                <label for="id_rol">Rol</label>
                 <select id="id_rol" name="id_rol"
                     class="form-control @error('id_rol') is-invalid  @enderror">
                     
@@ -114,7 +114,7 @@
 
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary" value="Editar usuario">
-                    <a href="{{ route('Admin.users') }}" class="btn btn-primary">Volver</a>
+                    <a href="{{ route('Admin.users') }}" class="btn btn-primary">Cancelar</a>
                 </div>
             </form>
         </div>

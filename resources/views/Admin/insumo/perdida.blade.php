@@ -23,7 +23,7 @@
             </div>
 
             <button type="submit" class="btn btn-danger">Registrar</button>
-            <a href="{{ route('Admin.insumo') }}" class="btn btn-primary ">Volver</a>
+            <a href="{{ route('Admin.insumo') }}" class="btn btn-primary ">Cancelar</a>
             </form>
     </div>
 

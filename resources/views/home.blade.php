@@ -88,7 +88,7 @@
                         <div class="card-wrapper fondo_card" style="padding-top: 20px;">
                             <div class="card h-100 card_view" style="border-top-left-radius: 45px; border-top-right-radius: 45px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
                                 <h5 class="card-title text-center titulo_carta">{{ $producto->nombre }}</h5>
-                                <p class="card-title text-center text_page"><strong>Categoria:</strong> {{ $producto->categoria_producto->nombre }}</p>
+                                <p class="card-title text-center text_page"><strong>Categoría:</strong> {{ $producto->categoria_producto->nombre }}</p>
                                 <img src="{{ $producto->foto }}" class="card-img-top img-fluid" style="border-radius: 15px;;" alt="{{ $producto->nombre }}">
                                 <div class="card-body text-center">
                                     <div class="d-flex justify-content-between align-items-center">
@@ -135,9 +135,9 @@
             <div class="contact-info">
                 <p class="title-footer">Información de contacto</p>
                 <ul>
-                    <li>Direccion: cr4 #51-34</li>
-                    <li>Telefono: 999-999-9999</li>
-                    <li>Correo: latata@gmail.com</li>
+                    <li class="letra">Direccion: cr4 #51-34</li>
+                    <li class="letra">Telefono: 999-999-9999</li>
+                    <li class="letra">Correo: latata@gmail.com</li>
                 </ul>
 
                 <div class="social-icons">
@@ -152,18 +152,18 @@
             <div class="information">
                 <p class="title-footer">Información</p>
                 <ul>
-                    <li><a href="#">Acerca de nosotros</a></li>
-                    <li><a href="#">Politicas de privacidad</a></li>
-                    <li><a href="#">Terminos y condiciones</a></li>
-                    <li><a href="#">Contactanos</a></li>
+                    <li><a href="#" class="letra">Acerca de nosotros</a></li>
+                    <li><a href="#" class="letra">Politicas de privacidad</a></li>
+                    <li><a href="#" class="letra">Terminos y condiciones</a></li>
+                    <li><a href="#" class="letra">Contactanos</a></li>
                 </ul>
             </div>
 
             <div class="my-account">
                 <p class="title-footer">Mi cuenta</p>
                 <ul>
-                    <li><a href="{{ route('perfilUser') }}">Mi cuenta</a></li>
-                    <li><a href="{{ route('perfilUser')}}">Historial de pedidos</a></li>
+                    <li><a href="{{ route('perfilUser') }}" class="letra">Mi cuenta</a></li>
+                    <li><a href="{{ route('perfilUser')}}" class="letra">Historial de pedidos</a></li>
                 </ul>
             </div>
         </div>

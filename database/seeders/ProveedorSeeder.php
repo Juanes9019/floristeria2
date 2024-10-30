@@ -26,5 +26,7 @@ class ProveedorSeeder extends Seeder
             'correo' => 'paradise@correo.com',
             'ubicacion' => 'Cra. 70 #43 - 31 · 305 4829148',
         ]);
+
+
     }
 }

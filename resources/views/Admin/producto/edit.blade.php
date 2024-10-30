@@ -101,7 +101,7 @@
 
             <div class="form-group">
                 <input type="button" class="btn btn-primary" value="Editar insumo" onclick="editar()">
-                <a href="{{ route('Admin.productos') }}" class="btn btn-danger ">Volver</a>
+                <a href="{{ route('Admin.productos') }}" class="btn btn-danger ">Cancelar</a>
             </div>
         </form>
     </div>

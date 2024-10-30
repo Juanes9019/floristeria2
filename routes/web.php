@@ -48,13 +48,13 @@ Route::post('/pqrs', [HomeController::class, 'pqrs'])->name('pqrs');
 
 Route::get('/arreglo/{id}', [HomeController::class, 'show'])->name('view_arreglo.arreglo_view');
 Route::get('/all_products', [HomeController::class, 'show_all'])->name('all_products');
-Route::get('/personalizados', [HomeController::class, 'personalizados'])->name('personalizados');
+
 Route::get('/insumos/categoria/{categoria_id}', [HomeController::class, 'getInsumosPorCategoria']);
-
-
-
-//rutas para las flores personalizadas
+Route::get('/personalizados', [HomeController::class, 'personalizados'])->name('personalizados');
 Route::post('/agregar-producto', [HomeController::class, 'agregar_producto'])->name('agregar_producto');
+Route::post('/agregar_producto_nuevo', [HomeController::class, 'agregar_producto_nuevo'])->name('agregar_producto_nuevo');
+Route::post('/obtener-insumos', [HomeController::class, 'personalizado_estandar']);
+
 Route::patch('/actualizar-producto/{key}', [HomeController::class, 'actualizar_producto'])->name('actualizar_producto');
 Route::delete('/eliminar-producto/{key}', [HomeController::class, 'eliminar_producto'])->name('eliminar_producto');
 

@@ -110,7 +110,7 @@
 
             <div class="form-group">
                 <input type="button" class="btn btn-primary" value="Agregar usuario" onclick="agregar()">
-                <a href="{{ route('Admin.users') }}" class="btn btn-primary ">Volver</a>
+                <a href="{{ route('Admin.users') }}" class="btn btn-primary ">Cancelar</a>
             </div>
         </form>
     </div>

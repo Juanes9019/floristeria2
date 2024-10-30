@@ -181,10 +181,26 @@ public function personalizados(Request $request)
 
     // Agregar un valor adicional de 30,000 al total (por ejemplo, por costos de personalización)
     $totalPrecio += 30000;
+    $totalPrecioDos = 100;
 
     // Retornar la vista con los totales y los insumos
-    return view('view_arreglo.personalizado', compact('insumos', 'categorias_insumo','insumosSeleccionados', 'totalElementos', 'totalPrecio','productos'));
+    return view('view_arreglo.personalizado.personalizado', compact('insumos', 'categorias_insumo','insumosSeleccionados', 'totalElementos', 'totalPrecio','productos','totalPrecioDos'));
 }
+
+public function personalizado_estandar(Request $request)
+{
+    $productoId = $request->input('producto_id');
+    
+    // Obtén los insumos relacionados con el producto
+    $insumos = DB::table('insumos_producto')
+        ->where('id_producto', $productoId)
+        ->join('insumos', 'insumos.id', '=', 'insumos_producto.id_insumo')
+        ->select('insumos.nombre', 'insumos_producto.cantidad_usada')
+        ->get();
+
+    return response()->json($insumos);
+}
+
 
     public function agregar_producto(Request $request)
     {
@@ -204,7 +220,7 @@ public function personalizados(Request $request)
         }
     
         // Crear un nombre para el insumo que incluye el nombre y el color
-        $nombre = $insumo->nombre . ' - ' . $request->color;
+        $nombre = $insumo->nombre . ' - ' . ($request->color ?? $insumo->color);
     
         // Obtener los insumos seleccionados de la sesión
         $insumosSeleccionados = session()->get('insumosSeleccionados', []);
