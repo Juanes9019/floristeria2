@@ -179,7 +179,7 @@
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             
-                                <a class="dropdown-item" href="{{ route('admin.inicio') }}">Gestionar hola</a>
+                                <a class="dropdown-item" href="{{ route('admin.inicio') }}">Mis funciones</a>
                            
                             
                                         </div>

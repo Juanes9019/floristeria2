@@ -63,7 +63,7 @@ return [
     |
     */
 
-    'logo' => '<b>Panel de administración</b>',
+    'logo' => '<b>Floristería la tata</b>',
     'logo_img' => null,
     'logo_img_class' => null,
     'logo_img_xl' => null,
