@@ -22,7 +22,7 @@
         <div class="row full-height justify-content-center">
             <div class="col-12 text-center align-self-center py-5">
                 <div class="section pb-5 pt-5 pt-sm-2 text-center">
-                    <h6 class="mb-0 pb-3"><span>INGRESAR </span><span>REGISTRO</span></h6>
+                    <h6 class="mb-0 pb-3"><span>Ingresar </span><span>Registro</span></h6>
                     <input class="checkbox" type="checkbox" id="reg-log" name="reg-log" />
                     <label for="reg-log"></label>
                     <div class="card-3d-wrap mx-auto">
@@ -31,15 +31,15 @@
                             <div class="card-front">
                                 <div class="center-wrap">
                                     <div class="section text-center">
-                                        <h4 class="mb-4 pb-3">INICIO DE SESION</h4>
+                                        <h4 class="mb-4 pb-3">Inicio de sesión</h4>
                                         <form method="POST" action="{{ route('login') }}">
                                             @csrf
                                             <div class="form-group">
-                                                <input id="email" type="email" class="form-style @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Correo electronico">
+                                                <input id="email" type="email" class="form-style @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Correo electrónico">
                                                 <i class="input-icon uil uil-at"></i>
                                                 @error('email')
                                                     <span class="invalid-feedback" role="alert">
-                                                        <strong>Correo o contraseña invalida</strong>
+                                                        <strong>Correo electrónico o contraseña invalida</strong>
                                                     </span>
                                                 @enderror
                                             </div>
@@ -49,7 +49,7 @@
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                                 @error('password')
                                                     <span class="invalid-feedback" role="alert">
-                                                        <strong>Correo o contraseña invalida</strong>
+                                                        <strong>Correo electrónico o contraseña invalida</strong>
                                                     </span>
                                                 @enderror
                                             </div>
@@ -76,7 +76,7 @@
                             <div class="card-back">
                                 <div class="center-wrap">
                                     <div class="section text-center">
-                                        <h4 class="mb-4 pb-3">REGISTRARSE</h4>
+                                        <h4 class="mb-4 pb-3">Registrarse</h4>
                                         <form method="POST" action="{{ route('register') }}">
                                             @csrf
                                             <div class="form-group">
@@ -98,7 +98,7 @@
                                                 @enderror
                                             </div>
                                             <div class="form-group mt-2">
-                                                <input id="email" type="email" class="form-style @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Correo">
+                                                <input id="email" type="email" class="form-style @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Correo electrónico">
                                                 <i class="input-icon uil uil-at"></i>
                                                 @error('email')
                                                     <span class="invalid-feedback" role="alert">
@@ -137,7 +137,7 @@
                                                 <input id="password-confirm" type="password" class="form-style" name="password_confirmation" required autocomplete="new-password" placeholder="Confirmar Contraseña">
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
-                                            <button type="submit" class="btn mt-4">REGISTRARME</button>
+                                            <button type="submit" class="btn mt-4">Registrarme</button>
                                         </form>
                                     </div>
                                 </div>

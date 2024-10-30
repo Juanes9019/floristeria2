@@ -178,38 +178,10 @@
                                             Gestión
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            @if(in_array($permiso_dashboard_id, $permisos_usuario))
-                                <a class="dropdown-item" href="{{ route('dashboard.index') }}">Gestionar dashboard</a>
-                            @endif
-                            @if(in_array($permiso_usuarios_id, $permisos_usuario))
-                                <a class="dropdown-item" href="{{ route('Admin.users') }}">Gestionar usuarios</a>
-                            @endif
-                                            @if(in_array($permiso_roles_id, $permisos_usuario))
-                                <a class="dropdown-item" href="{{ route('Admin.permisos_rol') }}">Gestionar roles</a>
-                            @endif
+                                            
+                                <a class="dropdown-item" href="{{ route('admin.inicio') }}">Gestionar hola</a>
+                           
                             
-                            
-                            @if(in_array($permiso_proveedores_id, $permisos_usuario))
-                                <a class="dropdown-item" href="{{ route('Admin.proveedores') }}">Gestionar proveedores</a>
-                            @endif
-                            @if(in_array($permiso_categoria_insumos_id, $permisos_usuario))
-                                <a class="dropdown-item" href="{{ route('Admin.categoria_insumo') }}">Gestionar Categotía de insumos</a>
-                            @endif
-                            @if(in_array($permiso_insumos_id, $permisos_usuario))
-                                <a class="dropdown-item" href="{{ route('Admin.insumo') }}">Gestionar insumos</a>
-                            @endif
-                            @if(in_array($permiso_compras_id, $permisos_usuario))
-                                <a class="dropdown-item" href="{{ route('Admin.compra.index') }}">Gestionar compras</a>
-                            @endif
-                            @if(in_array($permiso_productos_id, $permisos_usuario))
-                                <a class="dropdown-item" href="{{ route('Admin.productos') }}">Gestionar productos</a>
-                            @endif
-                            @if(in_array($permiso_pedidos_id, $permisos_usuario))
-                                <a class="dropdown-item" href="{{ route('pedidos') }}">Gestionar pedidos</a>
-                            @endif
-                            @if(in_array($permiso_detalle_venta_id, $permisos_usuario))
-                                <a class="dropdown-item" href="{{ route('detalles') }}">Gestionar detalle de venta</a>
-                            @endif
                                         </div>
                                     </li>
                                 @endif

@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\GenerarProductoController;
 
 
 use App\Http\Controllers\Admin\ExportController;
+use App\Http\Controllers\Admin\InicioController;
 use App\Http\Controllers\Admin\InsumoProductoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\carritoController;
@@ -90,6 +91,8 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
 
 //midleware para controlar el acceso solo a los administradores
 //Route::middleware(['auth', 'user-access:1,3,4'])->group(function () {
+//Ruta para el inicio
+    Route::get('admin/inicio', [InicioController::class, 'inicio'])->name('admin.inicio');
 
     //ruta para dashboard
     Route::get('admin/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
