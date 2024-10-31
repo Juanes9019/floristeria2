@@ -110,7 +110,7 @@
 
             <!-- Botones -->
             <div class="form-group">
-                <button type="button" class="btn btn-success" value="agregar producto" onclick="agregar(event)">Agregar Producto</button>
+                <button type="button" class="btn btn-primary" value="agregar producto" onclick="agregar(event)">Agregar Producto</button>
                 <a href="{{ route('Admin.productos') }}" class="btn btn-primary">Cancelar</a>
             </div>
 

@@ -65,7 +65,7 @@
 
                 <div class="form-group">
                     <input type="button" class="btn btn-primary" value="Editar" onclick="editar()">
-                    <a href="{{ route('Admin.insumo') }}" class="btn btn-primary ">Cancelar</a>
+                    <a href="{{ route('Admin.insumo') }}" class="btn btn-danger ">Cancelar</a>
                 </div>
             </form>
         </div>

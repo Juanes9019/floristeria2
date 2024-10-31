@@ -159,7 +159,7 @@ public function personalizados(Request $request)
     // Obtener todos los insumos disponibles
     $productos = Producto::all();
     $insumos = Insumo::all();
-    $categorias_insumo  = Categoria_insumo::all();
+    $categorias_insumo = Categoria_insumo::all();
 
     // Recuperar los insumos seleccionados de la sesión
     $insumosSeleccionados = session()->get('insumosSeleccionados', []);
@@ -168,6 +168,9 @@ public function personalizados(Request $request)
     $totalElementos = 0;
     $totalPrecio = 0;
 
+    // Arreglo para guardar los detalles de los insumos seleccionados
+    $detallesInsumos = [];
+
     // Calcular el total de insumos seleccionados
     foreach ($insumosSeleccionados as $insumo) {
         $insumoBD = Insumo::find($insumo['id']);
@@ -175,17 +178,31 @@ public function personalizados(Request $request)
         if ($insumoBD) {
             $totalElementos += $insumo['cantidad'];
             $totalPrecio += $insumoBD->costo_unitario * $insumo['cantidad'];
+
+            // Guardar los detalles del insumo
+            $detallesInsumos[] = [
+                'id' => $insumoBD->id,
+                'nombre' => $insumoBD->nombre, // Asumiendo que tienes un campo 'nombre'
+                'costo_unitario' => $insumoBD->costo_unitario,
+                'cantidad' => $insumo['cantidad'],
+            ];
         }
     }
+
+    // Agregar un valor adicional de 30,000 al total
+    $totalPrecio += 30000;
+
+    // Obtener el valor de 'section' de la solicitud (por defecto, se establece en '1')
+    $section = $request->input('section', '1');
+
+    // Retornar la vista con los datos y el valor de section
+    return view('view_arreglo.personalizado.personalizado', compact('insumos', 'categorias_insumo', 'insumosSeleccionados', 'totalElementos', 'totalPrecio', 'productos', 'detallesInsumos', 'section'));
+}
     
 
-    // Agregar un valor adicional de 30,000 al total (por ejemplo, por costos de personalización)
-    $totalPrecio += 30000;
-    $totalPrecioDos = 100;
 
-    // Retornar la vista con los totales y los insumos
-    return view('view_arreglo.personalizado.personalizado', compact('insumos', 'categorias_insumo','insumosSeleccionados', 'totalElementos', 'totalPrecio','productos','totalPrecioDos'));
-}
+
+
 
 public function personalizado_estandar(Request $request)
 {

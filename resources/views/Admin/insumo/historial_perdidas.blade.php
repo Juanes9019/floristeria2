@@ -24,8 +24,8 @@
         </tbody>
     </table>
     <div class="form-group">
-        <a href="{{ route('Admin.insumo') }}" class="btn btn-primary ">Volver</a>
-        <a href="{{ route('Admin.insumo.perdida') }}" class="btn btn-danger" data-placement="left">
+        <a href="{{ route('Admin.insumo') }}" class="btn btn-danger ">Cancelar</a>
+        <a href="{{ route('Admin.insumo.perdida') }}" class="btn btn-primary" data-placement="left">
         {{ __('Registrar') }}
     </a>
     </div>

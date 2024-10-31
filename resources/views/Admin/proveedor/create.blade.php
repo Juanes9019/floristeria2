@@ -70,7 +70,7 @@
                 <br>
 
                 <div class="form-group">
-                    <button type="button" class="btn btn-success" value="Agregar proveedor" onclick="agregar()">Agregar proveedor</button>
+                    <button type="button" class="btn btn-primary" value="Agregar proveedor" onclick="agregar()">Agregar proveedor</button>
                     <a href="{{ route('Admin.proveedores') }}" class="btn btn-danger ">Cancelar</a>
                 </div>
             </form>

@@ -2,77 +2,117 @@
 
 @section('content')
 
-<div class="container" style="width: 90%; max-width: 1300px;">
+<link rel="stylesheet" href="{{ asset('css/timeline.css') }}">
+
+<div class="container custom-border-shadow" style="width: 90%; max-width: 1300px;">
     <div class="row justify-content-center">
-        <div class="col-md-6 mt-4">
-            <div class="card">
-                <div class="card-header text-black" style="background-color: #FFB6C1;">{{ __('Arreglo personalizado desde cero') }}</div>
-                <div class="card-body">
-                    @if (session('success'))
-                        <div class="alert alert-success d-flex align-items-center" role="alert">
-                            <i class="fas fa-check-circle me-2"></i>
-                            <div>
-                                {{ session('success') }}
+        <section class="timeline">
+            <div class="container">
+                <div id="carouselExampleCaptions" class="carousel slide">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" aria-current="true" aria-label="Slide 1" class="active">
+                            <h5>Paso 1</h5>
+                            <i class="fa-solid fa-sort"></i>                        
+                        </button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2">
+                            <h5>Paso 2</h5>
+                            <i class="fa-solid fa-box"></i>
+                        </button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3">
+                            <h5>Paso 3</h5>
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4">
+                            <h5>Paso 4</h5>
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
+                    </div>
+                    <div class="carousel-inner">
+
+                        <!-- Paso 1 -->
+                        <div class="carousel-item active">
+                            <div class="experience-slide-one row h-100 align-items-center">
+                                <div class="col-md-6">
+                                    <p class="alert alert-primary text-dark">En esta opción, puedes diseñar un arreglo personalizado desde cero, eligiendo entre una amplia variedad de flores y productos disponibles.</p>
+                                    <div class="d-flex justify-content-center mb-4">
+                                        <form method="GET" action="{{ route('personalizados') }}">
+                                            <input type="hidden" name="section" value="1">
+                                            <button type="submit" class="btn btn-outline-info"><i class="fas fa-box-open"></i> Personalizar arreglo</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="alert alert-primary text-dark">En esta opción, puedes crear un arreglo personalizado basado en uno ya establecido. Tendrás la opción de cambiar las flores o agregar más elementos.</p>
+                                    <div class="d-flex justify-content-center mb-4">
+                                        <form method="GET" action="{{ route('personalizados') }}">
+                                            <input type="hidden" name="section" value="2">
+                                            <button type="submit" class="btn btn-outline-info"><i class="fas fa-edit"></i> Personalizar producto predeterminado</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    @endif
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
 
-                    <p class="alert alert-primary text-dark">En esta sección, puedes de diseñar un arreglo personalizado desde cero, eligiendo entre una amplia variedad de flores y productos disponibles. </p>
-
-                    <div class="d-flex justify-content-between mb-4">
-                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#insumoModal"><i class="fas fa-box-open"></i> Personalizar producto</button>
-                    </div>
-
-
-                    @include('view_arreglo.personalizado.cero')
-                    
-                </div>
-            </div>
-        </div>
-
-        <!-- personalizado estandar -->
-        <div class="col-md-6 mt-4">
-            <div class="card">
-                <div class="card-header text-black" style="background-color: #FFB6C1;">{{ __('Arreglo Personalizado en base a un producto') }}</div>
-                <div class="card-body">
-                    @if (session('success'))
-                        <div class="alert alert-success d-flex align-items-center" role="alert">
-                            <i class="fas fa-check-circle me-2"></i>
-                            <div>
-                                {{ session('success') }}
+                        <!-- Paso 2 -->
+                        <div class="carousel-item">
+                            <div class="experience-slide-one row h-100 align-items-center justify-content-center">
+                                <div class="col-md-8">
+                                    <div class="experience-slide-img text-center"> 
+                                        @if ($section == '1')
+                                            @include('view_arreglo.personalizado.cero')
+                                        @elseif ($section == '2')
+                                            @include('view_arreglo.personalizado.estandar')
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    @endif
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+
+                        <!-- Paso 3 -->
+                        <div class="carousel-item">
+                            <div class="experience-slide-one row h-100 align-items-center">
+                                <div class="col-md-5">
+                                    <div class="experience-slide-img">
+                                        <img src="{{ 'https://i.imgur.com/ia1BeKH.png' }}" alt="imagen no disponible" width="100">
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="experience-slide-text">
+                                        <h3>mayo</h3>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    @endif
 
-                    <p class="alert alert-primary text-dark">En esta sección, puedes crear un arreglo personalizado basado en uno ya establecido. Tendrás la opción de cambiar las flores o agregar más elementos.</p>
-
-                    <div class="d-flex justify-content-between mb-4">
-                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#modal_producto_nuevo"><i class="fas fa-edit"></i> Personalizar producto predeterminado</button>
+                        <!-- Paso 4 -->
+                        <div class="carousel-item">
+                            <div class="experience-slide-one row h-100 align-items-center">
+                                <div class="col-md-5">
+                                    <div class="experience-slide-img">
+                                        <img src="{{ 'https://i.imgur.com/ia1BeKH.png' }}" alt="imagen no disponible" width="100">
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="experience-slide-text">
+                                        <h3>junio</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    @include('view_arreglo.personalizado.estandar')
+                        <!-- Botones de navegación -->
+                    <div class="d-flex justify-content-between mt-4">
+                        <button class="btn btn-outline-secondary ml-5" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                            <i class="fas fa-chevron-left"></i> Anterior
+                        </button>
+                        <button class="btn btn-outline-secondary mr-5" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                            Siguiente <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
 </div>
-
 @endsection
