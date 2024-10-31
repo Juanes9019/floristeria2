@@ -19,7 +19,7 @@ class CompraController extends Controller
 
         // Verificar si el permiso 'detalle' existe
         $permiso = DB::table('permisos')
-                    ->where('nombre', 'compras')
+                    ->where('nombre', 'Compras')
                     ->first();
         
         // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
@@ -52,7 +52,7 @@ class CompraController extends Controller
 
         // Verificar si el permiso 'detalle' existe
         $permiso = DB::table('permisos')
-                    ->where('nombre', 'compras')
+                    ->where('nombre', 'Compras')
                     ->first();
         
         // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
@@ -139,7 +139,7 @@ class CompraController extends Controller
 
         // Verificar si el permiso 'detalle' existe
         $permiso = DB::table('permisos')
-                    ->where('nombre', 'compras')
+                    ->where('nombre', 'Compras')
                     ->first();
         
         // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado

@@ -39,7 +39,7 @@ class DashboardController extends Controller
 
     // Verificar si el permiso 'dashboard' existe
     $permiso = DB::table('permisos')
-                ->where('nombre', 'dashboard')
+                ->where('nombre', 'Dashboard')
                 ->first();
     
     // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado

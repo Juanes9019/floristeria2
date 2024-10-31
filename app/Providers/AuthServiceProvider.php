@@ -18,51 +18,51 @@ class AuthServiceProvider extends ServiceProvider
 
         // Aquí defines tus permisos utilizando Gate
         Gate::define('view-dashboard', function (User $user) {
-            return $user->hasPermission('dashboard'); // Método para verificar el permiso
+            return $user->hasPermission('Dashboard'); // Método para verificar el permiso
         });
 
         Gate::define('view-users', function (User $user) {
-            return $user->hasPermission('usuarios');
+            return $user->hasPermission('Usuarios');
         });
 
         Gate::define('view-roles', function (User $user) {
-            return $user->hasPermission('roles');
+            return $user->hasPermission('Roles');
         });
 
         Gate::define('view-pqrs', function (User $user) {
-            return $user->hasPermission('pqrs');
+            return $user->hasPermission('Pqrs');
         });
 
         Gate::define('view-providers', function (User $user) {
-            return $user->hasPermission('proveedores');
+            return $user->hasPermission('Proveedores');
         });
 
         Gate::define('view-insumo-categories', function (User $user) {
-            return $user->hasPermission('categoria_insumos');
+            return $user->hasPermission('Categoria de insumos');
         });
 
         Gate::define('view-insumos', function (User $user) {
-            return $user->hasPermission('insumos');
+            return $user->hasPermission('Insumos');
         });
 
         Gate::define('view-purchases', function (User $user) {
-            return $user->hasPermission('compras');
+            return $user->hasPermission('Compras');
         });
 
         Gate::define('view-product-categories', function (User $user) {
-            return $user->hasPermission('categorias_productos');
+            return $user->hasPermission('Categoria de productos');
         });
 
         Gate::define('view-products', function (User $user) {
-            return $user->hasPermission('productos');
+            return $user->hasPermission('Productos');
         });
 
         Gate::define('view-orders', function (User $user) {
-            return $user->hasPermission('pedidos');
+            return $user->hasPermission('Pedidos');
         });
 
         Gate::define('view-sales-detail', function (User $user) {
-            return $user->hasPermission('detalle_venta');
+            return $user->hasPermission('Venta');
         });
     }
 }

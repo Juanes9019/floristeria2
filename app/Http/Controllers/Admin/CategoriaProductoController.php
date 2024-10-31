@@ -16,7 +16,7 @@ class CategoriaProductoController extends Controller
 
         // Verificar si el permiso 'categorias_productos' existe
         $permiso = DB::table('permisos')
-                    ->where('nombre', 'categorias_productos')
+                    ->where('nombre', 'Categoria de productos')
                     ->first();
         
         // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
@@ -38,6 +38,27 @@ class CategoriaProductoController extends Controller
 
     public function create()
     {
+        $user = auth()->user();
+
+        // Verificar si el permiso 'categorias_productos' existe
+        $permiso = DB::table('permisos')
+                    ->where('nombre', 'Categoria de productos')
+                    ->first();
+        
+        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+        if (!$permiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+                    
+        // Verificar si el usuario tiene el permiso asociado a su rol
+        $tienePermiso = DB::table('permisos_rol')
+                        ->where('id_rol', $user->id_rol)
+                        ->where('id_permiso', $permiso->id)
+                        ->exists();
+        
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
         $categoria_producto = new CategoriaProducto();
         return view('Admin.categoria_producto.create');
     }
@@ -78,7 +99,7 @@ class CategoriaProductoController extends Controller
 
     // Verificar si el permiso 'categorias_productos' existe
     $permiso = DB::table('permisos')
-                ->where('nombre', 'categorias_productos')
+                ->where('nombre', 'Categoria de productos')
                 ->first();
     
     // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado

@@ -24,7 +24,7 @@ class UserController extends Controller
     
         // Verificar si el usuario tiene permiso para ver la vista de usuarios
         $permiso = DB::table('permisos')
-                    ->where('nombre', 'usuarios')
+                    ->where('nombre', 'Usuarios')
                     ->first();
                     
         $tienePermiso = DB::table('permisos_rol')
@@ -49,7 +49,7 @@ class UserController extends Controller
     
         // Verificar si el usuario tiene permiso para ver la vista de usuarios
         $permiso = DB::table('permisos')
-                    ->where('nombre', 'usuarios')
+                    ->where('nombre', 'Usuarios')
                     ->first();
                     
         $tienePermiso = DB::table('permisos_rol')
@@ -107,7 +107,7 @@ class UserController extends Controller
     
         // Verificar si el usuario tiene permiso para ver la vista de usuarios
         $permiso = DB::table('permisos')
-                    ->where('nombre', 'usuarios')
+                    ->where('nombre', 'Usuarios')
                     ->first();
                     
         $tienePermiso = DB::table('permisos_rol')
@@ -191,7 +191,7 @@ return redirect()->route('Admin.users', ['id' => $usuarios->id])
 
     // Verificar si el permiso 'pqrs' existe
     $permiso = DB::table('permisos')
-                ->where('nombre', 'pqrs')
+                ->where('nombre', 'Pqrs')
                 ->first();
     
     // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
@@ -230,6 +230,28 @@ return redirect()->route('Admin.users', ['id' => $usuarios->id])
         $pqrs->fecha_respuesta = now();
         $pqrs->estado = 'Respondido'; 
         $pqrs->save();
+
+        $user = auth()->user();
+
+    // Verificar si el permiso 'pqrs' existe
+    $permiso = DB::table('permisos')
+                ->where('nombre', 'Pqrs')
+                ->first();
+    
+    // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+    if (!$permiso) {
+        return response()->view('errors.accesoDenegado');
+    }
+                
+    // Verificar si el usuario tiene el permiso asociado a su rol
+    $tienePermiso = DB::table('permisos_rol')
+                    ->where('id_rol', $user->id_rol)
+                    ->where('id_permiso', $permiso->id)
+                    ->exists();
+    
+    if (!$tienePermiso) {
+        return response()->view('errors.accesoDenegado');
+    }
 
 
         return redirect()->route('Admin.users.pqrs')->with('success', 'Respuesta enviada con éxito');
@@ -280,7 +302,7 @@ public function export($format)
 
         // Si las credenciales son incorrectas
         return response()->json([
-            'message' => 'Credenciales incorrectas Deymar',
+            'message' => 'Credenciales incorrectas',
       ],401);
     }
 }

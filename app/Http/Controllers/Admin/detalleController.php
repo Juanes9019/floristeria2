@@ -19,7 +19,7 @@ class detalleController extends Controller
 
     // Verificar si el permiso 'detalle' existe
     $permiso = DB::table('permisos')
-                ->where('nombre', 'detalle_venta')
+                ->where('nombre', 'Venta')
                 ->first();
     
     // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado

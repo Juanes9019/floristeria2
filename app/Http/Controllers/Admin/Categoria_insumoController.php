@@ -17,9 +17,9 @@ class Categoria_insumoController extends Controller
     {
         $user = auth()->user();
 
-    // Verificar si el permiso 'categoria_insumos' existe
+    // Verificar si el permiso 'Categoria de insumos' existe
     $permiso = DB::table('permisos')
-                ->where('nombre', 'categoria_insumos')
+                ->where('nombre', 'Categoria de insumos')
                 ->first();
     
     // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
@@ -50,7 +50,7 @@ class Categoria_insumoController extends Controller
 
     // Verificar si el permiso 'categoria_insumos' existe
     $permiso = DB::table('permisos')
-                ->where('nombre', 'categoria_insumos')
+                ->where('nombre', 'Categoria de insumos')
                 ->first();
     
     // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
@@ -106,7 +106,7 @@ class Categoria_insumoController extends Controller
 
     // Verificar si el permiso 'categoria_insumos' existe
     $permiso = DB::table('permisos')
-                ->where('nombre', 'categoria_insumos')
+                ->where('nombre', 'Categoria de insumos')
                 ->first();
     
     // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado

@@ -14,7 +14,7 @@
                             <div class="float-right">
                                 <a href="{{ route('Admin.roles.create') }}" class="btn btn-primary btn-sm float-right"
                                     data-placement="left">
-                                    {{ __('Registrar rol') }}
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
                                 </a>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                         @endforeach
                     </div>
                 
-                    <button type="submit" class="btn btn-outline-secondary">Guardar</button>
+                    <button type="submit" class="btn btn-outline-primary">Guardar</button>
                 </form>
                 
             </div>

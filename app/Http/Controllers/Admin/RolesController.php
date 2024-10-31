@@ -18,7 +18,7 @@ class RolesController extends Controller
 
         // Verificar si el usuario tiene permiso para ver la vista de roles
         $permiso = DB::table('permisos')
-            ->where('nombre', 'roles')
+            ->where('nombre', 'Roles')
             ->first();
 
         $tienePermiso = DB::table('permisos_rol')
@@ -41,7 +41,7 @@ class RolesController extends Controller
     public function create()
     {
         $user = auth()->user();
-        $permiso = DB::table('permisos')->where('nombre', 'roles')->first();
+        $permiso = DB::table('permisos')->where('nombre', 'Roles')->first();
         $tienePermiso = DB::table('permisos_rol')->where('id_rol', $user->id_rol)->where('id_permiso', $permiso->id)->exists();
 
         if (!$tienePermiso) {
@@ -85,7 +85,7 @@ class RolesController extends Controller
         $user = auth()->user();
 
         $permiso = DB::table('permisos')
-            ->where('nombre', 'roles')
+            ->where('nombre', 'Roles')
             ->first();
 
         $tienePermiso = DB::table('permisos_rol')
@@ -153,7 +153,7 @@ class RolesController extends Controller
 
         // Verificar si el usuario tiene permiso para ver la vista de roles
         $permiso = DB::table('permisos')
-            ->where('nombre', 'roles')
+            ->where('nombre', 'Roles')
             ->first();
 
         $tienePermiso = DB::table('permisos_rol')
@@ -173,6 +173,22 @@ class RolesController extends Controller
 
     public function update_permiso_rol(Request $request, $id)
     {
+        $user = auth()->user();
+
+        // Verificar si el usuario tiene permiso para ver la vista de roles
+        $permiso = DB::table('permisos')
+            ->where('nombre', 'Roles')
+            ->first();
+
+        $tienePermiso = DB::table('permisos_rol')
+            ->where('id_rol', $user->id_rol)
+            ->where('id_permiso', $permiso->id)
+            ->exists();
+
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+        
         // Validaciones
         $request->validate([
             'nombre_rol' => 'required|string|max:255',

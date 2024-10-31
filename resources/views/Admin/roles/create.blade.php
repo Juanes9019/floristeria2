@@ -14,7 +14,7 @@
     <div class="col-md-8">
         <form id="formulario_crear" method="POST" action="{{ route('Admin.roles.store') }}" novalidate>
             @csrf
-            <div class="form-group">
+            <div class="form-group col-md-6"> <!-- Reduce el tamaño del campo del rol a la mitad -->
                 <label for="nombre">Nombre del rol</label>
                 <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror" id="nombre" placeholder="Nombre del rol" value="{{ old('nombre') }}">
                 @error('nombre')
@@ -24,15 +24,21 @@
                 @enderror
             </div>
 
-            <!-- Lista de permisos -->
+            <!-- Lista de permisos en dos columnas -->
             <div class="form-group">
                 <label>Selecciona permisos para el rol:</label>
-                @foreach($todos_los_permisos as $permiso)
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" id="flexSwitchCheckChecked" type="checkbox" name="permisos[]" value="{{ $permiso->id }}" id="permiso_{{ $permiso->id }}">
-                        <label class="form-check-label" for="permiso_{{ $permiso->id }}">{{ $permiso->nombre }}</label>
-                    </div>
-                @endforeach
+                <div class="row">
+                    @foreach($todos_los_permisos->chunk(ceil($todos_los_permisos->count() / 2)) as $chunk)
+                        <div class="col-md-6">
+                            @foreach($chunk as $permiso)
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" name="permisos[]" value="{{ $permiso->id }}" id="permiso_{{ $permiso->id }}">
+                                    <label class="form-check-label" for="permiso_{{ $permiso->id }}">{{ $permiso->nombre }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endforeach
+                </div>
             </div>
 
             <div class="form-group">
@@ -82,7 +88,6 @@ function agregar() {
 }
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 @stop

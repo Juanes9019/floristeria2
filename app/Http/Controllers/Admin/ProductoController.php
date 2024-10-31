@@ -22,7 +22,7 @@ class ProductoController extends Controller
 
         // Verificar si el permiso 'productos' existe
         $permiso = DB::table('permisos')
-            ->where('nombre', 'productos')
+            ->where('nombre', 'Productos')
             ->first();
 
         // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
@@ -46,6 +46,27 @@ class ProductoController extends Controller
 
     public function create(Request $request)
     {
+        $user = auth()->user();
+
+        // Verificar si el permiso 'productos' existe
+        $permiso = DB::table('permisos')
+            ->where('nombre', 'Productos')
+            ->first();
+
+        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+        if (!$permiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+
+        // Verificar si el usuario tiene el permiso asociado a su rol
+        $tienePermiso = DB::table('permisos_rol')
+            ->where('id_rol', $user->id_rol)
+            ->where('id_permiso', $permiso->id)
+            ->exists();
+
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
 
 
 
@@ -113,12 +134,33 @@ class ProductoController extends Controller
         session()->forget('insumos_agregados');
 
         // Redirigir a la lista de productos con éxito
-
+        
         return redirect()->route('Admin.productos')->with('success', 'Producto creado exitosamente');
     }
 
     public function show($id)
     {
+        $user = auth()->user();
+
+        // Verificar si el permiso 'productos' existe
+        $permiso = DB::table('permisos')
+            ->where('nombre', 'Productos')
+            ->first();
+
+        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+        if (!$permiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+
+        // Verificar si el usuario tiene el permiso asociado a su rol
+        $tienePermiso = DB::table('permisos_rol')
+            ->where('id_rol', $user->id_rol)
+            ->where('id_permiso', $permiso->id)
+            ->exists();
+
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
         
         $producto = Producto::with('categoria_producto', 'insumos')->findOrFail($id);
 
@@ -135,7 +177,7 @@ class ProductoController extends Controller
 
         // Verificar si el permiso 'productos' existe
         $permiso = DB::table('permisos')
-            ->where('nombre', 'productos')
+            ->where('nombre', 'Productos')
             ->first();
 
         // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado

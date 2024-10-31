@@ -308,7 +308,6 @@ return [
         'text' => 'Buscar',
     ],
 
-    ['header' => 'GESTIÓN DE ESTADÍSTICAS'],
     [
         'text' => 'Estadísticas',
         'icon' => 'fas fa-chart-line',
@@ -322,7 +321,6 @@ return [
         ],
     ],
 
-    ['header' => 'GESTIÓN DE USUARIOS'],
     [
         'text' => 'Usuarios y Roles',
         'icon' => 'fas fa-users-cog',
@@ -348,7 +346,6 @@ return [
         ],
     ],
 
-    ['header' => 'GESTIÓN DE COMPRA'],
     [
         'text' => 'Compras',
         'icon' => 'fas fa-shopping-basket',
@@ -380,7 +377,6 @@ return [
         ],
     ],
 
-    ['header' => 'GESTIÓN DE TIENDA'],
     [
         'text' => 'Ventas',
         'icon' => 'fas fa-cash-register',
@@ -413,7 +409,7 @@ return [
                 'can' => 'view-orders', 
             ],
             [
-                'text' => 'Detalle venta',
+                'text' => 'Ventas',
                 'url' => 'admin/detalle',
                 'icon' => 'fas fa-file-alt', 
                 'label_color' => 'warning',

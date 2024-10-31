@@ -23,7 +23,7 @@ class ProveedorController extends Controller
 
     // Verificar si el usuario tiene permiso para ver proveedores
     $permiso = DB::table('permisos')
-                ->where('nombre', 'proveedores')
+                ->where('nombre', 'Proveedores')
                 ->first();
                 
     $tienePermiso = DB::table('permisos_rol')
@@ -47,7 +47,7 @@ class ProveedorController extends Controller
 
     // Verificar si el usuario tiene permiso para ver proveedores
     $permiso = DB::table('permisos')
-                ->where('nombre', 'proveedores')
+                ->where('nombre', 'Proveedores')
                 ->first();
                 
     $tienePermiso = DB::table('permisos_rol')
@@ -102,7 +102,7 @@ class ProveedorController extends Controller
 
     // Verificar si el usuario tiene permiso para ver proveedores
     $permiso = DB::table('permisos')
-                ->where('nombre', 'proveedores')
+                ->where('nombre', 'Proveedores')
                 ->first();
                 
     $tienePermiso = DB::table('permisos_rol')

@@ -14,18 +14,18 @@ class PermisoSeeder extends Seeder
     public function run(): void
     {
         DB::table('permisos')->insert([
-            ['nombre' => 'dashboard'],
-            ['nombre' => 'usuarios'],
-            ['nombre' => 'roles'],
-            ['nombre' => 'proveedores'],
-            ['nombre' => 'categorias_productos'],
-            ['nombre' => 'categoria_insumos'],
-            ['nombre' => 'insumos'],
-            ['nombre' => 'productos'],
-            ['nombre' => 'compras'],
-            ['nombre' => 'detalle_venta'],
-            ['nombre' => 'pedidos'],
-            ['nombre' => 'pqrs'],
+            ['nombre' => 'Dashboard'],
+            ['nombre' => 'Usuarios'],
+            ['nombre' => 'Roles'],
+            ['nombre' => 'Proveedores'],
+            ['nombre' => 'Categoria de productos'],
+            ['nombre' => 'Categoria de insumos'],
+            ['nombre' => 'Insumos'],
+            ['nombre' => 'Productos'],
+            ['nombre' => 'Compras'],
+            ['nombre' => 'Venta'],
+            ['nombre' => 'Pedidos'],
+            ['nombre' => 'Pqrs'],
         ]);
     }
 }
