@@ -4,6 +4,22 @@
 
 <link rel="stylesheet" href="{{ asset('css/timeline.css') }}">
 
+<div class="card-body">
+@if (session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: '{{ session('success') }}',
+            position: 'top-end',
+            toast: true,
+            showConfirmButton: false,
+            timer: 3000
+        });
+    </script>
+@endif
+</div>
+
 <div class="container custom-border-shadow" style="width: 90%; max-width: 1300px;">
     <div class="row justify-content-center">
         <section class="timeline">
@@ -29,7 +45,6 @@
                     </div>
                     <div class="carousel-inner">
 
-                        <!-- Paso 1 -->
                         <div class="carousel-item active">
                             <div class="experience-slide-one row h-100 align-items-center">
                                 <div class="col-md-6">
@@ -53,7 +68,6 @@
                             </div>
                         </div>
 
-                        <!-- Paso 2 -->
                         <div class="carousel-item">
                             <div class="experience-slide-one row h-100 align-items-center justify-content-center">
                                 <div class="col-md-8">
@@ -68,23 +82,97 @@
                             </div>
                         </div>
 
-                        <!-- Paso 3 -->
-                        <div class="carousel-item">
-                            <div class="experience-slide-one row h-100 align-items-center">
-                                <div class="col-md-5">
-                                    <div class="experience-slide-img">
-                                        <img src="{{ 'https://i.imgur.com/ia1BeKH.png' }}" alt="imagen no disponible" width="100">
-                                    </div>
-                                </div>
-                                <div class="col-md-7">
+                        <div class="carousel-item"> 
+                            <div class="experience-slide-one row h-100 align-items-center justify-content-center">
+                                <div class="col-md-8">
                                     <div class="experience-slide-text">
-                                        <h3>mayo</h3>
+                                        @if ($section == '1')
+                                            <div class="card mt-4 shadow-sm">
+                                                <div class="card-header text-black text-center" style="background-color: #FFB6C1;">
+                                                    Productos seleccionados:
+                                                </div>
+                                                <div class="card-body bg-light">
+                                                    @if(session('insumosSeleccionados'))
+                                                        <ul class="list-group">
+                                                            @foreach(session('insumosSeleccionados') as $key => $personalizado)
+                                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    <div>
+                                                                        <strong>{{ $personalizado['nombre'] }}</strong> - Cantidad: {{ $personalizado['cantidad'] }}
+                                                                    </div>
+                                                                    <div class="btn-group" role="group">
+                                                                        <form action="{{ route('actualizar_producto', $key) }}" method="POST" class="d-inline">
+                                                                            @csrf
+                                                                            @method('PATCH')
+                                                                            <button type="submit" name="action" value="incrementar" class="btn btn-outline-primary btn-sm">
+                                                                                <i class="fas fa-plus"></i>
+                                                                            </button>
+                                                                            <button type="submit" name="action" value="decrementar" class="btn btn-outline-primary btn-sm">
+                                                                                <i class="fas fa-minus"></i>
+                                                                            </button>
+                                                                        </form>
+                                                                        <form action="{{ route('eliminar_producto', $key) }}" method="POST" class="d-inline ml-1">
+                                                                            @csrf
+                                                                            @method('DELETE')
+                                                                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                                                <i class="fas fa-trash"></i> Eliminar
+                                                                            </button>
+                                                                        </form>
+                                                                    </div>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @else
+                                                        <p class="text-center mb-0">No hay productos seleccionados.</p>
+                                                    @endif
+                                                </div>
+                                            </div>
+                            
+                                        @elseif ($section == '2')
+                                            <div class="card mt-4 shadow-sm">
+                                                <div class="card-header text-black text-center" style="background-color: #FFB6C1;">
+                                                    Productos seleccionados:
+                                                </div>
+                                                <div class="card-body bg-light">
+                                                    @if(session('insumosPersonalizados'))
+                                                        <ul class="list-group">
+                                                            @foreach(session('insumosPersonalizados') as $key => $personalizado)
+                                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                                    <div>
+                                                                        <strong>{{ $personalizado['nombre_producto'] }} - Insumo: {{ $personalizado['nombre_insumo'] }}</strong> - Cantidad: {{ $personalizado['cantidad'] }}
+                                                                    </div>
+                                                                    <div class="btn-group" role="group">
+                                                                        <form action="{{ route('actualizar_producto', $key) }}" method="POST" class="d-inline">
+                                                                            @csrf
+                                                                            @method('PATCH')
+                                                                            <button type="submit" name="action" value="incrementar" class="btn btn-outline-primary btn-sm">
+                                                                                <i class="fas fa-plus"></i>
+                                                                            </button>
+                                                                            <button type="submit" name="action" value="decrementar" class="btn btn-outline-primary btn-sm">
+                                                                                <i class="fas fa-minus"></i>
+                                                                            </button>
+                                                                        </form>
+                                                                        <form action="{{ route('eliminar_producto', $key) }}" method="POST" class="d-inline ml-1">
+                                                                            @csrf
+                                                                            @method('DELETE')
+                                                                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                                                <i class="fas fa-trash"></i> Eliminar
+                                                                            </button>
+                                                                        </form>
+                                                                    </div>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @else
+                                                        <p class="text-center mb-0">No hay productos personalizados seleccionados.</p>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Paso 4 -->
                         <div class="carousel-item">
                             <div class="experience-slide-one row h-100 align-items-center">
                                 <div class="col-md-5">

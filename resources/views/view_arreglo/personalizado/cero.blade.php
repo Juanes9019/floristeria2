@@ -26,17 +26,14 @@
     
     <div class="col-md-6">
     <div class="d-flex flex-column align-items-center" style="height: 100%;">
-        <!-- Contenedor de imagen -->
         <div id="imagen-insumo-container" class="bg-light border rounded shadow-sm p-3 mb-3 text-center" style="display: none; width: 100%; height: 200px;">
             <img id="imagen-insumo" src="ruta/default.jpg" alt="imagen producto" class="img-fluid" style="max-height: 100%; object-fit: contain;">
         </div>
         
-        <!-- Contenedor de precio -->
         <div id="precio-insumo" class="bg-light border rounded shadow-sm  mb-2" style="width: 100%;">
             <h5 class="mb-0">Precio: <span id="precio-value">$0</span></h5>
         </div>
         
-        <!-- Contenedor de descripción -->
         <div id="descripcion-insumo" class="bg-light border rounded shadow-sm p-3" style="width: 100%;">
             <h6 class="mb-0">Descripción:</h6>
             <p class="mb-0">Por favor selecciona un insumo para ver más detalles.</p>
