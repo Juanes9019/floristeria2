@@ -162,48 +162,6 @@ class InsumoController extends Controller
             ->with('success', 'insumo actualizado exitosamente');
     }
 
-    // public function incrementarInsumo($id)
-    // {
-    //     $insumo = Insumo::find($id);
-
-    //     // Verifica si la cantidad de insumo es mayor a 0 antes de incrementar la pérdida
-    //     if ($insumo->cantidad_insumo > 0) {
-    //         // Incrementa la pérdida de insumo en 1
-    //         $insumo->perdida_insumo += 1;
-
-    //         // Reduce la cantidad de insumo en 1
-    //         $insumo->cantidad_insumo = max(0, $insumo->cantidad_insumo - 1);
-    //         $insumo->costo_perdida = $insumo->costo_unitario * $insumo->perdida_insumo;
-    //         $insumo->save();
-
-    //         return redirect()->route('Admin.insumo')->with('success', 'Insumo incrementado.');
-    //     } else {
-    //         return redirect()->route('Admin.insumo')->with('error', 'No se puede incrementar la pérdida, la cantidad de insumo es 0.');
-    //     }
-    // }
-
-
-    // public function decrementarInsumo($id)
-    // {
-    //     $insumo = Insumo::find($id);
-
-    //     // Solo decrementa la pérdida y aumenta la cantidad si la pérdida es mayor que 0
-    //     if ($insumo->perdida_insumo > 0) {
-    //         // Decrementa la pérdida de insumo en 1
-    //         $insumo->perdida_insumo -= 1;
-
-    //         // Aumenta la cantidad de insumo en 1 solo si la cantidad era 0 antes de este incremento
-    //         $insumo->cantidad_insumo += 1;
-    //         $insumo->costo_perdida = $insumo->costo_unitario * $insumo->perdida_insumo;
-    //         $insumo->save();
-
-    //         return redirect()->route('Admin.insumo')->with('success', 'Insumo decrementado.');
-    //     } else {
-    //         return redirect()->route('Admin.insumo')->with('error', 'No se puede decrementar la pérdida, no hay pérdida registrada.');
-    //     }
-    // }
-
-
     public function change_Status($id)
     {
         $insumo = Insumo::find($id);
@@ -283,15 +241,17 @@ class InsumoController extends Controller
             return response()->view('errors.accesoDenegado');
         }
 
-        $insumos = Insumo::all(); // Por ejemplo, para mostrar los insumos.
+        $insumos = Insumo::all(); 
+        $categorias = Categoria_insumo::all();
 
-        return view('admin.insumo.perdida', compact('insumos'));
+        return view('admin.insumo.perdida', compact('categorias', 'insumos'));
     }
 
     public function storePerdida(Request $request)
     {
         // Validar los datos del formulario
         $request->validate([
+            'id_categoria_insumo' => 'required',
             'insumo_id' => 'required|exists:insumos,id',
             'cantidad_perdida' => 'required|numeric|min:1',
         ]);
@@ -306,6 +266,7 @@ class InsumoController extends Controller
 
         // Registrar la pérdida en el historial
         HistorialPerdida::create([
+            'id_categoria_insumo'=> $request->id_categoria_insumo,
             'insumo_id' => $request->insumo_id,
             'cantidad_perdida' => $request->cantidad_perdida,
             'fecha_perdida' => now(),
@@ -365,5 +326,15 @@ class InsumoController extends Controller
         }
         $historialPerdidas = HistorialPerdida::with('insumo')->get();
         return view('admin.insumo.historial_perdidas', compact('historialPerdidas'));
+    }
+
+    // Método para obtener insumos asociados a una categoría
+    public function getInsumos($idCategoria)
+    {
+        // Obtén los insumos asociados a la categoría dada
+        $insumos = Insumo::where('id_categoria_insumo', $idCategoria)->get();
+
+        // Devuelve los insumos en formato JSON
+        return response()->json($insumos);
     }
 }

@@ -11,14 +11,29 @@
                         </span>
                     </div>
                 </div>
-
-                @if ($message = Session::get('success'))
-                    <div class="alert alert-success">
-                        <p>{{ $message }}</p>
-                    </div>
-                @endif
-
+                
                 <div class="card-body">
+
+                    @if ($errors->has('status'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ $errors->first('status') }}
+                        </div>
+                    @endif
+
+                    @if (session('success'))
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Éxito',
+                                text: '{{ session('success') }}',
+                                position: 'top-end',
+                                toast: true,
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        </script>
+                    @endif
+
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="col-md-6">
                             <input wire:model.live.debounce.300ms="buscar" type="text" class="form-control" placeholder="Buscar...">
@@ -36,21 +51,6 @@
                         <table class="table table-striped table-hover">
                             <thead class="thead">
                                 <tr>
-                                    <th scope="col" class="text-center" wire:click="sortBy('id')">
-                                        No
-                                        @if ($ordenarColumna === 'id')
-                                            @if ($ordenarForma === 'asc')
-                                                <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
-                                                </svg>
-                                            @else
-                                                <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
-                                                </svg>
-                                            @endif
-                                        @endif
-                                    </th>
-
                                     <th scope="col" class="text-center" wire:click="sortBy('created_at')">
                                         Fecha de Compra
                                         @if ($ordenarColumna === 'created_at')
@@ -104,7 +104,7 @@
                             <tbody>
                                 @foreach($compras as $compra)
                                     <tr>
-                                        <td class="text-center">{{ ($compras->currentPage() - 1) * $compras->perPage() + $loop->iteration }}</td>
+                                        <!-- <td class="text-center">{{ ($compras->currentPage() - 1) * $compras->perPage() + $loop->iteration }}</td> -->
                                         <td class="text-center">{{ $compra->created_at->format('d/m/Y H:i') }}</td>
                                         <td class="text-center">{{ $compra->proveedor->nombre }}</td>
                                         <td class="text-center">${{ number_format($compra->costo_total, 0, ',', '.') }}</td>
@@ -151,7 +151,7 @@ function eliminar(compraId) {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminar',
+        confirmButtonText: 'Sí, Anular',
         cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {

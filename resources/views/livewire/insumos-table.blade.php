@@ -9,63 +9,63 @@
                         </span>
                     </div>
                 </div>
-    
-                
                 @if ($message = Session::get('error'))
-                <script>
-                    function eliminar(id, estadoInsumo) {
-                        if (estadoInsumo == 1) {
-                            Swal.fire({
-                                title: "¡Error!",
-                                text: "No se puede eliminar un insumo activo.",
-                                icon: "error",
-                                confirmButtonText: "OK"
-                            });
-                        } else {
-                            Swal.fire({
-                                title: "¡Estás seguro!",
-                                text: "¿Deseas eliminar este insumo?",
-                                icon: "warning",
-                                showCancelButton: true,
-                                confirmButtonColor: "#3085d6",
-                                cancelButtonColor: "#d33",
-                                confirmButtonText: "Sí, eliminar"
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    Swal.fire({
-                                        title: "!Insumo Eliminado!",
-                                        text: "El insumo se eliminó correctamente.",
-                                        icon: "success"
-                                    }).then(() => {
-                                        document.getElementById('form_eliminar_' + id).submit();
-                                    });
-                                }
-                            });
+                    <script>
+                        function eliminar(id, estadoInsumo) {
+                            if (estadoInsumo == 1) {
+                                Swal.fire({
+                                    title: "¡Error!",
+                                    text: "No se puede eliminar un insumo activo.",
+                                    icon: "error",
+                                    confirmButtonText: "OK"
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: "¡Estás seguro!",
+                                    text: "¿Deseas eliminar este insumo?",
+                                    icon: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#3085d6",
+                                    cancelButtonColor: "#d33",
+                                    confirmButtonText: "Sí, eliminar"
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        Swal.fire({
+                                            title: "!Insumo Eliminado!",
+                                            text: "El insumo se eliminó correctamente.",
+                                            icon: "success"
+                                        }).then(() => {
+                                            document.getElementById('form_eliminar_' + id).submit();
+                                        });
+                                    }
+                                });
+                            }
                         }
-                    }
-
-                    function showAlert(action) {
-                        let title, text;
-                        if (action === 'incrementar') {
-                            title = 'Insumo Incrementado';
-                            text = 'El insumo se ha incrementado correctamente.';
-                        } else if (action === 'decrementar') {
-                            title = 'Insumo Decrementado';
-                            text = 'El insumo se ha decrementado correctamente.';
-                        }
-
-                        Swal.fire({
-                            title: title,
-                            text: text,
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                </script>
-
+                    </script>
                 @endif
 
                 <div class="card-body">
+
+                    @if ($errors->has('status'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ $errors->first('status') }}
+                        </div>
+                    @endif
+
+                    @if (session('success'))
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Éxito',
+                                text: '{{ session('success') }}',
+                                position: 'top-end',
+                                toast: true,
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        </script>
+                    @endif
+                    
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="col-md-6">
                             <input wire:model.live.debounce.300ms="buscar" type="text" class="form-control" placeholder="Buscar...">
@@ -95,9 +95,9 @@
                         <table class="table table-striped table-hover">
                             <thead class="thead">
                                 <tr>
-                                    <th scope="col" class="text-center" wire:click="sortBy('id')">
-                                        No
-                                        @if ($ordenarColumna === 'id')
+                                    <th scope="col" class="text-center" wire:click="sortBy('nombre')">
+                                        Nombre
+                                        @if ($ordenarColumna === 'nombre')
                                             @if ($ordenarForma === 'asc')
                                                 <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
@@ -113,21 +113,6 @@
                                     <th scope="col" class="text-center" wire:click="sortBy('id_categoria_insumo')">
                                         Categoría insumo
                                         @if ($ordenarColumna === 'id_categoria_insumo')
-                                            @if ($ordenarForma === 'asc')
-                                                <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
-                                                </svg>
-                                            @else
-                                                <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
-                                                </svg>
-                                            @endif
-                                        @endif
-                                    </th>
-
-                                    <th scope="col" class="text-center" wire:click="sortBy('nombre')">
-                                        Nombre
-                                        @if ($ordenarColumna === 'nombre')
                                             @if ($ordenarForma === 'asc')
                                                 <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
@@ -164,11 +149,10 @@
                             <tbody>
                                 @foreach($insumos as $insumo)
                                     <tr>
-                                        <td class="text-center">{{ ($insumos->currentPage() - 1) * $insumos->perPage() + $loop->iteration }}</td>
-                                        <td class="text-center">{{ $insumo->categoria_insumo->nombre }}</td>
                                         <td class="text-center">
                                             {{ $insumo->nombre }}{{ $insumo->color ? ' - ' . $insumo->color : '' }}
-                                        </td>                                        
+                                        </td>               
+                                        <td class="text-center">{{ $insumo->categoria_insumo->nombre }}</td>                         
                                         <td class="text-center">{{ $insumo->cantidad_insumo }}</td>
                                         <td class="text-center">{{ number_format($insumo->costo_unitario, 0, ',', '.') }}</td>
                                         

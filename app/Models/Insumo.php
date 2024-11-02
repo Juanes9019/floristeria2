@@ -29,11 +29,7 @@ class Insumo extends Model
     {
         return $this->belongsTo(Categoria_insumo::class, 'id_categoria_insumo');
     }
-
-    // public function generarProducto()
-    // {
-    //     return $this->belongsTo(GenerarProducto::class, 'id_insumo');
-    // }
+    
     public function scopeSearch($query, $value)
     {
         $query->where('nombre', 'like', "%{$value}%")

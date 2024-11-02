@@ -190,10 +190,11 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::post('admin/insumo/storePerdida', [InsumoController::class, 'storePerdida'])->name('admin.insumo.storePerdida');
     Route::get('admin/insumo/historial-perdidas', [InsumoController::class, 'historialPerdidas'])->name('Admin.insumo.historialPerdidas');
     // Route::delete('admin/insumo/{id}', [InsumoController::class, 'destroy'])->name('Admin.insumo.destroy');
-    // Route::get('admin/insumo/{id}/incrementarInsumo', [InsumoController::class, 'incrementarInsumo'])->name('incrementarInsumo');
-    // Route::get('admin/insumo/{id}/decrementarInsumo', [InsumoController::class, 'decrementarInsumo'])->name('decrementarInsumo');
     Route::get('admin/insumo/{id}/status', [InsumoController::class, 'change_Status'])->name('Admin.insumo.status');
     Route::get('/insumos/export/{format}', [InsumoController::class, 'export'])->name('Admin.insumos.export');
+    Route::get('admin/insumo/{idCategoria}', [InsumoController::class, 'getInsumos'])->name('insumos');
+
+
 
 
     // Rutas para el controlador CompraController
