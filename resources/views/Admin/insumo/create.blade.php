@@ -75,7 +75,7 @@
                         </div>
                         <br>
                         <input type="button" class="btn btn-primary" value="Agregar" onclick="agregar()">
-                        <a href="{{ route('Admin.insumo') }}" class="btn btn-primary ">Cancelar</a>
+                        <a href="{{ route('Admin.insumo') }}" class="btn btn-danger ">Cancelar</a>
                     </div>
                 </div>
             </form>

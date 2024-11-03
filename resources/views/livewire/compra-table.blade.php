@@ -110,7 +110,10 @@
                                         <td class="text-center">${{ number_format($compra->costo_total, 0, ',', '.') }}</td>
                                         <td class="text-center">{{ $compra->estado }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('compra.detalles', $compra->id) }}" class="btn btn-info">Ver Detalles</a>
+                                            <a href="{{ route('compra.detalles', $compra->id) }}" class="btn btn-info"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                                            </svg></a>
                                         </td>
                                         <td >
                                             <form id="form_eliminar_{{$compra->id}}" action="{{ route('Admin.compra.destroy', $compra->id) }}" method="POST">
@@ -159,6 +162,7 @@ function eliminar(compraId) {
         }
     });
 }
+
 
 </script>
 

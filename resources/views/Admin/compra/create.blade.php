@@ -64,7 +64,7 @@
                     <br>
                     <input type="button" class="btn btn-success" value="Finalizar" onclick="finalizarCompra()">
                     <input type="button" class="btn btn-primary" value="Agregar" onclick="agregarCarrito()">
-                    <a href="{{ route('Admin.compra.index') }}" class="btn btn-primary">Cancelar</a>
+                    <a href="{{ route('Admin.compra.index') }}" class="btn btn-danger">Cancelar</a>
                 </div>
             </div>
             

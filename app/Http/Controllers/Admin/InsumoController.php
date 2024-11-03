@@ -149,7 +149,7 @@ class InsumoController extends Controller
         $insumos->id_categoria_insumo = $request->input('id_categoria_insumo');
         $insumos->nombre = $request->input('nombre');
         $insumos->costo_unitario = $request->input('costo_unitario');
-        $insumos->imange = $request->input('imagen');
+        $insumos->imagen = $request->input('imagen');
         if ($request->has('estado')) {
             $insumos->estado = $request->estado;
         }
