@@ -178,7 +178,9 @@ function finalizarCompra() {
         confirmButtonText: 'Sí, finalizar compra'
     }).then((result) => {
         if (result.isConfirmed) {
-            $('#formulario_crear').submit();
+            event.preventDefault();
+
+            document.getElementById('formulario_crear').submit();
         }
     });
 }
@@ -238,5 +240,29 @@ $(document).ready(function() {
     });
 });
 
+ // SweetAlert notifications for success and error messages
+ @if (session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: '{{ session('success') }}',
+            position: 'top-end',
+            toast: true,
+            showConfirmButton: false,
+            timer: 3000
+        });
+    @endif
+
+    @if (session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '{{ session('error') }}',
+            position: 'top-end',
+            toast: true,
+            showConfirmButton: false,
+            timer: 3000
+        });
+    @endif
 </script>
 @endsection

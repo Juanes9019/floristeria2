@@ -249,57 +249,63 @@ class InsumoController extends Controller
 
     public function storePerdida(Request $request)
     {
-        // Validar los datos del formulario
-        $request->validate([
-            'id_categoria_insumo' => 'required',
-            'insumo_id' => 'required|exists:insumos,id',
-            'cantidad_perdida' => 'required|numeric|min:1',
-        ]);
+        try {
 
-        // Obtener el insumo
-        $insumo = Insumo::find($request->insumo_id);
+            // Validar los datos del formulario
+            $request->validate([
+                'id_categoria_insumo' => 'required',
+                'insumo_id' => 'required|exists:insumos,id',
+                'cantidad_perdida' => 'required|numeric|min:1',
+            ]);
 
-        // Verificar que la cantidad perdida no sea mayor a la cantidad disponible
-        if ($insumo->cantidad_insumo < $request->cantidad_perdida) {
-            return back()->with('error', 'No puedes registrar una pérdida mayor a la cantidad disponible.');
+            // Obtener el insumo
+            $insumo = Insumo::find($request->insumo_id);
+
+            // Verificar que la cantidad perdida no sea mayor a la cantidad disponible
+            if ($insumo->cantidad_insumo < $request->cantidad_perdida) {
+                return back()->with('error', 'No puedes registrar una pérdida mayor a la cantidad disponible.');
+            }
+
+            // Registrar la pérdida en el historial
+            HistorialPerdida::create([
+                'id_categoria_insumo'=> $request->id_categoria_insumo,
+                'insumo_id' => $request->insumo_id,
+                'cantidad_perdida' => $request->cantidad_perdida,
+                'fecha_perdida' => now(),
+            ]);
+
+            // Actualizar la cantidad de insumo en la tabla de insumos
+            $insumo->cantidad_insumo -= $request->cantidad_perdida;
+            $insumo->save();
+            $user = auth()->user();
+
+            // Verificar si el permiso 'insumos' existe
+            $permiso = DB::table('permisos')
+                ->where('nombre', 'Insumos')
+                ->first();
+
+            // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
+            if (!$permiso) {
+                return response()->view('errors.accesoDenegado');
+            }
+
+            // Verificar si el usuario tiene el permiso asociado a su rol
+            $tienePermiso = DB::table('permisos_rol')
+                ->where('id_rol', $user->id_rol)
+                ->where('id_permiso', $permiso->id)
+                ->exists();
+
+            if (!$tienePermiso) {
+                return response()->view('errors.accesoDenegado');
+            }
+
+            return redirect()->route('Admin.insumo.historialPerdidas')->with('success', 'Pérdida registrada con éxito');
+
+        }   catch (\Exception $e) {
+            // En caso de error, regresar con un mensaje de error
+            return redirect()->back()->with('error', 'Hubo un error al procesar la perdida: ' . $e->getMessage());
         }
-
-        // Registrar la pérdida en el historial
-        HistorialPerdida::create([
-            'id_categoria_insumo'=> $request->id_categoria_insumo,
-            'insumo_id' => $request->insumo_id,
-            'cantidad_perdida' => $request->cantidad_perdida,
-            'fecha_perdida' => now(),
-        ]);
-
-        // Actualizar la cantidad de insumo en la tabla de insumos
-        $insumo->cantidad_insumo -= $request->cantidad_perdida;
-        $insumo->save();
-        $user = auth()->user();
-
-        // Verificar si el permiso 'insumos' existe
-        $permiso = DB::table('permisos')
-            ->where('nombre', 'Insumos')
-            ->first();
-
-        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
-        if (!$permiso) {
-            return response()->view('errors.accesoDenegado');
-        }
-
-        // Verificar si el usuario tiene el permiso asociado a su rol
-        $tienePermiso = DB::table('permisos_rol')
-            ->where('id_rol', $user->id_rol)
-            ->where('id_permiso', $permiso->id)
-            ->exists();
-
-        if (!$tienePermiso) {
-            return response()->view('errors.accesoDenegado');
-        }
-
-        return redirect()->route('Admin.insumo.historialPerdidas')->with('success', 'Pérdida registrada con éxito');
     }
-
 
     public function historialPerdidas()
     {
