@@ -18,8 +18,8 @@ use Illuminate\View\View;
 class ProveedorController extends Controller
 {
     public function index()
-{
-    $user = auth()->user();
+    {
+        $user = auth()->user();
 
     // Verificar si el usuario tiene permiso para ver proveedores
     $permiso = DB::table('permisos')
@@ -36,10 +36,10 @@ class ProveedorController extends Controller
     
     }
 
-    // Continuar si tiene el permiso
-    $proveedor = Proveedor::all();
-    return view('Admin.proveedor.index', compact('proveedor'));
-}
+        // Continuar si tiene el permiso
+        $proveedor = Proveedor::all();
+        return view('Admin.proveedor.index', compact('proveedor'));
+    }
 
     public function create()
     {
@@ -47,7 +47,7 @@ class ProveedorController extends Controller
 
     // Verificar si el usuario tiene permiso para ver proveedores
     $permiso = DB::table('permisos')
-                ->where('nombre', 'Proveedores')
+                ->where('nombre', 'proveedores')
                 ->first();
                 
     $tienePermiso = DB::table('permisos_rol')
@@ -65,20 +65,28 @@ class ProveedorController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate(
-            [
-                'nombre' => ['required', 'min:4', 'max:255'],
-                'telefono' => ['required', 'size:10'],
-                'correo' => 'required',
-                'ubicacion' => 'required',]
-        );
+        $request->validate([
+            'tipo' => 'required|string',
+            'nombre' => 'required|string|max:255',
+            'telefono' => 'required|string',
+            'correo' => 'required|email',
+            'ubicacion' => 'required|string',
+            // Campos específicos
+            'nit' => 'nullable|string|required_if:tipo,empresa',
+            'numero_documento' => 'nullable|string|required_if:tipo,persona_natural',
+        ]);
 
 
-        $proveedor = new Proveedor;
-        $proveedor->nombre = $request->nombre;
-        $proveedor->telefono = $request->telefono;
-        $proveedor->correo = $request->correo;
-        $proveedor->ubicacion = $request->ubicacion;
+
+        $proveedor = new Proveedor();
+        $proveedor->tipo = $request->tipo;
+        $proveedor->nombre = $request->tipo == 'empresa' ? $request->nombre_empresa : $request->nombre_persona;
+        $proveedor->telefono = $request->tipo == 'empresa' ? $request->telefono_empresa : $request->telefono_persona;
+        $proveedor->correo = $request->tipo == 'empresa' ? $request->correo_empresa : $request->correo_persona;
+        $proveedor->ubicacion = $request->tipo == 'empresa' ? $request->ubicacion_empresa : $request->ubicacion_persona;
+        $proveedor->nit = $request->tipo == 'empresa' ? $request->nit : null;
+        $proveedor->numero_documento = $request->tipo == 'persona_natural' ? $request->numero_documento : null;
+
 
         if ($request->has('estado')) {
             $proveedor->estado = $request->estado;
@@ -102,7 +110,7 @@ class ProveedorController extends Controller
 
     // Verificar si el usuario tiene permiso para ver proveedores
     $permiso = DB::table('permisos')
-                ->where('nombre', 'Proveedores')
+                ->where('nombre', 'proveedores')
                 ->first();
                 
     $tienePermiso = DB::table('permisos_rol')

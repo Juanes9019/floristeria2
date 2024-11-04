@@ -382,14 +382,14 @@ return [
         'icon' => 'fas fa-cash-register',
         'submenu' => [
             [
-                'text' => 'Categorias producto',
+                'text' => 'Categoría Producto',
                 'url' => 'admin/categorias_productos',
                 'icon' => 'fas fa-fw fa-list',
                 'can' => 'view-product-categories', 
             ],
             [
                 'text' => 'Generar Producto',
-                'url' => 'admin/insumo_producto',
+                'url' => 'admin/producto/create',
                 'icon' => 'fas fa-fw fa-plus',
                 'label_color' => 'success', 
                 'can' => 'view-products', 

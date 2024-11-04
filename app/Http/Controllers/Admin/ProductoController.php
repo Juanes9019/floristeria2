@@ -67,15 +67,9 @@ class ProductoController extends Controller
         if (!$tienePermiso) {
             return response()->view('errors.accesoDenegado');
         }
+        // $categorias_productos = CategoriaProducto::where('estado', 1)->get();
 
-
-
-        $insumos = session()->get('insumos_agregados', []);
-
-        $producto = new Producto();
-        $categorias_productos = CategoriaProducto::where('estado', 1)->get();
-
-        return view('Admin.producto.create', compact('producto', 'categorias_productos', 'insumos'));
+        return view('Admin.producto.create');
     }
 
 
@@ -134,7 +128,7 @@ class ProductoController extends Controller
         session()->forget('insumos_agregados');
 
         // Redirigir a la lista de productos con éxito
-        
+
         return redirect()->route('Admin.productos')->with('success', 'Producto creado exitosamente');
     }
 
@@ -213,28 +207,6 @@ class ProductoController extends Controller
             'cantidad' => 'required|integer|min:0',
             'precio' => 'required|numeric|min:0',
             'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ], [
-            'id_categoria_producto.required' => 'El campo categoría del producto es requerido.',
-            'id_categoria_producto.exists' => 'La categoría seleccionada no es válida.',
-
-            'nombre.required' => 'El nombre del producto es requerido.',
-            'nombre.string' => 'El nombre del producto debe ser una cadena de texto.',
-            'nombre.unique' => 'El nombre del producto ya existe.',
-
-            'descripcion.required' => 'La descripción del producto es requerida.',
-
-            'cantidad.required' => 'La cantidad del producto es requerida.',
-            'cantidad.integer' => 'La cantidad del producto debe ser un número entero.',
-            'cantidad.min' => 'La cantidad no puede ser negativa. .',
-
-            'precio.required' => 'El precio del producto es requerido.',
-            'precio.numeric' => 'El precio debe ser un valor numérico.',
-            'precio.min' => 'El precio no puede ser negativo.',
-
-            'foto.required' => 'La imagen del producto es requerida.',
-            'foto.image' => 'El archivo debe ser una imagen.',
-            'foto.mimes' => 'La imagen debe ser de tipo jpeg, png o jpg.',
-            'foto.max' => 'La imagen no debe superar los 2MB.',
         ]);
 
         // Asignación de los campos del usuario desde el formulario

@@ -60,7 +60,7 @@ class CategoriaProductoController extends Controller
             return response()->view('errors.accesoDenegado');
         }
         $categoria_producto = new CategoriaProducto();
-        return view('Admin.categoria_producto.create');
+        return view('Admin.categoria_producto.create',compact('categoria_producto'));
     }
 
     public function store(Request $request)

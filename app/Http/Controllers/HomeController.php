@@ -13,6 +13,7 @@ use App\Models\Pedido;
 use App\Models\TipoFlor;
 use App\Models\Flor;
 use App\Models\Accesorio;
+use App\Models\CategoriaProducto;
 use App\Models\Comestible;
 use App\Models\Insumo;
 use Illuminate\Support\Facades\DB;
@@ -105,7 +106,7 @@ class HomeController extends Controller
 
     public function show_all(Request $request)
 {
-    $categoria_categoria = Categoria_Producto::all();
+    $categoria_categoria = CategoriaProducto::all();
 
     $filtro = Producto::query();
 
