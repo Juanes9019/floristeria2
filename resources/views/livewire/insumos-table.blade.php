@@ -72,22 +72,22 @@
                         </div>
                 
                         <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Exportar
-                        </button>
-                        <a href="{{ route('Admin.insumo.historialPerdidas') }}" class="btn btn-primary">Historial de Pérdidas</a>
-                        <a href="{{ route('Admin.insumo.create') }}" class="btn btn-primary"data-placement="left">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="exportDropdown">
-                            <a class="dropdown-item" href="{{ route('Admin.insumos.export', ['format' => 'xlsx']) }}">
-                                {{ __('Exportar a Excel') }}
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Exportar
+                            </button>
+                            <a href="{{ route('Admin.insumo.historialPerdidas') }}" class="btn btn-primary">Historial de Pérdidas</a>
+                            <a href="{{ route('Admin.insumo.create') }}" class="btn btn-primary"data-placement="left">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
                             </a>
-                            <a class="dropdown-item" href="{{ route('Admin.insumos.export', ['format' => 'pdf']) }}">
-                                {{ __('Exportar a PDF') }}
-                            </a>
+                            <div class="dropdown-menu" aria-labelledby="exportDropdown">
+                                <a class="dropdown-item" href="{{ route('Admin.insumos.export', ['format' => 'xlsx']) }}">
+                                    {{ __('Exportar a Excel') }}
+                                </a>
+                                <a class="dropdown-item" href="{{ route('Admin.insumos.export', ['format' => 'pdf']) }}">
+                                    {{ __('Exportar a PDF') }}
+                                </a>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
 
