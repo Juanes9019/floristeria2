@@ -416,7 +416,62 @@
 /* -**************************
     preview del producto
 ************************** */
+/*aqui*/
+#password-requirements {
+    list-style-type: none;
+    padding: 0;
+    font-size: 0.85em;
+}
 
+#password-requirements li {
+    color: #a94442; /* Rojo para requisitos no cumplidos */
+    margin-bottom: 5px;
+}
+
+#password-requirements .valid {
+    color: #28a745; /* Verde para requisitos cumplidos */
+}
+
+.info-icon {
+    position: relative;
+    cursor: pointer;
+}
+
+.tooltip-text {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: left;
+    padding: 8px;
+    border-radius: 4px;
+    position: absolute;
+    z-index: 1;
+    width: 200px;
+    bottom: 125%; 
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.85em;
+}
+
+.tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.info-icon:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/*aca*/
 .custom-btn-pink {
     background-color: #ff69b4; /* Cambia el color a tu tono de rosa preferido */
     color: rgb(0, 0, 0); /* Cambia el color del texto para que sea visible en el fondo rosa */

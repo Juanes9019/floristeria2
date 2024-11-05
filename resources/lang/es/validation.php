@@ -99,7 +99,7 @@ return [
     'prohibited_if'        => 'El campo :attribute está prohibido cuando :other es :value.',
     'prohibited_unless'    => 'El campo :attribute está prohibido a menos que :other esté en :values.',
     'prohibits'            => 'El campo :attribute prohíbe que :other esté presente.',
-    'same'                 => 'El :attribute y :other deben coincidir.',
+    'same'                 => 'El campo :attribute y :other deben coincidir.',
     'size'                 => [
         'numeric' => 'El :attribute debe ser :size.',
         'file'    => 'El :attribute debe pesar :size kilobytes.',
@@ -126,12 +126,15 @@ return [
     */
 
     'attributes' => [
-        'nombre' => 'nombre',
+        'name' => 'nombre',
+        'surname' => 'apellido',
         'email' => 'correo electrónico',
         'password' => 'contraseña',
+        'cpassword' => 'confirmación de contraseña',
         'telefono' => 'teléfono',
         'comprobante_pago' => 'comprobante de pago',
         'fecha' => 'fecha',
+        'id_rol' => 'rol',
         'departamento' => 'departamento',
         'ciudad' => 'ciudad',
         'direccion' => 'dirección',

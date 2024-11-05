@@ -114,7 +114,7 @@
 
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary" value="Editar usuario">
-                    <a href="{{ route('Admin.users') }}" class="btn btn-primary">Cancelar</a>
+                    <a href="{{ route('Admin.users') }}" class="btn btn-danger">Cancelar</a>
                 </div>
             </form>
         </div>

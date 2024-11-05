@@ -77,7 +77,7 @@ class UserController extends Controller
             'celular' => 'required',
             'direccion' => 'required',
             'id_rol' => 'required',
-            'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/'],
+            'password' => ['required', 'string', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/'],
             'cpassword' => ['required', 'same:password']
         ]);
         
