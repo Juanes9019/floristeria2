@@ -17,5 +17,10 @@ class HistorialPerdida extends Model
     {
         return $this->belongsTo(Insumo::class);
     }
+
+    public function categoria_insumo()
+    {
+        return $this->belongsTo(Categoria_insumo::class, 'id_categoria_insumo');
+    }
 }
 

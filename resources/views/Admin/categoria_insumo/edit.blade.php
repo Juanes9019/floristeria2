@@ -15,28 +15,30 @@
             <form id="formulario_editar" method="POST" action="{{ route('Admin.categoria_insumo.update', ['id' => $categoria_insumo->id]) }}" novalidate>
                 @method('PUT')
                 @csrf            
-
-                <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Hombre..." value="{{ old('nombre', $categoria_insumo->nombre) }}">
-                    @error('nombre')
-                    <span class="invalid-feedback d-block" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                    @enderror
-                </div>
-                
-                <div class="form-group">
-                    <label for="estado">Estado</label>
-                    <select name="estado" id="estado" class="form-control">
-                        <option value="1" {{ $categoria_insumo->estado == '1' ? 'selected' : '' }}>Activo</option>
-                        <option value="0" {{ $categoria_insumo->estado == '0' ? 'selected' : '' }}>Inactivo</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <input type="button" class="btn btn-primary" value="Editar" onclick="editar()">
-                    <a href="{{ route('Admin.categoria_insumo') }}" class="btn btn-primary ">Cancelar</a>
+                <div class="card card-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Hombre..." value="{{ old('nombre', $categoria_insumo->nombre) }}">
+                                @error('nombre')
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
+                            </div>    
+                            <div class="col-md-6">
+                                <label for="estado">Estado</label>
+                                <select name="estado" id="estado" class="form-control">
+                                    <option value="1" {{ $categoria_insumo->estado == '1' ? 'selected' : '' }}>Activo</option>
+                                    <option value="0" {{ $categoria_insumo->estado == '0' ? 'selected' : '' }}>Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <input type="button" class="btn btn-primary" value="Editar" onclick="editar()">
+                        <a href="{{ route('Admin.categoria_insumo') }}" class="btn btn-danger ">Cancelar</a>
+                    </div>
                 </div>
             </form>
         </div>

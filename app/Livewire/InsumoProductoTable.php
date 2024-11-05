@@ -42,6 +42,7 @@ class InsumoProductoTable extends Component
         $this->categorias_insumos = Categoria_insumo::all();
         $this->categorias_producto = CategoriaProducto::all();
     }
+    
     public function updatedCategoriaSeleccionada()
     {
         if ($this->categoria_seleccionada) {

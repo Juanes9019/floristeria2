@@ -9,13 +9,12 @@
 
 
 
-<h2 class="text-center mb-5">Crear categoría</h2>
-    
-
-    <div class="row justify-content-center mt-5">
-        <div class="col-md-8">
+<br><h2 class="text-center mb-5">Crear categoría</h2>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8">
         <form id="formulario_crear" method="POST" action="{{ route('Admin.categoria_insumo.store') }}" novalidate >
-                @csrf
+            @csrf
+            <div class="card card-body">
                 <div class="form-group">
                     <label for="nombre">Nombre </label>
                     <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Ocasiones especiales" value="{{ old('nombre') }}">
@@ -29,18 +28,17 @@
 
                 <div class="form-group">
                     <input type="button" class="btn btn-primary" value="Agregar" onclick="agregar()">
-                    <a href="{{ route('Admin.categoria_insumo') }}" class="btn btn-primary ">Cancelar</a>
+                    <a href="{{ route('Admin.categoria_insumo') }}" class="btn btn-danger ">Cancelar</a>
                 </div>
-
-
-            </form>
-        </div>
-    </div> 
+            </div>      
+        </form>
+    </div>
+</div> 
 <script>
 function agregar() {
     Swal.fire({
         title: "¡Estas seguro!",
-        text: "¿Deseas agregar esta categoria insumo?",
+        text: "¿Deseas agregar este insumo?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -48,12 +46,6 @@ function agregar() {
         confirmButtonText: "Si, agregar"
     }).then((result) => {
         if (result.isConfirmed) {
-            Swal.fire({
-                title: "!categoria insumo agregada!",
-                text: "La categoria insumo se agrego correctamente",
-                icon: "success"
-            });
-
             // Prevent the form from submitting automatically
             event.preventDefault();
 

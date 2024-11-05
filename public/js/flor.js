@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const productoSelect = document.getElementById('producto');
     const imagenInsumo = document.getElementById('imagen-insumo');
     const descripcionInsumo = document.getElementById('descripcion-insumo');
+    const precioDiv = document.getElementById('precio-insumo'); // Contenedor para el precio
 
     // Manejar la selección de la categoría
     categoriaSelect.addEventListener('change', function () {
@@ -34,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             option.setAttribute('data-imagen', insumo.imagen);
                             option.setAttribute('data-descripcion', insumo.descripcion);
+                            option.setAttribute('data-precio', insumo.costo_unitario); // Añadir el precio aquí
                             productoSelect.appendChild(option);
                         });
                     }
@@ -48,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const selectedOption = this.options[this.selectedIndex];
         const imagenUrl = selectedOption.getAttribute('data-imagen');
         const descripcion = selectedOption.getAttribute('data-descripcion');
+        const precio = selectedOption.getAttribute('data-precio'); // Obtener el precio
 
         // Mostrar la imagen y descripción
         if (imagenUrl) {
@@ -58,5 +61,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         descripcionInsumo.innerHTML = descripcion ? `<p>${descripcion}</p>` : '<p>Selecciona un insumo para ver más detalles.</p>';
+        
+        // Mostrar el precio
+        if (precio) {
+            precioDiv.innerHTML = `<p>Precio: $${parseFloat(precio).toFixed(0)}</p>`; // Mostrar el precio formateado
+        } else {
+            precioDiv.innerHTML = '<p>Selecciona un insumo para ver el precio.</p>'; // Mensaje por defecto
+        }
     });
 });

@@ -13,7 +13,7 @@ class CreateComprasTable extends Migration
         $table->decimal('costo_total', 8, 2);    
         $table->timestamps();    
         $table->foreign('id_proveedor')->references('id')->on('proveedores')->onDelete('cascade');
-        $table->string('estado')->default('activa'); // O 'inactiva'
+        $table->string('estado')->default('Activa'); // O 'inactiva'
     });
 }
 

@@ -55,6 +55,7 @@ Route::post('/agregar-producto', [HomeController::class, 'agregar_producto'])->n
 Route::post('/agregar_producto_nuevo', [HomeController::class, 'agregar_producto_nuevo'])->name('agregar_producto_nuevo');
 Route::post('/obtener-insumos', [HomeController::class, 'personalizado_estandar']);
 
+
 Route::patch('/actualizar-producto/{key}', [HomeController::class, 'actualizar_producto'])->name('actualizar_producto');
 Route::delete('/eliminar-producto/{key}', [HomeController::class, 'eliminar_producto'])->name('eliminar_producto');
 
@@ -189,10 +190,11 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::post('admin/insumo/storePerdida', [InsumoController::class, 'storePerdida'])->name('admin.insumo.storePerdida');
     Route::get('admin/insumo/historial-perdidas', [InsumoController::class, 'historialPerdidas'])->name('Admin.insumo.historialPerdidas');
     // Route::delete('admin/insumo/{id}', [InsumoController::class, 'destroy'])->name('Admin.insumo.destroy');
-    // Route::get('admin/insumo/{id}/incrementarInsumo', [InsumoController::class, 'incrementarInsumo'])->name('incrementarInsumo');
-    // Route::get('admin/insumo/{id}/decrementarInsumo', [InsumoController::class, 'decrementarInsumo'])->name('decrementarInsumo');
     Route::get('admin/insumo/{id}/status', [InsumoController::class, 'change_Status'])->name('Admin.insumo.status');
     Route::get('/insumos/export/{format}', [InsumoController::class, 'export'])->name('Admin.insumos.export');
+    Route::get('admin/insumo/{idCategoria}', [InsumoController::class, 'getInsumos'])->name('insumos');
+
+
 
 
     // Rutas para el controlador CompraController

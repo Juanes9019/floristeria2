@@ -13,49 +13,61 @@
         <form id="formulario_crear" method="POST" action="{{ route('Admin.compra.store') }}" novalidate>
             @csrf
 
-            <div class="form-group">
-                <label for="id_proveedor">Proveedor</label>
-                <select id="id_proveedor_select" name="id_proveedor" class="form-control" onchange="updateHiddenFields()">
-                    <option selected disabled>Seleccione un proveedor</option>
-                    @foreach($proveedores as $proveedor)
-                        <option value="{{ $proveedor->id }}">{{ $proveedor->nombre }}</option>
-                    @endforeach
-                </select>
-            </div>
+            <div class="card card-body">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="id_proveedor">Proveedor</label>
+                            <select id="id_proveedor_select" name="id_proveedor" class="form-control" onchange="updateHiddenFields()">
+                                <option selected disabled>Seleccione un proveedor</option>
+                                @foreach($proveedores as $proveedor)
+                                    <option value="{{ $proveedor->id }}">{{ $proveedor->nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-            <div class="form-group">
-                <label for="id_categoria_insumo">Categoría Insumo</label>
-                <select id="id_categoria_insumo" name="id_categoria_insumo" class="form-control">
-                    <option selected disabled>Seleccione una categoría</option>
-                    @foreach($categorias as $categoria)
-                        <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
-                    @endforeach
-                </select>
-            </div>
+                        <div class="col-md-6">
+                            <label for="id_categoria_insumo">Categoría Insumo</label>
+                            <select id="id_categoria_insumo" name="id_categoria_insumo" class="form-control">
+                                <option selected disabled>Seleccione una categoría</option>
+                                @foreach($categorias as $categoria)
+                                    <option value="{{ $categoria->id }}">{{ $categoria->nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label for="id_insumo">Insumo</label>
-                <select id="id_insumo" name="id_insumo" class="form-control" onchange="updateCostoUnitario()">
-                    <option selected disabled>Seleccione un insumo</option>
-                </select>
-            </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="id_insumo">Insumo</label>
+                                <select id="id_insumo" name="id_insumo" class="form-control" onchange="updateCostoUnitario()">
+                                    <option selected disabled>Seleccione un insumo</option>
+                                </select>
+                            </div>
+                        </div>
 
-            <div class="form-group">
-                <label for="costo_unitario">Costo Unitario</label>
-                <input type="text" name="costo_unitario" class="form-control" id="costo_unitario" readonly>
-            </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cantidad">Cantidad</label>
+                                <input type="number" name="cantidad" class="form-control" id="cantidad" placeholder="Cantidad">
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label for="cantidad">Cantidad</label>
-                <input type="number" name="cantidad" class="form-control" id="cantidad" placeholder="Cantidad">
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="costo_unitario">Costo Unitario</label>
+                            <input type="text" name="costo_unitario" class="form-control" id="costo_unitario" readonly>
+                        </div>
+                    </div>
+                    <br>
+                    <input type="button" class="btn btn-success" value="Finalizar" onclick="finalizarCompra()">
+                    <input type="button" class="btn btn-primary" value="Agregar" onclick="agregarCarrito()">
+                    <a href="{{ route('Admin.compra.index') }}" class="btn btn-danger">Cancelar</a>
+                </div>
             </div>
-
-            <div class="form-group">
-                <a href="{{ route('Admin.compra.index') }}" class="btn btn-primary">Cancelar</a>
-                <input type="button" class="btn btn-primary" value="Agregar" onclick="agregarCarrito()">
-                <input type="button" class="btn btn-success" value="Finalizar" onclick="finalizarCompra()">
-            </div>
-
+            
             <!-- Campos hidden para enviar datos adicionales -->
             <input type="hidden" name="id_proveedor_hidden" id="id_proveedor_hidden">
             <input type="hidden" name="id_categoria_insumo_hidden" id="id_categoria_insumo_hidden">
@@ -63,27 +75,30 @@
         </form>
 
         <!-- Tabla tipo carrito -->
-        <table class="table table-striped" id="tabla_carrito">
-            <thead>
-                <tr>
-                    <th>Insumo</th>
-                    <th>Cantidad</th>
-                    <th>Costo Unitario</th>
-                    <th>Subtotal</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="3"><strong>Total</strong></td>
-                    <td id="total_carrito">0.00</td>
-                    <td></td>
-                </tr>
-            </tfoot>
-        </table>
+         <div class="card">
+            <table class="table table-striped" id="tabla_carrito">
+                <thead>
+                    <tr>
+                        <th>Insumo</th>
+                        <th>Cantidad</th>
+                        <th>Costo Unitario</th>
+                        <th>Subtotal</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3"><strong>Total</strong></td>
+                        <td id="total_carrito">0.00</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+         </div>
+        
     </div>
 </div>
 
@@ -163,7 +178,9 @@ function finalizarCompra() {
         confirmButtonText: 'Sí, finalizar compra'
     }).then((result) => {
         if (result.isConfirmed) {
-            $('#formulario_crear').submit();
+            event.preventDefault();
+
+            document.getElementById('formulario_crear').submit();
         }
     });
 }
@@ -223,5 +240,29 @@ $(document).ready(function() {
     });
 });
 
+ // SweetAlert notifications for success and error messages
+ @if (session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: '{{ session('success') }}',
+            position: 'top-end',
+            toast: true,
+            showConfirmButton: false,
+            timer: 3000
+        });
+    @endif
+
+    @if (session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '{{ session('error') }}',
+            position: 'top-end',
+            toast: true,
+            showConfirmButton: false,
+            timer: 3000
+        });
+    @endif
 </script>
 @endsection
