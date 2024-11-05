@@ -22,13 +22,6 @@
 
     <br>
 
-    <div class="form-group">
-        <label for="tbDireccion" class="col-form-label">Dirección:</label>
-        <input type="text" name="direccion" class="form-control" id="tbDireccion" value="{{ $user->direccion }}" />
-    </div>
-
-    <br>
-
     <div class="form-group text-center">
         <button type="submit" id="BtnAplicar" class="btn btn-warning mt-3">Aplicar Cambios</button>
     </div>

@@ -26,7 +26,6 @@ class RegisterController extends Controller
             'surname' => ['required', 'string', 'max:255'], 
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'celular' => ['required', 'string', 'max:20'],   
-            'direccion' => ['required', 'string', 'max:255'], 
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -38,7 +37,6 @@ class RegisterController extends Controller
             'surname' => $data['surname'],
             'email' => $data['email'],
             'celular' => $data['celular'],
-            'direccion' => $data['direccion'],
             'password' => Hash::make($data['password']),
             'id_rol' => 2, // Asignar el rol de cliente por defecto
         ]);

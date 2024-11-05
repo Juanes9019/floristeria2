@@ -137,7 +137,6 @@ return [
         'id_rol' => 'rol',
         'departamento' => 'departamento',
         'ciudad' => 'ciudad',
-        'direccion' => 'dirección',
         'instrucciones_entrega' => 'instrucciones de entrega',
     ],
 

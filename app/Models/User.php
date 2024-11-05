@@ -20,7 +20,6 @@ class User extends Authenticatable
         'surname',
         'email',
         'celular',
-        'direccion',
         'id_rol', 
         'password',
         'estado'
@@ -75,7 +74,6 @@ class User extends Authenticatable
         ->pluck('id_permiso')
         ->toArray();
 
-    // Supongamos que el nombre de tu permiso se corresponde con su ID
     $permiso_id = DB::table('permisos')->where('nombre', $permission)->value('id');
 
     return in_array($permiso_id, $permisos_usuario);

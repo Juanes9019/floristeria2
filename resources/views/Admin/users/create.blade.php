@@ -50,26 +50,28 @@
 
                         <div class="form-group">
                             <label for="celular">Celular</label>
-                            <input type="tel" name="celular" class="form-control @error('celular') is-invalid @enderror" id="celular" placeholder="Celular" value="{{ old('celular') }}">
+                            <input 
+                                type="tel" 
+                                name="celular" 
+                                class="form-control @error('celular') is-invalid @enderror" 
+                                id="celular" 
+                                placeholder="Celular" 
+                                value="{{ old('celular') }}" 
+                                pattern="\d*" 
+                                maxlength="10"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                            >
                             @error('celular')
-                            <span class="invalid-feedback d-block" role="alert">
-                                <strong>{{$message}}</strong>
-                            </span>
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{$message}}</strong>
+                                </span>
                             @enderror
                         </div>
+                        
                     </div>
 
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="direccion">Dirección</label>
-                            <input type="text" name="direccion" class="form-control @error('direccion') is-invalid @enderror" id="direccion" placeholder="Dirección" value="{{ old('direccion') }}">
-                            @error('direccion')
-                            <span class="invalid-feedback d-block" role="alert">
-                                <strong>{{$message}}</strong>
-                            </span>
-                            @enderror
-                        </div>
-
+                        
                         <div class="form-group">
                             <label for="id_rol">Rol</label>
                             <select id="id_rol" name="id_rol" class="form-control @error('id_rol') is-invalid @enderror">
@@ -85,11 +87,27 @@
                             @enderror
                         </div>
 
-                        {{-- <div class="form-group mb-3">
+                        <div class="form-group mb-3">
                             <label for="password">Contraseña</label>
                             <div class="input-group">
-                                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Contraseña" id="password" oninput="validatePassword()">
+                                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" 
+                                       placeholder="Contraseña" id="password" oninput="validatePassword()" 
+                                       onfocus="toggleTooltip(true)" onblur="toggleTooltip(false)">
                                 
+                                <div class="input-group-append">
+                                    <span class="input-group-text info-icon">
+                                        <i class="bi bi-info-circle" id="infoPasswordIcon"></i>
+                                        <div class="tooltip-validation" id="passwordTooltip" style="display: none;">
+                                            <ul>
+                                                <li id="length" class="invalid">Entre 8 y 15 caracteres</li>
+                                                <li id="uppercase" class="invalid">Al menos una letra mayúscula</li>
+                                                <li id="lowercase" class="invalid">Al menos una letra minúscula</li>
+                                                <li id="digit" class="invalid">Al menos un dígito</li>
+                                                <li id="special" class="invalid">Un carácter especial</li>
+                                            </ul>
+                                        </div>
+                                    </span>
+                                </div>
                                 <div class="input-group-append">
                                     <span class="input-group-text">
                                         <i class="bi bi-eye" id="togglePassword1" onclick="togglePasswordVisibility('password', 'togglePassword1')"></i>
@@ -101,17 +119,9 @@
                                 <strong>{{$message}}</strong>
                             </span>
                             @enderror
-                        
-                            <ul id="password-requirements" class="mt-2">
-                                <li id="length" class="invalid">Entre 8 y 15 caracteres</li>
-                                <li id="uppercase" class="invalid">Al menos una letra mayúscula</li>
-                                <li id="lowercase" class="invalid">Al menos una letra minúscula</li>
-                                <li id="digit" class="invalid">Al menos un dígito</li>
-                                <li id="special" class="invalid">Un carácter especial ($, @, #, etc.)</li>
-                            </ul>
-                        </div> --}}
+                        </div>
 
-                        <div class="form-group mb-3">
+                        {{-- <div class="form-group mb-3">
                             <label for="password">Contraseña</label>
                             <div class="input-group">
                                 <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Contraseña" id="password">
@@ -143,7 +153,7 @@
                                 <strong>{{$message}}</strong>
                             </span>
                             @enderror
-                        </div>
+                        </div> --}}
 
                         <div class="form-group mb-3">
                             <label for="cpassword">Confirmar contraseña</label>
@@ -174,58 +184,80 @@
 </div>
 
 <script>
-    function validatePassword() {
-        const password = document.getElementById('password').value;
-    
-        // Elementos de validación
-        const lengthRequirement = document.getElementById('length');
-        const uppercaseRequirement = document.getElementById('uppercase');
-        const lowercaseRequirement = document.getElementById('lowercase');
-        const digitRequirement = document.getElementById('digit');
-        const specialRequirement = document.getElementById('special');
-    
-        // Validación de cada condición
-        if (password.length >= 8 && password.length <= 15) {
-            lengthRequirement.classList.add('valid');
-            lengthRequirement.classList.remove('invalid');
-        } else {
-            lengthRequirement.classList.add('invalid');
-            lengthRequirement.classList.remove('valid');
-        }
-    
-        if (/[A-Z]/.test(password)) {
-            uppercaseRequirement.classList.add('valid');
-            uppercaseRequirement.classList.remove('invalid');
-        } else {
-            uppercaseRequirement.classList.add('invalid');
-            uppercaseRequirement.classList.remove('valid');
-        }
-    
-        if (/[a-z]/.test(password)) {
-            lowercaseRequirement.classList.add('valid');
-            lowercaseRequirement.classList.remove('invalid');
-        } else {
-            lowercaseRequirement.classList.add('invalid');
-            lowercaseRequirement.classList.remove('valid');
-        }
-    
-        if (/\d/.test(password)) {
-            digitRequirement.classList.add('valid');
-            digitRequirement.classList.remove('invalid');
-        } else {
-            digitRequirement.classList.add('invalid');
-            digitRequirement.classList.remove('valid');
-        }
-    
-        // Incluye "_" y "-" en el conjunto de caracteres especiales
-        if (/[$@$!%*?&#_\-]/.test(password)) {
-            specialRequirement.classList.add('valid');
-            specialRequirement.classList.remove('invalid');
-        } else {
-            specialRequirement.classList.add('invalid');
-            specialRequirement.classList.remove('valid');
-        }
+    function toggleTooltip(show) {
+        const tooltip = document.getElementById('passwordTooltip');
+        tooltip.style.display = show ? 'block' : 'none';
     }
+</script>
+
+<script>
+    function validatePassword() {
+    const password = document.getElementById('password').value;
+
+    const lengthRequirement = document.getElementById('length');
+    const uppercaseRequirement = document.getElementById('uppercase');
+    const lowercaseRequirement = document.getElementById('lowercase');
+    const digitRequirement = document.getElementById('digit');
+    const specialRequirement = document.getElementById('special');
+
+    // Icono de información
+    const infoIcon = document.getElementById('infoPasswordIcon');
+    
+    let metConditions = 0;
+
+    // Validación de cada condición
+    if (password.length >= 8 && password.length <= 15) {
+        lengthRequirement.classList.add('valid');
+        lengthRequirement.classList.remove('invalid');
+        metConditions++;
+    } else {
+        lengthRequirement.classList.add('invalid');
+        lengthRequirement.classList.remove('valid');
+    }
+
+    if (/[A-Z]/.test(password)) {
+        uppercaseRequirement.classList.add('valid');
+        uppercaseRequirement.classList.remove('invalid');
+        metConditions++;
+    } else {
+        uppercaseRequirement.classList.add('invalid');
+        uppercaseRequirement.classList.remove('valid');
+    }
+
+    if (/[a-z]/.test(password)) {
+        lowercaseRequirement.classList.add('valid');
+        lowercaseRequirement.classList.remove('invalid');
+        metConditions++;
+    } else {
+        lowercaseRequirement.classList.add('invalid');
+        lowercaseRequirement.classList.remove('valid');
+    }
+
+    if (/\d/.test(password)) {
+        digitRequirement.classList.add('valid');
+        digitRequirement.classList.remove('invalid');
+        metConditions++;
+    } else {
+        digitRequirement.classList.add('invalid');
+        digitRequirement.classList.remove('valid');
+    }
+
+    if (/[$@!%*?&#_\-]/.test(password)) {
+        specialRequirement.classList.add('valid');
+        specialRequirement.classList.remove('invalid');
+        metConditions++;
+    } else {
+        specialRequirement.classList.add('invalid');
+        specialRequirement.classList.remove('valid');
+    }
+
+    // Cambia el color del icono según los requisitos cumplidos
+    if (metConditions === 5) {
+        infoIcon.classList.add('highlighted');
+    } else {
+        infoIcon.classList.remove('highlighted');
+    }
+}
 </script>
     
 
@@ -252,14 +284,13 @@ function agregar() {
     var surname = document.getElementById('surname').value;
     var email = document.getElementById('email').value;
     var celular = document.getElementById('celular').value;
-    var direccion = document.getElementById('direccion').value;
     var password = document.getElementById('password').value;
     var cpassword = document.getElementById('cpassword').value;
     var id_rol = document.getElementById('id_rol').value;
     var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
     var regex_password = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&_])([A-Za-z\d$@$!%*?&_]|[^ ]){8,15}$/;
 
-    if (!name || !surname || !email || !celular || !direccion || !password) {
+    if (!name || !surname || !email || !celular || !password) {
         Swal.fire('Error', 'No se pueden ingresar campos vacíos', 'error');
         document.getElementById('formulario_crear').submit();
         return false;
