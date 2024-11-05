@@ -226,8 +226,8 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::post('admin/pedido/{id}/cambiar-estado', [PedidoController::class, 'cambiar_estado'])->name('cambiar_estado');
     Route::post('admin/pedido/{id}/rechazar', [PedidoController::class, 'rechazar'])->name('rechazar');
     Route::get('admin/pedido/{id}/detalles', [PedidoController::class, 'mostrar'])->name('pedidos.detalles');
-    Route::get('/export-pdf', [ExportController::class, 'exportarPDF'])->name('export.pdf');
-    Route::get('/export-excel', [ExportController::class, 'exportExcel'])->name('export.excel');
+    Route::get('/proveedores/export/{format}', [PedidoController::class, 'export'])->name('Admin.pedidos.export');
+
 
 
     // Rutas para el detalle

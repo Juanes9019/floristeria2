@@ -20,7 +20,7 @@ class LoginController extends Controller
     protected function credentials(Request $request)
     {
         $credentials = $request->only($this->username(), 'password');
-        $credentials['estado'] = 1; // Solo permite usuarios con estado = 1
+        $credentials['estado'] = 1;
         return $credentials;
     }
 

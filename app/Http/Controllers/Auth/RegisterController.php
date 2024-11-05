@@ -40,7 +40,7 @@ class RegisterController extends Controller
             'celular' => $data['celular'],
             'direccion' => $data['direccion'],
             'password' => Hash::make($data['password']),
-            'id_rol' => 2, // Asignar el rol de cliente por defecto
+            'id_rol' => 2, 
         ]);
     }
 

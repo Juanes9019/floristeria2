@@ -176,7 +176,7 @@ class carritoController extends Controller
         'direccion' => 'required|string|max:150|regex:/^[0-9a-zA-Z\s.,#-]+$/',
         'instrucciones_entrega' => 'nullable|string|max:200',
         'telefono' => 'required|string|max:15', 
-        'comprobante_pago' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        'comprobante_pago' => 'required|image|mimes:jpeg,png,jpg|max:5120',
     ]);
 
     $file = $request->file('comprobante_pago'); // obtiene el archivo subido en el campo

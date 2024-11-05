@@ -3,24 +3,39 @@
 namespace App\Exports;
 
 use App\Models\Pedido;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class PedidoExport implements FromCollection, WithHeadings
+class PedidoExport implements FromView, ShouldAutoSize, WithStyles
 {
-    public function collection()
+    use Exportable;
+
+    /**
+     * Define la vista para la exportación.
+     *
+     * @return View
+     */
+    public function view(): View
     {
-        return Pedido::select('id', 'total', 'fechapedido', 'estado', 'user_id')->get();
+        return view('exports.pedidos', [
+            'pedidos' => Pedido::all() // Aquí obtienes todos los pedidos
+        ]);
     }
 
-    public function headings(): array
+    /**
+     * Define los estilos de la hoja de cálculo.
+     *
+     * @param Worksheet $sheet
+     * @return array
+     */
+    public function styles(Worksheet $sheet): array
     {
         return [
-            'ID',
-            'Total',
-            'Fecha del Pedido',
-            'Estado',
-            'ID del Usuario',
+            '1' => ['font' => ['bold' => true]], 
         ];
     }
 }

@@ -12,8 +12,8 @@ class Pedido extends Model
     protected $fillable = [
         'total',
         'fechapedido',
-        'procedencia',
         'estado',
+        'comprobante_url',
         'user_id',
     ];
 
@@ -25,4 +25,14 @@ class Pedido extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->where('user_id', 'like', "%{$search}%") // o el campo que desees buscar
+                     ->orWhere('total', 'like', "%{$search}%")
+                     ->orWhere('fechapedido', 'like', "%{$search}%")
+                     ->orWhere('estado', 'like', "%{$search}%");
+    }
+    
+
 }
