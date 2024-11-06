@@ -191,7 +191,7 @@ class ProveedorController extends Controller
             case 'pdf':
                 $pdf = Pdf::loadView('exports.proveedores', [
                     'proveedores' => Proveedor::all()
-                ])->setPaper('a4', 'portait') // Puedes cambiar a 'portrait' si prefieres
+                ])->setPaper('a4', 'portait') 
                     ->setOption('margin-left', '10mm')
                     ->setOption('margin-right', '10mm')
                     ->setOption('margin-top', '10mm')

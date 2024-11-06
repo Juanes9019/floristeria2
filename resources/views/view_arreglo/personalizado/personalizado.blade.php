@@ -86,7 +86,6 @@
                             <div class="experience-slide-one row h-100 align-items-center justify-content-center">
                                 <div class="col-md-8">
                                     <div class="experience-slide-text">
-                                        @if ($section == '1')
                                             <div class="card mt-4 shadow-sm">
                                                 <div class="card-header text-black text-center" style="background-color: #FFB6C1;">
                                                     Productos seleccionados:
@@ -127,7 +126,6 @@
                                                 </div>
                                             </div>
                             
-                                        @elseif ($section == '2')
                                             <div class="card mt-4 shadow-sm">
                                                 <div class="card-header text-black text-center" style="background-color: #FFB6C1;">
                                                     Productos seleccionados:
@@ -167,7 +165,6 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                        @endif
                                     </div>
                                 </div>
                             </div>

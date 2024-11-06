@@ -21,20 +21,20 @@
         <div class="row full-height justify-content-center">
             <div class="col-12 text-center align-self-center py-5">
                 <div class="section pb-5 pt-5 pt-sm-2 text-center">
-                    <h4 class="mb-0 pb-3">RESTABLECER CONTRASEÑA</h4>
+                    <h4 class="mb-0 pb-3">Restablecer contraseña</h4>
                     <div class="card-3d-wrap mx-auto">
                         <div class="card-3d-wrapper">
                             <!-- Restablecimiento de Contraseña -->
                             <div class="card-front">
                                 <div class="center-wrap">
                                     <div class="section text-center">
-                                        <h4 class="mb-4 pb-3">RESTABLECER CONTRASEÑA</h4>
+                                        <h4 class="mb-4 pb-3">Restablecer contraseña</h4>
                                         <form method="POST" action="{{ route('password.update') }}">
                                             @csrf
                                             <input type="hidden" name="token" value="{{ $token }}">
 
                                             <div class="form-group">
-                                                <input id="email" type="email" class="form-style @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus placeholder="Correo">
+                                                <input id="email" type="email" class="form-style @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus placeholder="Correo" readonly>
                                                 <i class="input-icon uil uil-at"></i>
                                                 @error('email')
                                                     <span class="invalid-feedback" role="alert">
@@ -58,7 +58,7 @@
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                             </div>
 
-                                            <button type="submit" class="btn mt-4">RESTABLECER CONTRASEÑA</button>
+                                            <button type="submit" class="btn mt-4">Restablecer contraseña</button>
                                         </form>
                                     </div>
                                 </div>

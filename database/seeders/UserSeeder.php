@@ -14,7 +14,6 @@ class UserSeeder extends Seeder
     public function run(): void
     {
 
-        //se obtienen los ids de los roles
         $adminRoleId = DB::table('roles')->where('nombre', 'Admin')->value('id');
         $clienteRoleId = DB::table('roles')->where('nombre', 'Cliente')->value('id');
         $managerRoleId = DB::table('roles')->where('nombre', 'Manager')->value('id');
@@ -25,7 +24,6 @@ class UserSeeder extends Seeder
             'surname' => 'Admin User',
             'email' => 'admin@correo.com',
             'celular' => '3105078912',
-            'direccion' => 'CR10 #12-21',
             'id_rol' => $adminRoleId,            
             'email_verified_at' => now(),
             'password' => bcrypt('12345678'),
@@ -36,7 +34,6 @@ class UserSeeder extends Seeder
             'surname' => 'Cliente User',
             'email' => 'cliente@correo.com',
             'celular' => '3105078912',
-            'direccion' => 'CR10 #12-21',
             'id_rol' => $clienteRoleId,
             'email_verified_at' => now(),
             'password' => bcrypt('12345678'),
@@ -47,7 +44,6 @@ class UserSeeder extends Seeder
             'surname' => 'Manager User',
             'email' => 'manager@correo.com',
             'celular' => '3105078912',
-            'direccion' => 'CR10 #12-21',
             'id_rol' => $managerRoleId,
             'email_verified_at' => now(),
             'password' => bcrypt('12345678'),
@@ -58,7 +54,6 @@ class UserSeeder extends Seeder
             'surname' => 'Repartidor User',
             'email' => 'repartidor@correo.com',
             'celular' => '3105078912',
-            'direccion' => 'CR10 #12-21',
             'id_rol' => $repartidorRoleId,
             'email_verified_at' => now(),
             'password' => bcrypt('12345678'),

@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Notifications\EstadoPedido;
+use App\Exports\PedidoExport;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Excel;
 use App\Mail\PedidoCambiado;
 use App\Models\Pedido;
 use App\Models\Inventario;
@@ -101,6 +104,8 @@ class PedidoController extends Controller
         return redirect()->back()->with('success', 'Estado del pedido actualizado correctamente.');
     }
 
+    
+
 
 
     public function rechazar(Request $request, $id)
@@ -190,5 +195,26 @@ class PedidoController extends Controller
         //pedido para flutter
         $pedido = Pedido::with('detalles.producto')->findOrFail($id);
         return response()->json($pedido);
+    }
+
+
+    public function export($format)
+    {
+        $export = new PedidoExport;
+
+        switch ($format) {
+            case 'pdf':
+                $pdf = Pdf::loadView('exports.pedidos', [
+                    'pedidos' => Pedido::all()
+                ])->setPaper('a4', 'portait') 
+                    ->setOption('margin-left', '10mm')
+                    ->setOption('margin-right', '10mm')
+                    ->setOption('margin-top', '10mm')
+                    ->setOption('margin-bottom', '10mm');
+                return $pdf->download('pedidos.pdf');
+            case 'xlsx':
+            default:
+                return $export->download('pedidos.xlsx', Excel::XLSX);
+        }
     }
 }

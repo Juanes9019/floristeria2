@@ -48,25 +48,6 @@
         </div>
 
         <div class="col-md-3 full-height d-flex flex-column">
-            <div class="card mb-3 flex-grow-4 text-center">
-                    <div class="card-body">
-                        <div>
-                            <div class="card-header text-center titulo_carta" style="background-color: #FFB6C1; font-size: 18px; padding-top: 5px; padding-bottom: 5px; margin-top: -10px;">
-                                {{ __('Categoría de productos') }}
-                            </div>
-                            <div class="card-body d-flex flex-wrap justify-content-center mt-3 mb-3" style="max-height: 200px; overflow-y: auto;">
-                                @foreach($categoria_categoria as $categoria)
-                                <a href="{{ route('all_products', ['categoria' => $categoria->id, 'filtro' => request()->input('filtro')]) }}" class="botones_filtro ">
-                                    {{ $categoria->nombre }}
-                                </a>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="row mt-3">
-                            <label class="alert-danger" id="lblError"></label>
-                        </div>
-                    </div>
-                </div>
                 <div class="card flex-grow-1 mb-3">
                     <div class="card-header text-center titulo_carta" style="background-color: #FFB6C1; font-size: 18px;">{{ __('Filtros de búsqueda') }}</div>
                         <form action="all_products" method="get">

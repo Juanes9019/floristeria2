@@ -116,15 +116,6 @@
                                                 @enderror
                                             </div>
                                             <div class="form-group mt-2">
-                                                <input id="direccion" type="text" class="form-style @error('direccion') is-invalid @enderror" name="direccion" value="{{ old('direccion') }}" required autocomplete="direccion" autofocus placeholder="Dirección">
-                                                <i class="input-icon uil uil-home-alt"></i>
-                                                @error('direccion')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                            <div class="form-group mt-2">
                                                 <input id="password" type="password" class="form-style @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="Contraseña">
                                                 <i class="input-icon uil uil-lock-alt"></i>
                                                 @error('password')

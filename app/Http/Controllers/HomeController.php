@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\Categoria;
-use App\Models\Categoria_Producto;
+use App\Models\CategoriaProducto;
 use App\Models\Categoria_insumo;
 use App\Models\User;
 use App\Models\Pqrs;
@@ -105,44 +105,45 @@ class HomeController extends Controller
 
 
     public function show_all(Request $request)
-{
-    $categoria_categoria = CategoriaProducto::all();
-
-    $filtro = Producto::query();
-
-    if ($request->has('categoria') && $request->input('filtro') !== 'todos') {
-        $categoria_id = $request->get('categoria');
-        $filtro->where('id_categoria', $categoria_id);
-    }
-
-    if ($request->has('query')) {
-        $consulta = $request->get('query');
-        $filtro->where(function($q) use ($consulta) {
-            $q->where('nombre', 'like', '%' . $consulta . '%');
-        });
-    }
-
-    if ($request->has('filtro') && $request->get('filtro') !== 'todos') {
-        switch ($request->get('filtro')) {
-            case 'caro':
-                $filtro->orderBy('precio', 'desc');
-                break;
-            case 'barato':
-                $filtro->orderBy('precio', 'asc');
-                break;
-            case 'nuevos':
-                $filtro->orderBy('created_at', 'desc');
-                break;
-            case 'antiguos':
-                $filtro->orderBy('created_at', 'asc');
-                break;
+    {
+        $categoria_categoria = CategoriaProducto::all();
+    
+        $filtro = Producto::query();
+    
+        if ($request->has('query')) {
+            $consulta = $request->get('query');
+            $filtro->where('nombre', 'like', '%' . $consulta . '%');
         }
+    
+        // Filtrar por precio
+        if ($request->has('min_price') && $request->has('max_price')) {
+            $minPrice = $request->input('min_price');
+            $maxPrice = $request->input('max_price');
+            $filtro->whereBetween('precio', [$minPrice, $maxPrice]);
+        }
+    
+        if ($request->has('filtro') && $request->get('filtro') !== 'todos') {
+            switch ($request->get('filtro')) {
+                case 'caro':
+                    $filtro->orderBy('precio', 'desc');
+                    break;
+                case 'barato':
+                    $filtro->orderBy('precio', 'asc');
+                    break;
+                case 'nuevos':
+                    $filtro->orderBy('created_at', 'desc');
+                    break;
+                case 'antiguos':
+                    $filtro->orderBy('created_at', 'asc');
+                    break;
+            }
+        }
+    
+        $productos = $filtro->get();
+    
+        return view('view_arreglo.all_products', compact('productos', 'categoria_categoria'));
     }
-
-    $productos = $filtro->get();
-
-    return view('view_arreglo.all_products', compact('productos', 'categoria_categoria'));
-}
+    
 
 public function getInsumosPorCategoria($categoria_id)
 {
@@ -205,20 +206,21 @@ public function personalizados(Request $request)
 
 
 
-public function personalizado_estandar(Request $request)
-{
-    $productoId = $request->input('producto_id');
+    public function personalizado_estandar(Request $request)
+    {
+        $productoId = $request->input('producto_id');
+        
+        // Obtén los insumos relacionados con el producto
+        $insumos = DB::table('insumos_producto')
+            ->where('id_producto', $productoId)
+            ->join('insumos', 'insumos.id', '=', 'insumos_producto.id_insumo')
+            ->select('insumos.nombre', 'insumos_producto.cantidad_usada')
+            ->get();
+
+        return response()->json($insumos);
+    }
+
     
-    // Obtén los insumos relacionados con el producto
-    $insumos = DB::table('insumos_producto')
-        ->where('id_producto', $productoId)
-        ->join('insumos', 'insumos.id', '=', 'insumos_producto.id_insumo')
-        ->select('insumos.nombre', 'insumos_producto.cantidad_usada')
-        ->get();
-
-    return response()->json($insumos);
-}
-
 
     public function agregar_producto(Request $request)
     {
@@ -366,7 +368,7 @@ public function personalizado_estandar(Request $request)
     public function productos_filtrar()
     {
         $$productos = Producto::where('estado', 1)->get();
-        $categoria_categoria = Categoria_Producto::where('estado',1)->get();
+        $categoria_categoria = CategoriaProducto::where('estado',1)->get();
 
         return view('view_arreglo.all_products', compact('productos','categoria_categoria'));
     }

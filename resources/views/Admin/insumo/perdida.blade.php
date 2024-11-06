@@ -4,7 +4,7 @@
 
 @section('content')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>                 
 
 <div class="container">
     <br><center><h3>Registrar Pérdida de Insumo</h3></center><br>
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <br>
-            <button type="submit" class="btn btn-primary">Registrar</button>
+            <input type="button" class="btn btn-primary" value="Agregar" onclick="agregar(event)">
             <a href="{{ route('Admin.insumo.historialPerdidas') }}" class="btn btn-danger">Cancelar</a>
         </form>
     </div>
@@ -67,25 +67,51 @@
                 $('#id_insumo').empty().append('<option selected disabled>Seleccione un insumo</option>');
             }
         });
-
-        // Manejo del envío del formulario con confirmación
-        $('#formulario_registrar').on('submit', function(event) {
-            event.preventDefault(); // Previene el envío automático del formulario
-
-            Swal.fire({
-                title: "¡Estas seguro!",
-                text: "¿Deseas registrar esta pérdida?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Sí, registrar"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.submit(); // Envía el formulario
-                }
-            });
-        });
     });
+
+    function agregar(event){
+        // Prevent default form submission
+        event.preventDefault();
+
+        Swal.fire({
+            title: "¡Estas seguro!",
+            text: "¿Deseas agregar esta pérdida?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, agregar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Manually submit the form if confirmed
+                document.getElementById('formulario_registrar').submit();
+            }
+        });
+    }
+
+    // SweetAlert notifications for success and error messages
+    @if (session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: '{{ session('success') }}',
+            position: 'top-end',
+            toast: true,
+            showConfirmButton: false,
+            timer: 3000
+        });
+    @endif
+
+    @if (session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '{{ session('error') }}',
+            position: 'top-end',
+            toast: true,
+            showConfirmButton: false,
+            timer: 3000
+        });
+    @endif
 </script>
 @stop
