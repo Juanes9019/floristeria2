@@ -21,7 +21,6 @@ class CreateProducto extends Component
     public $categoria_seleccionada;
     public $cantidad_disponible;
     public $cantidad_usada;
-    public $productoComponent;
 
 
     public $productos = [];

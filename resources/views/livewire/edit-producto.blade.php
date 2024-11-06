@@ -9,7 +9,7 @@
             </div>
 
             <!-- Modal body -->
-            <form  id="formulario_crear" class="p-4 md:p-5">
+            <form id="formulario_crear" class="p-4 md:p-5">
                 <!-- Campos para crear producto -->
                 <div class="bg-gray-50 p-4 rounded-lg mb-6 dark:bg-gray-800">
                     <h4 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Datos del Producto</h4>
@@ -55,13 +55,13 @@
                         <!-- Foto -->
                         <div class="form-group">
                             <label for="foto">Foto</label>
+                            <input type="file" wire:model="foto" id="foto" name="foto" class="form-control @error('foto') is-invalid @enderror wire:loading.attr=" disabled"">
+                            @error('foto')
                             @if(isset($producto) && $producto->foto)
                             <div class="mb-2">
                                 <img src="{{ $producto->foto }}" alt="Imagen del producto" class="img-thumbnail" style="max-width: 200px;">
                             </div>
                             @endif
-                            <input type="file" wire:model="foto" id="foto" name="foto" class="form-control @error('foto') is-invalid @enderror wire:loading.attr=" disabled"">
-                            @error('foto')
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -89,31 +89,91 @@
 
 
                     </div>
+                    <!-- Lista de insumos en dos columnas -->
+                    <div class="grid gap-4 md:grid-cols-2">
+                        @foreach($insumos as $index => $insumo)
+                        <div class="flex flex-col items-center p-4 border rounded-lg shadow-md space-y-4">
 
+                            <!-- Nombre y Cantidad -->
+                            <div class="text-center">
+                                <strong class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                                    {{ $insumo['nombre'] }}
+                                </strong>
+                                <p class="text-gray-600 dark:text-gray-400">Cantidad: {{ $insumo['pivot']['cantidad_usada'] }}</p>
+                            </div>
 
-                    <!-- Seleccionar Insumos -->
-                   
+                            <!-- Acciones -->
+                            @if($index_insumo_a_editar !== $index)
+                            <div class="btn-group flex space-x-2" role="group" aria-label="Acciones">
+                                <button wire:click.prevent="seleccionarInsumoParaEditar({{ $index }})" class="px-4 py-2 bg-yellow-500 rounded-full hover:bg-yellow-600 text-white">Editar</button>
+                                <button wire:click.prevent="eliminarInsumo({{ $index }})" class="px-4 py-2 bg-red-500 rounded-full hover:bg-red-600 text-white">Eliminar</button>
+                            </div>
+                            @endif
 
-                    <!-- Botones de acción -->
-                    <div class="mt-6 flex justify-between">
-                        <button wire:click.prevent='updateProducto' type="button" class="text-white inline-flex items-center bg-black hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-black dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                            <svg class="me-1 -ms-1 w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
-                            </svg>
-                            Crear Producto
-                        </button>
-                        <a href="{{ route('Admin.productos') }}" class="text-black inline-flex items-center bg-white border border-gray-400 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                            Volver
-                        </a>
+                            <!-- Formulario de Edición -->
+                            @if($index_insumo_a_editar === $index)
+                            <div class="w-full bg-gray-100 dark:bg-gray-800 p-4 rounded-lg space-y-3">
+                                <h4 class="text-center text-lg font-semibold text-gray-700 dark:text-gray-300">Editar Insumo Seleccionado</h4>
 
-                        <button wire:click='clearFields' class="text-black inline-flex items-center bg-white border border-gray-400 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                            <svg class="me-1 -ms-1 w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path fill-rule="evenodd" d="m16.24 3.56 4.95 4.94c.78.79.78 2.05 0 2.84L12 20.53a4.01 4.01 0 0 1-5.66 0L2.81 17c-.78-.79-.78-2.05 0-2.84l10.6-10.6c.79-.78 2.05-.78 2.83 0M4.22 15.58l3.54 3.53c.78.79 2.04.79 2.83 0l3.53-3.53-4.95-4.95z" />
-                            </svg>
-                            Borrar Campos
-                        </button>
+                                <!-- Selección de Categoría de Insumo -->
+                                <div class="form-group">
+                                    <label for="categoria_insumos" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoría de Insumo</label>
+                                    <select wire:model="categoria_seleccionada" wire:change="actualizarInsumosPorCategoria" class="w-full bg-white border border-gray-300 rounded-lg p-2 dark:bg-gray-700 dark:text-white">
+                                        <option selected>Seleccionar Categoría</option>
+                                        @foreach ($categorias_insumos as $categoria_insumo)
+                                        <option value="{{ $categoria_insumo->id }}">{{ $categoria_insumo->nombre }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
+                                <!-- Selección de Insumo -->
+                                <div class="form-group">
+                                    <label for="insumo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Insumo</label>
+                                    <select wire:model="insumo_seleccionado" class="w-full bg-white border border-gray-300 rounded-lg p-2 dark:bg-gray-700 dark:text-white">
+                                        <option selected>Seleccionar Insumo</option>
+                                        @foreach ($insumos_por_categoria as $insumo)
+                                        <option value="{{ $insumo->id }}">{{ $insumo->nombre }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Cantidad a Usar -->
+                                <div class="form-group">
+                                    <label for="cantidad_usar" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad a Usar</label>
+                                    <input type="number" wire:model="cantidad_usada" class="w-full bg-white border border-gray-300 rounded-lg p-2 dark:bg-gray-700 dark:text-white">
+                                </div>
+
+                                <!-- Botón para guardar los cambios -->
+                                <button wire:click.prevent="guardarCambiosInsumo({{ $index }})" class="w-full bg-blue-500 text-white rounded-lg px-4 py-2 mt-4">Guardar Cambios</button>
+                            </div>
+                            @endif
+                        </div>
+                        @endforeach
                     </div>
+
+                </div>
+
+
+                <!-- Botones de acción -->
+                <div class="mt-6 flex justify-between">
+                    <button wire:click.prevent='updateProducto' type="button" class="text-white inline-flex items-center bg-black hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-black dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                        <svg class="me-1 -ms-1 w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+                        </svg>
+                        Actualizar Producto
+                    </button>
+                    <a href="{{ route('Admin.productos') }}" class="text-black inline-flex items-center bg-white border border-gray-400 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                        Volver
+                    </a>
+
+                    <button wire:click='clearFields' class="text-black inline-flex items-center bg-white border border-gray-400 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                        <svg class="me-1 -ms-1 w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="m16.24 3.56 4.95 4.94c.78.79.78 2.05 0 2.84L12 20.53a4.01 4.01 0 0 1-5.66 0L2.81 17c-.78-.79-.78-2.05 0-2.84l10.6-10.6c.79-.78 2.05-.78 2.83 0M4.22 15.58l3.54 3.53c.78.79 2.04.79 2.83 0l3.53-3.53-4.95-4.95z" />
+                        </svg>
+                        Borrar Campos
+                    </button>
+
+                </div>
             </form>
         </div>
     </div>

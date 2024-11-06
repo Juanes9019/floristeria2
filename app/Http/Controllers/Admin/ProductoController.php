@@ -40,8 +40,7 @@ class ProductoController extends Controller
             return response()->view('errors.accesoDenegado');
         }
         $productos = Producto::all();
-        $i = 0;
-        return view('Admin.producto.index', compact('productos', 'i'));
+        return view('Admin.producto.index', compact('productos'));
     }
 
     public function create(Request $request)

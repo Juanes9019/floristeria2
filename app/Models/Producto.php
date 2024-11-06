@@ -31,10 +31,16 @@ class Producto extends Model
     {
         return $this->belongsTo(CategoriaProducto::class, 'id_categoria_producto');
     }
-    
+
     public function insumos()
     {
         return $this->belongsToMany(Insumo::class, 'insumos_producto', 'id_producto', 'id_insumo')
-                    ->withPivot('cantidad_usada'); 
+            ->withPivot('cantidad_usada');
+    }
+    public function scopeSearch($query, $value)
+    {
+        $query->where('nombre', 'like', "%{$value}%");
+            // ->orWhere('telefono', 'like', "%{$value}%")
+            // ->orWhere('correo', 'like', "%{$value}%");
     }
 }
