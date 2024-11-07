@@ -55,13 +55,15 @@
                         <!-- Foto -->
                         <div class="form-group">
                             <label for="foto">Foto</label>
+                            
                             <input type="file" wire:model="foto" id="foto" name="foto" class="form-control @error('foto') is-invalid @enderror wire:loading.attr=" disabled"">
-                            @error('foto')
                             @if(isset($producto) && $producto->foto)
                             <div class="mb-2">
                                 <img src="{{ $producto->foto }}" alt="Imagen del producto" class="img-thumbnail" style="max-width: 200px;">
                             </div>
                             @endif
+                            
+                            @error('foto')
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>

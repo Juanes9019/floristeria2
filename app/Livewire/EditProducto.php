@@ -56,31 +56,29 @@ class EditProducto extends Component
         $this->actualizarInsumosPorCategoria();
     }
     public function guardarCambiosInsumo($index)
-    {
-        // Verificar que el índice a editar es válido
-        if ($this->index_insumo_a_editar !== null && $this->index_insumo_a_editar === $index) {
+{
+    // Verificar que el índice a editar es válido
+    if ($this->index_insumo_a_editar !== null && $this->index_insumo_a_editar === $index) {
+        // Obtenemos el nuevo ID del insumo y la cantidad que se va a usar
+        $id_insumo = $this->insumo_seleccionado;
+        $cantidad_usada = $this->cantidad_usada;
 
-            // Obtenemos el ID del insumo y la cantidad que se va a usar
-            $insumo_id = $this->insumo_seleccionado;
-            $cantidad_usada = $this->cantidad_usada;
+        // Actualizamos el insumo en la tabla pivote
+        $this->producto->insumos()->updateExistingPivot($this->insumos[$index]['id'], [
+            'id_insumo' => $id_insumo,
+            'cantidad_usada' => $cantidad_usada
+        ]);
 
-            // Actualizamos el insumo en la tabla pivote con los nuevos datos
-            $this->producto->insumos()->updateExistingPivot($this->insumos[$index]['id'], [
-                'cantidad_usada' => $cantidad_usada,
-                'id' => $insumo_id
-            ]);
+        $this->insumos = $this->producto->insumos->toArray();
 
-            // Actualizamos la lista de insumos en el componente para reflejar los cambios
-            $this->insumos[$index]['id'] = $insumo_id;
-            $this->insumos[$index]['pivot']['cantidad_usada'] = $cantidad_usada;
+        // Limpiamos la selección del índice de edición
+        $this->index_insumo_a_editar = null;
 
-            // Limpiamos la selección del índice de edición
-            $this->index_insumo_a_editar = null;
-
-            // Notificamos que se ha actualizado el insumo
-            session()->flash('message', 'Insumo actualizado correctamente.');
-        }
+        // Notificamos que se ha actualizado el insumo
+        session()->flash('message', 'Insumo actualizado correctamente.');
     }
+}
+
 
 
     public function actualizarInsumosPorCategoria()
@@ -106,13 +104,14 @@ class EditProducto extends Component
         $this->producto->update($data);
 
         if ($this->index_insumo_a_editar !== null) {
-            $insumo_id = $this->insumo_seleccionado;
+            $id_insumo = $this->insumo_seleccionado;
             $cantidad = $this->cantidad_usada;
 
             $this->producto->insumos()->updateExistingPivot($this->insumos[$this->index_insumo_a_editar]['id'], [
-                'cantidad_usada' => $cantidad,
-                'id' => $insumo_id
+                'id_insumo' => $id_insumo,
+                'cantidad_usada' => $cantidad
             ]);
+            
         }
 
         session()->flash('message', 'Producto actualizado correctamente');

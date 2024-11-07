@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\Categoria;
@@ -13,7 +14,6 @@ use App\Models\Pedido;
 use App\Models\TipoFlor;
 use App\Models\Flor;
 use App\Models\Accesorio;
-use App\Models\CategoriaProducto;
 use App\Models\Comestible;
 use App\Models\Insumo;
 use Illuminate\Support\Facades\DB;

@@ -37,8 +37,7 @@ class detalleController extends Controller
         return response()->view('errors.accesoDenegado');
     }
         $detalles = Detalle::all();
-        $i = 0; 
-        return view('Admin.detalle.index', compact('detalles', 'i'));
+        return view('Admin.detalle.index', compact('detalles'));
     }
 
     public function getDetalles()

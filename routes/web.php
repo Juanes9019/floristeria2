@@ -25,11 +25,8 @@ use App\Http\Controllers\Admin\InicioController;
 use App\Http\Controllers\Admin\InsumoProductoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\carritoController;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\EnviarCorreo;
-use App\Models\CategoriaProducto;
 use Illuminate\Support\Facades\Auth;
-use App\Models\GenerarProducto;
+
 
 
 
@@ -226,12 +223,12 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::post('admin/pedido/{id}/cambiar-estado', [PedidoController::class, 'cambiar_estado'])->name('cambiar_estado');
     Route::post('admin/pedido/{id}/rechazar', [PedidoController::class, 'rechazar'])->name('rechazar');
     Route::get('admin/pedido/{id}/detalles', [PedidoController::class, 'mostrar'])->name('pedidos.detalles');
-    Route::get('/proveedores/export/{format}', [PedidoController::class, 'export'])->name('Admin.pedidos.export');
+    Route::get('/pedidos/export/{format}', [PedidoController::class, 'export'])->name('Admin.pedidos.export');
 
 
 
     // Rutas para el detalle
-    Route::get('admin/detalle', [DetalleController::class, 'index'])->name('detalles');
+    Route::get('admin/detalle', [detalleController::class, 'index'])->name('detalles');
     Route::get('/export_detalle_pdf', [ExportController::class, 'exportar_detalle'])->name('export_detalle.pdf');    
 
 //});

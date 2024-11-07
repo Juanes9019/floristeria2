@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="table-responsive mt-3">
-                    <table class="table">
+                    <table class="table table-striped table-hover">
                         <thead class="table">
                             <tr>
                                 <th scope="col" class="text-center" wire:click="sortBy('id')">
@@ -114,15 +114,15 @@
                         <tbody>
                             @foreach($productos as $producto)
                             <tr>
-                                <td class="text-center"> {{ ($productos->currentPage() - 1) * $productos->perPage() + $loop->iteration }}</td>
-                                <td class="text-center">{{ $producto->nombre }}</td>
-                                <td class="text-center">{{$producto->categoria_producto->nombre}}</td>
-                                <td class="text-center">{{$producto->descripcion_limitada}}</td>
-                                <td class="text-center">{{ number_format($producto->precio, 0, ',', '.') }}</td>
-                                <td class="text-center justify-content-center">
-                                    <img src="{{ $producto->foto }}" alt="Foto" class="thumbnail" width="150" height="150" loading="lazy">
+                                <td class="align-middle text-center"> {{ ($productos->currentPage() - 1) * $productos->perPage() + $loop->iteration }}</td>
+                                <td class="align-middle text-center">{{ $producto->nombre }}</td>
+                                <td class="align-middle text-center">{{$producto->categoria_producto->nombre}}</td>
+                                <td class="align-middle text-center">{{$producto->descripcion_limitada}}</td>
+                                <td class="align-middle text-center">{{ number_format($producto->precio, 0, ',', '.') }}</td>
+                                <td class="align-middle text-center justify-content-center">
+                                    <img src="{{ $producto->foto }}" alt="Foto" style="width: 100px; height: 100px; border-radius: 8px; object-fit: cover;" loading="lazy">
                                 </td>
-                                <td>
+                                <td class="align-middle text-center">
                                     <a class="btn btn-sm {{ $producto->estado == 1 ? 'btn-success' : 'btn-danger' }}"
                                         wire:click="changeStatus({{ $producto->id }})"
                                         wire:loading.attr="disabled"
@@ -136,18 +136,20 @@
                                         <span class="spinner-border spinner-border-sm"></span>
                                     </div>
                                 </td>
-                                <td class="text-center">
+                                <td class="align-middle text-center">
                                     <a class="btn btn-sm btn-warning" href="{{ route('Admin.producto.edit', ['id' => $producto->id]) }}">
-                                        <i class="fa fa-fw fa-edit"></i> </a>
+                                        <i class="fa fa-fw fa-edit"></i>
+                                    </a>
                                 </td>
-                                <td class="text-center">
+                                <td class="align-middle text-center">
                                     <a class="btn btn-sm btn-primary" href="{{ route('Admin.producto.show', ['id' => $producto->id]) }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                             <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
                                             <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
-                                        </svg></a>
+                                        </svg>
+                                    </a>
                                 </td>
-                                <td>
+                                <td class="align-middle text-center">
                                     <form id="form_eliminar_{{ $producto->id }}" action="{{ route('Admin.producto.destroy', ['id' => $producto->id]) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
@@ -160,10 +162,10 @@
                             </tr>
                             @endforeach
                         </tbody>
-
                     </table>
-                    <label>Páginas</label>
-                    <select wire:model.live="porPagina">
+
+                    <label for="pages">Páginas</label>
+                    <select id="pages" name="pages" wire:model.live="porPagina">
                         <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="50">50</option>
@@ -177,10 +179,6 @@
     </div>
 </div>
 
-
-
-
-</div>
 
 
 <script>
