@@ -27,5 +27,38 @@ class PermisoSeeder extends Seeder
             ['nombre' => 'Pedidos'],
             ['nombre' => 'Pqrs'],
         ]);
+
+        DB::table('insumos_producto')->insert([
+            [
+                'id_insumo' => 1, // Clavel
+                'id_producto' => 1, // Arreglo floral 1
+                'cantidad_usada' => 5,
+            ],
+            [
+                'id_insumo' => 2, // Orquídeas
+                'id_producto' => 1, // Arreglo floral 1
+                'cantidad_usada' => 3,
+            ],
+            [
+                'id_insumo' => 3, // Gerberas
+                'id_producto' => 2, // Arreglo floral 2
+                'cantidad_usada' => 7,
+            ],
+            [
+                'id_insumo' => 4, // Tulipán
+                'id_producto' => 3, // Arreglo floral 3
+                'cantidad_usada' => 6,
+            ],
+            [
+                'id_insumo' => 1, // Clavel
+                'id_producto' => 2, // Arreglo floral 2
+                'cantidad_usada' => 4,
+            ],
+            [
+                'id_insumo' => 3, // Gerberas
+                'id_producto' => 3, // Arreglo floral 3
+                'cantidad_usada' => 8,
+            ]
+        ]);
     }
 }

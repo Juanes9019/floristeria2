@@ -26,5 +26,11 @@ class Detalle extends Model
     public function producto(){
         return $this->belongsTo(Producto::class, 'id_producto');
     }
+
+    public function scopeSearch($query, $value)
+    {
+        return $query->where('id_pedido', 'like', "%{$search}%")
+                     ->orWhere('id_producto', 'like', "%{$search}%");
+    }
 }
 

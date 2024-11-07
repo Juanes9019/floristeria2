@@ -213,10 +213,28 @@ public function personalizados(Request $request)
         $insumos = DB::table('insumos_producto')
             ->where('id_producto', $productoId)
             ->join('insumos', 'insumos.id', '=', 'insumos_producto.id_insumo')
-            ->select('insumos.nombre', 'insumos_producto.cantidad_usada')
+            ->select('insumos.id', 'insumos.nombre', 'insumos_producto.cantidad_usada')
             ->get();
 
         return response()->json($insumos);
+    }
+
+    public function agregar_producto_nuevo(Request $request)
+    {
+        // Valida los datos recibidos
+        $request->validate([
+            'id_producto_nuevo' => 'required|exists:productos,id',
+        ]);
+
+        // Lógica para agregar el producto
+        $productoId = $request->input('id_producto_nuevo');
+
+        // Puedes realizar aquí la lógica que necesitas para el producto
+        // Por ejemplo, buscar el producto y agregar los insumos relacionados
+        $producto = Producto::findOrFail($productoId);
+
+        // Retorna una respuesta, por ejemplo, redirigiendo con un mensaje de éxito
+        return redirect()->back()->with('success', 'Producto agregado exitosamente');
     }
 
     

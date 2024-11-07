@@ -44,9 +44,9 @@ class DetalleTable extends Component
 
     public function changeStatus($id)
     {
-        $proveedor = Proveedor::find($id);
-        $proveedor->estado = !$proveedor->estado;
-        $proveedor->save();
+        $detalle = Detalle::find($id);
+        $detalle->estado = !$detalle->estado;
+        $detalle->save();
     }
 
     public function render()
