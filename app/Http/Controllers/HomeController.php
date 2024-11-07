@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\Categoria;
@@ -385,7 +386,7 @@ public function personalizados(Request $request)
     public function productos_filtrar()
     {
         $$productos = Producto::where('estado', 1)->get();
-        $categoria_categoria = Categoria_Producto::where('estado',1)->get();
+        $categoria_categoria = CategoriaProducto::where('estado',1)->get();
 
         return view('view_arreglo.all_products', compact('productos','categoria_categoria'));
     }

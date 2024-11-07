@@ -4,9 +4,9 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Proveedor;
+use App\Models\Producto;
 
-class ProveedoresTable extends Component
+class indexProducto extends Component
 {
     use WithPagination;
 
@@ -15,7 +15,6 @@ class ProveedoresTable extends Component
     public $ordenarColumna = 'id';
     public $ordenarForma = 'asc';
     public $primeraCarga = true;
-    public $modal= false;
 
     protected $queryString = [
         'buscar' => ['except' => ''],
@@ -44,19 +43,18 @@ class ProveedoresTable extends Component
 
     public function changeStatus($id)
     {
-        $proveedor = Proveedor::find($id);
-        $proveedor->estado = !$proveedor->estado;
-        $proveedor->save();
+        $producto = Producto::find($id);
+        $producto->estado = !$producto->estado;
+        $producto->save();
     }
 
+   
     public function render()
     {
-        return view('livewire.proveedores-table', [
-            'proveedores' => Proveedor::search($this->buscar)
+        return view('livewire.index-producto',[
+            'productos' => Producto::search($this->buscar)
                 ->orderBy($this->ordenarColumna, $this->ordenarForma)
                 ->paginate($this->porPagina)
         ]);
     }
-
-    
 }

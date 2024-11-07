@@ -11,7 +11,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Livewire\WithFileUploads;
 
-class InsumoProductoTable extends Component
+class CreateProducto extends Component
 {
     use WithFileUploads;
     public $insumos_agregados = [];
@@ -21,7 +21,6 @@ class InsumoProductoTable extends Component
     public $categoria_seleccionada;
     public $cantidad_disponible;
     public $cantidad_usada;
-    public $productoComponent;
 
 
     public $productos = [];
@@ -37,12 +36,12 @@ class InsumoProductoTable extends Component
 
     public function mount()
     {
-        $this->estado = 0;
+        
         $this->insumos_agregados = session()->get('insumos_agregados', []);
         $this->categorias_insumos = Categoria_insumo::all();
         $this->categorias_producto = CategoriaProducto::all();
+        $this->estado = 0;
     }
-    
     public function updatedCategoriaSeleccionada()
     {
         if ($this->categoria_seleccionada) {
@@ -120,14 +119,19 @@ class InsumoProductoTable extends Component
 
     public function crearProducto()
     {
-        // $this->validate([
-        //     'nombre' => 'required|string|unique:productos,nombre',
-        //     'descripcion' => 'required|string',
-        //     'precio' => 'required|numeric|min:0',
-        // 'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        //     'estado' => 'required',
-        //     'id_categoria_producto' => 'required|exists:categorias_productos,id_categoria_producto'
-        // ]);
+        $this->validate([
+            'nombre' => 'required|string|unique:productos,nombre',
+            'descripcion' => 'required|string',
+            'precio' => 'required|numeric|min:0',
+            'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'estado' => 'required|boolean',
+            'id_categoria_producto' => 'required|exists:categorias_productos,id_categoria_producto'
+        ]);
+
+        //Establece el valor de inactivo en caso de que sea nulo
+        if($this->estado == null){
+            $this->estado = 0;
+        } 
 
 
         // Procesar la imagen
@@ -178,13 +182,9 @@ class InsumoProductoTable extends Component
     }
 
 
-
-
-
-
     public function render()
     {
-        return view('livewire.insumo-producto-table', [
+        return view('livewire.create-producto', [
             'categorias_productos' => $this->categorias_producto
         ]);
     }
