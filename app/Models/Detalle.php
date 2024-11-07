@@ -29,8 +29,7 @@ class Detalle extends Model
 
     public function scopeSearch($query, $value)
     {
-        return $query->where('id_pedido', 'like', "%{$search}%")
-                     ->orWhere('id_producto', 'like', "%{$search}%");
+        $query->where('precio', 'like', "%{$value}%");
     }
 }
 

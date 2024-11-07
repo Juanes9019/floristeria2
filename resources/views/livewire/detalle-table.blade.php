@@ -85,14 +85,14 @@
                         </thead>
 
                         <tbody>
-                            @if($pedidos->isEmpty())
+                            @if($detalles->isEmpty())
                                 <tr>
                                     <td colspan="8" class="text-center">No hay detalles disponibles.</td>
                                 </tr>
                             @else
-                                @foreach($pedidos as $item)
+                                @foreach($detalles as $item)
                                     <tr>
-                                        <td class="text-center"> {{ ($pedidos->currentPage() - 1) * $pedidos->perPage() + $loop->iteration }}</td>
+                                        <td class="text-center"> {{ ($detalles->currentPage() - 1) * $detalles->perPage() + $loop->iteration }}</td>
                                         <td class="text-center">{{ $item->id_pedido }}</td>
                                         <td class="text-center">
                                             @if ($item->id_producto)
@@ -124,7 +124,7 @@
                         <option value="50">50</option>
                     </select>
                     <div class="mt-3">
-                        {{ $pedidos->links() }}
+                        {{ $detalles->links() }}
                     </div>
                 </div>
             </div>

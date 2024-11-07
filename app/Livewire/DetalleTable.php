@@ -51,14 +51,11 @@ class DetalleTable extends Component
 
     public function render()
     {
-        return view('livewire.detalle-table');
+        return view('livewire.detalle-table',[
+        'detalles' => Detalle::search($this->buscar)
+                ->orderBy($this->ordenarColumna, $this->ordenarForma)
+                ->paginate($this->porPagina)
+        ]);
     }
 
-    public function openmodal(){
-        $this-> modal=true;
-    }
-    
-    public function closemodal(){
-        $this -> modal = false;
-    }
 }

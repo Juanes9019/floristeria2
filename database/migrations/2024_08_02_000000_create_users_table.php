@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('celular')->nullable();
             $table->foreignId('id_rol')->default(2)->constrained('roles');
             $table->string('password');
-            $table->integer('estado')->default(1); //1-Activo   0-Inactivo
+            $table->integer('estado')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });
