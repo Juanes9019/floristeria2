@@ -19,6 +19,8 @@ class User extends Authenticatable
         'name',
         'surname',
         'email',
+        'tipo_documento',
+        'documento',
         'celular',
         'id_rol', 
         'password',
@@ -64,7 +66,8 @@ class User extends Authenticatable
     public function scopeSearch($query, $value)
     {
         $query->where('name', 'like', "%{$value}%")
-                     ->orWhere('email', 'like', "%{$value}%");
+                     ->orWhere('email', 'like', "%{$value}%")
+                     ->orWhere('documento', 'like', "%{$value}%");
     }
 
     public function hasPermission($permission)
