@@ -21,9 +21,12 @@ class PedidosSeeder extends Seeder
             'comprobante_url' => 'https://i.imgur.com/akP7rYh.jpeg', 
             'datos_envio' => json_encode([
                 'nombre_destinatario' => 'Carlos López',
+                'fecha' => '2024-11-16',
+                'departamento' => 'Antioquia',
+                'ciudad' => 'Medellín',
                 'direccion' => 'Calle 456 a #21-123',
+                'instrucciones_entrega' => 'Por favor entregar en recepción',
                 'telefono' => '3001234568',
-                'fecha_entrega' => '2024-11-16',
             ]),
             'datos_rechazo' => null, 
         ]);
@@ -36,9 +39,12 @@ class PedidosSeeder extends Seeder
             'comprobante_url' => 'https://i.imgur.com/akP7rYh.jpeg', 
             'datos_envio' => json_encode([
                 'nombre_destinatario' => 'Ana Torres',
+                'fecha' => '2024-11-17',
+                'departamento' => 'Antioquia',
+                'ciudad' => 'Envigado', 
                 'direccion' => 'Calle 789 #41-2',
+                'instrucciones_entrega' => 'Entregar en portería, edificio azul',
                 'telefono' => '3001234569',
-                'fecha_entrega' => '2024-11-17',
             ]),
             'datos_rechazo' => null,
         ]);

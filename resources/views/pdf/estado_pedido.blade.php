@@ -23,7 +23,6 @@
 
     <p>Si tienes alguna duda, comunicate con nuestro soporte técnico.</p>
 
-    <p>Saludos,<br>
-    Floristería</p>
+    <p>Floristería la tata</p>
 </body>
 </html>
