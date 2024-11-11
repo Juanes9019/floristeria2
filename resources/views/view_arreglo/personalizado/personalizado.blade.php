@@ -70,7 +70,7 @@
 
                         <div class="carousel-item">
                             <div class="experience-slide-one row h-100 align-items-center justify-content-center">
-                                <div class="col-md-8">
+                                <div class="col-md-9">
                                     <div class="experience-slide-img text-center"> 
                                         @if ($section == '1')
                                             @include('view_arreglo.personalizado.cero')

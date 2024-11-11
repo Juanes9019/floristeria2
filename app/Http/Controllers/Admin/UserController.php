@@ -257,6 +257,8 @@ class UserController extends Controller
                 return $export->download('usuarios.xlsx', Excel::XLSX);
         }
     }
+
+    
     public function login(Request $request)
     {
         $request->validate([

@@ -23,7 +23,7 @@ class Categoria_insumoSeeder extends Seeder
         ]);
 
         DB::table('categoria_insumos')->insert([
-            'nombre' => 'Dulces',
+            'nombre' => 'Comestibles',
         ]);
 
         DB::table('categoria_insumos')->insert([

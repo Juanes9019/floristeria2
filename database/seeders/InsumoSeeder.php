@@ -25,7 +25,8 @@ class InsumoSeeder extends Seeder
 
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 1,
-            'nombre' => 'Orquídeas',
+            'nombre' => 'Clavel',
+            'color' => 'Rosado',
             'cantidad_insumo' => 0,
             'costo_unitario' => 700,
             'perdida_insumo' => 0,
@@ -36,13 +37,26 @@ class InsumoSeeder extends Seeder
             
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 1,
-            'nombre' => 'Gerberas',
+            'nombre' => 'Clavel',
+            'color' => 'Amarillo',
             'cantidad_insumo' => 0,
+            'costo_unitario' => 9000,
+            'perdida_insumo' => 0,
+            'costo_perdida' => 0,
+            'imagen' => 'https://i.imgur.com/ihurqZn.png',
+            'descripcion' => 'El clavel amarillo transmite alegría y amistad, perfecto para celebraciones y momentos de felicidad.'
+            ]);
+
+        DB::table('insumos')->insert([
+            'id_categoria_insumo' => 1,
+            'nombre' => 'Tulipán',
+            'color' => 'Blanco',
+            'cantidad_insumo' => 11000,
             'costo_unitario' => 700,
             'perdida_insumo' => 0,
             'costo_perdida' => 0,
-            'imagen' => 'https://i.imgur.com/wkTkKas.jpeg', 
-            'descripcion' => 'Este tulipán morado es símbolo de lujo y admiración, una elección perfecta para destacar en eventos formales.'
+            'imagen' => 'https://i.imgur.com/NkIcRVK.png', 
+            'descripcion' => 'El tulipán blanco expresa elegancia y respeto, a menudo utilizado en ocasiones solemnes o para transmitir paz.'
             ]);
 
         DB::table('insumos')->insert([
@@ -55,6 +69,18 @@ class InsumoSeeder extends Seeder
             'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/lIpVzYT.png',
             'descripcion' => 'El tulipán amarillo es sinónimo de felicidad y luz, ideal para expresar alegría y entusiasmo.'
+            ]);
+
+        DB::table('insumos')->insert([
+            'id_categoria_insumo' => 1,
+            'nombre' => 'Tulipán',
+            'color' => 'Morado',
+            'cantidad_insumo' => 0,
+            'costo_unitario' => 12000,
+            'perdida_insumo' => 0,
+            'costo_perdida' => 0,
+            'imagen' => 'https://i.imgur.com/wkTkKas.jpeg', 
+            'descripcion' => 'Este tulipán morado es símbolo de lujo y admiración, una elección perfecta para destacar en eventos formales.'
             ]);
 
         DB::table('insumos')->insert([
@@ -128,96 +154,72 @@ class InsumoSeeder extends Seeder
             'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/SjL2Sq2.png', 
             'descripcion' => 'Las rosas amarillas simbolizan amistad y alegría, una elección vibrante para expresar aprecio entre amigos.'
-            ]);
-
+        ]);
+            
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 2,
-            'nombre' => 'Osos',
+            'nombre' => 'Oso',
             'cantidad_insumo' => 0,
-            'costo_unitario' => 1000,
+            'costo_unitario' => 80000,
             'perdida_insumo' => 0,
             'costo_perdida' => 0,
-            ]);
-
+            'imagen' => 'https://i.imgur.com/8LIryTC.jpeg',
+            'descripcion' => 'Un oso de peluche suave y adorable, ideal para complementar regalos de forma tierna.'
+        ]);
+            
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 3,
             'nombre' => 'Chocolatinas',
             'cantidad_insumo' => 0,
-            'costo_unitario' => 500,
+            'costo_unitario' => 800,
             'perdida_insumo' => 0,
             'costo_perdida' => 0,
-            ]);
-
+            'imagen' => 'https://i.imgur.com/5ii2qHp.jpeg',
+            'descripcion' => 'Pequeñas chocolatinas, ideales para endulzar cualquier ocasión especial.'
+        ]);
+            
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 3,
-            'nombre' => 'Papas',
+            'nombre' => 'Papitas',
             'cantidad_insumo' => 0,
-            'costo_unitario' => 1000,
+            'costo_unitario' => 3500,
             'perdida_insumo' => 0,
             'costo_perdida' => 0,
-            ]);
-
+            'imagen' => 'https://i.imgur.com/6GsiWYW.jpeg',
+            'descripcion' => 'Snack crujiente de papas, perfecto para acompañar momentos de compartir.'
+        ]);
+            
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 3,
             'nombre' => 'Gomitas',
             'cantidad_insumo' => 0,
-            'costo_unitario' => 1500,
+            'costo_unitario' => 2500,
             'perdida_insumo' => 0,
             'costo_perdida' => 0,
-            ]);
-
+            'imagen' => 'https://i.imgur.com/U1Ij5qY.jpeg',
+            'descripcion' => 'Dulces gomitas de sabores surtidos, ideales para acompañar cualquier regalo.'
+        ]);
+            
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 4,
             'nombre' => 'Yogurt',
             'cantidad_insumo' => 0,
-            'costo_unitario' => 800,
+            'costo_unitario' => 2200,
             'perdida_insumo' => 0,
             'costo_perdida' => 0,
-            ]);
-
+            'imagen' => 'https://i.imgur.com/1FDQroh.png',
+            'descripcion' => 'Bebida de yogurt refrescante, perfecta para acompañar un snack saludable.'
+        ]);
+            
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 4,
             'nombre' => 'Cervezas',
             'cantidad_insumo' => 0,
-            'costo_unitario' => 3000,
+            'costo_unitario' => 6000,
             'perdida_insumo' => 0,
             'costo_perdida' => 0,
-            ]);
-
-        DB::table('insumos')->insert([
-            'id_categoria_insumo' => 5,
-            'nombre' => 'Cuadrado',
-            'cantidad_insumo' => 0,
-            'costo_unitario' => 2000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
-            ]);
-
-        DB::table('insumos')->insert([
-            'id_categoria_insumo' => 5,
-            'nombre' => 'Redondo',
-            'cantidad_insumo' => 0,
-            'costo_unitario' => 2000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
-            ]);
-            
-        DB::table('insumos')->insert([
-            'id_categoria_insumo' => 5,
-            'nombre' => 'Vasija',
-            'cantidad_insumo' => 0,
-            'costo_unitario' => 2000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
-            ]);
-
-        DB::table('insumos')->insert([
-            'id_categoria_insumo' => 5,
-            'nombre' => 'Vidrio',
-            'cantidad_insumo' => 0,
-            'costo_unitario' => 2000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
-            ]);
+            'imagen' => 'https://i.imgur.com/9NXOvse.jpeg',
+            'descripcion' => 'Cervezas refrescantes, ideales para compartir en momentos de celebración.'
+        ]);
     }
 }

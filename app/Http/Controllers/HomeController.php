@@ -210,13 +210,13 @@ public function personalizados(Request $request)
     {
         $productoId = $request->input('producto_id');
         
-        // Obtén los insumos relacionados con el producto
+        // Obtén los insumos relacionados con el producto, incluyendo el campo 'color'
         $insumos = DB::table('insumos_producto')
             ->where('id_producto', $productoId)
             ->join('insumos', 'insumos.id', '=', 'insumos_producto.id_insumo')
-            ->select('insumos.id', 'insumos.nombre', 'insumos_producto.cantidad_usada')
+            ->select('insumos.id', 'insumos.nombre', 'insumos.color', 'insumos_producto.cantidad_usada') // Agrega 'insumos.color' aquí
             ->get();
-
+    
         return response()->json($insumos);
     }
 
