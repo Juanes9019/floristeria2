@@ -41,6 +41,29 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="tipo_documento">Tipo de documento</label>
+                            <input type="text" name="tipo_documento" class="form-control @error('tipo_documento') is-invalid @enderror" id="tipo_documento" placeholder="Tipo de documento" value="{{ old('tipo_documento', $usuarios->tipo_documento) }}" readonly>
+                            @error('tipo_documento')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="documento">Documento</label>
+                            <input type="text" name="documento" class="form-control @error('documento') is-invalid @enderror" id="documento" placeholder="Documento" value="{{ old('documento', $usuarios->documento) }}" readonly>
+                            @error('documento')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label for="email">Correo electrónico</label>
                             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="correo@ejemplo.com" value="{{ old('email', $usuarios->email) }}">
                             @error('email')
@@ -49,9 +72,7 @@
                             </span>
                             @enderror
                         </div>
-                    </div>
 
-                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="celular">Celular</label>
                             <input type="tel" name="celular" class="form-control @error('celular') is-invalid @enderror" id="celular" placeholder="Celular" value="{{ old('celular', $usuarios->celular) }}"  pattern="\d*" 

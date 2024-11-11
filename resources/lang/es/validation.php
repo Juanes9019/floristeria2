@@ -138,6 +138,8 @@ return [
         'departamento' => 'departamento',
         'ciudad' => 'ciudad',
         'instrucciones_entrega' => 'instrucciones de entrega',
+        'documento' => 'documento',
+        'tipo_documento' => 'tipo documento',
     ],
 
 ];

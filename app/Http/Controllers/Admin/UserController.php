@@ -71,6 +71,8 @@ class UserController extends Controller
             'name' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/'],
             'surname' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/'],
             'email' => 'required|email|unique:users,email',
+            'tipo_documento' => 'required',
+            'documento' => 'required|unique:users,documento',
             'celular' => ['required','string','size:10'],
             'id_rol' => 'required',
             'password' => ['required', 'string', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/'],
@@ -83,6 +85,8 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->surname = $request->surname;
         $user->email = $request->email;
+        $user->tipo_documento = $request->tipo_documento;
+        $user->documento = $request->documento;
         $user->celular = $request->celular;
         $user->id_rol = $request->id_rol;
         $user->password = Hash::make($request->password);
@@ -129,13 +133,17 @@ class UserController extends Controller
             'surname' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/'],
             'email' => 'required|email',
             'celular' => ['required','string','size:10'],
-            'id_rol' => 'required'
+            'id_rol' => 'required',
+            'tipo_documento' => 'required',
+            'documento' => 'required|unique:users,documento'
         ]);
 
         // Asignación de los campos del usuario desde el formulario
         $usuarios->name = $request->input('name');
         $usuarios->surname = $request->input('surname');
         $usuarios->email = $request->input('email');
+        $usuarios->tipo_documento = $request->input('tipo_documento');
+        $usuarios->documento = $request->input('documento');
         $usuarios->celular = $request->input('celular');
         $usuarios->id_rol = $request->input('id_rol');
 

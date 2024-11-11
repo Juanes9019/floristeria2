@@ -1,9 +1,10 @@
 <table>
     <thead>
         <tr>
-            <th style="border: 1px solid black; background-color: #f8ccd6; padding: 10px; text-align: center; font-weight: bold;">No</th>
             <th style="border: 1px solid black; background-color: #f8ccd6; padding: 10px; text-align: center; font-weight: bold;">Nombre</th>
-            <th style="border: 1px solid black; background-color: #f8ccd6; padding: 10px; text-align: center; font-weight: bold;">Correo</th>
+            <th style="border: 1px solid black; background-color: #f8ccd6; padding: 10px; text-align: center; font-weight: bold;">Tipo de documento</th>
+            <th style="border: 1px solid black; background-color: #f8ccd6; padding: 10px; text-align: center; font-weight: bold;">Documento</th>
+            <th style="border: 1px solid black; background-color: #f8ccd6; padding: 10px; text-align: center; font-weight: bold;">Correo electrónico</th>
             <th style="border: 1px solid black; background-color: #f8ccd6; padding: 10px; text-align: center; font-weight: bold;">Rol</th>
             <th style="border: 1px solid black; background-color: #f8ccd6; padding: 10px; text-align: center; font-weight: bold;">Estado</th>
         </tr>
@@ -11,10 +12,11 @@
     <tbody>
         @foreach($usuarios as $user)
         <tr>
-            <td style="border: 1px solid black; padding: 10px; text-align: center;">{{ $loop->iteration }}</td>
             <td style="border: 1px solid black; padding: 10px; text-align: center;">{{ $user->name }}</td>
+            <td style="border: 1px solid black; padding: 10px; text-align: center;">{{ $user->tipo_documento }}</td>
+            <td style="border: 1px solid black; padding: 10px; text-align: center;">{{ $user->documento }}</td>
             <td style="border: 1px solid black; padding: 10px; text-align: center;">{{ $user->email }}</td>
-            <td style="border: 1px solid black; padding: 10px; text-align: center; color: #0000FF">{{ $user->id_rol}}</td>
+            <td style="border: 1px solid black; padding: 10px; text-align: center; color: #0000FF">{{ $user->Role->nombre}}</td>
             <td style="border: 1px solid black; padding: 10px; text-align: center;">{{ $user->estado == 1 ? 'Activo' : 'Inactivo' }}</td>
         </tr>
         @endforeach

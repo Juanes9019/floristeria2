@@ -39,6 +39,46 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="tipo_documento">Tipo de Documento</label>
+                            <select 
+                                name="tipo_documento" 
+                                class="form-control @error('tipo_documento') is-invalid @enderror" 
+                                id="tipo_documento" 
+                                onchange="toggleDocumentoField()"
+                            >
+                                <option disabled {{ old('tipo_documento') ? '' : 'selected' }}>Seleccione el tipo de documento</option>
+                                <option value="CC" {{ old('tipo_documento') == 'CC' ? 'selected' : '' }}>Cédula de Ciudadanía</option>
+                                <option value="CE" {{ old('tipo_documento') == 'CE' ? 'selected' : '' }}>Cédula de Extranjería</option>
+                                <option value="Pasaporte" {{ old('tipo_documento') == 'Pasaporte' ? 'selected' : '' }}>Pasaporte</option>
+                            </select>
+                            @error('tipo_documento')
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="documento">Documento</label>
+                            <input 
+                                type="tel" 
+                                name="documento"
+                                class="form-control @error('documento') is-invalid @enderror" 
+                                id="documento" 
+                                placeholder="Documento" 
+                                value="{{ old('documento') }}" 
+                                pattern="\d*" 
+                                maxlength="10"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                            >
+                            @error('documento')
+                                <span class="invalid-feedback d-block" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
                             <label for="email">Correo electrónico</label>
                             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Correo electrónico" value="{{ old('email') }}">
                             @error('email')
@@ -46,8 +86,12 @@
                                 <strong>{{$message}}</strong>
                             </span>
                             @enderror
-                        </div>
+                        </div>                        
+                        
+                    </div>
 
+                    <div class="col-md-6">
+                        
                         <div class="form-group">
                             <label for="celular">Celular</label>
                             <input 
@@ -67,11 +111,7 @@
                                 </span>
                             @enderror
                         </div>
-                        
-                    </div>
 
-                    <div class="col-md-6">
-                        
                         <div class="form-group">
                             <label for="id_rol">Rol</label>
                             <select id="id_rol" name="id_rol" class="form-control @error('id_rol') is-invalid @enderror">
@@ -120,41 +160,6 @@
                             </span>
                             @enderror
                         </div>
-
-                        {{-- <div class="form-group mb-3">
-                            <label for="password">Contraseña</label>
-                            <div class="input-group">
-                                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Contraseña" id="password">
-                                
-                                
-                                <div class="input-group-append">
-                                    <span class="input-group-text info-icon">
-                                        <i class="bi bi-info-circle" id="infoPassword"></i>
-                                        <span class="tooltip-text">
-                                            La contraseña debe contener:<br>
-                                            - Entre 8 y 15 caracteres<br>
-                                            - Al menos una letra mayúscula<br>
-                                            - Al menos una letra minúscula<br>
-                                            - Al menos un dígito<br>
-                                            - Un carácter especial
-                                        </span>
-                                    </span>
-                                </div>
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-eye" id="togglePassword1" onclick="togglePasswordVisibility('password', 'togglePassword1')"></i>
-                                    </span>
-                                </div>
-                        
-                                
-                            </div>
-                            @error('password')
-                            <span class="invalid-feedback d-block" role="alert">
-                                <strong>{{$message}}</strong>
-                            </span>
-                            @enderror
-                        </div> --}}
-
                         <div class="form-group mb-3">
                             <label for="cpassword">Confirmar contraseña</label>
                             <div class="input-group">
@@ -184,6 +189,28 @@
 </div>
 
 <script>
+    function toggleDocumentoField() {
+    var tipoDocumento = document.getElementById('tipo_documento').value;
+    var documentoField = document.getElementById('documento');
+
+    documentoField.value = '';
+
+    if (tipoDocumento === 'Pasaporte') {
+        documentoField.removeAttribute('pattern');
+        documentoField.oninput = function() {
+            this.value = this.value.replace(/[^a-zA-Z0-9]/g, '');
+        };
+    } else {
+        documentoField.setAttribute('pattern', '\\d*');
+        documentoField.oninput = function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        };
+    }
+}
+
+</script>
+
+<script>
     function toggleTooltip(show) {
         const tooltip = document.getElementById('passwordTooltip');
         tooltip.style.display = show ? 'block' : 'none';
@@ -200,12 +227,10 @@
     const digitRequirement = document.getElementById('digit');
     const specialRequirement = document.getElementById('special');
 
-    // Icono de información
     const infoIcon = document.getElementById('infoPasswordIcon');
     
     let metConditions = 0;
 
-    // Validación de cada condición
     if (password.length >= 8 && password.length <= 15) {
         lengthRequirement.classList.add('valid');
         lengthRequirement.classList.remove('invalid');
@@ -251,7 +276,6 @@
         specialRequirement.classList.remove('valid');
     }
 
-    // Cambia el color del icono según los requisitos cumplidos
     if (metConditions === 5) {
         infoIcon.classList.add('highlighted');
     } else {
