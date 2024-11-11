@@ -179,7 +179,7 @@ class carritoController extends Controller
             'comprobante_pago' => 'required|image|mimes:jpeg,png,jpg|max:5120',
         ]);
     
-        // Definir datos de envío
+        // definir datos de envío
         $datosEnvio = $request->only([
             'nombre_destinatario', 
             'fecha', 

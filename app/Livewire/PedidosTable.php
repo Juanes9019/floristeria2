@@ -51,14 +51,14 @@ class PedidosTable extends Component
     {
         $pedido = Pedido::findOrFail($id);
 
+    
         if ($action === 'reject') {
             $pedido->estado = 'rechazado';
         } elseif ($action === 'accept') {
             switch ($pedido->estado) {
+    
                 case 'nuevo':
                     $pedido->estado = 'preparacion';
-                    
-                    // Restar los insumos del inventario
                     foreach ($pedido->detalles as $detalle) {
                         if (is_null($detalle->id_producto)) {
                             $items = json_decode($detalle->opciones, true)['items'];
@@ -81,26 +81,28 @@ class PedidosTable extends Component
                         }
                     }
                     break;
+    
                 case 'preparacion':
                     $pedido->estado = 'en camino';
                     break;
+    
                 case 'en camino':
                     $pedido->estado = 'entregado';
                     break;
             }
         }
-
+    
         $pedido->save();
-
+    
         if ($pedido->user) {
-            // Envía la notificación y el correo al usuario
             $pedido->user->notify(new EstadoPedido($pedido));
             Mail::to($pedido->user->email)->send(new PedidoCambiado($pedido));
         }
-
-        // Usa session()->flash en lugar de emit
+    
         session()->flash('success', 'El estado del pedido ha sido actualizado con éxito');
     }
+    
+    
 
     public function render()
     {

@@ -232,7 +232,8 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::get('/export_detalle_pdf', [ExportController::class, 'exportar_detalle'])->name('export_detalle.pdf');    
 
 
-    Route::get('admin/envio', [EnvioController::class, 'index'])->name('envio');
+    Route::get('admin/envio', [EnvioController::class, 'index'])->name('envio.index');
+    Route::post('admin/envio-rechazo', [EnvioController::class, 'motivo_rechazo'])->name('envio.rechazo');
 
 
 //});

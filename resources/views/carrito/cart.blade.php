@@ -106,7 +106,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <label for="nombre_destinatario">Nombre del destinatario:</label>
+                                            <label for="nombre_destinatario">Nombre del destinatario: <strong style="color: red;">*</strong></label>
                                             <input type="text" class="form-control" id="nombre_destinatario" name="nombre_destinatario" placeholder="Ingresa el nombre del destinatario" required>
                                             @error('nombre_destinatario')
                                                 <div class="text-danger">{{ $message }}</div>
@@ -114,7 +114,7 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="fecha">Fecha:</label>
+                                            <label for="fecha">Fecha: <strong style="color: red;">*</strong></label>
                                             <input type="date" class="form-control" id="fecha" name="fecha" readonly>
                                             @error('fecha')
                                                 <div class="text-danger">{{ $message }}</div>
@@ -124,7 +124,7 @@
 
                                     <div class="row mt-3">
                                         <div class="col-md-6">
-                                            <label for="departamento">Departamento:</label>
+                                            <label for="departamento">Departamento: <strong style="color: red;">*</strong></label>
                                             <input type="text" class="form-control" id="departamento" name="departamento" value="Antioquia" readonly>
                                             @error('departamento')
                                                 <div class="text-danger">{{ $message }}</div>
@@ -132,7 +132,7 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="ciudad">Ciudad:</label>
+                                            <label for="ciudad">Ciudad:  <strong style="color: red;">*</strong></label>
                                             <select class="form-control" id="ciudad" name="ciudad" required>
                                                 <option value="" disabled selected>Seleccione una ciudad</option>
                                                 @foreach($cities as $city)
@@ -147,7 +147,7 @@
 
                                     <div class="row mt-3">
                                         <div class="col-md-3">
-                                            <label for="tipo_via">Tipo de Vía:</label>
+                                            <label for="tipo_via">Tipo de Vía: <strong style="color: red;">*</strong></label>
                                             <select class="form-control" id="tipo_via" name="tipo_via" required onchange="actualizarDireccion()">
                                                 <option value="" disabled selected>Seleccione tipo de vía</option>
                                                 <option value="Calle">Calle</option>
@@ -161,7 +161,7 @@
                                         </div>
 
                                         <div class="col-md-3">
-                                            <label for="numero_via">Número de Vía Principal:</label>
+                                            <label for="numero_via">Número de Vía Principal: <strong style="color: red;">*</strong></label>
                                             <input type="text" class="form-control" id="numero_via" name="numero_via" required oninput="actualizarDireccion()">
                                             @error('numero_via')
                                                 <div class="text-danger">{{ $message }}</div>
@@ -169,7 +169,7 @@
                                         </div>
 
                                         <div class="col-md-3">
-                                            <label for="via_secundaria">Número de Vía Secundaria:</label>
+                                            <label for="via_secundaria">Número de Vía Secundaria: <strong style="color: red;">*</strong></label>
                                             <input type="text" class="form-control" id="via_secundaria" name="via_secundaria" required oninput="actualizarDireccion()">
                                             @error('via_secundaria')
                                                 <div class="text-danger">{{ $message }}</div>
@@ -187,7 +187,7 @@
 
                                     <div class="row mt-3">
                                         <div class="col-md-6">
-                                            <label for="direccion">Dirección completa:</label>
+                                            <label for="direccion">Dirección completa: <strong style="color: red;">*</strong></label>
                                             <input type="text" class="form-control" id="direccion" name="direccion" readonly>
                                             @error('direccion')
                                                 <div class="text-danger">{{ $message }}</div>
@@ -195,7 +195,7 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="telefono">Teléfono:</label>
+                                            <label for="telefono">Teléfono: <strong style="color: red;">*</strong></label>
                                             <input type="number" class="form-control" id="telefono" name="telefono" placeholder="999-999-9999" required>
                                             @error('telefono')
                                                 <div class="text-danger">{{ $message }}</div>
@@ -233,7 +233,7 @@
                                     Cómo hacerlo: Por favor, escanee el código QR utilizando su aplicación bancaria y realice la transferencia con el valor total indicado en su carrito. Una vez que haya finalizado la transferencia, tome una captura de pantalla del comprobante de pago y súbalo en el campo a continuación.
                                 </p>
 
-                                <label for="comprobante_pago">Comprobante de Pago:</label>
+                                <label for="comprobante_pago">Comprobante de Pago: <strong style="color: red;">*</strong></label>
                                 <input type="file" class="form-control" id="comprobante_pago" name="comprobante_pago" required>
                                 @error('comprobante_pago')
                                     <div class="text-danger">{{ $message }}</div>

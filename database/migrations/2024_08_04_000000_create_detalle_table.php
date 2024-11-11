@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('cantidad');
             $table->decimal('subtotal', 10, 2);
             $table->string('imagen')->nullable();
-            $table->json('opciones')->nullable();
+            $table->json('opciones')->nullable(); // esto es para el personalizado
             $table->timestamps();
         });
     }

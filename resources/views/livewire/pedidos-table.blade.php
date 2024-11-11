@@ -104,23 +104,24 @@
                                         </td>
                                         <td class="text-center">
                                             @if ($item->estado === 'nuevo')
-                                                <button type="button" class="btn btn-primary" 
-                                                    wire:click="changeStatus({{ $item->id }}, 'accept')">
+                                                <button type="button" class="btn btn-primary" wire:click="changeStatus({{ $item->id }}, 'accept')">
                                                     Aceptar Pedido
                                                 </button>
                                             @elseif ($item->estado === 'preparacion')
-                                                <button type="button" class="btn btn-warning" 
-                                                    wire:click="changeStatus({{ $item->id }}, 'accept')">
+                                                <button type="button" class="btn btn-warning" wire:click="changeStatus({{ $item->id }}, 'accept')">
                                                     En Preparación
                                                 </button>
                                             @elseif ($item->estado === 'en camino')
-                                                <button type="button" class="btn btn-info" 
-                                                    wire:click="changeStatus({{ $item->id }}, 'accept')">
+                                                <button type="button" class="btn btn-info" wire:click="changeStatus({{ $item->id }}, 'accept')">
                                                     En Camino
                                                 </button>
                                             @elseif ($item->estado === 'entregado')
                                                 <button type="button" class="btn btn-success" disabled>
                                                     Entregado
+                                                </button>
+                                            @elseif ($item->estado === 'no recibido')
+                                                <button type="button" class="btn btn-danger" wire:click="changeStatus({{ $item->id }}, 'accept')">
+                                                    No recibido
                                                 </button>
                                             @elseif ($item->estado === 'rechazado')
                                                 <button type="button" class="btn btn-primary" disabled>

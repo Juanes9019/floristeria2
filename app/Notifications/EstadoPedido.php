@@ -32,7 +32,7 @@ class EstadoPedido extends Notification
      */
     public function via($notifiable)
     {
-        return ['database', 'mail']; // Especifica los canales que deseas usar
+        return ['database', 'mail']; 
     }
 
     /**
@@ -43,22 +43,27 @@ class EstadoPedido extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->subject('Cambio de Estado de Pedido')
-                    ->line('El estado de tu pedido #' . $this->pedido->id . ' ha cambiado a ' . $this->pedido->estado);
+        $mailMessage = (new MailMessage)
+                        ->subject('Cambio de Estado de Pedido')
+                        ->line('El estado de tu pedido #' . $this->pedido->id . ' ha cambiado a ' . $this->pedido->estado);
+
+        if ($this->pedido->estado === 'no recibido') {
+            $mailMessage->line('Tu pedido no ha sido recibido, pero se realizará un nuevo envío dentro de los próximos 3 días.');
+        }
+
+        return $mailMessage;
     }
 
-    /**
-     * Get the array representation of the notification for the database.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
+    public function toDatabase($notifiable)
     {
+        $message = 'El estado de tu pedido #' . $this->pedido->id . ' ha cambiado a ' . $this->pedido->estado;
+        if ($this->pedido->estado === 'no recibido') {
+            $message .= ' - Tu pedido será reenviado en los próximos 3 días.';
+        }
+
         return [
             'pedido_id' => $this->pedido->id,
-            'mensaje' => 'El estado de tu pedido #' . $this->pedido->id . ' ha cambiado a ' . $this->pedido->estado,
+            'mensaje' => $message,
         ];
     }
 }

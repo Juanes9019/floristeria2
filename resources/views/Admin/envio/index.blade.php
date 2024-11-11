@@ -9,7 +9,7 @@
                 <div class="card-header">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span id="card_title">
-                            <b>Control de envios</b>
+                            <b>Control de envíos</b>
                         </span>
                     </div>
                 </div>
@@ -21,142 +21,144 @@
                 @endif
 
                 <div class="table-responsive mt-3">
-                <table class="table">
-                    <thead class="table">
-                        <tr>
-                            <th class="text-center">Producto</th>
-                            <th class="text-center">Total</th>
-                            <th class="text-center">Fecha</th>
-                            <th class="text-center">Estado</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach($pedidos as $item)
+                    <table class="table">
+                        <thead class="table">
                             <tr>
-                                <td class="text-center">
-                                    @foreach($item->detalles as $item_detalle)
-                                        {{ $item_detalle->producto->nombre }}<br>
-                                    @endforeach
-                                </td>
-                                <td class="text-center">{{ number_format($item->total, 0, ',', '.') }}</td>
-                                <td class="text-center">{{ $item->fechapedido }}</td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn btn-info" data-toggle="modal" data-target="#envioModal{{ $item->id }}"><i class="fa fa-info-circle"></i> Datos de envio</button>
-                                    <button type="button" class="btn btn-info">{{ ucfirst($item->estado) }}</button>
-                                </td>
+                                <th class="text-center">Producto</th>
+                                <th class="text-center">Total</th>
+                                <th class="text-center">Fecha</th>
+                                <th class="text-center">Estado</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @if ($pedidos->isEmpty())  
+                                <tr>
+                                    <td colspan="4" class="text-center">
+                                        <div class="alert alert-warning">No hay envíos para ser repartidos.</div>
+                                    </td>
+                                </tr>
+                            @else
+                                @foreach($pedidos as $item)
+                                    <tr>
+                                        <td class="text-center">
+                                            @foreach($item->detalles as $item_detalle)
+                                                {{ $item_detalle->producto->nombre }}<br>
+                                            @endforeach
+                                        </td>
+                                        <td class="text-center">{{ number_format($item->total, 0, ',', '.') }}</td>
+                                        <td class="text-center">{{ $item->fechapedido }}</td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#envioModal{{ $item->id }}"><i class="fa fa-info-circle"></i> Datos de envio</button>
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#noRecibidoModal{{ $item->id }}"><i class="fa fa-exclamation-triangle"></i> No recibido</button>                                            
+                                            <button type="button" class="btn btn-info">{{ ucfirst($item->estado) }}</button>
+                                        </td>
+                                    </tr>
+            
+                                    <!-- Modal Datos de Envio -->
+                                    <div class="modal fade" id="envioModal{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="modalEnvioLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modalEnvioLabel">Detalles de Envío</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    @php $datosEnvio = json_decode($item->datos_envio); @endphp
+            
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-6">
+                                                            <p><strong>Nombre Destinatario:</strong> {{ $datosEnvio->nombre_destinatario }}</p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p><strong>Fecha:</strong> {{ $datosEnvio->fecha }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-6">
+                                                            <p><strong>Departamento:</strong> {{ $datosEnvio->departamento }}</p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p><strong>Ciudad:</strong> {{ $datosEnvio->ciudad }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-12">
+                                                            <p><strong>Dirección:</strong> {{ $datosEnvio->direccion }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-12">
+                                                            <p><strong>Instrucciones de Entrega:</strong> {{ $datosEnvio->instrucciones_entrega }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-md-12">
+                                                            <p><strong>Teléfono:</strong> {{ $datosEnvio->telefono }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Modal No Recibido -->
+                                    <div class="modal fade" id="noRecibidoModal{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="noRecibidoModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="noRecibidoModalLabel">Formulario para pedido no recibido</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="{{ route('envio.rechazo') }}" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="id_pedido" value="{{ $item->id }}">
+
+                                                        <div class="mb-3">
+                                                            <label for="motivo" class="form-label">Selecciona el motivo del pedido no entregado <strong style="color: red;">*</strong></label>
+                                                            <select class="form-control" id="motivo" name="motivo" required>
+                                                                <option selected disabled>Selecciona el motivo</option>
+                                                                <option>El destinatario no se encontraba en casa</option>
+                                                                <option>Dirección incorrecta o incompleta</option>
+                                                                <option>No se pudo acceder a la dirección</option>
+                                                                <option>Destinatario rechazó la entrega</option>
+                                                                <option>Problemas con el transporte</option>
+                                                                <option>Pedido extraviado</option>
+                                                                <option>Otro (especificar)</option>
+                                                            </select>
+                                                            @error('motivo')
+                                                                <div class="text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label for="descripcion">Descripción del motivo: <strong style="color: red;">*</strong></label>
+                                                            <textarea class="form-control" id="descripcion" name="descripcion" placeholder="No se encontraba en casa" required></textarea>
+                                                            @error('descripcion')
+                                                                <div class="text-danger">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                                            <button type="submit" class="btn btn-danger">Confirmar</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="envioModal{{ $item->id }}" tabindex="-1" role="dialog" aria-labelledby="modalEnvioLabel" aria-hidden="true"> 
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalEnvioLabel">Detalles de Envío</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @php $datosEnvio = json_decode($item->datos_envio); @endphp
-
-                    <!-- Contenedor con el grid de Bootstrap -->
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <p><strong>Nombre Destinatario:</strong> {{ $datosEnvio->nombre_destinatario }}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong>Fecha:</strong> {{ $datosEnvio->fecha }}</p>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <p><strong>Departamento:</strong> {{ $datosEnvio->departamento }}</p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong>Ciudad:</strong> {{ $datosEnvio->ciudad }}</p>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <p><strong>Dirección:</strong> {{ $datosEnvio->direccion }}</p>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <p><strong>Instrucciones de Entrega:</strong> {{ $datosEnvio->instrucciones_entrega }}</p>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-12">
-                            <p><strong>Teléfono:</strong> {{ $datosEnvio->telefono }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <style>
-        .modal-body p {
-            font-size: 1rem;
-            line-height: 1.5;
-        }
-
-        .modal-title {
-            text-align: center;
-            width: 100%;
-        }
-
-        .modal-header {
-            background-color: #f7f7f7;
-            border-bottom: 2px solid #ddd;
-        }
-
-        .modal-title {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .close {
-            font-size: 1.5rem;
-            color: #000;
-        }
-
-        .row.mb-3 {
-            margin-bottom: 15px;
-        }
-
-        .modal-body .col-md-6 p,
-        .modal-body .col-md-12 p {
-            background-color: #f9f9f9;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-    </style>
-
-
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <!-- jQuery (para capturar el evento del botón) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <style>
-        .centrar-formulario {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
 </div>
-
-
 @stop
