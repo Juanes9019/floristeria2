@@ -27,17 +27,14 @@ class PedidoController extends Controller
     {
         $user = auth()->user();
 
-        // Verificar si el permiso 'pedidos' existe
         $permiso = DB::table('permisos')
             ->where('nombre', 'Pedidos')
             ->first();
 
-        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
         if (!$permiso) {
             return response()->view('errors.accesoDenegado');
         }
 
-        // Verificar si el usuario tiene el permiso asociado a su rol
         $tienePermiso = DB::table('permisos_rol')
             ->where('id_rol', $user->id_rol)
             ->where('id_permiso', $permiso->id)
@@ -61,14 +58,11 @@ class PedidoController extends Controller
         } elseif ($pedido->estado === 'nuevo') {
             $pedido->estado = 'preparacion';
 
-            // Restar los insumos del inventario
             foreach ($pedido->detalles as $detalle) {
-                // Si es un insumo personalizado
                 if (is_null($detalle->id_producto)) {
                     $items = json_decode($detalle->opciones, true)['items'];
 
                     foreach ($items as $item) {
-                        // Aquí asumes que el nombre del insumo es único o se utiliza un ID
                         $insumo = Insumo::where('nombre', $item['name'])->where('color', $item['color'])->first();
 
                         if ($insumo) {
@@ -125,17 +119,14 @@ class PedidoController extends Controller
     {
         $user = auth()->user();
 
-        // Verificar si el permiso 'pedidos' existe
         $permiso = DB::table('permisos')
             ->where('nombre', 'Pedidos')
             ->first();
 
-        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
         if (!$permiso) {
             return response()->view('errors.accesoDenegado');
         }
 
-        // Verificar si el usuario tiene el permiso asociado a su rol
         $tienePermiso = DB::table('permisos_rol')
             ->where('id_rol', $user->id_rol)
             ->where('id_permiso', $permiso->id)

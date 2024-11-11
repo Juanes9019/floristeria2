@@ -28,7 +28,7 @@ class Pedido extends Model
 
     public function scopeSearch($query, $search)
     {
-        return $query->where('user_id', 'like', "%{$search}%") // o el campo que desees buscar
+        return $query->where('user_id', 'like', "%{$search}%") 
                      ->orWhere('total', 'like', "%{$search}%")
                      ->orWhere('fechapedido', 'like', "%{$search}%")
                      ->orWhere('estado', 'like', "%{$search}%");

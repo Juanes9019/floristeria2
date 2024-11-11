@@ -415,6 +415,12 @@ return [
                 'label_color' => 'warning',
                 'can' => 'view-sales-detail', 
             ],
+            [
+                'text' => 'Envio',
+                'url' => 'admin/envio',
+                'icon' => 'fas fa-truck', 
+                'label_color' => 'warning',
+            ],
         ], 
     ],
 ],

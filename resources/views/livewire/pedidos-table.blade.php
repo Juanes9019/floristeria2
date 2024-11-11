@@ -44,24 +44,6 @@
                     <table class="table">
                         <thead class="table">
                             <tr>
-                                <th scope="col" class="text-center" wire:click="sortBy('id')">
-                                    No
-                                    @if ($ordenarColumna === 'id')
-                                    @if ($ordenarForma === 'asc')
-                                    <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
-                                    </svg>
-                                    @else
-                                    <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
-                                    </svg>
-                                    @endif
-                                    @else
-                                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"></path>
-                                    </svg>
-                                    @endif
-                                </th>
                                 <th scope="col" class="text-center">
                                     Usuario
                                 </th>
@@ -107,7 +89,6 @@
                             @else
                                 @foreach($pedidos as $item)
                                     <tr>
-                                        <td class="text-center"> {{ ($pedidos->currentPage() - 1) * $pedidos->perPage() + $loop->iteration }}</td>
                                         <td class="text-center">{{ $item->user_id }}</td>
                                         <td class="text-center">{{ number_format($item->total, 0, ',', '.') }}</td>
                                         <td class="text-center">{{ $item->fechapedido }}</td>
