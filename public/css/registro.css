@@ -42,9 +42,10 @@ h6 span{
   width: 100%;
   display: block;
 }
+
 .card-3d-wrap {
   position: relative;
-  width: 440px;
+  width: 800px;
   max-width: 100%;
   height: 400px;
   -webkit-transform-style: preserve-3d;
@@ -62,15 +63,15 @@ h6 span{
 }
 .card-login, .card-registro {
   width: 100%;
-  background-color: #ce93b8;
+  background-color: #fdbaba;
   background-image: url('/img/pattern_japanese-pattern-2_1_2_0-0_0_1__ffffff00_000000.png');
   position: absolute;
-  border-radius: 6px;
+  border-radius: 2rem;
   -webkit-transform-style: preserve-3d;
 }
 
 .card-login{
-  height: 100%;
+  height: 145%;
 }
 
 
@@ -78,9 +79,7 @@ h6 span{
   transform: rotateY(180deg);
   height: 145%;
 }
-.checkbox:checked ~ .card-3d-wrap .card-3d-wrapper {
-  transform: rotateY(180deg);
-}
+
 .center-wrap{
   position: absolute;
   width: 100%;
@@ -100,7 +99,7 @@ h6 span{
 
 .form-style {
   padding: 13px 20px;
-  padding-left: 55px;
+  padding-left: 50px;
   height: 48px;
   width: 100%;
   font-weight: 500;
@@ -125,7 +124,7 @@ h6 span{
 .input-icon {
   position: absolute;
   top: 0;
-  left: 18px;
+  left: 12px;
   height: 48px;
   font-size: 24px;
   line-height: 48px;
@@ -168,7 +167,7 @@ h6 span{
     bottom: 150%; /* Mueve el tooltip arriba del icono */
     left: 50%; /* Centra el tooltip horizontalmente */
     transform: translateX(-50%); /* Centrado completo */
-    width: 250px;
+    width: 18rem;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -212,3 +211,4 @@ h6 span{
 #eye-icon {
   pointer-events: all; /* Asegura que el ícono sea clickeable */
 }
+

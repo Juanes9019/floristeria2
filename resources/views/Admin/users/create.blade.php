@@ -67,9 +67,7 @@
                                 id="documento" 
                                 placeholder="Documento" 
                                 value="{{ old('documento') }}" 
-                                pattern="\d*" 
                                 maxlength="10"
-                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                             >
                             @error('documento')
                                 <span class="invalid-feedback d-block" role="alert">
@@ -144,6 +142,7 @@
                                                 <li id="lowercase" class="invalid">Al menos una letra minúscula</li>
                                                 <li id="digit" class="invalid">Al menos un dígito</li>
                                                 <li id="special" class="invalid">Un carácter especial</li>
+                                                <li id="esp" class="valid">Sin espacios</li>
                                             </ul>
                                         </div>
                                     </span>
@@ -160,6 +159,7 @@
                             </span>
                             @enderror
                         </div>
+                        
                         <div class="form-group mb-3">
                             <label for="cpassword">Confirmar contraseña</label>
                             <div class="input-group">
@@ -181,7 +181,7 @@
             </div>
 
             <div class="form-group mt-4">
-                <input type="button" class="btn btn-primary" value="Agregar usuario" onclick="agregar()">
+                <input type="button" class="btn btn-primary" value="Agregar" onclick="agregar()">
                 <a href="{{ route('Admin.users') }}" class="btn btn-danger">Cancelar</a>
             </div>
         </form>
@@ -226,6 +226,7 @@
     const lowercaseRequirement = document.getElementById('lowercase');
     const digitRequirement = document.getElementById('digit');
     const specialRequirement = document.getElementById('special');
+    const espRequirement = document.getElementById('esp');
 
     const infoIcon = document.getElementById('infoPasswordIcon');
     
@@ -276,11 +277,23 @@
         specialRequirement.classList.remove('valid');
     }
 
-    if (metConditions === 5) {
-        infoIcon.classList.add('highlighted');
-    } else {
-        infoIcon.classList.remove('highlighted');
-    }
+    // No debe tener espacios
+    if (!/\s/.test(password)) {
+            espRequirement.classList.add('valid');
+            espRequirement.classList.remove('invalid');
+            metConditions++;
+        } else {
+            espRequirement.classList.add('invalid');
+            espRequirement.classList.remove('valid');
+        }
+
+        // Resaltar el icono si todas las condiciones se cumplen
+        if (metConditions === 6) { // Ajustado a 6 condiciones
+            infoIcon.classList.add('highlighted');
+        } else {
+            infoIcon.classList.remove('highlighted');
+        }
+
 }
 </script>
     
@@ -326,13 +339,13 @@ function agregar() {
         Swal.fire('Error', 'Solo se aceptan letras en el nombre', 'error');
         document.getElementById('formulario_crear').submit();
         return false;
-    } else if (name.length > 20) {
-        Swal.fire('Error', 'El nombre es demasiado largo, Máximo 20 caracteres', 'error');
+    } else if (name.length > 30) {
+        Swal.fire('Error', 'El nombre es demasiado largo, Máximo 30 caracteres', 'error');
         document.getElementById('formulario_crear').submit();
         return false;
     
-    } else if (surname.length > 20) {
-        Swal.fire('Error', 'El apellido es demasiado largo, Máximo 20 caracteres', 'error');
+    } else if (surname.length > 30) {
+        Swal.fire('Error', 'El apellido es demasiado largo, Máximo 30 caracteres', 'error');
         document.getElementById('formulario_crear').submit();
         return false;
     

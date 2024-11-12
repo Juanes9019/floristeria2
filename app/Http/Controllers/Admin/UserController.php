@@ -68,14 +68,14 @@ class UserController extends Controller
     {
 
         $request->validate([
-            'name' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/'],
-            'surname' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/'],
+            'name' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/','max:30'],
+            'surname' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/','max:30'],
             'email' => 'required|email|unique:users,email',
             'tipo_documento' => 'required',
             'documento' => 'required|unique:users,documento',
             'celular' => ['required','string','size:10'],
             'id_rol' => 'required',
-            'password' => ['required', 'string', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$/'],
+            'password' => ['required', 'string', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&_])([A-Za-z\d$@$!%*?&_]|[^ ]){8,15}$/','min:8','max:15'],
             'cpassword' => ['required', 'same:password']
         ]);
 
@@ -129,13 +129,13 @@ class UserController extends Controller
         $usuarios = User::find($id);
 
         $request->validate([
-            'name' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/'],
-            'surname' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/'],
-            'email' => 'required|email',
+            'name' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/','max:30'],
+            'surname' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/','max:30'],
+            'email' => ['required', 'email', 'unique:users,email,' . $id],
             'celular' => ['required','string','size:10'],
             'id_rol' => 'required',
             'tipo_documento' => 'required',
-            'documento' => 'required|unique:users,documento'
+            'documento' => 'required'
         ]);
 
         // Asignación de los campos del usuario desde el formulario

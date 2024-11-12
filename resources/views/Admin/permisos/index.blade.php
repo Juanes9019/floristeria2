@@ -31,7 +31,6 @@
                         <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col" class="text-center">No</th>
                                     <th scope="col" class="text-center">Rol</th>
                                     <th scope="col" class="text-center">Permisos</th>
                                     <th scope="col" colspan="2" class="text-center">Acciones</th>
@@ -40,7 +39,6 @@
                             <tbody>
                                 @foreach($roles as $role)
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
                                     <td class="text-center">{{ $role->nombre }}</td>
                                     <td class="text-center">{{ $role->permisos->pluck('nombre')->implode(', ') }}</td>
                                     <td class="text-center">

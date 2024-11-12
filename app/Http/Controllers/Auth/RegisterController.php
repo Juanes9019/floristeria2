@@ -22,11 +22,14 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'surname' => ['required', 'string', 'max:255'], 
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'celular' => ['required', 'string', 'max:20'],   
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'name' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/','max:30'],
+            'surname' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/','max:30'],
+            'email' => 'required|email|unique:users,email',
+            'tipo_documento' => 'required',
+            'documento' => 'required|unique:users,documento',
+            'celular' => ['required', 'string', 'size:10'],
+            'password' => ['required', 'string', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&_])([A-Za-z\d$@$!%*?&_]|[^ ]){8,15}$/','min:8','max:15'],
+            'cpassword' => ['required', 'same:password']
         ]);
     }
 
@@ -36,11 +39,14 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'surname' => $data['surname'],
             'email' => $data['email'],
+            'tipo_documento' => $data['tipo_documento'],
+            'documento' => $data['documento'],
             'celular' => $data['celular'],
             'password' => Hash::make($data['password']),
             'id_rol' => 2, 
         ]);
     }
+    
 
     protected function redirectTo()
     {

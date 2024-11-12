@@ -44,7 +44,7 @@ class LoginController extends Controller
         $role = auth()->user()->id_rol;
 
         if ($role == 1) {
-            return 'admin/dashboard';
+            return 'admin/inicio';
         }
         return '/';
     }
