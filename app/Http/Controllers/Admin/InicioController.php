@@ -40,10 +40,11 @@ class InicioController extends Controller
             $permiso_detalle_venta_id = DB::table('permisos')->where('nombre', 'detalle_venta')->value('id');
             $permiso_pedidos_id = DB::table('permisos')->where('nombre', 'pedidos')->value('id');
             $permiso_pqrs_id = DB::table('permisos')->where('nombre', 'pqrs')->value('id');
+            $permiso_envio_id = DB::table('permisos')->where('nombre', 'envio')->value('id');
             
             // Depuración para ver los permisos que tiene el rol actual
             //dd($permisos_usuario);  // Esto mostrará en pantalla los permisos del usuario actual.
-            if(auth()->check() && (in_array($permiso_roles_id, $permisos_usuario) || in_array($permiso_usuarios_id, $permisos_usuario) || in_array($permiso_dashboard_id, $permisos_usuario) || in_array($permiso_pedidos_id, $permisos_usuario) || in_array($permiso_proveedores_id, $permisos_usuario) || in_array($permiso_categorias_productos_id, $permisos_usuario) || in_array($permiso_categoria_insumos_id, $permisos_usuario) || in_array($permiso_insumos_id, $permisos_usuario) || in_array($permiso_productos_id, $permisos_usuario) || in_array($permiso_compras_id, $permisos_usuario) || in_array($permiso_detalle_venta_id, $permisos_usuario) || in_array($permiso_pedidos_id, $permisos_usuario) || in_array($permiso_pqrs_id, $permisos_usuario))){
+            if(auth()->check() && (in_array($permiso_roles_id, $permisos_usuario) || in_array($permiso_usuarios_id, $permisos_usuario) || in_array($permiso_dashboard_id, $permisos_usuario) || in_array($permiso_pedidos_id, $permisos_usuario) || in_array($permiso_proveedores_id, $permisos_usuario) || in_array($permiso_categorias_productos_id, $permisos_usuario) || in_array($permiso_categoria_insumos_id, $permisos_usuario) || in_array($permiso_insumos_id, $permisos_usuario) || in_array($permiso_productos_id, $permisos_usuario) || in_array($permiso_compras_id, $permisos_usuario) || in_array($permiso_detalle_venta_id, $permisos_usuario) || in_array($permiso_pedidos_id, $permisos_usuario) || in_array($permiso_pqrs_id, $permisos_usuario) || in_array($permiso_envio_id, $permisos_usuario))){
                 return view('admin.inicio.inicio');
             }
             else{
