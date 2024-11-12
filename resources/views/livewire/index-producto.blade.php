@@ -46,24 +46,6 @@
                     <table class="table table-striped table-hover">
                         <thead class="table">
                             <tr>
-                                <th scope="col" class="text-center" wire:click="sortBy('id')">
-                                    No
-                                    @if ($ordenarColumna === 'id')
-                                    @if ($ordenarForma === 'asc')
-                                    <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
-                                    </svg>
-                                    @else
-                                    <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
-                                    </svg>
-                                    @endif
-                                    @else
-                                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"></path>
-                                    </svg>
-                                    @endif
-                                </th>
                                 <th scope="col" class="text-center" wire:click="sortBy('nombre')">
                                     Nombre
                                     @if ($ordenarColumna === 'nombre')
@@ -114,7 +96,6 @@
                         <tbody>
                             @foreach($productos as $producto)
                             <tr>
-                                <td class="align-middle text-center"> {{ ($productos->currentPage() - 1) * $productos->perPage() + $loop->iteration }}</td>
                                 <td class="align-middle text-center">{{ $producto->nombre }}</td>
                                 <td class="align-middle text-center">{{$producto->categoria_producto->nombre}}</td>
                                 <td class="align-middle text-center">{{$producto->descripcion_limitada}}</td>

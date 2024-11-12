@@ -15,14 +15,12 @@ use App\Http\Controllers\Admin\pedidoController;
 use App\Http\Controllers\Admin\detalleController;
 use App\Http\Controllers\Admin\CompraController;
 use App\Http\Controllers\Admin\DetalleCompraController;
-use App\Http\Controllers\Admin\inventarioController;
 use App\Http\Controllers\Admin\InsumoController;
 use App\Http\Controllers\Admin\GenerarProductoController;
-
-
 use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\InicioController;
 use App\Http\Controllers\Admin\InsumoProductoController;
+use App\Http\Controllers\Admin\EnvioController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\carritoController;
 use Illuminate\Support\Facades\Auth;
@@ -232,6 +230,11 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     // Rutas para el detalle
     Route::get('admin/detalle', [detalleController::class, 'index'])->name('detalles');
     Route::get('/export_detalle_pdf', [ExportController::class, 'exportar_detalle'])->name('export_detalle.pdf');    
+
+
+    Route::get('admin/envio', [EnvioController::class, 'index'])->name('envio.index');
+    Route::post('admin/envio-rechazo', [EnvioController::class, 'motivo_rechazo'])->name('envio.rechazo');
+
 
 //});
 

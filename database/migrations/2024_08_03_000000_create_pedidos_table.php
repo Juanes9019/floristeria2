@@ -16,8 +16,10 @@ return new class extends Migration
             $table->foreignId('user_id')->references('id')->on('users');
             $table->decimal('total', 10, 2);
             $table->timestamp('fechapedido');
-            $table->enum('estado', ["nuevo", "preparacion", "en camino", "entregado","rechazado"])->default("nuevo");
+            $table->enum('estado', ["nuevo", "preparacion", "en camino", "entregado","rechazado","no recibido"])->default("nuevo");
             $table->string('comprobante_url')->nullable();
+            $table->json('datos_envio');
+            $table->json('datos_rechazo')->nullable();
             $table->timestamps();
         });
     }

@@ -27,17 +27,14 @@ class PedidoController extends Controller
     {
         $user = auth()->user();
 
-        // Verificar si el permiso 'pedidos' existe
         $permiso = DB::table('permisos')
             ->where('nombre', 'Pedidos')
             ->first();
 
-        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
         if (!$permiso) {
             return response()->view('errors.accesoDenegado');
         }
 
-        // Verificar si el usuario tiene el permiso asociado a su rol
         $tienePermiso = DB::table('permisos_rol')
             ->where('id_rol', $user->id_rol)
             ->where('id_permiso', $permiso->id)
@@ -51,58 +48,59 @@ class PedidoController extends Controller
         return view('Admin.pedido.index', compact('pedidos', 'i'));
     }
 
-    public function cambiar_estado(Request $request, $id)
-    {
-        $pedido = Pedido::findOrFail($id);
-        $action = $request->input('action');
+        public function cambiar_estado(Request $request, $id)
+        {
+            $pedido = Pedido::findOrFail($id);
+            $action = $request->input('action');
 
-        if ($action === 'reject') {
-            $pedido->estado = 'rechazado';
-        } elseif ($pedido->estado === 'nuevo') {
-            $pedido->estado = 'preparacion';
+            if ($action === 'reject') {
+                $pedido->estado = 'rechazado';
+            } elseif ($pedido->estado === 'nuevo') {
+                $pedido->estado = 'preparacion';
 
-            // Restar los insumos del inventario
-            foreach ($pedido->detalles as $detalle) {
-                // Si es un insumo personalizado
-                if (is_null($detalle->id_producto)) {
-                    $items = json_decode($detalle->opciones, true)['items'];
+                foreach ($pedido->detalles as $detalle) {
+                    if (is_null($detalle->id_producto)) {
+                        $items = json_decode($detalle->opciones, true)['items'];
 
-                    foreach ($items as $item) {
-                        // Aquí asumes que el nombre del insumo es único o se utiliza un ID
-                        $insumo = Insumo::where('nombre', $item['name'])->where('color', $item['color'])->first();
+                        foreach ($items as $item) {
+                            $insumo = Insumo::where('nombre', $item['name'])->where('color', $item['color'])->first();
 
-                        if ($insumo) {
-                            $insumo->cantidad_insumo -= $item['qty'];
-                            $insumo->save();
+                            if ($insumo) {
+                                $insumo->cantidad_insumo -= $item['qty'];
+                                $insumo->save();
+                            }
                         }
-                    }
-                } else {
-                    $producto = Producto::find($detalle->id_producto);
-                    if ($producto) {
-                        // Descontar los insumos que pertenecen al producto
-                        foreach ($producto->insumos as $insumo) {
-                            $cantidadUsada = $insumo->pivot->cantidad_usada; // cantidad usada en el producto
-                            $insumo->cantidad_insumo -= $cantidadUsada * $detalle->cantidad; // descontar por la cantidad del pedido
-                            $insumo->save();
+                    } else {
+                        $producto = Producto::find($detalle->id_producto);
+                        if ($producto) {
+                            // Descontar los insumos que pertenecen al producto
+                            foreach ($producto->insumos as $insumo) {
+                                $cantidadUsada = $insumo->pivot->cantidad_usada; // cantidad usada en el producto
+                                $insumo->cantidad_insumo -= $cantidadUsada * $detalle->cantidad; // descontar por la cantidad del pedido
+                                $insumo->save();
+                            }
                         }
                     }
                 }
+            } elseif ($pedido->estado === 'preparacion') {
+                $pedido->estado = 'en camino';
+            } elseif ($pedido->estado === 'en camino') {
+                $pedido->estado = 'entregado';
+
+            }elseif ($pedido->estado === 'no recibido') {
+                $pedido->estado = 'en camino';
+
             }
-        } elseif ($pedido->estado === 'preparacion') {
-            $pedido->estado = 'en camino';
-        } elseif ($pedido->estado === 'en camino') {
-            $pedido->estado = 'entregado';
+
+            $pedido->save();
+
+            if ($pedido->user) {
+                $pedido->user->notify(new EstadoPedido($pedido));
+                Mail::to($pedido->user->email)->send(new PedidoCambiado($pedido));
+            }
+
+            return redirect()->back()->with('success', 'Estado del pedido actualizado correctamente.');
         }
-
-        $pedido->save();
-
-        if ($pedido->user) {
-            $pedido->user->notify(new EstadoPedido($pedido));
-            Mail::to($pedido->user->email)->send(new PedidoCambiado($pedido));
-        }
-
-        return redirect()->back()->with('success', 'Estado del pedido actualizado correctamente.');
-    }
 
     
 
@@ -125,17 +123,14 @@ class PedidoController extends Controller
     {
         $user = auth()->user();
 
-        // Verificar si el permiso 'pedidos' existe
         $permiso = DB::table('permisos')
             ->where('nombre', 'Pedidos')
             ->first();
 
-        // Si no se encuentra el permiso, retornar un error o mostrar la vista de acceso denegado
         if (!$permiso) {
             return response()->view('errors.accesoDenegado');
         }
 
-        // Verificar si el usuario tiene el permiso asociado a su rol
         $tienePermiso = DB::table('permisos_rol')
             ->where('id_rol', $user->id_rol)
             ->where('id_permiso', $permiso->id)

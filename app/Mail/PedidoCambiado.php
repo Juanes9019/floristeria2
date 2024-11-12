@@ -22,7 +22,15 @@ class PedidoCambiado extends Mailable
 
     public function build()
     {
-        return $this->subject('Cambio de Estado de Pedido')
-                    ->view('pdf.estado_pedido');
+        $mail = $this->subject('Cambio de Estado de Pedido')->view('pdf.estado_pedido');
+
+        // Agregar mensaje adicional para el estado 'no recibido'
+        if ($this->pedido->estado === 'no recibido') {
+            $mail->with([
+                'mensaje' => 'Tu pedido no ha sido recibido, pero se realizará un nuevo envío dentro de los próximos 3 días.',
+            ]);
+        }
+
+        return $mail;
     }
 }

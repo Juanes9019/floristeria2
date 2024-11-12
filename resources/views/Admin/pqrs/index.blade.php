@@ -29,7 +29,6 @@
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
                                     <tr>
-                                        <th class="text-center">No</th>
                                         <th class="text-center">user_id</th>
                                         <th class="text-center">estado</th>
                                         <th class="text-center">fecha_envio</th>
@@ -43,7 +42,6 @@
                                 <tbody>
                                 @foreach($pqrs as $item)
                                     <tr>
-                                        <td class="text-center">{{ ++$i }}</td>
                                         <td class="text-center">{{ $item->user_id }}</td>
                                         <td class="text-center">{{ $item->estado }}</td>
                                         <td class="text-center">{{ $item->fecha_envio }}</td>

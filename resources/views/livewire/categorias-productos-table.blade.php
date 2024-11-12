@@ -54,26 +54,6 @@
                         <table class="table table-striped table-hover">
                             <thead class="thead">
                                 <tr>
-                                <tr>
-                                    <th scope="col" class="text-center" wire:click="sortBy('id_categoria_producto')">
-                                        No
-                                        @if ($ordenarColumna === 'id_categoria_producto')
-                                        @if ($ordenarForma === 'asc')
-                                        <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
-                                        </svg>
-                                        @else
-                                        <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
-                                        </svg>
-                                        @endif
-                                        @else
-                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"></path>
-                                        </svg>
-                                        @endif
-                                    </th>
-
                                     <th scope="col" class="text-center" wire:click="sortBy('nombre')">
                                         Nombre
                                         @if ($ordenarColumna === 'nombre')
@@ -119,7 +99,6 @@
                             <tbody>
                                 @foreach($categorias_productos as $categoria_producto)
                                 <tr>
-                                    <td class="text-center"> {{ ($categorias_productos->currentPage() - 1) * $categorias_productos->perPage() + $loop->iteration }} </td>
                                     <td class="text-center">{{ $categoria_producto->nombre }}</td>
                                     <td class="text-center">
                                         <a class="btn btn-sm {{ $categoria_producto->estado == 1 ? 'btn-success' : 'btn-danger' }}"
