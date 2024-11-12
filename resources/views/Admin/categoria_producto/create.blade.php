@@ -14,30 +14,27 @@
         <form id="formulario_crear" method="POST" action="{{ route('Admin.categoria_producto.store') }}" novalidate>
             @csrf
 
-            <div class="row">
-                <!-- Nombre de la categoría -->
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="nombre">Nombre de la categoría</label>
-                        <input type="text" id="nombre" name="nombre" class="form-control @error('nombre') is-invalid @enderror" placeholder="Ocasiones especiales" value="{{ old('nombre', $categoria_producto->nombre) }}">
+            <div class="card card-body">
+                <div class="form-group">
+                    <label for="nombre">Nombre </label>
+                    <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Ocasiones especiales" value="{{ old('nombre') }}">
 
-                        @error('nombre')
+                    @error('nombre')
                         <span class="invalid-feedback d-block" role="alert">
-                            <strong>{{ $message }}</strong>
+                            <strong>{{$message}}</strong>
                         </span>
-                        @enderror
-                    </div>
+                    @enderror
                 </div>
 
                 <!-- Estado -->
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <div class="form-group">
                         <label for="estado">Estado</label>
                         <select name="estado" id="estado" class="form-control">
                             <option value="0" {{ old('estado') == '0' ? 'selected' : '' }}>Inactivo</option>
                         </select>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="form-group">

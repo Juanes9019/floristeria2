@@ -382,7 +382,7 @@ return [
         'icon' => 'fas fa-cash-register',
         'submenu' => [
             [
-                'text' => 'Categoría Producto',
+                'text' => 'Categoría Productos',
                 'url' => 'admin/categorias_productos',
                 'icon' => 'fas fa-fw fa-list',
                 'can' => 'view-product-categories', 

@@ -172,29 +172,19 @@
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                @if(auth()->check() && (in_array($permiso_roles_id, $permisos_usuario) || in_array($permiso_usuarios_id, $permisos_usuario) || in_array($permiso_dashboard_id, $permisos_usuario) || in_array($permiso_pedidos_id, $permisos_usuario) || in_array($permiso_proveedores_id, $permisos_usuario) || in_array($permiso_categorias_productos_id, $permisos_usuario) || in_array($permiso_categoria_insumos_id, $permisos_usuario) || in_array($permiso_insumos_id, $permisos_usuario) || in_array($permiso_productos_id, $permisos_usuario) || in_array($permiso_compras_id, $permisos_usuario) || in_array($permiso_detalle_venta_id, $permisos_usuario) || in_array($permiso_pedidos_id, $permisos_usuario) || in_array($permiso_pqrs_id, $permisos_usuario) || in_array($permiso_envio_id, $permisos_usuario)))
+                            
+                                <a class="dropdown-item" href="{{ route('admin.inicio') }}">Mis funciones</a>
+   
+                                @endif
                                 <a class="dropdown-item" href="{{ route('perfilUser') }}">
                                     {{ __('Perfil') }}
                                 </a>
-
-                                <!-- Dropdown de permisos solo si tiene permisos -->
-                                @if(auth()->check() && (in_array($permiso_roles_id, $permisos_usuario) || in_array($permiso_usuarios_id, $permisos_usuario) || in_array($permiso_dashboard_id, $permisos_usuario) || in_array($permiso_pedidos_id, $permisos_usuario) || in_array($permiso_proveedores_id, $permisos_usuario) || in_array($permiso_categorias_productos_id, $permisos_usuario) || in_array($permiso_categoria_insumos_id, $permisos_usuario) || in_array($permiso_insumos_id, $permisos_usuario) || in_array($permiso_productos_id, $permisos_usuario) || in_array($permiso_compras_id, $permisos_usuario) || in_array($permiso_detalle_venta_id, $permisos_usuario) || in_array($permiso_pedidos_id, $permisos_usuario) || in_array($permiso_pqrs_id, $permisos_usuario) || in_array($permiso_envio_id, $permisos_usuario)))
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Gestión
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            
-                                <a class="dropdown-item" href="{{ route('admin.inicio') }}">Mis funciones</a>
-                           
-                            
-                                        </div>
-                                    </li>
-                                @endif
-
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Cerrar sesión') }}
                                 </a>
+
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
