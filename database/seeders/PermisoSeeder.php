@@ -26,6 +26,7 @@ class PermisoSeeder extends Seeder
             ['nombre' => 'Venta'],
             ['nombre' => 'Pedidos'],
             ['nombre' => 'Pqrs'],
+            ['nombre' => 'Envio'],
         ]);
 
         DB::table('insumos_producto')->insert([

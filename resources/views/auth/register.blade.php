@@ -40,9 +40,8 @@
                                                 
                                                 <div class="col-md-6">
                                                     <div class="form-group mt-2">
-                                                        <input type="text" name="name" class="form-style @error('name') is-invalid @enderror" id="name" placeholder="Nombre" value="{{ old('name') }}" autocomplete="name" autofocus maxlength="30" oninput="updateCharCount('name', 30)">
+                                                        <input type="text" name="name" class="form-style @error('name') is-invalid @enderror" id="name" placeholder="Nombre" value="{{ old('name') }}" autocomplete="name" autofocus maxlength="30">
                                                         <i class="input-icon uil uil-user"></i>
-                                                        <span id="name-count" class="char-counter">0 / 30</span>
 
                                                         @error('name')
                                                         <span class="invalid-feedback d-block" role="alert">
@@ -52,9 +51,8 @@
                                                     </div>
                             
                                                     <div class="form-group mt-2">
-                                                        <input type="text" name="surname" class="form-style @error('surname') is-invalid @enderror" id="surname" placeholder="Apellido" value="{{ old('surname') }}" autocomplete="surname" autofocus maxlength="30" oninput="updateCharCount('surname', 30)">
+                                                        <input type="text" name="surname" class="form-style @error('surname') is-invalid @enderror" id="surname" placeholder="Apellido" value="{{ old('surname') }}" autocomplete="surname" autofocus maxlength="30">
                                                         <i class="input-icon uil uil-user"></i>
-                                                        <span id="surname-count" class="char-counter">0 / 30</span>
                                                         @error('surname')
                                                         <span class="invalid-feedback d-block" role="alert">
                                                             <strong>{{$message}}</strong>
@@ -401,13 +399,5 @@ function agregar() {
         }
     });
 }
-</script>
-
-<script>
-    function updateCharCount(inputId, maxChars) {
-        const input = document.getElementById(inputId);
-        const counter = document.getElementById(inputId + '-count');
-        counter.textContent = `${input.value.length} / ${maxChars}`;
-    }
 </script>
 @endsection

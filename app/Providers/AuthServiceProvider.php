@@ -64,5 +64,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('view-sales-detail', function (User $user) {
             return $user->hasPermission('Venta');
         });
+
+        Gate::define('view-envio', function (User $user) {
+            return $user->hasPermission('Envio');
+        });
     }
 }

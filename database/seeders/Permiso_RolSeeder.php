@@ -75,6 +75,11 @@ class Permiso_RolSeeder extends Seeder
         ]);
 
         DB::table('permisos_rol')->insert([
+            'id_rol' => 1,
+            'id_permiso' => 13,
+        ]);
+
+        DB::table('permisos_rol')->insert([
             'id_rol' => 3,
             'id_permiso' => 1,
         ]);
@@ -126,7 +131,8 @@ class Permiso_RolSeeder extends Seeder
 
         DB::table('permisos_rol')->insert([
             'id_rol' => 4,
-            'id_permiso' => 11,
+            'id_permiso' => 13,
         ]);
+
     }
 }

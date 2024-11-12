@@ -420,6 +420,7 @@ return [
                 'url' => 'admin/envio',
                 'icon' => 'fas fa-truck', 
                 'label_color' => 'warning',
+                'can' => 'view-envio', 
             ],
         ], 
     ],
