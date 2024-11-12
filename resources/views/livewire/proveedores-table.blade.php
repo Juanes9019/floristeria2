@@ -21,8 +21,8 @@
                         <div class="col-md-6">
                             <input wire:model.live.debounce.300ms="buscar" type="text" class="form-control" placeholder="Buscar...">
                         </div>
-                
-                        <div class="d-flex">
+
+                        <!-- <div class="d-flex">
                             <div class="dropdown mr-2">
                                 <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Exportar
@@ -35,128 +35,133 @@
                                         {{ __('Exportar a PDF') }}
                                     </a>
                                 </div>
-                            </div>
+                            </div> -->
                             <a href="{{ route('Admin.proveedor.create') }}" class="btn btn-primary btn-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff">
+                                    <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                                </svg>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                    <div class="table-responsive mt-3">
-                        <table class="table">
-                            <thead class="table">
-                                <tr>
-                                    <th scope="col" class="text-center" wire:click="sortBy('nombre')">
-                                        Nombre
-                                        @if ($ordenarColumna === 'nombre')
-                                        @if ($ordenarForma === 'asc')
-                                        <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
-                                        </svg>
-                                        @else
-                                        <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
-                                        </svg>
-                                        @endif
-                                        @else
-                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"></path>
-                                        </svg>
-                                        @endif
-                                    </th>
-                                    <th scope="col" class="text-center">
-                                        Telefono
-                                    </th>
-                                    <th scope="col" class="text-center">
-                                        Correo
-                                    </th>
-                                    <th scope="col" class="text-center">
-                                        Ubicacion
-                                    </th>
-                                    <th scope="col" class="text-center" wire:click="sortBy('estado')">
-                                        Estado
-                                        @if ($ordenarColumna === 'estado')
-                                        @if ($ordenarForma === 'asc')
-                                        <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
-                                        </svg>
-                                        @else
-                                        <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
-                                        </svg>
-                                        @endif
-                                        @else
-                                        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"></path>
-                                        </svg>
-                                        @endif
-                                    </th>
-                                    <th scope="col" class="text-center" colspan="3">
-                                        Acciones
-                                    </th>
-                                    <th class="text-center"></th>
-                                </tr>
-                            </thead>
+                <div class="table-responsive mt-3">
+                    <table class="table">
+                        <thead class="table">
+                            <tr>
+                                <th scope="col" class="text-center">
+                                    Tipo Proveedor
+                                </th>
+                                <!-- <th scope="col" class="text-center">
+                                    Número de Documento
+                                </th> -->
+                                <th scope="col" class="text-center" wire:click="sortBy('nombre')">
+                                    Nombre
+                                    @if ($ordenarColumna === 'nombre')
+                                    @if ($ordenarForma === 'asc')
+                                    <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
+                                    </svg>
+                                    @else
+                                    <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+                                    </svg>
+                                    @endif
+                                    @else
+                                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"></path>
+                                    </svg>
+                                    @endif
+                                </th>
+                                <th scope="col" class="text-center">
+                                    Teléfono
+                                </th>
+                                <th scope="col" class="text-center">
+                                    Correo
+                                </th>
+                                <th scope="col" class="text-center">
+                                    Ubicación
+                                </th>
+                                <th scope="col" class="text-center" wire:click="sortBy('estado')">
+                                    Estado
+                                    @if ($ordenarColumna === 'estado')
+                                    @if ($ordenarForma === 'asc')
+                                    <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"></path>
+                                    </svg>
+                                    @else
+                                    <svg width="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path>
+                                    </svg>
+                                    @endif
+                                    @else
+                                    <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="16">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"></path>
+                                    </svg>
+                                    @endif
+                                </th>
+                                <th scope="col" class="text-center" colspan="3">
+                                    Acciones
+                                </th>
+                                <th class="text-center"></th>
+                            </tr>
+                        </thead>
 
-                            <tbody>
-                                @foreach($proveedores as $proveedor)
-                                <tr>
-                                    <td class="text-center">{{ $proveedor->nombre }}</td>
-                                    <td class="text-center">{{ $proveedor->telefono }}</td>
-                                    <td class="text-center">{{ $proveedor->correo }}</td>
-                                    <td class="text-center">{{ $proveedor->ubicacion }}</td>
-                                    <td>
-                                        <a class="btn btn-sm {{ $proveedor->estado == 1 ? 'btn-success' : 'btn-danger' }}"
-                                            wire:click="changeStatus({{ $proveedor->id }})"
-                                            wire:loading.attr="disabled"
-                                            wire:target="changeStatus({{ $proveedor->id }})"
-                                            style="cursor: pointer;">
-                                            {{ $proveedor->estado == 1 ? 'Activo' : 'Inactivo' }}
-                                            <i class="fas fa-toggle-{{ $proveedor->estado == 1 ? 'on' : 'off' }}"></i>
-                                        </a>
+                        <tbody>
+                            @foreach($proveedores as $proveedor)
+                            <tr>
+                                <td class="text-center">{{ ucfirst(strtolower($proveedor->tipo_proveedor)) }}</td>
+                                <!-- <td class="text-center">{{ $proveedor->numero_documento }}</td> -->
+                                <td class="text-center">{{ $proveedor->nombre }}</td>
+                                <td class="text-center">{{ $proveedor->telefono }}</td>
+                                <td class="text-center">{{ $proveedor->correo }}</td>
+                                <td class="text-center">{{ $proveedor->ubicacion }}</td>
+                                <td>
+                                    <a class="btn btn-sm {{ $proveedor->estado == 1 ? 'btn-success' : 'btn-danger' }}"
+                                        wire:click="changeStatus({{ $proveedor->id }})"
+                                        wire:loading.attr="disabled"
+                                        wire:target="changeStatus({{ $proveedor->id }})"
+                                        style="cursor: pointer;">
+                                        {{ $proveedor->estado == 1 ? 'Activo' : 'Inactivo' }}
+                                        <i class="fas fa-toggle-{{ $proveedor->estado == 1 ? 'on' : 'off' }}"></i>
+                                    </a>
 
-                                        <div wire:loading wire:target="changeStatus({{ $proveedor->id }})">
-                                            <span class="spinner-border spinner-border-sm"></span>
-                                        </div>
-                                    </td>
+                                    <div wire:loading wire:target="changeStatus({{ $proveedor->id }})">
+                                        <span class="spinner-border spinner-border-sm"></span>
+                                    </div>
+                                </td>
 
-                                    <td class="text-center">
-                                        <a class="btn btn-sm btn-warning" href="{{ route('Admin.proveedor.edit', ['id' => $proveedor->id]) }}">
-                                            <i class="fa fa-fw fa-edit"></i></a>
-                                    </td>
-                                    <td>
-                                        <form id="form_eliminar_{{ $proveedor->id }}" action="{{ route('Admin.proveedor.destroy', $proveedor->id) }}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{ $proveedor->id }}')">
-                                                <i class="fa fa-fw fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
+                                <td class="text-center">
+                                    <a class="btn btn-sm btn-warning" href="{{ route('Admin.proveedor.edit', ['id' => $proveedor->id]) }}">
+                                        <i class="fa fa-fw fa-edit"></i></a>
+                                </td>
+                                <td>
+                                    <form id="form_eliminar_{{ $proveedor->id }}" action="{{ route('Admin.proveedor.destroy', $proveedor->id) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{ $proveedor->id }}')">
+                                            <i class="fa fa-fw fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
 
-                        </table>
-                        <label>Páginas</label>
-                        <select wire:model.live="porPagina">
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="50">50</option>
-                        </select>
-                        <div class="mt-3">
-                            {{ $proveedores->links() }}
-                        </div>
+                    </table>
+                    <label>Páginas</label>
+                    <select wire:model.live="porPagina">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+                    <div class="mt-3">
+                        {{ $proveedores->links() }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-
 </div>
 
 

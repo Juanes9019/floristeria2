@@ -254,16 +254,5 @@ class ProductoController extends Controller
             ->with('success', 'producto eliminado con éxito');
     }
 
-    public function change_Status($id)
-    {
-        $producto = Producto::find($id);
-        if ($producto->estado == 1) {
-            $producto->estado = 0;
-        } else {
-            $producto->estado = 1;
-        }
-
-        $producto->save();
-        return redirect()->back();
-    }
+    
 }

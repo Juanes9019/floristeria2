@@ -99,7 +99,7 @@
                             <!-- Nombre y Cantidad -->
                             <div class="text-center">
                                 <strong class="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                                    {{ $insumo['nombre'] }}
+                                    {{ $insumo['nombre'] }} {{ $insumo['color'] ? ' - ' . $insumo['color'] : '' }}
                                 </strong>
                                 <p class="text-gray-600 dark:text-gray-400">Cantidad: {{ $insumo['pivot']['cantidad_usada'] }}</p>
                             </div>
@@ -134,7 +134,7 @@
                                     <select wire:model="insumo_seleccionado" class="w-full bg-white border border-gray-300 rounded-lg p-2 dark:bg-gray-700 dark:text-white">
                                         <option selected>Seleccionar Insumo</option>
                                         @foreach ($insumos_por_categoria as $insumo)
-                                        <option value="{{ $insumo->id }}">{{ $insumo->nombre }}</option>
+                                        <option value="{{ $insumo->id }}">{{ $insumo->nombre }} {{ $insumo->color ? ' - ' . $insumo->color : '' }}</option>
                                         @endforeach
                                     </select>
                                 </div>

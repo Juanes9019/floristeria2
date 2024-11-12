@@ -34,7 +34,7 @@
                 <ul class="list-group">
                     @foreach($producto->insumos as $insumo)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ $insumo->nombre }}
+                            {{ $insumo->nombre }} {{ $insumo->color ? ' - ' . $insumo->color : '' }}
                             <span class="badge badge-secondary">Cantidad: {{ $insumo->pivot->cantidad_usada }}</span>
                         </li>
                     @endforeach

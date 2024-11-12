@@ -5,7 +5,6 @@ namespace App\Livewire;
 use App\Models\Categoria_insumo;
 use App\Models\CategoriaProducto;
 use App\Models\Insumo;
-use App\Models\InsumoProducto;
 use App\Models\Producto;
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
@@ -62,12 +61,19 @@ class CreateProducto extends Component
 
     public function agregarInsumo()
     {
+        $this->validate([
+            'categoria_seleccionada' => 'required|exists:categoria_insumos,id',
+            'insumo_seleccionado' => 'required|exists:insumos,id', 
+            'cantidad_usada' => 'required|numeric|min:1|max:12000000000'
+        ]);
+
         if ($this->insumo_seleccionado && $this->cantidad_usada > 0) {
             $insumo = Insumo::find($this->insumo_seleccionado);
             if ($insumo && $this->cantidad_usada <= $this->cantidad_disponible) {
                 $this->insumos_agregados[] = [
                     'id' => $insumo->id,
                     'nombre' => $insumo->nombre,
+                    'color' => $insumo->color,
                     'cantidad' => $this->cantidad_usada,
                     'cantidad_disponible' => $insumo->cantidad_insumo
                 ];
@@ -122,7 +128,7 @@ class CreateProducto extends Component
         $this->validate([
             'nombre' => 'required|string|unique:productos,nombre',
             'descripcion' => 'required|string',
-            'precio' => 'required|numeric|min:0',
+            'precio' => 'required|numeric|min:1000|max:12000000000',
             'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'estado' => 'required|boolean',
             'id_categoria_producto' => 'required|exists:categorias_productos,id_categoria_producto'

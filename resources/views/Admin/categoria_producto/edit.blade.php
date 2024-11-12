@@ -9,29 +9,36 @@
 
 
 
-<h2 class="text-center mb-5">EDITAR CATEGORIA</h2>
+<h2 class="text-center mb-5">Editar Categoría</h2>
 <div class="row justify-content-center mt-5">
     <div class="col-md-8">
         <form id="formulario_editar" method="POST" action="{{ route('Admin.categoria_producto.update', ['id' => $categoria_producto->id_categoria_producto]) }}" novalidate>
             @method('PUT')
             @csrf
 
-            <div class="form-group">
-                <label for="nombre">Nombre de la categoria</label>
-                <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Aniversario" value="{{ old('nombre', $categoria_producto->nombre) }}">
-                @error('nombre')
-                <span class="invalid-feedback d-block" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="nombre">Nombre de la categoría</label>
+                        <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Aniversario" value="{{ old('nombre', $categoria_producto->nombre) }}">
+                        @error('nombre')
+                        <span class="invalid-feedback d-block" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                </div>
 
-            <div class="form-group">
-                <label for="estado">Estado</label>
-                <select name="estado" id="estado" class="form-control">
-                    <option value="1" {{ $categoria_producto->estado == '1' ? 'selected' : '' }}>Activo</option>
-                    <option value="0" {{ $categoria_producto->estado == '0' ? 'selected' : '' }}>Inactivo</option>
-                </select>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="estado">Estado</label>
+                        <select name="estado" id="estado" class="form-control">
+                            <option value="1" {{ $categoria_producto->estado == '1' ? 'selected' : '' }}>Activo</option>
+                            <option value="0" {{ $categoria_producto->estado == '0' ? 'selected' : '' }}>Inactivo</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">

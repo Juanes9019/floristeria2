@@ -15,12 +15,16 @@ class ProveedorSeeder extends Seeder
     public function run(): void
     {
         Proveedor::create([
+            'tipo_proveedor' => 'empresa',
+            'numero_documento' => '4012288',
             'nombre' => 'Soluciones S.A.',
             'telefono' => '3215678913',
             'correo' => 'soluciones@correo.com',
             'ubicacion' => 'Cra 66 #49 - 01 · 305 4829049',
         ]);
         Proveedor::create([
+            'tipo_proveedor' => 'empresa',
+            'numero_documento' => '40484592',
             'nombre' => 'Paradise Citrus',
             'telefono' => '3007612876',
             'correo' => 'paradise@correo.com',

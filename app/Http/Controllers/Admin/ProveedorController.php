@@ -21,45 +21,42 @@ class ProveedorController extends Controller
     {
         $user = auth()->user();
 
-    // Verificar si el usuario tiene permiso para ver proveedores
-    $permiso = DB::table('permisos')
-                ->where('nombre', 'Proveedores')
-                ->first();
-                
-    $tienePermiso = DB::table('permisos_rol')
-                    ->where('id_rol', $user->id_rol)
-                    ->where('id_permiso', $permiso->id)
-                    ->exists();
-    
-    if (!$tienePermiso) {
-        return response()->view('errors.accesoDenegado');
-    
-    }
+        // Verificar si el usuario tiene permiso para ver proveedores
+        $permiso = DB::table('permisos')
+            ->where('nombre', 'Proveedores')
+            ->first();
+
+        $tienePermiso = DB::table('permisos_rol')
+            ->where('id_rol', $user->id_rol)
+            ->where('id_permiso', $permiso->id)
+            ->exists();
+
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
 
         // Continuar si tiene el permiso
-        $proveedor = Proveedor::all();
-        return view('Admin.proveedor.index', compact('proveedor'));
+        return view('Admin.proveedor.index');
     }
 
     public function create()
     {
         $user = auth()->user();
 
-    // Verificar si el usuario tiene permiso para ver proveedores
-    $permiso = DB::table('permisos')
-                ->where('nombre', 'proveedores')
-                ->first();
-                
-    $tienePermiso = DB::table('permisos_rol')
-                    ->where('id_rol', $user->id_rol)
-                    ->where('id_permiso', $permiso->id)
-                    ->exists();
-    
-    if (!$tienePermiso) {
-        return response()->view('errors.accesoDenegado');
-    }
-        $proveedor = new Proveedor();
-        return view('Admin.proveedor.create', compact('proveedor'));
+        // Verificar si el usuario tiene permiso para ver proveedores
+        $permiso = DB::table('permisos')
+            ->where('nombre', 'proveedores')
+            ->first();
+
+        $tienePermiso = DB::table('permisos_rol')
+            ->where('id_rol', $user->id_rol)
+            ->where('id_permiso', $permiso->id)
+            ->exists();
+
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
+        return view('Admin.proveedor.create');
     }
 
     public function store(Request $request)
@@ -68,24 +65,21 @@ class ProveedorController extends Controller
         $request->validate([
             'tipo' => 'required|string',
             'nombre' => 'required|string|max:255',
+            'numero' => 'nullable|int|',
             'telefono' => 'required|string',
             'correo' => 'required|email',
             'ubicacion' => 'required|string',
-            // Campos específicos
-            'nit' => 'nullable|string|required_if:tipo,empresa',
-            'numero_documento' => 'nullable|string|required_if:tipo,persona_natural',
         ]);
 
 
 
         $proveedor = new Proveedor();
-        $proveedor->tipo = $request->tipo;
-        $proveedor->nombre = $request->tipo == 'empresa' ? $request->nombre_empresa : $request->nombre_persona;
-        $proveedor->telefono = $request->tipo == 'empresa' ? $request->telefono_empresa : $request->telefono_persona;
-        $proveedor->correo = $request->tipo == 'empresa' ? $request->correo_empresa : $request->correo_persona;
-        $proveedor->ubicacion = $request->tipo == 'empresa' ? $request->ubicacion_empresa : $request->ubicacion_persona;
-        $proveedor->nit = $request->tipo == 'empresa' ? $request->nit : null;
-        $proveedor->numero_documento = $request->tipo == 'persona_natural' ? $request->numero_documento : null;
+        $proveedor->tipo_proveedor = $request->tipo;
+        $proveedor->numero_documento = $request->numero;
+        $proveedor->nombre = $request->nombre;
+        $proveedor->telefono = $request->telefono;
+        $proveedor->correo = $request->correo;
+        $proveedor->ubicacion = $request->ubicacion;
 
 
         if ($request->has('estado')) {
@@ -108,19 +102,19 @@ class ProveedorController extends Controller
     {
         $user = auth()->user();
 
-    // Verificar si el usuario tiene permiso para ver proveedores
-    $permiso = DB::table('permisos')
-                ->where('nombre', 'proveedores')
-                ->first();
-                
-    $tienePermiso = DB::table('permisos_rol')
-                    ->where('id_rol', $user->id_rol)
-                    ->where('id_permiso', $permiso->id)
-                    ->exists();
-    
-    if (!$tienePermiso) {
-        return response()->view('errors.accesoDenegado');
-    }
+        // Verificar si el usuario tiene permiso para ver proveedores
+        $permiso = DB::table('permisos')
+            ->where('nombre', 'proveedores')
+            ->first();
+
+        $tienePermiso = DB::table('permisos_rol')
+            ->where('id_rol', $user->id_rol)
+            ->where('id_permiso', $permiso->id)
+            ->exists();
+
+        if (!$tienePermiso) {
+            return response()->view('errors.accesoDenegado');
+        }
 
         $proveedor = Proveedor::find($id);
         return view('Admin.proveedor.edit', compact('proveedor'));
@@ -129,43 +123,38 @@ class ProveedorController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Encuentra al usuario por su ID
+        // Encuentra al proveedor por su ID
         $proveedor = Proveedor::find($id);
 
         // Validaciones y lógica de actualización
-        $request->validate(
-            [
-                'nombre' => 'required',
-                'telefono' => 'required',
-                'correo' => 'required|email',
-                'ubicacion' => 'required',
+        $request->validate([
+            'tipo' => 'required|string',
+            'nombre' => 'required|string|max:255',
+            'numero' => 'nullable|int',
+            'telefono' => 'required|string',
+            'correo' => 'required|email',
+            'ubicacion' => 'required|string',
+        ]);
 
-            ],
-            [
-                'nombre.required' => 'El campo :attribute es requerido',
-                'nombre.min' => 'El campo :attribute debe tener al menos :min caracteres',
-                'nombre.max' => 'El campo :attribute debe ser menor que :max caracteres',
-                'telefono.required' => 'El campo :attribute es requerido',
-                'telefono.size' => 'El campo :attribute debe tener :size caracteres.',
-                'correo.required' => 'El campo :attribute es requerido',
-                'ubicacion.required' => 'El campo :attribute es requerido',
-            ]
-        );
-
-        // Asignación de los campos del usuario desde el formulario
+        // Asignación de los campos desde el formulario
+        $proveedor->tipo_proveedor = $request->input('tipo');
+        $proveedor->numero_documento = $request->input('numero');
         $proveedor->nombre = $request->input('nombre');
         $proveedor->telefono = $request->input('telefono');
         $proveedor->correo = $request->input('correo');
         $proveedor->ubicacion = $request->input('ubicacion');
+
+        // Actualizar el estado si se ha enviado
         if ($request->has('estado')) {
             $proveedor->estado = $request->estado;
         }
 
+        // Guardar los cambios
         $proveedor->save();
 
-        // Redireccionar a la vista de edición con un mensaje de éxito
-        return redirect()->route('Admin.proveedores', ['id' => $proveedor->id])
-            ->with('success', 'proveedor actualizado exitosamente');
+        // Redireccionar con un mensaje de éxito
+        return redirect()->route('Admin.proveedores')
+            ->with('success', 'Proveedor actualizado exitosamente');
     }
 
     public function destroy($id)
@@ -191,7 +180,7 @@ class ProveedorController extends Controller
             case 'pdf':
                 $pdf = Pdf::loadView('exports.proveedores', [
                     'proveedores' => Proveedor::all()
-                ])->setPaper('a4', 'portait') 
+                ])->setPaper('a4', 'portait')
                     ->setOption('margin-left', '10mm')
                     ->setOption('margin-right', '10mm')
                     ->setOption('margin-top', '10mm')

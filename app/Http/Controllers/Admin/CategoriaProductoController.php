@@ -130,7 +130,7 @@ class CategoriaProductoController extends Controller
 
         // Validaciones y lógica de actualización
         $request->validate([
-            'nombre' => 'required|min:5',
+            'nombre' => 'required|min:3',
         ]);
 
         // Actualiza los campos de la categoria utilizando el método save
