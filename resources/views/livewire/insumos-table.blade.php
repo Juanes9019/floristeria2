@@ -92,7 +92,7 @@
                 </div>
 
                     <div class="table-responsive mt-3">
-                        <table class="table table-striped table-hover">
+                        <table class="table table-bordered table-hover">
                             <thead class="thead">
                                 <tr>
                                     <th scope="col" class="text-center" wire:click="sortBy('nombre')">

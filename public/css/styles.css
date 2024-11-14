@@ -714,3 +714,11 @@ boton agregar personalizado
     box-shadow: 1px 6px 10px rgb(245, 170, 193);
 }
 
+.boton_detalle{
+    background-color: rgb(23, 162, 184);
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 6px 10px rgb(128, 224, 238);
+}
