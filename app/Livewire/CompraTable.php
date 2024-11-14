@@ -56,4 +56,12 @@ class CompraTable extends Component
                 ->paginate($this->porPagina)
         ]);
     }
+
+    public function openmodal(){
+        $this-> modal=true;
+    }
+    
+    public function closemodal(){
+        $this -> modal = false;
+    }
 }

@@ -58,48 +58,45 @@
                                     </td>
                                 </tr>
 
-                                        <!-- Modal -->
-                                        @foreach($roles as $role)
-                                        <div class="modal fade" id="respuestaModal{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="respuestaModalLabel{{ $role->id }}" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="respuestaModalLabel{{ $role->id }}">Permisos para {{ $role->nombre }}</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('permisos.update', ['id' => $role->id]) }}" method="post">
-                    @csrf  
-                    @method('PUT')
-                
-                    <!-- Campo para modificar el nombre del rol -->
-                    <div class="form-group">
-                        <label for="nombre_rol">Nombre del Rol</label>
-                        <input type="text" name="nombre_rol" class="form-control" value="{{ $role->nombre }}" required>
-                    </div>
-                
-                    <!-- Lista de permisos -->
-                    <div class="form-group checkboxes-container">
-                        @foreach($todos_los_permisos as $permiso)
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="permisos[]" value="{{ $permiso->id }}" 
-                            {{ $role->permisos->contains($permiso->id) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="permiso_{{ $permiso->id }}">{{ $permiso->nombre }}</label>
-                        </div>
-                        @endforeach
-                    </div>
-                
-                    <button type="submit" class="btn btn-outline-secondary">Guardar</button>
-                </form>
-                
-            </div>
-        </div>
-    </div>
-</div>
-@endforeach
-
+                                <!-- Modal -->
+                                @foreach($roles as $role)
+                                <div class="modal fade" id="respuestaModal{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="respuestaModalLabel{{ $role->id }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="respuestaModalLabel{{ $role->id }}">Permisos para {{ $role->nombre }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ route('permisos.update', ['id' => $role->id]) }}" method="post">
+                                                    @csrf  
+                                                    @method('PUT')
+                                                
+                                                    <!-- Campo para modificar el nombre del rol -->
+                                                    <div class="form-group">
+                                                        <label for="nombre_rol">Nombre del Rol</label>
+                                                        <input type="text" name="nombre_rol" class="form-control" value="{{ $role->nombre }}" required>
+                                                    </div>
+                                                
+                                                    <!-- Lista de permisos -->
+                                                    <div class="form-group checkboxes-container">
+                                                        @foreach($todos_los_permisos as $permiso)
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="permisos[]" value="{{ $permiso->id }}" 
+                                                            {{ $role->permisos->contains($permiso->id) ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="permiso_{{ $permiso->id }}">{{ $permiso->nombre }}</label>
+                                                        </div>
+                                                        @endforeach
+                                                    </div>
+                                                    <button type="submit" class="btn btn-outline-secondary">Guardar</button>
+                                                </form>     
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
                                 @endforeach
                             </tbody>
                         </table>

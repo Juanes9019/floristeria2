@@ -123,11 +123,5 @@ class PedidosTable extends Component
     }
     
 
-    public function openmodal(){
-        $this-> modal=true;
-    }
-    
-    public function closemodal(){
-        $this -> modal = false;
-    }
+ 
 }
