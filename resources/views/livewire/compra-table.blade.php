@@ -1,4 +1,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 <div class=" container-fluid">
     <div class="row">
@@ -116,7 +118,7 @@
                                             <td class="text-center">${{ number_format($compra->costo_total, 0, ',', '.') }}</td>
                                             <td class="text-center">{{ $compra->estado }}</td>
                                             <td class="text-center botones-compra">
-                                                <a href="{{ route('compra.detalles', $compra->id) }}" class="btn btn-info boton_detalle">
+                                                <a class="btn btn-info boton_detalle verDetalleBtn" data-id="{{ $compra->id }}">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
                                                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
@@ -141,6 +143,27 @@
                 </div>
             </div>
         </div>
+        
+        <div id="detalleModal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-xl" role="document"> 
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Detalles de la compra - id: <span id="CompraId"></span></h5> 
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="detallePedidoContent">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <style>
             .botones-compra {
                 display: flex;
@@ -160,6 +183,30 @@
                 height: 80%;
             }
         </style>
+
+        <script>
+        $(document).ready(function() {
+            $('.verDetalleBtn').on('click', function() {
+                var compraId = $(this).data('id');
+
+                $('#compraId').text(compraId);
+
+                $.ajax({
+                    url: '/admin/compras/' + compraId + '/detalles',     
+                    method: 'GET',
+                    success: function(response) {
+                        // Inserta los datos en el modal
+                        $('#detallePedidoContent').html(response);
+                        // Muestra el modal
+                        $('#detalleModal').modal('show');
+                    },
+                    error: function() {
+                        alert('Error al cargar los detalles de la compra.');
+                    }
+                });
+            });
+        });
+        </script>
     </div>
 </div>
 
