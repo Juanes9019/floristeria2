@@ -11,12 +11,32 @@
                             <b>Control de PQRS</b>
                         </span>
                     </div>
-                </div>
+                </div>  
 
-                @if ($message = Session::get('success'))
-                    <div class="alert alert-success">
-                        <p>{{ $message }}</p>
-                    </div>
+                @if (session('success'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: '{{ session('success') }}',
+                            position: 'top-end',
+                            toast: true,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    </script>
+                @elseif (session('error'))
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: '{{ session('error') }}',
+                            position: 'top-end',
+                            toast: true,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    </script>
                 @endif
 
                 <div class="card-body">

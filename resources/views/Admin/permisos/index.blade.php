@@ -20,12 +20,6 @@
                         </div>
                     </div>
 
-                @if ($message = Session::get('success'))
-                <div class="alert alert-success">
-                    <p>{{ $message }}</p>
-                </div>
-                @endif
-
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-hover">
@@ -130,27 +124,33 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-@if (session('error'))
-<script>
-    Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: "{{ session('error') }}",
-        confirmButtonText: 'Aceptar'
-    });
-</script>
+@if (session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: '{{ session('success') }}',
+            position: 'top-end',
+            toast: true,
+            showConfirmButton: false,
+            timer: 5000
+        });
+    </script>
+@elseif (session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '{{ session('error') }}',
+            position: 'top-end',
+            toast: true,
+            showConfirmButton: false,
+            timer: 5000
+        });
+    </script>
 @endif
 
-@if (session('success'))
-<script>
-    Swal.fire({
-        icon: 'success',
-        title: 'Éxito',
-        text: "{{ session('success') }}",
-        confirmButtonText: 'Aceptar'
-    });
-</script>
-@endif
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
