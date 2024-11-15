@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Producto;
 
 use App\Models\Categoria_insumo;
 use App\Models\CategoriaProducto;
@@ -43,8 +43,13 @@ class CreateProducto extends Component
     }
     public function updatedCategoriaSeleccionada()
     {
+        // if ($this->categoria_seleccionada) {
+        //     $this->insumos_por_categoria = Insumo::where('id_categoria_insumo', $this->categoria_seleccionada)->get();
+        // }
         if ($this->categoria_seleccionada) {
-            $this->insumos_por_categoria = Insumo::where('id_categoria_insumo', $this->categoria_seleccionada)->get();
+            $this->insumos_por_categoria = Insumo::where('id_categoria_insumo', $this->categoria_seleccionada)
+                ->where('cantidad_insumo', '>', 0) 
+                ->get();
         }
     }
 
@@ -180,6 +185,7 @@ class CreateProducto extends Component
                 $newProducto->insumos()->attach($insumoModel->id, ['cantidad_usada' => $insumoAgregado['cantidad']]);
             }
         }
+        
 
         // Limpiar la sesión y redirigir
         session()->forget('insumos_agregados');
@@ -190,7 +196,7 @@ class CreateProducto extends Component
 
     public function render()
     {
-        return view('livewire.create-producto', [
+        return view('livewire.producto.create-producto', [
             'categorias_productos' => $this->categorias_producto
         ]);
     }

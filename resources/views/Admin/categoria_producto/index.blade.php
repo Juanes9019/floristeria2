@@ -2,6 +2,6 @@
 
 @section('content')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-@livewire('categorias-productos-table')
+@livewire('categoria_producto.index-categoria-producto')
 
 @stop

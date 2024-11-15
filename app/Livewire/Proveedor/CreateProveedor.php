@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Proveedor;
 
 use App\Models\Proveedor;
 use Livewire\Component;
@@ -26,6 +26,6 @@ class CreateProveedor extends Component
 
     public function render()
     {
-        return view('livewire.create-proveedor');
+        return view('livewire.proveedor.create-proveedor');
     }
 }
