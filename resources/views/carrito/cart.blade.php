@@ -132,7 +132,7 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="ciudad">Ciudad:  <strong style="color: red;">*</strong></label>
+                                            <label for="ciudad">Ciudad: <strong style="color: red;">*</strong></label>
                                             <select class="form-control" id="ciudad" name="ciudad" required>
                                                 <option value="" disabled selected>Seleccione una ciudad</option>
                                                 @foreach($cities as $city)
@@ -140,6 +140,24 @@
                                                 @endforeach
                                             </select>
                                             @error('ciudad')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <label for="barrio">Barrio:</label>
+                                            <input type="text" class="form-control" id="barrio" name="barrio" placeholder="Ingresa el barrio">
+                                            @error('barrio')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="telefono">Teléfono: <strong style="color: red;">*</strong></label>
+                                            <input type="number" class="form-control" id="telefono" name="telefono" placeholder="999-999-9999" required>
+                                            @error('telefono')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -183,7 +201,7 @@
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                    </div>
+                                    </div>                                    
 
                                     <div class="row mt-3">
                                         <div class="col-md-6">
@@ -195,16 +213,6 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="telefono">Teléfono: <strong style="color: red;">*</strong></label>
-                                            <input type="number" class="form-control" id="telefono" name="telefono" placeholder="999-999-9999" required>
-                                            @error('telefono')
-                                                <div class="text-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="row mt-3">
-                                        <div class="col-md-12">
                                             <label for="instrucciones_entrega">Instrucciones para la entrega:</label>
                                             <textarea class="form-control" id="instrucciones_entrega" name="instrucciones_entrega" placeholder="Dejar en recepción o en la puerta"></textarea>
                                             @error('instrucciones_entrega')
@@ -290,14 +298,19 @@
         const numeroVia = document.getElementById("numero_via").value || "";
         const viaSecundaria = document.getElementById("via_secundaria").value || "";
         const detalleAdicional = document.getElementById("detalle_adicional").value || "";
+        const barrio = document.getElementById("barrio").value || "";
+
+        // Construye la dirección completa incluyendo el barrio
+        const direccionCompleta = `${barrio}, ${tipoVia} ${numeroVia} #${viaSecundaria} ${detalleAdicional}`.trim();
         
-        // Arma la dirección completa
-        const direccionCompleta = `${tipoVia} ${numeroVia} #${viaSecundaria} ${detalleAdicional}`.trim();
-        
-        // Actualiza el campo de dirección solo lectura
+        // Actualiza el campo de dirección de solo lectura
         document.getElementById("direccion").value = direccionCompleta;
     }
+
+    // Escucha el cambio en el campo de barrio para actualizar la dirección en tiempo real
+    document.getElementById("barrio").addEventListener('input', actualizarDireccion);
 </script>
+
 
 <script>
     window.onload = function() {

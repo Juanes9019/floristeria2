@@ -1,4 +1,6 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
 <div class=" container-fluid">
     <div class="row">
@@ -48,7 +50,7 @@
                 </div>
 
                     <div class="table-responsive mt-3">
-                        <table class="table table-striped table-hover">
+                        <table class="table table-bordered table-hover">
                             <thead class="thead">
                                 <tr>
                                     <th scope="col" class="text-center" wire:click="sortBy('created_at')">
@@ -97,42 +99,114 @@
                                     </th>
                                     <th scope="col" class="text-center">Estado</th>
                                     <th scope="col" class="text-center">Acciones</th>
-                                    <th></th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                @foreach($compras as $compra)
+                                @if ($compras->isEmpty())  
                                     <tr>
-                                        <!-- <td class="text-center">{{ ($compras->currentPage() - 1) * $compras->perPage() + $loop->iteration }}</td> -->
-                                        <td class="text-center">{{ $compra->created_at->format('d/m/Y H:i') }}</td>
-                                        <td class="text-center">{{ $compra->proveedor->nombre }}</td>
-                                        <td class="text-center">${{ number_format($compra->costo_total, 0, ',', '.') }}</td>
-                                        <td class="text-center">{{ $compra->estado }}</td>
-                                        <td class="text-center">
-                                            <a href="{{ route('compra.detalles', $compra->id) }}" class="btn btn-info"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
-                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
-                                            </svg></a>
-                                        </td>
-                                        <td >
-                                            <form id="form_eliminar_{{$compra->id}}" action="{{ route('Admin.compra.destroy', $compra->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button" class="boton_anular" onclick="eliminar('{{$compra->id}}')">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>                                                
-                                                </button>
-                                            </form>
+                                        <td colspan="6" class="text-center">
+                                            <div class="alert alert-warning">No hay compras registradas.</div>
                                         </td>
                                     </tr>
-                                @endforeach
+                                @else
+                                    @foreach($compras as $compra)
+                                        <tr>
+                                            <!-- <td class="text-center">{{ ($compras->currentPage() - 1) * $compras->perPage() + $loop->iteration }}</td> -->
+                                            <td class="text-center">{{ $compra->created_at->format('d/m/Y H:i') }}</td>
+                                            <td class="text-center">{{ $compra->proveedor->nombre }}</td>
+                                            <td class="text-center">${{ number_format($compra->costo_total, 0, ',', '.') }}</td>
+                                            <td class="text-center">{{ $compra->estado }}</td>
+                                            <td class="text-center botones-compra">
+                                                <a class="btn btn-info boton_detalle verDetalleBtn" data-id="{{ $compra->id }}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                                                    </svg>
+                                                </a>
+                                                <form id="form_eliminar_{{$compra->id}}" action="{{ route('Admin.compra.destroy', $compra->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="boton_anular" onclick="eliminar('{{$compra->id}}')">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="#fff">
+                                                            <path d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/>
+                                                        </svg>                                                
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
-                        <
                     </div>
                 </div>
             </div>
         </div>
+        
+        <div id="detalleModal" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-xl" role="document"> 
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Detalles de la compra - id: <span id="CompraId"></span></h5> 
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="detallePedidoContent">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .botones-compra {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px; 
+            }
+
+            .boton_anular {
+                width: 40px; 
+                height: 40px;
+                padding: 5px;
+            }
+
+            .boton_anular svg {
+                width: 80%; 
+                height: 80%;
+            }
+        </style>
+
+        <script>
+        $(document).ready(function() {
+            $('.verDetalleBtn').on('click', function() {
+                var compraId = $(this).data('id');
+
+                $('#compraId').text(compraId);
+
+                $.ajax({
+                    url: '/admin/compras/' + compraId + '/detalles',     
+                    method: 'GET',
+                    success: function(response) {
+                        // Inserta los datos en el modal
+                        $('#detallePedidoContent').html(response);
+                        // Muestra el modal
+                        $('#detalleModal').modal('show');
+                    },
+                    error: function() {
+                        alert('Error al cargar los detalles de la compra.');
+                    }
+                });
+            });
+        });
+        </script>
     </div>
 </div>
 
@@ -154,7 +228,7 @@ function eliminar(compraId) {
         }
     });
 }
-
-
 </script>
+
+
 

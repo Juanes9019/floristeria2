@@ -201,11 +201,6 @@ public function personalizados(Request $request)
     return view('view_arreglo.personalizado.personalizado', compact('insumos', 'categorias_insumo', 'insumosSeleccionados', 'totalElementos', 'totalPrecio', 'productos', 'detallesInsumos', 'section'));
 }
     
-
-
-
-
-
     public function personalizado_estandar(Request $request)
     {
         $productoId = $request->input('producto_id');
@@ -219,23 +214,56 @@ public function personalizados(Request $request)
     
         return response()->json($insumos);
     }
+    
 
     public function agregar_producto_nuevo(Request $request)
     {
-        // Valida los datos recibidos
+        // Validar que se ha seleccionado un producto
         $request->validate([
             'id_producto_nuevo' => 'required|exists:productos,id',
         ]);
+    
+        // Obtener el producto seleccionado y sus insumos asociados
+        $producto = Producto::with('insumos')->findOrFail($request->id_producto_nuevo);
+    
+        // Crear una estructura de insumos con nombre, color y cantidad usada
+        $insumosPersonalizados = [];
+        foreach ($producto->insumos as $insumo) {
+            $insumosPersonalizados[] = [
+                'nombre_insumo' => $insumo->nombre . ($insumo->color ? ' - ' . $insumo->color : ''),
+                'cantidad_usada' => $insumo->pivot->cantidad_usada, 
+                'id' => $insumo->id,
+            ];
+        }
+    
+        // Guardar en la sesión
+        session()->put('insumosPersonalizados', $insumosPersonalizados);
+    
+        return redirect()->back()->with('success', 'Producto modificado agregado al carrito');
+    }
+    
+    
+    
 
-        // Lógica para agregar el producto
-        $productoId = $request->input('id_producto_nuevo');
+    
 
-        // Puedes realizar aquí la lógica que necesitas para el producto
-        // Por ejemplo, buscar el producto y agregar los insumos relacionados
-        $producto = Producto::findOrFail($productoId);
+    
 
-        // Retorna una respuesta, por ejemplo, redirigiendo con un mensaje de éxito
-        return redirect()->back()->with('success', 'Producto agregado exitosamente');
+    public function eliminar_producto_nuevo($key)
+    {
+        // Obtener la lista de insumos seleccionados de la sesión
+        $insumos = session('insumosPersonalizados', []);
+    
+        // Verificar si el insumo existe y eliminarlo
+        if (isset($insumos[$key])) {
+            unset($insumos[$key]);
+        }
+    
+        // Actualizar la lista en la sesión
+        session(['insumosPersonalizados' => $insumos]);
+    
+        // Redirigir de vuelta a la página con un mensaje de éxito
+        return redirect()->back()->with('success', 'Insumo eliminado exitosamente.');
     }
 
     
@@ -381,6 +409,10 @@ public function personalizados(Request $request)
 
             dd('Error al insertar en la base de datos: ' . $e->getMessage());
         }
+
+
+        return redirect()->route('view_perfil.perfil')
+            ->with('success', 'Pqrs creada con éxito.');
     }
 
     public function productos_filtrar()

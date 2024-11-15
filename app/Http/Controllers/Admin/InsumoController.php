@@ -80,6 +80,7 @@ class InsumoController extends Controller
         $data = $request->validate([
             'id_categoria_insumo' => 'required',
             'nombre' => 'required',
+            'color' => 'required',
             'costo_unitario' => 'required',
             'imagen' => 'required',
         ]);
@@ -87,6 +88,7 @@ class InsumoController extends Controller
         $insumo = new Insumo;
         $insumo->id_categoria_insumo = $request->id_categoria_insumo;
         $insumo->nombre = $request->nombre;
+        $insumo->color = $request->color;
         $insumo->cantidad_insumo = 0;
         $insumo->costo_unitario = $request->costo_unitario;
         $insumo->perdida_insumo = 0;
@@ -140,6 +142,7 @@ class InsumoController extends Controller
         // Validaciones y lógica de actualización
         $request->validate([
             'id_categoria_insumo' => 'required',
+            'color' => 'required',
             'nombre' => 'required',
             'costo_unitario' => 'required',
             'imagen' => 'required',
@@ -148,6 +151,7 @@ class InsumoController extends Controller
         // Asignación de los campos del usuario desde el formulario
         $insumos->id_categoria_insumo = $request->input('id_categoria_insumo');
         $insumos->nombre = $request->input('nombre');
+        $insumos->color = $request->input('color');
         $insumos->costo_unitario = $request->input('costo_unitario');
         $insumos->imagen = $request->input('imagen');
         if ($request->has('estado')) {

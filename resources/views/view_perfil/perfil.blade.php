@@ -40,14 +40,31 @@
 
         <div class="col-md-7 full-height">
             <div class="card h-100">
-            @if (session('success'))
-                <div class="alert alert-success d-flex align-items-center" role="alert">
-                    <i class="fas fa-check-circle me-2"></i>
-                    <div>
-                        {{ session('success') }}
-                    </div>
-                </div>
-            @endif
+                @if (session('success'))
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: '{{ session('success') }}',
+                            position: 'top-end',
+                            toast: true,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    </script>
+                @elseif (session('error'))
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: '{{ session('error') }}',
+                            position: 'top-end',
+                            toast: true,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    </script>
+                @endif
                 <div class="card-header">{{ __('Informacion') }}</div>
                 <div class="card-body">
                     @if ($section == 'edit-info')

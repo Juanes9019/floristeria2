@@ -56,6 +56,8 @@ Route::post('/agregar_producto_nuevo', [HomeController::class, 'agregar_producto
 Route::patch('/actualizar-producto/{key}', [HomeController::class, 'actualizar_producto'])->name('actualizar_producto');
 Route::delete('/eliminar-producto/{key}', [HomeController::class, 'eliminar_producto'])->name('eliminar_producto');
 
+Route::delete('/eliminar-producto-nuevo/{key}', [HomeController::class, 'eliminar_producto_nuevo'])->name('eliminar_producto_nuevo');
+
 
 //personalizadas de accesorios
 Route::post('/agregar-accesorio', [HomeController::class, 'agregarAccesorio'])->name('agregarAccesorio');
@@ -198,15 +200,10 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::get('admin/compras', [CompraController::class, 'index'])->name('Admin.compra.index');
     Route::get('admin/compras/create', [CompraController::class, 'create'])->name('Admin.compra.create');
     Route::post('admin/compras', [CompraController::class, 'store'])->name('Admin.compra.store');
-    Route::get('admin/compras/{id}', [CompraController::class, 'show'])->name('compra.detalles');
     route::get('/categorias/{idProveedor}', [CompraController::class, 'getCategorias'])->name('categorias');
     Route::get('/insumos/{idCategoria}', [CompraController::class, 'getInsumos'])->name('insumos');
     Route::delete('/admin/compras/{id}', [CompraController::class, 'destroy'])->name('Admin.compra.destroy');
-
-
-
-    //Ruta para el detalle Compra
-    Route::get('admin/DetalleCompra', [DetalleCompraController::class, 'index'])->name('detalles');
+    Route::get('admin/compras/{id}/detalles', [CompraController::class, 'show'])->name('compra.detalles');
 
     //rutas para los productos
     Route::get('admin/productos', [ProductoController::class, 'index'])->name('Admin.productos');

@@ -72,13 +72,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($historialPerdidas as $perdida)
+                                @if ($historialPerdidas->isEmpty())  
                                     <tr>
-                                        <td class="text-center">{{ $perdida->fecha_perdida }}</td>
-                                        <td class="text-center">{{ $perdida->insumo->nombre }}{{ $perdida->insumo->color ? ' - ' . $perdida->insumo->color : '' }}</td>
-                                        <td class="text-center">{{ $perdida->cantidad_perdida }}</td>
+                                        <td colspan="4" class="text-center">
+                                            <div class="alert alert-warning">No hay perdidas registradas.</div>
+                                        </td>
                                     </tr>
-                                @endforeach
+                                @else
+                                    @foreach($historialPerdidas as $perdida)
+                                        <tr>
+                                            <td class="text-center">{{ $perdida->fecha_perdida }}</td>
+                                            <td class="text-center">{{ $perdida->insumo->nombre }}{{ $perdida->insumo->color ? ' - ' . $perdida->insumo->color : '' }}</td>
+                                            <td class="text-center">{{ $perdida->cantidad_perdida }}</td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                         <label>Páginas</label>

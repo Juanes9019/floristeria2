@@ -51,6 +51,17 @@
 
                         <div class="row mt-3">
                             <div class="col-md-6">
+                                <label for="nombre">Color</label>
+                                <input type="text" name="color" class="form-control  @error('color') is-invalid  @enderror" id="color" placeholder="Color..." value="{{ old('color') }}">
+
+                                @error('color')
+                                    <span class="invalid-feedback d-block" role="alert">
+                                        <strong>{{$message}}</strong>
+                                    </span>
+                                @enderror
+                            </div>    
+
+                            <div class="col-md-6">
                                 <label for="costo_unitario">Costo Unitario</label>
                                 <input type="number" name="costo_unitario" class="form-control  @error('costo_unitario') is-invalid  @enderror" id="costo_unitario" placeholder="$$$" value="{{ old('costo_unitario') }}">
 
@@ -60,7 +71,8 @@
                                     </span>
                                 @enderror
                             </div>
-
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <label for="imagen">Imagen</label>
                                 <input type="file" id="imagen" name="imagen" class="form-control  @error('imagen') is-invalid  @enderror"
