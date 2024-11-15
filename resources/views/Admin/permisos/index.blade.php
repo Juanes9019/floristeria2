@@ -20,12 +20,6 @@
                         </div>
                     </div>
 
-                @if ($message = Session::get('success'))
-                <div class="alert alert-success">
-                    <p>{{ $message }}</p>
-                </div>
-                @endif
-
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-hover">
@@ -58,48 +52,45 @@
                                     </td>
                                 </tr>
 
-                                        <!-- Modal -->
-                                        @foreach($roles as $role)
-                                        <div class="modal fade" id="respuestaModal{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="respuestaModalLabel{{ $role->id }}" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="respuestaModalLabel{{ $role->id }}">Permisos para {{ $role->nombre }}</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('permisos.update', ['id' => $role->id]) }}" method="post">
-                    @csrf  
-                    @method('PUT')
-                
-                    <!-- Campo para modificar el nombre del rol -->
-                    <div class="form-group">
-                        <label for="nombre_rol">Nombre del Rol</label>
-                        <input type="text" name="nombre_rol" class="form-control" value="{{ $role->nombre }}" required>
-                    </div>
-                
-                    <!-- Lista de permisos -->
-                    <div class="form-group checkboxes-container">
-                        @foreach($todos_los_permisos as $permiso)
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="permisos[]" value="{{ $permiso->id }}" 
-                            {{ $role->permisos->contains($permiso->id) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="permiso_{{ $permiso->id }}">{{ $permiso->nombre }}</label>
-                        </div>
-                        @endforeach
-                    </div>
-                
-                    <button type="submit" class="btn btn-outline-secondary">Guardar</button>
-                </form>
-                
-            </div>
-        </div>
-    </div>
-</div>
-@endforeach
-
+                                <!-- Modal -->
+                                @foreach($roles as $role)
+                                <div class="modal fade" id="respuestaModal{{ $role->id }}" tabindex="-1" role="dialog" aria-labelledby="respuestaModalLabel{{ $role->id }}" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="respuestaModalLabel{{ $role->id }}">Permisos para {{ $role->nombre }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="{{ route('permisos.update', ['id' => $role->id]) }}" method="post">
+                                                    @csrf  
+                                                    @method('PUT')
+                                                
+                                                    <!-- Campo para modificar el nombre del rol -->
+                                                    <div class="form-group">
+                                                        <label for="nombre_rol">Nombre del Rol</label>
+                                                        <input type="text" name="nombre_rol" class="form-control" value="{{ $role->nombre }}" required>
+                                                    </div>
+                                                
+                                                    <!-- Lista de permisos -->
+                                                    <div class="form-group checkboxes-container">
+                                                        @foreach($todos_los_permisos as $permiso)
+                                                        <div class="form-check form-switch">
+                                                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="permisos[]" value="{{ $permiso->id }}" 
+                                                            {{ $role->permisos->contains($permiso->id) ? 'checked' : '' }}>
+                                                            <label class="form-check-label" for="permiso_{{ $permiso->id }}">{{ $permiso->nombre }}</label>
+                                                        </div>
+                                                        @endforeach
+                                                    </div>
+                                                    <button type="submit" class="btn btn-outline-secondary">Guardar</button>
+                                                </form>     
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
                                 @endforeach
                             </tbody>
                         </table>
@@ -130,27 +121,33 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-@if (session('error'))
-<script>
-    Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: "{{ session('error') }}",
-        confirmButtonText: 'Aceptar'
-    });
-</script>
+@if (session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: '{{ session('success') }}',
+            position: 'top-end',
+            toast: true,
+            showConfirmButton: false,
+            timer: 5000
+        });
+    </script>
+@elseif (session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '{{ session('error') }}',
+            position: 'top-end',
+            toast: true,
+            showConfirmButton: false,
+            timer: 5000
+        });
+    </script>
 @endif
 
-@if (session('success'))
-<script>
-    Swal.fire({
-        icon: 'success',
-        title: 'Éxito',
-        text: "{{ session('success') }}",
-        confirmButtonText: 'Aceptar'
-    });
-</script>
-@endif
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 

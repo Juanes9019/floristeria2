@@ -409,6 +409,10 @@ public function personalizados(Request $request)
 
             dd('Error al insertar en la base de datos: ' . $e->getMessage());
         }
+
+
+        return redirect()->route('view_perfil.perfil')
+            ->with('success', 'Pqrs creada con éxito.');
     }
 
     public function productos_filtrar()
