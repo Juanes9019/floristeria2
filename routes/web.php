@@ -56,6 +56,8 @@ Route::post('/agregar_producto_nuevo', [HomeController::class, 'agregar_producto
 Route::patch('/actualizar-producto/{key}', [HomeController::class, 'actualizar_producto'])->name('actualizar_producto');
 Route::delete('/eliminar-producto/{key}', [HomeController::class, 'eliminar_producto'])->name('eliminar_producto');
 
+Route::delete('/eliminar-producto-nuevo/{key}', [HomeController::class, 'eliminar_producto_nuevo'])->name('eliminar_producto_nuevo');
+
 
 //personalizadas de accesorios
 Route::post('/agregar-accesorio', [HomeController::class, 'agregarAccesorio'])->name('agregarAccesorio');

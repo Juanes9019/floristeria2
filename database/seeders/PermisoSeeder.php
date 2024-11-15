@@ -31,8 +31,8 @@ class PermisoSeeder extends Seeder
 
         DB::table('insumos_producto')->insert([
             [
-                'id_insumo' => 1, // Clavel
-                'id_producto' => 1, // Arreglo floral 1
+                'id_insumo' => 1, 
+                'id_producto' => 1, 
                 'cantidad_usada' => 5,
             ],
             [

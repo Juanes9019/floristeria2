@@ -37,6 +37,7 @@ class Producto extends Model
         return $this->belongsToMany(Insumo::class, 'insumos_producto', 'id_producto', 'id_insumo')
             ->withPivot('cantidad_usada');
     }
+    
     public function scopeSearch($query, $value)
     {
         $query->where('nombre', 'like', "%{$value}%");

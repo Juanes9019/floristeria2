@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 insumosList += 
                     `<tr data-insumo-id="${insumo.id}">
                         <td>${insumo.nombre}${insumo.color ? ' - ' + insumo.color : ''}</td>
-                        <td>${insumo.cantidad_usada}</td>
+                        <td>${insumo.cantidad_usada}</td> 
                         <td style="text-align: center;">
                             <button onclick="editarInsumo(event, ${insumo.id})" class="btn btn-sm btn-warning"><i class="fa fa-fw fa-edit"></i></button>
                             <button onclick="borrarInsumo(${insumo.id})" class="btn btn-sm btn-danger"><i class="fa fa-fw fa-trash"></i></button>
@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
             insumosList += `</tbody></table>`;
         }
-    
+
         // Insertar todo en el div
         modificarDiv.innerHTML = insumosList;
     };

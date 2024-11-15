@@ -88,7 +88,7 @@
                                     <div class="experience-slide-text">
                                             <div class="card mt-4 shadow-sm">
                                                 <div class="card-header text-black text-center" style="background-color: #FFB6C1;">
-                                                    Productos seleccionados:
+                                                    personalizado desde cero:
                                                 </div>
                                                 <div class="card-body bg-light">
                                                     @if(session('insumosSeleccionados'))
@@ -128,38 +128,49 @@
                             
                                             <div class="card mt-4 shadow-sm">
                                                 <div class="card-header text-black text-center" style="background-color: #FFB6C1;">
-                                                    Productos seleccionados:
+                                                    Personalizado en base a un producto:
                                                 </div>
                                                 <div class="card-body bg-light">
                                                     @if(session('insumosPersonalizados'))
-                                                        <ul class="list-group">
-                                                            @foreach(session('insumosPersonalizados') as $key => $personalizado)
-                                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                    <div>
-                                                                        <strong>{{ $personalizado['nombre_producto'] }} - Insumo: {{ $personalizado['nombre_insumo'] }}</strong> - Cantidad: {{ $personalizado['cantidad'] }}
-                                                                    </div>
-                                                                    <div class="btn-group" role="group">
-                                                                        <form action="{{ route('actualizar_producto', $key) }}" method="POST" class="d-inline">
-                                                                            @csrf
-                                                                            @method('PATCH')
-                                                                            <button type="submit" name="action" value="incrementar" class="btn btn-outline-primary btn-sm">
-                                                                                <i class="fas fa-plus"></i>
-                                                                            </button>
-                                                                            <button type="submit" name="action" value="decrementar" class="btn btn-outline-primary btn-sm">
-                                                                                <i class="fas fa-minus"></i>
-                                                                            </button>
-                                                                        </form>
-                                                                        <form action="{{ route('eliminar_producto', $key) }}" method="POST" class="d-inline ml-1">
-                                                                            @csrf
-                                                                            @method('DELETE')
-                                                                            <button type="submit" class="btn btn-outline-danger btn-sm">
-                                                                                <i class="fas fa-trash"></i> Eliminar
-                                                                            </button>
-                                                                        </form>
-                                                                    </div>
-                                                                </li>
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Nombre</th>
+                                                                    <th>Cantidad</th>
+                                                                    <th>Acciones</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            @foreach(session('insumosPersonalizados', []) as $key => $insumo)
+                                                                <tr>
+                                                                    <td>{{ $insumo['nombre_insumo'] }}</td>
+                                                                    <td>{{ $insumo['cantidad_usada'] }}</td>
+                                                    
+                                                                    <td>
+                                                                        <div class="btn-group" role="group">
+                                                                            <form action="{{ route('actualizar_producto', $key) }}" method="POST" class="d-inline">
+                                                                                @csrf
+                                                                                @method('PATCH')
+                                                                                <button type="submit" name="action" value="incrementar" class="btn btn-outline-primary btn-sm">
+                                                                                    <i class="fas fa-plus"></i>
+                                                                                </button>
+                                                                                <button type="submit" name="action" value="decrementar" class="btn btn-outline-primary btn-sm">
+                                                                                    <i class="fas fa-minus"></i>
+                                                                                </button>
+                                                                            </form>
+                                                                            <form action="{{ route('eliminar_producto', $key) }}" method="POST" class="d-inline ml-1">
+                                                                                @csrf
+                                                                                @method('DELETE')
+                                                                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                                                    <i class="fas fa-trash"></i> Eliminar
+                                                                                </button>
+                                                                            </form>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
                                                             @endforeach
-                                                        </ul>
+                                                            </tbody>
+                                                        </table>
                                                     @else
                                                         <p class="text-center mb-0">No hay productos personalizados seleccionados.</p>
                                                     @endif
