@@ -43,11 +43,9 @@
                             </a>
                         </div>
                     </div>
-                </div>
-
-                <div class="table-responsive mt-3">
-                    <table class="table">
-                        <thead class="table">
+                    <div class="table-responsive mt-3">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
                             <tr>
                                 <th scope="col" class="text-center">
                                     Tipo Proveedor
@@ -103,7 +101,6 @@
                                 <th scope="col" class="text-center" colspan="3">
                                     Acciones
                                 </th>
-                                <th class="text-center"></th>
                             </tr>
                         </thead>
 
@@ -158,6 +155,7 @@
                     <div class="mt-3">
                         {{ $proveedores->links() }}
                     </div>
+                </div>
                 </div>
             </div>
         </div>

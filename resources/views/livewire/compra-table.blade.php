@@ -38,7 +38,7 @@
 
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="col-md-6">
-                            <input wire:model.live.debounce.300ms="buscar" type="text" class="form-control" placeholder="Buscar...">
+                            <input wire:model.debounce.300ms="buscar" type="text" class="form-control" placeholder="Buscar...">
                         </div>
                 
                         <div class="d-flex">
@@ -51,7 +51,7 @@
 
                     <div class="table-responsive mt-3">
                         <table class="table table-bordered table-hover">
-                            <thead class="thead">
+                            <thead class="thead-dark">
                                 <tr>
                                     <th scope="col" class="text-center" wire:click="sortBy('created_at')">
                                         Fecha de Compra

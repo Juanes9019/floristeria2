@@ -140,7 +140,7 @@ function actualizarCarrito() {
                 <td>${item.nombre_insumo}</td>
                 <td>${item.cantidad}</td>
                 <td>${item.costo_unitario}</td>
-                <td>${item.subtotal.toFixed(2)}</td>
+                <td>${item.subtotal}</td>
                 <td><button class="btn btn-danger" onclick="eliminarDelCarrito(${index})">Eliminar</button></td>
             </tr>
         `);
@@ -185,10 +185,19 @@ function finalizarCompra() {
     });
 }
 
+function formatearNumero(numero) {
+    return new Intl.NumberFormat('es-ES').format(numero); // Formatea según el formato de España (separador de miles con punto)
+}
+
 function updateCostoUnitario() {
     const costo = $('#id_insumo option:selected').data('costo');
-    $('#costo_unitario').val(costo);
+    if (costo) {
+        $('#costo_unitario').val(formatearNumero(costo)); // Formatea el costo antes de mostrarlo
+    } else {
+        $('#costo_unitario').val('');
+    }
 }
+
 
 function updateHiddenFields() {
     $('#id_proveedor_hidden').val($('#id_proveedor_select').val());

@@ -21,8 +21,8 @@
                 @endif
 
                 <div class="table-responsive mt-3">
-                    <table class="table">
-                        <thead class="table">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">Producto</th>
                                 <th class="text-center">Total</th>
