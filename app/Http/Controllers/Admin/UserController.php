@@ -68,14 +68,14 @@ class UserController extends Controller
     {
 
         $request->validate([
-            'name' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/','max:30'],
-            'surname' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/','max:30'],
+            'name' => ['required', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/', 'max:30'],
+            'surname' => ['required', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/', 'max:30'],
             'email' => 'required|email|unique:users,email',
             'tipo_documento' => 'required',
             'documento' => 'required|unique:users,documento',
-            'celular' => ['required','string','size:10'],
+            'celular' => ['required', 'string', 'size:10'],
             'id_rol' => 'required',
-            'password' => ['required', 'string', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&_])([A-Za-z\d$@$!%*?&_]|[^ ]){8,15}$/','min:8','max:15'],
+            'password' => ['required', 'string', 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&_])([A-Za-z\d$@$!%*?&_]|[^ ]){8,15}$/', 'min:8', 'max:15'],
             'cpassword' => ['required', 'same:password']
         ]);
 
@@ -129,10 +129,10 @@ class UserController extends Controller
         $usuarios = User::find($id);
 
         $request->validate([
-            'name' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/','max:30'],
-            'surname' => ['required','regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/','max:30'],
+            'name' => ['required', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/', 'max:30'],
+            'surname' => ['required', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/', 'max:30'],
             'email' => ['required', 'email', 'unique:users,email,' . $id],
-            'celular' => ['required','string','size:10'],
+            'celular' => ['required', 'string', 'size:10'],
             'id_rol' => 'required',
             'tipo_documento' => 'required',
             'documento' => 'required'
@@ -266,7 +266,7 @@ class UserController extends Controller
         }
     }
 
-    
+
     public function login(Request $request)
     {
         $request->validate([
@@ -274,12 +274,15 @@ class UserController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'))) {
-            $user = Auth::user();
+        $user = User::where('email', $request->email)->first();
+
+        if ($user && Hash::check($request->password, $user->password)) {
+            $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
                 'role' => $user->role,
-                'message' => 'Inicio de sesión exitoso',
+                'access_token' => $token,
+                'token_type' => 'Bearer',
             ], 200);
         }
 

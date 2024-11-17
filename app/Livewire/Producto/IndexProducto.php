@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Producto;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\CategoriaProducto;
+use App\Models\Producto;
 
-class CategoriasProductosTable extends Component
+class indexProducto extends Component
 {
     use WithPagination;
 
     public $porPagina = 10;
     public $buscar = "";
-    public $ordenarColumna = 'id_categoria_producto';
+    public $ordenarColumna = 'id';
     public $ordenarForma = 'asc';
     public $primeraCarga = true;
 
     protected $queryString = [
         'buscar' => ['except' => ''],
-        'ordenarColumna' => ['except' => 'id_categoria_producto'],
+        'ordenarColumna' => ['except' => 'id'],
         'ordenarForma' => ['except' => 'asc'],
         'page' => ['except' => 1]
     ];
@@ -43,15 +43,16 @@ class CategoriasProductosTable extends Component
 
     public function changeStatus($id)
     {
-        $proveedor = CategoriaProducto::find($id);
-        $proveedor->estado = !$proveedor->estado;
-        $proveedor->save();
+        $producto = Producto::find($id);
+        $producto->estado = !$producto->estado;
+        $producto->save();
     }
 
+   
     public function render()
     {
-        return view('livewire.categorias-productos-table', [
-            'categorias_productos' => CategoriaProducto::search($this->buscar)
+        return view('livewire.producto.index-producto',[
+            'productos' => Producto::search($this->buscar)
                 ->orderBy($this->ordenarColumna, $this->ordenarForma)
                 ->paginate($this->porPagina)
         ]);

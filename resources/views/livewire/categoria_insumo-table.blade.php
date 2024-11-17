@@ -47,7 +47,7 @@
 
                     <div class="table-responsive mt-3">
                         <table class="table table-bordered table-hover">
-                            <thead class="thead">
+                            <thead class="thead-dark">
                                 <tr>
                                     <th scope="col" class="text-center" wire:click="sortBy('nombre')">
                                         Nombre de la Categoría

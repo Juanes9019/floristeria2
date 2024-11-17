@@ -4,7 +4,7 @@
 
 @section('content')
 
-@livewire('edit-producto',['id' => $producto->id])
+@livewire('producto.edit-producto',['id' => $producto->id])
 @vite('resources/css/app.css')
 
 @stop

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Proveedor;
+
 
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Proveedor;
 
-class ProveedoresTable extends Component
+class IndexProveedor extends Component
 {
     use WithPagination;
 
@@ -51,7 +52,7 @@ class ProveedoresTable extends Component
 
     public function render()
     {
-        return view('livewire.proveedores-table', [
+        return view('livewire.proveedor.index-proveedor', [
             'proveedores' => Proveedor::search($this->buscar)
                 ->orderBy($this->ordenarColumna, $this->ordenarForma)
                 ->paginate($this->porPagina)

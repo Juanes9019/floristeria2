@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('insumos', function (Blueprint $table) {
@@ -22,15 +19,12 @@ return new class extends Migration
             $table->decimal('costo_perdida', 10, 2);
             $table->string('imagen')->nullable(); 
             $table->string('descripcion')->nullable();  
-            $table->integer('estado')->default(1); //1-Activo   0-Inactivo
+            $table->integer('estado')->default(1);
             $table->timestamps();
         });
 
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('insumos');

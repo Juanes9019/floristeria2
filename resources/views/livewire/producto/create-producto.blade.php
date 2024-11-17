@@ -98,7 +98,7 @@
                         <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-2 border border-gray-300 rounded-lg p-4">
                             <div class="form-group">
                                 <label for="categoria_insumos" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoría de Insumo <span class="text-danger">*</span></label>
-                                <select wire:model.lazy="categoria_seleccionada" id="categoria_insumos" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                <select wire:model.lazy="categoria_seleccionada" id="categoria_insumos" name="categoria_insumos" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                     <option selected="">Seleccionar Categoría</option>
                                     @foreach ($categorias_insumos as $categoria_insumo)
                                     <option value="{{ $categoria_insumo->id }}">{{ $categoria_insumo->nombre }}</option>
@@ -113,7 +113,7 @@
 
                             <div class="form-group">
                                 <label for="insumo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Insumo <span class="text-danger">*</span> </label>
-                                <select wire:model.live="insumo_seleccionado" id="insumo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                <select wire:model.live="insumo_seleccionado" id="insumo" name="insumo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                     <option selected="">Seleccionar Insumo</option>
                                     @foreach ($insumos_por_categoria as $insumo)
                                     <option wire:key="{{ $insumo->id }}" value="{{ $insumo->id }}">{{ $insumo->nombre }} {{ $insumo->color ? ' - ' . $insumo->color : '' }}</option>
@@ -128,7 +128,7 @@
 
                             <div class="form-group">
                                 <label for="cantidad_usar" class="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad a Usar <span class="text-danger">*</span></label>
-                                <input id="cantidad_usar" wire:model='cantidad_usada' type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" />
+                                <input id="cantidad_usar" name="cantidad_usar" wire:model='cantidad_usada' type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" />
                                 @error('cantidad_usada')
                                 <span class="invalid-feedback d-block text-sm text-red-600 mt-1">
                                     <strong>{{ $message }}</strong>
@@ -137,7 +137,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad Disponible</label>
+                                <label class="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad Disponible <span class="text-danger">*</span></label>
                                 <input type="number" value="{{$cantidad_disponible}}" disabled class="bg-gray-100 w-full p-2.5 rounded-lg border border-gray-300 text-gray-900" />
                             </div>
 
@@ -190,7 +190,7 @@
                             <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
                         </svg>
                         Crear Producto
-                        </button>
+                    </button>
                         <a href="{{ route('Admin.productos') }}" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5">
                             Volver
                         </a>
@@ -206,30 +206,3 @@
         </div>
     </div>
 </div>
-
-
-<script>
-    function agregar(event) {
-        event.preventDefault();
-
-        Swal.fire({
-            title: "¡Estás seguro!",
-            text: "¿Deseas agregar este producto?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sí, agregar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: "!Producto agregado!",
-                    text: "El producto se agregó correctamente",
-                    icon: "success"
-                }).then(() => {
-                    document.getElementById('formulario_crear').submit();
-                });
-            }
-        });
-    }
-</script>
