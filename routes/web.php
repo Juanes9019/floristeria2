@@ -178,6 +178,8 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::put('admin/categoria_insumo/{id}', [Categoria_insumoController::class, 'update'])->name('Admin.categoria_insumo.update');
     Route::delete('admin/categoria_insumo/{id}', [Categoria_insumoController::class, 'destroy'])->name('Admin.categoria_insumo.destroy');
     Route::get('admin/categoria_insumo/{id}/status', [Categoria_insumoController::class, 'change_Status'])->name('Admin.categoria_insumo.status');
+    Route::get('/categoria_insumo/export/{format}', [Categoria_insumoController::class, 'export'])->name('Admin.categorias.export');
+
 
     //rutas para los insumos
     Route::get('admin/insumo', [InsumoController::class, 'index'])->name('Admin.insumo');
@@ -191,6 +193,7 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     // Route::delete('admin/insumo/{id}', [InsumoController::class, 'destroy'])->name('Admin.insumo.destroy');
     Route::get('admin/insumo/{id}/status', [InsumoController::class, 'change_Status'])->name('Admin.insumo.status');
     Route::get('/insumos/export/{format}', [InsumoController::class, 'export'])->name('Admin.insumos.export');
+    Route::get('/insumos/exportPerdida/{format}', [InsumoController::class, 'exportPerdida'])->name('Admin.insumos.exportPerdida');
     Route::get('admin/insumo/{idCategoria}', [InsumoController::class, 'getInsumos'])->name('insumos');
 
 
@@ -204,6 +207,8 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::get('/insumos/{idCategoria}', [CompraController::class, 'getInsumos'])->name('insumos');
     Route::delete('/admin/compras/{id}', [CompraController::class, 'destroy'])->name('Admin.compra.destroy');
     Route::get('admin/compras/{id}/detalles', [CompraController::class, 'show'])->name('compra.detalles');
+    Route::get('/compras/export/{format}', [CompraController::class, 'export'])->name('Admin.compras.export');
+
 
     //rutas para los productos
     Route::get('admin/productos', [ProductoController::class, 'index'])->name('Admin.productos');
