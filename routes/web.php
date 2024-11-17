@@ -57,6 +57,8 @@ Route::patch('/actualizar-producto/{key}', [HomeController::class, 'actualizar_p
 Route::delete('/eliminar-producto/{key}', [HomeController::class, 'eliminar_producto'])->name('eliminar_producto');
 
 Route::delete('/eliminar-producto-nuevo/{key}', [HomeController::class, 'eliminar_producto_nuevo'])->name('eliminar_producto_nuevo');
+Route::patch('/actualizar-producto-nuevo/{key}', [HomeController::class, 'actualizar_producto_nuevo'])->name('actualizar_producto_nuevo');
+
 
 
 //personalizadas de accesorios

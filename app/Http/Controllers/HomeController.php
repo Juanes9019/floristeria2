@@ -44,15 +44,18 @@ class HomeController extends Controller
     public function vista_inicial()
     {
         $productos = Producto::where('estado', 1)->get();
-        return view('home', compact('productos'));
+        $categoria_productos = CategoriaProducto::all();
+        return view('home', compact('productos','categoria_productos'));
     }
 
 
     public function index()
     {
         $productos = Producto::where('estado', 1)->get();
+        $categoria_productos = CategoriaProducto::all();
 
-        return view('home', compact('productos'));
+
+        return view('home', compact('productos','categoria_productos'));
     }
 
     public function update_informacion(Request $request)
@@ -145,128 +148,64 @@ class HomeController extends Controller
     }
     
 
-public function getInsumosPorCategoria($categoria_id)
-{
-    $insumos = Insumo::where('id_categoria_insumo', $categoria_id)->get();
-
-    if ($insumos->isEmpty()) {
-        return response()->json([], 204); 
-    }
-
-    return response()->json($insumos);
-}
-
-public function personalizados(Request $request)
-{
-    // Obtener todos los insumos disponibles
-    $productos = Producto::all();
-    $insumos = Insumo::all();
-    $categorias_insumo = Categoria_insumo::all();
-
-    // Recuperar los insumos seleccionados de la sesión
-    $insumosSeleccionados = session()->get('insumosSeleccionados', []);
-
-    // Inicializar los totales
-    $totalElementos = 0;
-    $totalPrecio = 0;
-
-    // Arreglo para guardar los detalles de los insumos seleccionados
-    $detallesInsumos = [];
-
-    // Calcular el total de insumos seleccionados
-    foreach ($insumosSeleccionados as $insumo) {
-        $insumoBD = Insumo::find($insumo['id']);
-        
-        if ($insumoBD) {
-            $totalElementos += $insumo['cantidad'];
-            $totalPrecio += $insumoBD->costo_unitario * $insumo['cantidad'];
-
-            // Guardar los detalles del insumo
-            $detallesInsumos[] = [
-                'id' => $insumoBD->id,
-                'nombre' => $insumoBD->nombre, // Asumiendo que tienes un campo 'nombre'
-                'costo_unitario' => $insumoBD->costo_unitario,
-                'cantidad' => $insumo['cantidad'],
-            ];
-        }
-    }
-
-    // Agregar un valor adicional de 30,000 al total
-    $totalPrecio += 30000;
-
-    // Obtener el valor de 'section' de la solicitud (por defecto, se establece en '1')
-    $section = $request->input('section', '1');
-
-    // Retornar la vista con los datos y el valor de section
-    return view('view_arreglo.personalizado.personalizado', compact('insumos', 'categorias_insumo', 'insumosSeleccionados', 'totalElementos', 'totalPrecio', 'productos', 'detallesInsumos', 'section'));
-}
-    
-    public function personalizado_estandar(Request $request)
+    public function getInsumosPorCategoria($categoria_id)
     {
-        $productoId = $request->input('producto_id');
-        
-        // Obtén los insumos relacionados con el producto, incluyendo el campo 'color'
-        $insumos = DB::table('insumos_producto')
-            ->where('id_producto', $productoId)
-            ->join('insumos', 'insumos.id', '=', 'insumos_producto.id_insumo')
-            ->select('insumos.id', 'insumos.nombre', 'insumos.color', 'insumos_producto.cantidad_usada') // Agrega 'insumos.color' aquí
-            ->get();
-    
+        $insumos = Insumo::where('id_categoria_insumo', $categoria_id)->get();
+
+        if ($insumos->isEmpty()) {
+            return response()->json([], 204); 
+        }
+
         return response()->json($insumos);
     }
-    
 
-    public function agregar_producto_nuevo(Request $request)
+    public function personalizados(Request $request)
     {
-        // Validar que se ha seleccionado un producto
-        $request->validate([
-            'id_producto_nuevo' => 'required|exists:productos,id',
-        ]);
-    
-        // Obtener el producto seleccionado y sus insumos asociados
-        $producto = Producto::with('insumos')->findOrFail($request->id_producto_nuevo);
-    
-        // Crear una estructura de insumos con nombre, color y cantidad usada
-        $insumosPersonalizados = [];
-        foreach ($producto->insumos as $insumo) {
-            $insumosPersonalizados[] = [
-                'nombre_insumo' => $insumo->nombre . ($insumo->color ? ' - ' . $insumo->color : ''),
-                'cantidad_usada' => $insumo->pivot->cantidad_usada, 
-                'id' => $insumo->id,
-            ];
+        // Obtener todos los insumos disponibles
+        $productos = Producto::all();
+        $insumos = Insumo::all();
+        $categorias_insumo = Categoria_insumo::all();
+
+        // Recuperar los insumos seleccionados de la sesión
+        $insumosSeleccionados = session()->get('insumosSeleccionados', []);
+
+        // Inicializar los totales
+        $totalElementos = 0;
+        $totalPrecio = 0;
+
+        // Arreglo para guardar los detalles de los insumos seleccionados
+        $detallesInsumos = [];
+
+        // Calcular el total de insumos seleccionados
+        foreach ($insumosSeleccionados as $insumo) {
+            $insumoBD = Insumo::find($insumo['id']);
+
+            if ($insumoBD) {
+                $totalElementos += $insumo['cantidad'];
+                $totalPrecio += $insumoBD->costo_unitario * $insumo['cantidad'];
+
+                // Guardar los detalles del insumo
+                $detallesInsumos[] = [
+                    'id' => $insumoBD->id,
+                    'nombre' => $insumoBD->nombre, // Asumiendo que tienes un campo 'nombre'
+                    'costo_unitario' => $insumoBD->costo_unitario,
+                    'cantidad' => $insumo['cantidad'],
+                ];
+            }
         }
-    
-        // Guardar en la sesión
-        session()->put('insumosPersonalizados', $insumosPersonalizados);
-    
-        return redirect()->back()->with('success', 'Producto modificado agregado al carrito');
+
+        // Agregar un valor adicional de 30,000 al total
+        $totalPrecio += 30000;
+
+        // Obtener el valor de 'section' de la solicitud (por defecto, se establece en '1')
+        $section = $request->input('section', '1');
+
+        // Retornar la vista con los datos y el valor de section
+        return view('view_arreglo.personalizado.personalizado', compact('insumos', 'categorias_insumo', 'insumosSeleccionados', 'totalElementos', 'totalPrecio', 'productos', 'detallesInsumos', 'section'));
     }
     
     
-    
 
-    
-
-    
-
-    public function eliminar_producto_nuevo($key)
-    {
-        // Obtener la lista de insumos seleccionados de la sesión
-        $insumos = session('insumosPersonalizados', []);
-    
-        // Verificar si el insumo existe y eliminarlo
-        if (isset($insumos[$key])) {
-            unset($insumos[$key]);
-        }
-    
-        // Actualizar la lista en la sesión
-        session(['insumosPersonalizados' => $insumos]);
-    
-        // Redirigir de vuelta a la página con un mensaje de éxito
-        return redirect()->back()->with('success', 'Insumo eliminado exitosamente.');
-    }
-
-    
 
     public function agregar_producto(Request $request)
     {
@@ -327,9 +266,6 @@ public function personalizados(Request $request)
         return redirect()->route('personalizados')->with('success', 'Insumo agregado exitosamente.');
     }
     
-
-    
-
 
     public function actualizar_producto(Request $request, $key)
     {
