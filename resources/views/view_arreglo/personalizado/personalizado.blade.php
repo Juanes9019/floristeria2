@@ -36,47 +36,27 @@
                         </button>
                         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3">
                             <h5>Paso 3</h5>
-                            <i class="fa-solid fa-eye"></i>
-                        </button>
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4">
-                            <h5>Paso 4</h5>
                             <i class="fa-solid fa-cart-plus"></i>
                         </button>
                     </div>
                     <div class="carousel-inner">
 
-                        <div class="carousel-item active">
-                            <div class="experience-slide-one row h-100 align-items-center">
-                                <div class="col-md-6">
-                                    <p class="alert alert-primary text-dark">En esta opción, puedes diseñar un arreglo personalizado desde cero, eligiendo entre una amplia variedad de flores y productos disponibles.</p>
-                                    <div class="d-flex justify-content-center mb-4">
-                                        <form method="GET" action="{{ route('personalizados') }}">
-                                            <input type="hidden" name="section" value="1">
-                                            <button type="submit" class="btn btn-outline-info"><i class="fas fa-box-open"></i> Personalizar arreglo</button>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <p class="alert alert-primary text-dark">En esta opción, puedes crear un arreglo personalizado basado en uno ya establecido. Tendrás la opción de cambiar las flores o agregar más elementos.</p>
-                                    <div class="d-flex justify-content-center mb-4">
-                                        <form method="GET" action="{{ route('personalizados') }}">
-                                            <input type="hidden" name="section" value="2">
-                                            <button type="submit" class="btn btn-outline-info"><i class="fas fa-edit"></i> Personalizar producto predeterminado</button>
-                                        </form>
-                                    </div>
-                                </div>
+                    <div class="carousel-item active">
+                        <div class="d-flex justify-content-center align-items-center min-vh-10">
+                            <div class="col-md-6">
+                                <p class="alert alert-primary text-dark text-center">
+                                    En esta opción, puedes diseñar un arreglo personalizado desde cero, eligiendo entre una amplia variedad de flores y productos disponibles.
+                                </p>
                             </div>
                         </div>
+                    </div>
+
 
                         <div class="carousel-item">
                             <div class="experience-slide-one row h-100 align-items-center justify-content-center">
                                 <div class="col-md-9">
                                     <div class="experience-slide-img text-center"> 
-                                        @if ($section == '1')
-                                            @include('view_arreglo.personalizado.cero')
-                                        @elseif ($section == '2')
-                                            @include('view_arreglo.personalizado.estandar')
-                                        @endif
+                                        @include('view_arreglo.personalizado.cero')
                                     </div>
                                 </div>
                             </div>
@@ -87,66 +67,23 @@
                                 <div class="col-md-8">
                                     <div class="experience-slide-text">
                                             <div class="card mt-4 shadow-sm">
-                                                <div class="card-header text-black text-center" style="background-color: #FFB6C1;">
-                                                    personalizado desde cero:
-                                                </div>
+                                                <div class="card-header text-black text-center" style="background-color: #FFB6C1;">Productos seleccionados:</div>
                                                 <div class="card-body bg-light">
                                                     @if(session('insumosSeleccionados'))
-                                                        <ul class="list-group">
-                                                            @foreach(session('insumosSeleccionados') as $key => $personalizado)
-                                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                    <div>
-                                                                        <strong>{{ $personalizado['nombre'] }}</strong> - Cantidad: {{ $personalizado['cantidad'] }}
-                                                                    </div>
-                                                                    <div class="btn-group" role="group">
-                                                                        <form action="{{ route('actualizar_producto', $key) }}" method="POST" class="d-inline">
-                                                                            @csrf
-                                                                            @method('PATCH')
-                                                                            <button type="submit" name="action" value="incrementar" class="btn btn-outline-primary btn-sm">
-                                                                                <i class="fas fa-plus"></i>
-                                                                            </button>
-                                                                            <button type="submit" name="action" value="decrementar" class="btn btn-outline-primary btn-sm">
-                                                                                <i class="fas fa-minus"></i>
-                                                                            </button>
-                                                                        </form>
-                                                                        <form action="{{ route('eliminar_producto', $key) }}" method="POST" class="d-inline ml-1">
-                                                                            @csrf
-                                                                            @method('DELETE')
-                                                                            <button type="submit" class="btn btn-outline-danger btn-sm">
-                                                                                <i class="fas fa-trash"></i> Eliminar
-                                                                            </button>
-                                                                        </form>
-                                                                    </div>
-                                                                </li>
-                                                            @endforeach
-                                                        </ul>
-                                                    @else
-                                                        <p class="text-center mb-0">No hay productos seleccionados.</p>
-                                                    @endif
-                                                </div>
-                                            </div>
-                            
-                                            <div class="card mt-4 shadow-sm">
-                                                <div class="card-header text-black text-center" style="background-color: #FFB6C1;">
-                                                    Personalizado en base a un producto:
-                                                </div>
-                                                <div class="card-body bg-light">
-                                                    @if(session('insumosPersonalizados'))
                                                         <table class="table">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Nombre</th>
-                                                                    <th>Cantidad</th>
-                                                                    <th>Acciones</th>
+                                                                    <th class="text-center">Nombre</th>
+                                                                    <th class="text-center">Cantidad</th>
+                                                                    <th class="text-center">Acciones</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                            @foreach(session('insumosPersonalizados', []) as $key => $insumo)
+                                                            @foreach(session('insumosSeleccionados') as $key => $personalizado)
                                                                 <tr>
-                                                                    <td>{{ $insumo['nombre_insumo'] }}</td>
-                                                                    <td>{{ $insumo['cantidad_usada'] }}</td>
-                                                    
-                                                                    <td>
+                                                                    <td class="text-center">{{ $personalizado['nombre'] }}</td>
+                                                                    <td class="text-center">{{ $personalizado['cantidad'] }}</td>
+                                                                    <td class="text-center">
                                                                         <div class="btn-group" role="group">
                                                                             <form action="{{ route('actualizar_producto', $key) }}" method="POST" class="d-inline">
                                                                                 @csrf
@@ -171,26 +108,26 @@
                                                             @endforeach
                                                             </tbody>
                                                         </table>
+                                                        <!-- Total -->
+                                                        <div class="card mt-4">
+                                                            <div class="card-header bg-dark text-white">Total:</div>
+                                                            <div class="card-body">
+                                                                <p>Total: ${{ number_format($totalPrecio, 0) }}</p>
+                                                                <div class="d-flex justify-content-center">
+                                                                    <form action="{{ route('add_personalizado') }}" method="POST">
+                                                                        @csrf
+                                                                        <button type="submit" class="btn custom-btn d-flex align-items-center justify-content-center text-white">
+                                                                            <i class="fas fa-cart-plus me-2"></i> Agregar al carrito
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     @else
-                                                        <p class="text-center mb-0">No hay productos personalizados seleccionados.</p>
+                                                        <p class="text-center mb-0">No hay productos seleccionados.</p>
                                                     @endif
                                                 </div>
                                             </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="carousel-item">
-                            <div class="experience-slide-one row h-100 align-items-center">
-                                <div class="col-md-5">
-                                    <div class="experience-slide-img">
-                                        <img src="{{ 'https://i.imgur.com/ia1BeKH.png' }}" alt="imagen no disponible" width="100">
-                                    </div>
-                                </div>
-                                <div class="col-md-7">
-                                    <div class="experience-slide-text">
-                                        <h3>junio</h3>
                                     </div>
                                 </div>
                             </div>

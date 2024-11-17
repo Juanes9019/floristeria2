@@ -13,45 +13,46 @@
     --mensajes: #ffcfd6;
 }
 
-
 /* -**************************
         Banner
 ************************** */
-
-
 .banner {
     background-image: linear-gradient(100deg, rgba(0, 0, 0, 0.836), rgba(39, 1, 1, 0.281)), url('https://i.imgur.com/OAgMfG7.jpeg');
-    height: 55rem; 
+    height: 41rem;
     background-size: cover;
     background-position: center;
-    margin-top: 0; 
+    background-attachment: fixed; 
+    margin-top: 0;
+    position: relative;
 }
 
-
-.content-banner{
+.content-banner {
     max-width: 90rem;
     margin: 0 auto;
-    padding: 25rem 6rem;
+    padding: 15rem 6rem;
+    text-align: center;
+    position: relative;
+    z-index: 2;
 }
 
-.content-banner p{
+.content-banner p {
     color: var(--primary-color);
-    
     font-size: 1.2rem;
     margin-bottom: 1rem;
     font-weight: 500;
+    animation: fadeIn 1.5s ease-in-out;
 }
 
-.content-banner h2{
+.content-banner h2 {
     color: #fff;
     font-family: "Concert One", sans-serif;
-
     font-size: 3.5rem;
     font-weight: 500;
     line-height: 1.2;
+    animation: fadeIn 2s ease-in-out;
 }
 
-.content-banner a{
+.content-banner a {
     font-family: "Zain", sans-serif;
     font-size: 18px;
     margin-top: 2rem;
@@ -61,13 +62,26 @@
     display: inline-block;
     padding: 1rem 3rem;
     border-radius: 3rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.content-banner a:hover{
-    font-family: "Zain", sans-serif;
-    font-size: 18px;
+.content-banner a:hover {
     text-decoration: none;
     color: #000;
+    background-color: #ffcc00;
+    transform: scale(1.05); /* Efecto al pasar el mouse */
+}
+
+/* Animación de texto */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 
@@ -232,6 +246,13 @@
     color: var(--primary-color);
 }
 
+/* -**************************
+        seccion productos
+************************** */
+
+.container-options mb-4{
+    margin-bottom: 5rem;
+}
 
 /* -**************************
         top products
@@ -392,6 +413,62 @@
     grid-row: 1/3;
 }
 
+.gallery-wrapper {
+    text-align: center;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f8f9fa; /* Fondo suave */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destacar */
+}
+
+.gallery-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333; 
+    font-family: "Concert One", sans-serif;
+}
+
+.gallery-description {
+    font-size: 22px;
+    color: #555;
+    margin-bottom: 20px;
+    font-family: "Zain", sans-serif;
+
+}
+
+.gallery-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente dentro del margen si es necesario */
+    margin: 50px auto; /* Espaciado arriba y abajo */
+    padding: 0 20px; /* Espaciado interno lateral opcional */
+}
+
+.gallery-2 {
+    display: flex;
+    width: 1000px; /* Ancho de la galería */
+    height: 500px; /* Altura de la galería */
+    background-color: #fff; /* Fondo blanco */
+    overflow: hidden; /* Evita que las imágenes sobresalgan */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.gallery-2 img {
+    width: 0px;
+    flex-grow: 1;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: width 0.5s ease, opacity 0.5s ease;
+}
+
+.gallery-2 img:hover {
+    cursor: crosshair;
+    width: 400px; /* Tamaño de la imagen ampliada */
+    opacity: 1;
+    filter: contrast(120%);
+}
 
 .carousel-control-prev,
 .carousel-control-next {
@@ -722,3 +799,50 @@ boton agregar personalizado
     border-radius: 5px;
     box-shadow: 1px 6px 10px rgb(128, 224, 238);
 }
+
+
+
+/* -**************************
+    acordeon
+************************** */
+
+.accordion-button:not(.collapsed) { /*elimina el color azul cuando el esta activo*/
+    background-color: transparent; /* color de fondo tranparente*/
+    color: inherit; /* color de texto original */
+    box-shadow: none; /* elimina cualquier sombreado */
+}
+
+/* Eliminar los bordes por defecto del acordeón */
+.accordion-item {
+    border: none;
+}
+
+/* Agregar solo un borde inferior */
+.accordion-item:not(:last-of-type) {
+    border-bottom: 1px solid #ddd;
+}
+
+/* Opcional: quitar bordes y sombras del botón del encabezado */
+.accordion-button {
+    border: none;
+    box-shadow: none;
+}
+
+/* Opcional: estilizar el borde inferior del botón del encabezado */
+.accordion-button:not(.collapsed) {
+    border-bottom: 1px solid #ddd;
+}
+
+.borde_filtro{
+    border: none;
+    border-right: 1px solid #ddd;
+}
+
+.accordion-button.letra_accordion {
+    font-family: "Concert One", sans-serif;
+    font-size: 18px;
+    color: rgb(58, 58, 58) !important;
+}
+
+
+
