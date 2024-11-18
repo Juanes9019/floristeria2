@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Models\Categoria_insumo;
 use App\Exports\InsumoExport;
+use App\Exports\PerdidaExport;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Excel;
 use App\Models\HistorialPerdida;
@@ -91,8 +92,6 @@ class InsumoController extends Controller
         $insumo->color = $request->color;
         $insumo->cantidad_insumo = 0;
         $insumo->costo_unitario = $request->costo_unitario;
-        $insumo->perdida_insumo = 0;
-        $insumo->costo_perdida = $request->costo_unitario * $request->perdida_insumo;
         $insumo->imagen = $request->imagen;
 
         if ($request->has('estado')) {
@@ -199,27 +198,26 @@ class InsumoController extends Controller
         }
     }
 
-    // public function destroy($id)
-    // {
-    //     $insumo = Insumo::find($id);
+    public function exportPerdida($format)
+    {
+        $export = new PerdidaExport;
 
-    //     if ($insumo->estado == 1) {
-    //         return redirect()->route('Admin.insumo')
-    //             ->with('error', 'No se puede eliminar un insumo Activa');
-    //     }
-    //     try {
-    //         $insumo->delete();
-    //         return redirect()->route('Admin.insumo')
-    //             ->with('success','Insumo eliminado con éxito');
-    //     } catch (\Illuminate\Database\QueryException $e) {
-    //             if ($e->getCode() == 23000) {
-    //                 return redirect()->route('Admin.insumo')
-    //                     ->with('error', 'No se puede eliminar el insumo porque está asociado a una compra.');
-    //             }
-    //             return redirect()->route('Admin.insumo')
-    //                 ->with('error', 'Error al intentar eliminar el insumo.');
-    //     }     
-    // }
+        switch ($format) {
+            case 'pdf':
+                $pdf = Pdf::loadView('exports.perdidas', [
+                    'perdidas' => Insumo::all()
+                ])->setPaper('a4', 'portait') // Puedes cambiar a 'portrait' si prefieres
+                    ->setOption('margin-left', '10mm')
+                    ->setOption('margin-right', '10mm')
+                    ->setOption('margin-top', '10mm')
+                    ->setOption('margin-bottom', '10mm');
+                return $pdf->download('Perdidas.pdf');
+            case 'xlsx':
+            default:
+                return $export->download('Perdidas.xlsx', Excel::XLSX);
+        }
+    }
+
 
     public function perdida()
     {

@@ -41,8 +41,8 @@
                 </div>
 
                 <div class="table-responsive mt-3">
-                    <table class="table">
-                        <thead class="table">
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead-dark">
                             <tr>
                                 <th scope="col" class="text-center">
                                     Usuario
@@ -77,7 +77,6 @@
                                 <th scope="col" class="text-center" colspan="3">
                                     Acciones
                                 </th>
-                                <th class="text-center"></th>
                             </tr>
                         </thead>
 

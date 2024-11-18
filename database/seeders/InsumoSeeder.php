@@ -17,8 +17,6 @@ class InsumoSeeder extends Seeder
             'color' => 'Blanco',
             'cantidad_insumo' => 10,
             'costo_unitario' => 7000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/PLbh3p6.png', 
             'descripcion' => 'El clavel blanco simboliza pureza y amor incondicional. Ideal para momentos de paz y respeto.'
         ]);
@@ -29,8 +27,6 @@ class InsumoSeeder extends Seeder
             'color' => 'Rosado',
             'cantidad_insumo' => 10,
             'costo_unitario' => 700,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/F3KjnwJ.jpeg', 
             'descripcion' => 'Los claveles rosados representan la gratitud y el cariño, comúnmente regalados a personas cercanas en señal de aprecio.'
             ]);
@@ -41,8 +37,6 @@ class InsumoSeeder extends Seeder
             'color' => 'Amarillo',
             'cantidad_insumo' => 10,
             'costo_unitario' => 9000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/ihurqZn.png',
             'descripcion' => 'El clavel amarillo transmite alegría y amistad, perfecto para celebraciones y momentos de felicidad.'
             ]);
@@ -53,8 +47,6 @@ class InsumoSeeder extends Seeder
             'color' => 'Blanco',
             'cantidad_insumo' => 10,
             'costo_unitario' => 11000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/NkIcRVK.png', 
             'descripcion' => 'El tulipán blanco expresa elegancia y respeto, a menudo utilizado en ocasiones solemnes o para transmitir paz.'
             ]);
@@ -65,8 +57,6 @@ class InsumoSeeder extends Seeder
             'color' => 'Amarillo',
             'cantidad_insumo' => 10,
             'costo_unitario' => 10500,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/lIpVzYT.png',
             'descripcion' => 'El tulipán amarillo es sinónimo de felicidad y luz, ideal para expresar alegría y entusiasmo.'
             ]);
@@ -77,8 +67,6 @@ class InsumoSeeder extends Seeder
             'color' => 'Morado',
             'cantidad_insumo' => 10,
             'costo_unitario' => 12000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/wkTkKas.jpeg', 
             'descripcion' => 'Este tulipán morado es símbolo de lujo y admiración, una elección perfecta para destacar en eventos formales.'
             ]);
@@ -89,8 +77,6 @@ class InsumoSeeder extends Seeder
             'color' => 'Rojo',
             'cantidad_insumo' => 10,
             'costo_unitario' => 19000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/OqWvbCA.jpeg', 
             'descripcion' => 'Las orquídeas rojas son una representación de pasión y fuerza, una flor llamativa y poderosa para ocasiones especiales.'
             ]);
@@ -101,8 +87,6 @@ class InsumoSeeder extends Seeder
             'color' => 'Morado',
             'cantidad_insumo' => 10,
             'costo_unitario' => 21000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/hd1XLqW.png', 
             'descripcion' => 'Esta orquídea morada evoca misterio y sofisticación, perfecta para regalar a alguien único y especial.'
             ]);
@@ -113,8 +97,6 @@ class InsumoSeeder extends Seeder
             'color' => 'Blanco',
             'cantidad_insumo' => 10,
             'costo_unitario' => 20000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/LKn08vC.jpeg', 
             'descripcion' => 'La orquídea blanca representa pureza y elegancia, ideal para ocasiones formales o para expresar sentimientos nobles.'
             ]);
@@ -126,8 +108,6 @@ class InsumoSeeder extends Seeder
             'color' => 'Rojo',
             'cantidad_insumo' => 10,
             'costo_unitario' => 5500,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/t56qjJS.png', 
             'descripcion' => 'La rosa roja es el símbolo universal del amor y la pasión, utilizada tradicionalmente para expresar afecto profundo.'
             ]);
@@ -138,8 +118,6 @@ class InsumoSeeder extends Seeder
             'color' => 'Blanco',
             'cantidad_insumo' => 10,
             'costo_unitario' => 5000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/Glsbngc.jpeg', 
             'descripcion' => 'Las rosas blancas representan pureza y nuevos comienzos, a menudo vistas en bodas y ceremonias importantes.'
             ]);
@@ -150,8 +128,6 @@ class InsumoSeeder extends Seeder
             'color' => 'Amarillo',
             'cantidad_insumo' => 10,
             'costo_unitario' => 5000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/SjL2Sq2.png', 
             'descripcion' => 'Las rosas amarillas simbolizan amistad y alegría, una elección vibrante para expresar aprecio entre amigos.'
         ]);
@@ -161,8 +137,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Oso',
             'cantidad_insumo' => 10,
             'costo_unitario' => 80000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/8LIryTC.jpeg',
             'descripcion' => 'Un oso de peluche suave y adorable, ideal para complementar regalos de forma tierna.'
         ]);
@@ -172,8 +146,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Chocolatinas',
             'cantidad_insumo' => 0,
             'costo_unitario' => 800,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/5ii2qHp.jpeg',
             'descripcion' => 'Pequeñas chocolatinas, ideales para endulzar cualquier ocasión especial.'
         ]);
@@ -183,8 +155,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Papitas',
             'cantidad_insumo' => 0,
             'costo_unitario' => 3500,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/6GsiWYW.jpeg',
             'descripcion' => 'Snack crujiente de papas, perfecto para acompañar momentos de compartir.'
         ]);
@@ -194,8 +164,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Gomitas',
             'cantidad_insumo' => 0,
             'costo_unitario' => 2500,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/U1Ij5qY.jpeg',
             'descripcion' => 'Dulces gomitas de sabores surtidos, ideales para acompañar cualquier regalo.'
         ]);
@@ -205,8 +173,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Yogurt',
             'cantidad_insumo' => 0,
             'costo_unitario' => 2200,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/1FDQroh.png',
             'descripcion' => 'Bebida de yogurt refrescante, perfecta para acompañar un snack saludable.'
         ]);
@@ -216,8 +182,6 @@ class InsumoSeeder extends Seeder
             'nombre' => 'Cervezas',
             'cantidad_insumo' => 0,
             'costo_unitario' => 6000,
-            'perdida_insumo' => 0,
-            'costo_perdida' => 0,
             'imagen' => 'https://i.imgur.com/9NXOvse.jpeg',
             'descripcion' => 'Cervezas refrescantes, ideales para compartir en momentos de celebración.'
         ]);

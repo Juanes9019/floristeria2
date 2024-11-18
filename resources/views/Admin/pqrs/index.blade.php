@@ -46,8 +46,8 @@
                                 No hay registros de PQRS.
                             </div>
                         @else
-                            <table class="table table-striped table-hover">
-                                <thead class="thead">
+                            <table class="table table-bordered table-hover">
+                                <thead class="thead-dark">
                                     <tr>
                                         <th class="text-center">user_id</th>
                                         <th class="text-center">estado</th>

@@ -38,20 +38,30 @@
 
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="col-md-6">
-                            <input wire:model.live.debounce.300ms="buscar" type="text" class="form-control" placeholder="Buscar...">
+                            <input wire:model.debounce.300ms="buscar" type="text" class="form-control" placeholder="Buscar...">
                         </div>
-                
-                        <div class="d-flex">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Exportar
+                            </button>
                             <a href="{{ route('Admin.compra.create') }}" class="btn btn-primary btn-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
                             </a>
+                            <div class="dropdown-menu" aria-labelledby="exportDropdown">
+                                <a class="dropdown-item" href="{{ route('Admin.compras.export', ['format' => 'xlsx']) }}">
+                                    {{ __('Exportar a Excel') }}
+                                </a>
+                                <a class="dropdown-item" href="{{ route('Admin.compras.export', ['format' => 'pdf']) }}">
+                                    {{ __('Exportar a PDF') }}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                     <div class="table-responsive mt-3">
                         <table class="table table-bordered table-hover">
-                            <thead class="thead">
+                            <thead class="thead-dark">
                                 <tr>
                                     <th scope="col" class="text-center" wire:click="sortBy('created_at')">
                                         Fecha de Compra
@@ -139,6 +149,15 @@
                                 @endif
                             </tbody>
                         </table>
+                        <label>Páginas</label>
+                        <select wire:model.live="porPagina">
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                        <div class="mt-3">
+                            {{ $compras->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

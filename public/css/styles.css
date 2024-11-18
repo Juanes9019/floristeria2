@@ -13,45 +13,50 @@
     --mensajes: #ffcfd6;
 }
 
+body {
+    overflow-x: hidden;
+}
 
 /* -**************************
         Banner
 ************************** */
-
-
 .banner {
     background-image: linear-gradient(100deg, rgba(0, 0, 0, 0.836), rgba(39, 1, 1, 0.281)), url('https://i.imgur.com/OAgMfG7.jpeg');
-    height: 55rem; 
+    height: 41rem;
     background-size: cover;
     background-position: center;
-    margin-top: 0; 
+    background-attachment: fixed; 
+    margin-top: 0;
+    position: relative;
 }
 
-
-.content-banner{
+.content-banner {
     max-width: 90rem;
     margin: 0 auto;
-    padding: 25rem 6rem;
+    padding: 15rem 6rem;
+    text-align: center;
+    position: relative;
+    z-index: 2;
 }
 
-.content-banner p{
+.content-banner p {
     color: var(--primary-color);
-    
     font-size: 1.2rem;
     margin-bottom: 1rem;
     font-weight: 500;
+    animation: fadeIn 1.5s ease-in-out;
 }
 
-.content-banner h2{
+.content-banner h2 {
     color: #fff;
     font-family: "Concert One", sans-serif;
-
     font-size: 3.5rem;
     font-weight: 500;
     line-height: 1.2;
+    animation: fadeIn 2s ease-in-out;
 }
 
-.content-banner a{
+.content-banner a {
     font-family: "Zain", sans-serif;
     font-size: 18px;
     margin-top: 2rem;
@@ -61,13 +66,26 @@
     display: inline-block;
     padding: 1rem 3rem;
     border-radius: 3rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.content-banner a:hover{
-    font-family: "Zain", sans-serif;
-    font-size: 18px;
+.content-banner a:hover {
     text-decoration: none;
     color: #000;
+    background-color: #ffcc00;
+    transform: scale(1.05); 
+}
+
+/* Animación de texto */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 
@@ -232,6 +250,13 @@
     color: var(--primary-color);
 }
 
+/* -**************************
+        seccion productos
+************************** */
+
+.container-options mb-4{
+    margin-bottom: 5rem;
+}
 
 /* -**************************
         top products
@@ -392,6 +417,62 @@
     grid-row: 1/3;
 }
 
+.gallery-wrapper {
+    text-align: center;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #f8f9fa; /* Fondo suave */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destacar */
+}
+
+.gallery-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333; 
+    font-family: "Concert One", sans-serif;
+}
+
+.gallery-description {
+    font-size: 22px;
+    color: #555;
+    margin-bottom: 20px;
+    font-family: "Zain", sans-serif;
+
+}
+
+.gallery-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente dentro del margen si es necesario */
+    margin: 50px auto; /* Espaciado arriba y abajo */
+    padding: 0 20px; /* Espaciado interno lateral opcional */
+}
+
+.gallery-2 {
+    display: flex;
+    width: 1000px; /* Ancho de la galería */
+    height: 500px; /* Altura de la galería */
+    background-color: #fff; /* Fondo blanco */
+    overflow: hidden; /* Evita que las imágenes sobresalgan */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.gallery-2 img {
+    width: 0px;
+    flex-grow: 1;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: width 0.5s ease, opacity 0.5s ease;
+}
+
+.gallery-2 img:hover {
+    cursor: crosshair;
+    width: 400px; /* Tamaño de la imagen ampliada */
+    opacity: 1;
+    filter: contrast(120%);
+}
 
 .carousel-control-prev,
 .carousel-control-next {
@@ -721,4 +802,297 @@ boton agregar personalizado
     border: none;
     border-radius: 5px;
     box-shadow: 1px 6px 10px rgb(128, 224, 238);
+}
+
+
+
+/* -**************************
+    acordeon
+************************** */
+.ck-2 {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .ck-2 input {
+    display: none;
+  }
+  
+  .ck-2 svg {
+    overflow: visible;
+    margin-right: 1rem;
+  }
+  
+  .ck-2 .path {
+    fill: none;
+    stroke: black;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease;
+    stroke-dasharray: 241 9999999;
+    stroke-dashoffset: 0;
+  }
+  
+  .ck-2 input:checked ~ svg .path {
+    stroke-dasharray: 70.5096664428711 9999999;
+    stroke-dashoffset: -262.2723388671875;
+  }
+
+  
+.accordion-button:not(.collapsed) { /*elimina el color azul cuando el esta activo*/
+    background-color: transparent; /* color de fondo tranparente*/
+    color: inherit; /* color de texto original */
+    box-shadow: none; /* elimina cualquier sombreado */
+}
+
+/* Eliminar los bordes por defecto del acordeón */
+.accordion-item {
+    border: none;
+}
+
+/* Agregar solo un borde inferior */
+.accordion-item:not(:last-of-type) {
+    border-bottom: 1px solid #ddd;
+}
+
+/* Opcional: quitar bordes y sombras del botón del encabezado */
+.accordion-button {
+    border: none;
+    box-shadow: none;
+}
+
+/* Opcional: estilizar el borde inferior del botón del encabezado */
+.accordion-button:not(.collapsed) {
+    border-bottom: 1px solid #ddd;
+}
+
+.borde_filtro{
+    border: none;
+    border-right: 1px solid #ddd;
+}
+
+.accordion-button.letra_accordion {
+    font-family: "Concert One", sans-serif;
+    font-size: 18px;
+    color: rgb(58, 58, 58) !important;
+}
+
+
+
+.card-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.image-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 250px; /* Ajusta la altura según prefieras */
+    transition: all 0.3s ease;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card-title {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1.2rem;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+}
+
+.overlay .buttons {
+    margin-top: 10px;
+}
+
+.image-container:hover img {
+    transform: scale(1.1);
+}
+
+.image-container:hover .overlay {
+    visibility: visible;
+    opacity: 1;
+}
+
+.image-container:hover .card-title,
+.image-container:hover .text_page {
+    bottom: 60px;
+}
+
+
+/* Asegura que la imagen ocupe toda la carta */
+.card-img-container {
+    position: relative;
+    height: 200px; /* Ajusta la altura según el diseño que prefieras */
+}
+
+/* Estilo para el overlay oscuro al pasar el mouse */
+.card-img-container .overlay-dark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Fondo oscuro */
+    z-index: 1;
+    visibility: hidden; /* Invisible por defecto */
+    transition: visibility 0.3s;
+}
+
+
+/* Efecto oscuro cuando se pasa el mouse sobre la carta */
+.card-img-container:hover .overlay-dark {
+    visibility: visible;
+}
+
+
+.producto {
+    position: relative;
+    width: 100%;
+    height: 320px; /* Ajusta la altura de la imagen */
+    overflow: hidden;
+    border-radius: 8px; 
+}
+
+.producto-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.producto::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.4));
+    opacity: 0; 
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+
+.producto-botones {
+    display: flex;
+    justify-content: center; /* Centra los botones en el contenedor */
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.boton-carrito, .boton-ver-mas {
+    background-color: black;    
+    color: white; 
+    padding: 10px 15px; 
+    text-align: center; 
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    gap: 5px;
+}
+
+.boton-carrito i, .boton-ver-mas i {
+    margin-right: 5px; 
+}
+
+.boton-carrito:hover, .boton-ver-mas:hover {
+    color: white; 
+    text-decoration: none;
+}
+
+.boton-ver-mas{
+    font-family: "Zain", sans-serif;
+    font-size: 18px !important;
+}
+
+
+/* Asegura que los botones estén centrados en la parte inferior */
+.producto-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    color: white;
+    padding: 15px;
+    opacity: 0;
+    transition: opacity 0.3s ease, bottom 0.3s ease;
+    text-align: center;
+    z-index: 2;
+}
+
+.producto-info h5, .producto-info p {
+    font-family: "Zain", sans-serif;
+    font-size: 21px !important;
+}
+
+
+
+.producto-categoria {
+    font-size: 14px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.producto-botones {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.producto-botones button {
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* Efecto hover para la imagen */
+.producto:hover .producto-img {
+    transform: scale(1.1); /* Opción de zoom al pasar el mouse */
+}
+
+.producto:hover::before {
+    opacity: 1; /* Muestra la capa oscura cuando el mouse pasa por encima */
+}
+
+.producto:hover .producto-info {
+    opacity: 1;
+    bottom: 5%; /* Sube el bloque de información por encima de la mitad de la imagen */
 }

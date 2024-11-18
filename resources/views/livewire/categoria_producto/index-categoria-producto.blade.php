@@ -51,8 +51,8 @@
 
 
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover">
-                            <thead class="thead">
+                        <table class="table table-bordered table-hover">
+                            <thead class="thead-dark">
                                 <tr>
                                     <th scope="col" class="text-center" wire:click="sortBy('nombre')">
                                         Nombre
@@ -93,7 +93,6 @@
                                     </th>
                                     
                                     <th scope="col" class="text-center">Acciones</th>
-                                    <th scope="col" class="text-center"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -115,13 +114,11 @@
                                         </div>
                                     </td>
 
-                                    <td class="text-center">
+                                    <td class="text-center botones-categoria">
                                         <a class="btn btn-sm btn-warning"
                                             href="{{ route('Admin.categoria_producto.edit', ['id' => $categoria_producto->id_categoria_producto]) }}"><i
                                                 class="fa fa-fw fa-edit"></i></a>
-                                    </td>
-                                    
-                                    <td class="text-center">
+                                        
                                         <form id="form_eliminar_{{ $categoria_producto->id_categoria_producto }}" action="{{ route('Admin.categoria_producto.destroy', ['id' => $categoria_producto->id_categoria_producto]) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -148,8 +145,17 @@
                 </div>
             </div>
         </div>
+        <style>
+            .botones-categoria {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px; 
+            }
+        </style>
     </div>
 </div>
+
 
 
 <script>

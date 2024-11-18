@@ -142,35 +142,40 @@ document.addEventListener("DOMContentLoaded", function () {
         const insumoSeleccionadoId = document.getElementById('insumo-select').value;
         let nuevaCantidad = document.getElementById('nuevo-insumo-cantidad').value;
         
-        // Si la cantidad está vacía, se asigna 1 como valor predeterminado
         if (!nuevaCantidad || nuevaCantidad <= 0) {
             nuevaCantidad = 1;
         }
     
         if (insumoSeleccionadoId || nuevaCantidad > 0) {
             const insumoSeleccionado = insumosData.find(ins => ins.id == insumoSeleccionadoId);
-            
-            // Buscar si el insumo ya está en la lista
-            const insumoExistente = insumosActuales.find(ins => ins.nombre === insumoSeleccionado.nombre && ins.color === insumoSeleccionado.color);
         
-            if (insumoExistente) {
-                // Si el insumo ya existe, solo sumamos la cantidad
-                insumoExistente.cantidad_usada += parseInt(nuevaCantidad);
-            } else {
-                // Si el insumo no existe, lo agregamos como nuevo
-                const nuevoInsumo = {
-                    id: insumosActuales.length + 1, // Asigna un nuevo ID temporal
-                    nombre: insumoSeleccionado.nombre,
-                    color: insumoSeleccionado.color,  // Agrega el color aquí
-                    cantidad_usada: nuevaCantidad // Usa la cantidad ingresada por el usuario
-                };
-            
-                insumosActuales.push(nuevoInsumo);
-            }
+            // Enviar datos al backend
+            fetch('/actualizar-producto-nuevo', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: JSON.stringify({
+                    id: insumoSeleccionadoId,
+                    cantidad: nuevaCantidad
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Actualizar insumos en el frontend
+                    mostrarInsumos(data.insumosActualizados);
+                } else {
+                    Swal.fire('Error', data.message || 'Ocurrió un error.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error al agregar insumo:', error);
+                Swal.fire('Error', 'No se pudo agregar el insumo. Intenta nuevamente.', 'error');
+            });
         
-            mostrarInsumos(insumosActuales); // Actualiza la lista de insumos
-        
-            // Limpiar los campos del formulario
+            // Limpiar campos
             document.getElementById('insumo-select').value = '';
             document.getElementById('nuevo-insumo-cantidad').value = '';
         } else {

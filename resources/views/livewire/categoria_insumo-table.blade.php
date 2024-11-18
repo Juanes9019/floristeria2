@@ -36,18 +36,28 @@
                         <div class="col-md-6">
                             <input wire:model.live.debounce.300ms="buscar" type="text" class="form-control" placeholder="Buscar...">
                         </div>
-                
-                        <div class="d-flex">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Exportar
+                            </button>
                             <a href="{{ route('Admin.categoria_insumo.create') }}" class="btn btn-primary btn-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
                             </a>
+                            <div class="dropdown-menu" aria-labelledby="exportDropdown">
+                                <a class="dropdown-item" href="{{ route('Admin.categorias.export', ['format' => 'xlsx']) }}">
+                                    {{ __('Exportar a Excel') }}
+                                </a>
+                                <a class="dropdown-item" href="{{ route('Admin.categorias.export', ['format' => 'pdf']) }}">
+                                    {{ __('Exportar a PDF') }}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                     <div class="table-responsive mt-3">
                         <table class="table table-bordered table-hover">
-                            <thead class="thead">
+                            <thead class="thead-dark">
                                 <tr>
                                     <th scope="col" class="text-center" wire:click="sortBy('nombre')">
                                         Nombre de la Categoría

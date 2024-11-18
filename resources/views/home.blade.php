@@ -3,6 +3,7 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/boton.css') }}">
 
+
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div>
@@ -16,13 +17,11 @@
         </div>
     </div>
 </div>
-</div>
 
 <section class="banner">
     <div class="content-banner">
         <p>¡Descubre la belleza natural!</p>
         <h2>Variedad de flores frescas <br>arreglos únicos</h2>
-        <a href="{{route('all_products')}}">Explorar ahora</a>
     </div>
 </section>
 
@@ -33,7 +32,7 @@
             <i class="fas fa-truck text-2xl text-orange-400"></i>
             <div class="feature-content ml-4">
                 <span class="block text-lg font-semibold dark:text-white">Envío gratuito</span>
-                <p class="text_page text-gray-600 dark:text-gray-300">Envíos gratuitos en el sector de Girardota.</p>
+                <p class="text_page text-gray-600 dark:text-gray-300">Envíos gratuitos a de Girardota.</p>
             </div>
         </div>
     </section>
@@ -53,7 +52,7 @@
             <i class="fas fa-credit-card text-2xl text-orange-400"></i>
             <div class="feature-content ml-4">
                 <span class="block text-lg font-semibold dark:text-white">Métodos de pago</span>
-                <p class="text_page text-gray-600 dark:text-gray-300">Contamos con diferentes métodos de pago.</p>
+                <p class="text_page text-gray-600 dark:text-gray-300">Diferentes métodos de pago.</p>
             </div>
         </div>
     </section>
@@ -69,65 +68,129 @@
     </section>
 </main>
 
-<section class="container top-products">
-    
+<div class="content-header mb-5 mt-5">
     <h1 class="heading-1 titulo_carta text-2xl font-bold mb-6 dark:text-white">Sección de Productos</h1>
 
-    <div class="container-options">
-        <a href="{{route('all_products')}}"><span>Todos los productos</span></a>
-        <a href="{{route('personalizados')}}"><span>Arreglos personalizados</span></a>
+    <div class="container-options mb-4">
+        <a href="{{ route('personalizados') }}"><span>Arreglos personalizados</span></a>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4 borde_filtro filtro-fijo" style="max-width: 22%;"> 
+        <div class="accordion mt-3" id="productosAcordeon">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button ms-2 letra_accordion" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Categorías
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show ms-3" aria-labelledby="headingOne" data-bs-parent="#productosAcordeon">
+                    <div class="accordion-body">
+                        <form action="{{ route('home') }}" method="GET" id="filter-form">
+                            <div>
+                                @foreach ($categoria_productos as $item)
+                                    <div>
+                                        <label class="ck-2">
+                                            <input type="checkbox" name="categoria_producto[]" value="{{ $item->id_categoria_producto }}"
+                                                id="categoria_{{ $item->id_categoria_producto }}"
+                                                @if(in_array($item->id_categoria_producto, request('categoria_producto', []))) checked @endif>
+                                            <svg viewBox="0 0 68 68" height="16px" width="16px">
+                                                <path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" 
+                                                pathLength="575.0541381835938" class="path"></path>
+                                            </svg>
+                                            <span>{{ $item->nombre }}</span>
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div>
+                                <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar productos..." class="form-control mt-3">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button ms-2 letra_accordion" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                        Buscar flor
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse show ms-3" aria-labelledby="headingTwo" data-bs-parent="#productosAcordeon">
+                    <div class="accordion-body">
+                        <input type="text" class="form-control" placeholder="Buscar...">
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button ms-2 letra_accordion" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                        Color
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse show ms-3" aria-labelledby="headingThree" data-bs-parent="#productosAcordeon">
+                    <div class="accordion-body">
+                        12313212
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button ms-2 letra_accordion" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                        Filtros
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse show ms-3" aria-labelledby="headingThree" data-bs-parent="#productosAcordeon">
+                    <div class="accordion-body">
+                        Mas caro
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="productosCarrusel" class="carousel slide" data-ride="carousel" data-interval="3000">
-        <div class="carousel-inner">
-            @foreach ($productos->chunk(4) as $chunkIndex => $chunk)
-            <div class="carousel-item {{ $chunkIndex === 0 ? 'active' : '' }}">
-                <div class="row">
-                    @foreach ($chunk as $producto)
-                    <div class="col-md-3 mb-4">
-                        <div class="card-wrapper fondo_card" style="padding-top: 20px;">
-                            <div class="card h-100 card_view" style="border-top-left-radius: 45px; border-top-right-radius: 45px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
-                                <h5 class="card-title text-center titulo_carta">{{ $producto->nombre }}</h5>
-                                <p class="card-title text-center text_page"><strong>Categoría:</strong> {{ $producto->categoria_producto->nombre }}</p>
-                                <img src="{{ $producto->foto }}" class="card-img-top img-fluid" style="border-radius: 15px;;" alt="{{ $producto->nombre }}">
-                                <div class="card-body text-center">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <p class="card-text text-left text_price mb-0">
-                                            <strong>Precio:</strong> ${{ number_format($producto->precio, 0, ',', '.') }}
-                                        </p>
-                                        <a href="{{ route('add', ['id' => $producto->id]) }}" class="fondo_carrito d-flex justify-content-center align-items-center">
-                                            <i class="fas fa-shopping-cart icono_cart_home" ></i>
-                                        </a>
-                                    </div>
-                                    <div class="contenedor mt-2">
-                                        <a href="{{ route('view_arreglo.arreglo_view', ['id' => $producto->id]) }}" class="btn btn-5">Ver más</a>
-                                    </div>
-                                </div>
+    <div class="col-md-9">
+        <div class="row">
+            @foreach ($productos as $producto)
+                <div class="col-md-3 mb-4">
+                    <div class="producto">
+                        <img src="{{ $producto->foto }}" alt="{{ $producto->nombre }}" class="producto-img">
+                        <div class="producto-info">
+                            <h5 class="producto-nombre">{{ $producto->nombre }}</h5>
+                            <p class="producto-categoria">{{ $producto->categoria_producto->nombre }}</p>
+                            <p class="producto-precio">${{ number_format($producto->precio, 0, ',', '.') }}</p>
+                            <div class="producto-botones">
+                                <a href="{{ route('add', ['id' => $producto->id]) }}" class="boton-carrito">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </a>
+                                <a href="{{ route('view_arreglo.arreglo_view', ['id' => $producto->id]) }}" class="boton-ver-mas">
+                                    Ver más
+                                </a>
                             </div>
                         </div>
                     </div>
-                    @endforeach
                 </div>
-            </div>
             @endforeach
         </div>
-        <a class="carousel-control-prev" href="#productosCarrusel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        </a>
-        <a class="carousel-control-next" href="#productosCarrusel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        </a>
     </div>
-</section>
+</div>
 
+<div class="gallery-wrapper">
+    <h2 class="gallery-title">Galería de imagenes</h2>
+    <p class="gallery-description">Explora nuestras hermosas flores y arreglos únicos.</p>
+    <div class="gallery-container">
+        <section class="gallery-2">
+            <img src="https://i.imgur.com/xiE1vvO.jpeg" alt="galleria" class="galeria-img-1">
+            <img src="https://i.imgur.com/bKFwdmR.jpeg" alt="galleria" class="galeria-img-2">
+            <img src="https://i.imgur.com/Z27yfOo.jpeg" alt="galleria" class="galeria-img-3">
+            <img src="https://i.imgur.com/H8CfmCq.jpeg" alt="galleria" class="galeria-img-4">
+            <img src="https://i.imgur.com/r93OXMW.jpeg" alt="galleria" class="galeria-img-5">
+        </section>
+    </div>
+</div>
 
-<section class="gallery">
-    <img src="https://i.imgur.com/xiE1vvO.jpeg" alt="galleria" class="galeria-img-1">
-    <img src="https://i.imgur.com/bKFwdmR.jpeg" alt="galleria" class="galeria-img-2">
-    <img src="https://i.imgur.com/Z27yfOo.jpeg" alt="galleria" class="galeria-img-3">
-    <img src="https://i.imgur.com/H8CfmCq.jpeg" alt="galleria" class="galeria-img-4">
-    <img src="https://i.imgur.com/r93OXMW.jpeg" alt="galleria" class="galeria-img-5">
-</section>
 
 <footer class="footer">
     <div class="container container-footer">
@@ -147,7 +210,6 @@
                     <a href="#"><span class="whatsapp"><i class="fab fa-whatsapp"></i></span></a>
                 </div>
             </div>
-
 
             <div class="information">
                 <p class="title-footer">Información</p>
@@ -174,5 +236,18 @@
     </div>
 </footer>
 
-
+<script>
+    // Selecciona todos los checkboxes
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    
+    checkboxes.forEach(checkbox => {
+        // Añade un listener para el evento de cambio en cada checkbox
+        checkbox.addEventListener('change', function() {
+            // Encuentra el formulario que contiene el checkbox
+            const form = this.closest('form');
+            // Envía el formulario automáticamente
+            form.submit();
+        });
+    });
+</script>
 @endsection

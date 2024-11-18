@@ -18,8 +18,6 @@ class Insumo extends Model
         'color',
         'cantidad_insumo',
         'costo_unitario',
-        'perdida_insumo',
-        'costo_perdida',
         'imagen',
         'descripcion',
         'estado'
