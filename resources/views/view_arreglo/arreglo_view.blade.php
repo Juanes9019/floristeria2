@@ -26,10 +26,16 @@
                             <div class="chips">
                                 <p class="text_page"><strong>Categoría:</strong> {{ $productos->categoria_producto->nombre }}</p>
                                 <p class="text_page"><strong>Descripción:</strong> {{ $productos->descripcion }}</p>
-
-                                <section></section>
+                                <p class="text_page"><strong>Detalles:</strong></p>
+                                <ul class="lista-sin-estilo">
+                                    @foreach ($productos->insumos as $insumo)
+                                        <li>
+                                            {{ $insumo->nombre }} {{ $insumo->color }} - Cantidad usada: {{ $insumo->pivot->cantidad_usada }}
+                                        </li>
+                                    @endforeach
+                                </ul>
                                 <div class="action-buttons">
-                                    <a  > Precio: {{ number_format($productos->precio, 0) }} </a>
+                                    <a> Precio: {{ number_format($productos->precio, 0) }} </a>
                                 </div>
                             </div>       
                         </div>
@@ -63,6 +69,14 @@
     .action-buttons1 a{
         text-decoration: none;    
     }
+
+    .lista-sin-estilo {
+        list-style: none; /* Elimina la viñeta o punto de la lista */
+        font-family: "Zain", sans-serif;
+        font-size: 18   px;
+    }
+
+
 </style>
 
 @endsection
