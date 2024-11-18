@@ -48,61 +48,59 @@ class PedidoController extends Controller
         return view('Admin.pedido.index', compact('pedidos', 'i'));
     }
 
-        public function cambiar_estado(Request $request, $id)
-        {
-            $pedido = Pedido::findOrFail($id);
-            $action = $request->input('action');
+    public function cambiar_estado(Request $request, $id)
+    {
+        $pedido = Pedido::findOrFail($id);
+        $action = $request->input('action');
 
-            if ($action === 'reject') {
-                $pedido->estado = 'rechazado';
-            } elseif ($pedido->estado === 'nuevo') {
-                $pedido->estado = 'preparacion';
+        if ($action === 'reject') {
+            $pedido->estado = 'rechazado';
+        } elseif ($pedido->estado === 'nuevo') {
+            $pedido->estado = 'preparacion';
 
-                foreach ($pedido->detalles as $detalle) {
-                    if (is_null($detalle->id_producto)) {
-                        $items = json_decode($detalle->opciones, true)['items'];
+            foreach ($pedido->detalles as $detalle) {
+                if (is_null($detalle->id_producto)) {
+                    $items = json_decode($detalle->opciones, true)['items'];
 
-                        foreach ($items as $item) {
-                            $insumo = Insumo::where('nombre', $item['name'])->where('color', $item['color'])->first();
+                    foreach ($items as $item) {
+                        $insumo = Insumo::where('nombre', $item['name'])->where('color', $item['color'])->first();
 
-                            if ($insumo) {
-                                $insumo->cantidad_insumo -= $item['qty'];
-                                $insumo->save();
-                            }
+                        if ($insumo) {
+                            $insumo->cantidad_insumo -= $item['qty'];
+                            $insumo->save();
                         }
-                    } else {
-                        $producto = Producto::find($detalle->id_producto);
-                        if ($producto) {
-                            // Descontar los insumos que pertenecen al producto
-                            foreach ($producto->insumos as $insumo) {
-                                $cantidadUsada = $insumo->pivot->cantidad_usada; // cantidad usada en el producto
-                                $insumo->cantidad_insumo -= $cantidadUsada * $detalle->cantidad; // descontar por la cantidad del pedido
-                                $insumo->save();
-                            }
+                    }
+                } else {
+                    $producto = Producto::find($detalle->id_producto);
+                    if ($producto) {
+                        // Descontar los insumos que pertenecen al producto
+                        foreach ($producto->insumos as $insumo) {
+                            $cantidadUsada = $insumo->pivot->cantidad_usada; // cantidad usada en el producto
+                            $insumo->cantidad_insumo -= $cantidadUsada * $detalle->cantidad; // descontar por la cantidad del pedido
+                            $insumo->save();
                         }
                     }
                 }
-            } elseif ($pedido->estado === 'preparacion') {
-                $pedido->estado = 'en camino';
-            } elseif ($pedido->estado === 'en camino') {
-                $pedido->estado = 'entregado';
-
-            }elseif ($pedido->estado === 'no recibido') {
-                $pedido->estado = 'en camino';
-
             }
-
-            $pedido->save();
-
-            if ($pedido->user) {
-                $pedido->user->notify(new EstadoPedido($pedido));
-                Mail::to($pedido->user->email)->send(new PedidoCambiado($pedido));
-            }
-
-            return redirect()->back()->with('success', 'Estado del pedido actualizado correctamente.');
+        } elseif ($pedido->estado === 'preparacion') {
+            $pedido->estado = 'en camino';
+        } elseif ($pedido->estado === 'en camino') {
+            $pedido->estado = 'entregado';
+        } elseif ($pedido->estado === 'no recibido') {
+            $pedido->estado = 'en camino';
         }
 
-    
+        $pedido->save();
+
+        if ($pedido->user) {
+            $pedido->user->notify(new EstadoPedido($pedido));
+            Mail::to($pedido->user->email)->send(new PedidoCambiado($pedido));
+        }
+
+        return redirect()->back()->with('success', 'Estado del pedido actualizado correctamente.');
+    }
+
+
 
 
 
@@ -153,24 +151,64 @@ class PedidoController extends Controller
         return response()->json($pedidos);
     }
 
-    //controlador para aceptar pedido e flutter
-    public function aceptarPedido($id)
+    public function pedidoCli(Request $request, $id)
     {
-        //id para encontrar el pedido
-        $pedido = Pedido::findOrFail($id);
+        // Filtrar los pedidos por el ID del cliente proporcionado en la URL
+        $pedidos = Pedido::where('id', $id)->get();
 
-        if ($pedido->estado === 'nuevo') {
+        return response()->json($pedidos, 200);
+    }
+
+
+
+    //controlador para aceptar pedido e flutter
+    public function aceptarPedido(Request $request, $id)
+    {
+        $pedido = Pedido::findOrFail($id);
+        $action = $request->input('action');
+
+        if ($action === 'reject') {
+            $pedido->estado = 'rechazado';
+        } elseif ($pedido->estado === 'nuevo') {
             $pedido->estado = 'preparacion';
+
+            foreach ($pedido->detalles as $detalle) {
+                if (is_null($detalle->id_producto)) {
+                    $items = json_decode($detalle->opciones, true)['items'];
+
+                    foreach ($items as $item) {
+                        $insumo = Insumo::where('nombre', $item['name'])->where('color', $item['color'])->first();
+
+                        if ($insumo) {
+                            $insumo->cantidad_insumo -= $item['qty'];
+                            $insumo->save();
+                        }
+                    }
+                } else {
+                    $producto = Producto::find($detalle->id_producto);
+                    if ($producto) {
+                        // Descontar los insumos que pertenecen al producto
+                        foreach ($producto->insumos as $insumo) {
+                            $cantidadUsada = $insumo->pivot->cantidad_usada; // cantidad usada en el producto
+                            $insumo->cantidad_insumo -= $cantidadUsada * $detalle->cantidad; // descontar por la cantidad del pedido
+                            $insumo->save();
+                        }
+                    }
+                }
+            }
         } elseif ($pedido->estado === 'preparacion') {
             $pedido->estado = 'en camino';
         } elseif ($pedido->estado === 'en camino') {
             $pedido->estado = 'entregado';
+        } elseif ($pedido->estado === 'no recibido') {
+            $pedido->estado = 'en camino';
         }
 
         $pedido->save();
 
         return response()->json(['message' => 'Estado del pedido actualizado correctamente', 'pedido' => $pedido], 200);
     }
+
 
     //controlador para rechazar pedido en flutter
     public function rechazarPedido($id)
@@ -179,7 +217,6 @@ class PedidoController extends Controller
 
         // Método para borrar
         $pedido->delete();
-
         return response()->json(['message' => 'Pedido rechazado y eliminado correctamente'], 200);
     }
 
@@ -201,7 +238,7 @@ class PedidoController extends Controller
             case 'pdf':
                 $pdf = Pdf::loadView('exports.pedidos', [
                     'pedidos' => Pedido::all()
-                ])->setPaper('a4', 'portait') 
+                ])->setPaper('a4', 'portait')
                     ->setOption('margin-left', '10mm')
                     ->setOption('margin-right', '10mm')
                     ->setOption('margin-top', '10mm')

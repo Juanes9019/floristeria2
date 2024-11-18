@@ -238,19 +238,20 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
 
 
 //rutas para flutter pedido
-Route::get('api/pedido', [pedidoController::class, 'getPedidos'])->name('api.pedido');
+Route::get('api/pedido', [PedidoController::class, 'getPedidos'])->name('api.pedido');
+Route::get('api/pedido/cliente/{id}', [PedidoController::class, 'pedidoCli'])->name('api.pedido');
 Route::post('api/pedido/aceptar/{id}', [PedidoController::class, 'aceptarPedido'])->name('api.pedido.aceptar');
 Route::delete('api/pedido/rechazar/{id}', [PedidoController::class, 'rechazarPedido'])->name('api.pedido.rechazar');
+Route::get('api/pedido/detalle/{id}', [PedidoController::class, 'detalle_flutter'])->name('api.pedido.detalle');
 
 
 //rutas para flutter detalle
-Route::get('api/pedido/detalle/{id}', [PedidoController::class, 'detalle_flutter'])->name('api.pedido.detalle');
 Route::get('api/detalle', [DetalleController::class, 'getDetalles'])->name('api.detalles');
 
 //ruta para obtener el token
 //se manda el token para que pueda funcinar el post, delete y put
-Route::get('api/csrf-token', function () {
-    return response()->json(['csrf_token' => csrf_token()]);
-});
+// Route::get('api/csrf-token', function () {
+//     return response()->json(['csrf_token' => csrf_token()]);
+// });
 
 Route::post('api/login', [UserController::class,'login']);

@@ -60,32 +60,5 @@ class ProductoSeeder extends Seeder
             'cantidad' => 10,
             'foto' => 'https://i.imgur.com/6XkfReK.jpg'
         ]);
-    
-        Producto::create([
-            'nombre' => 'Arreglo floral 6',
-            'precio' => 170000,
-            'id_categoria_producto' => 1, 
-            'descripcion' => 'Arreglo floral vibrante con una mezcla de flores coloridas y frescas. Perfecto para alegrar cualquier evento o espacio.',
-            'cantidad' => 10,
-            'foto' => 'https://i.imgur.com/Q0wcRPz.jpeg'
-        ]);
-    
-        Producto::create([
-            'nombre' => 'Arreglo floral 7',
-            'precio' => 260000,
-            'id_categoria_producto' => 3, 
-            'descripcion' => 'Arreglo elegante con flores exóticas y una presentación sofisticada. Ideal para ocasiones especiales y celebraciones.',
-            'cantidad' => 10,
-            'foto' => 'https://i.imgur.com/dzpIHAm.jpeg'
-        ]);
-    
-        Producto::create([
-            'nombre' => 'Arreglo floral 8',
-            'precio' => 190000,
-            'id_categoria_producto' => 1, 
-            'descripcion' => 'Un arreglo floral delicado y elegante con una mezcla de flores premium. Perfecto para regalar en momentos especiales.',
-            'cantidad' => 10,
-            'foto' => 'https://i.imgur.com/fPaZxSG.jpeg'
-        ]);
     }
 }

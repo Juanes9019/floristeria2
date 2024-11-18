@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="table-responsive mt-3">
-                    <table class="table">
+                    <table class="table table-bordered table-hover">
                         <thead class="table">
                             <tr>
                                 <th scope="col" class="text-center">
@@ -116,7 +116,7 @@
                                 <td class="text-center">{{ $proveedor->telefono }}</td>
                                 <td class="text-center">{{ $proveedor->correo }}</td>
                                 <td class="text-center">{{ $proveedor->ubicacion }}</td>
-                                <td>
+                                <td class="text-center">
                                     <a class="btn btn-sm {{ $proveedor->estado == 1 ? 'btn-success' : 'btn-danger' }}"
                                         wire:click="changeStatus({{ $proveedor->id }})"
                                         wire:loading.attr="disabled"
@@ -135,7 +135,7 @@
                                     <a class="btn btn-sm btn-warning" href="{{ route('Admin.proveedor.edit', ['id' => $proveedor->id]) }}">
                                         <i class="fa fa-fw fa-edit"></i></a>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <form id="form_eliminar_{{ $proveedor->id }}" action="{{ route('Admin.proveedor.destroy', $proveedor->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
