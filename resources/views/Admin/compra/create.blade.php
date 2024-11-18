@@ -67,7 +67,6 @@
                 </div>
             </div>
             
-            <!-- Campos hidden para enviar datos adicionales -->
             <input type="hidden" name="id_proveedor_hidden" id="id_proveedor_hidden">
             <input type="hidden" name="id_categoria_insumo_hidden" id="id_categoria_insumo_hidden">
 
@@ -137,17 +136,39 @@ function actualizarCarrito() {
         tabla.append(`
             <tr>
                 <td>${item.nombre_insumo}</td>
-                <td>${item.cantidad}</td>
+                <td>
+                    <button class="btn btn-sm btn-primary" onclick="decrementarCantidad(${index})">-</button>
+                    ${item.cantidad}
+                    <button class="btn btn-sm btn-primary" onclick="incrementarCantidad(${index})">+</button>
+                </td>
                 <td>${item.costo_unitario}</td>
-                <td>${item.subtotal}</td>
+                <td>${item.subtotal.toFixed(2)}</td>
                 <td><button class="btn btn-danger" onclick="eliminarDelCarrito(${index})">Eliminar</button></td>
             </tr>
         `);
     });
 
     $('#total_carrito').text(totalCarrito.toFixed(2));
+    $('#formulario_crear').find("input[name='carrito']").remove(); // Evita duplicados
     $('#formulario_crear').append(`<input type="hidden" name="carrito" value='${JSON.stringify(carrito)}'>`);
 }
+
+function incrementarCantidad(index) {
+    carrito[index].cantidad++;
+    carrito[index].subtotal = carrito[index].cantidad * carrito[index].costo_unitario;
+    actualizarCarrito();
+}
+
+function decrementarCantidad(index) {
+    if (carrito[index].cantidad > 1) {
+        carrito[index].cantidad--;
+        carrito[index].subtotal = carrito[index].cantidad * carrito[index].costo_unitario;
+        actualizarCarrito();
+    } else {
+        Swal.fire("Atención", "La cantidad no puede ser menor a 1. Si deseas eliminar el ítem, usa el botón 'Eliminar'.", "info");
+    }
+}
+
 
 function eliminarDelCarrito(index) {
     carrito.splice(index, 1);
@@ -185,13 +206,13 @@ function finalizarCompra() {
 }
 
 function formatearNumero(numero) {
-    return new Intl.NumberFormat('es-ES').format(numero); // Formatea según el formato de España (separador de miles con punto)
+    return new Intl.NumberFormat('es-ES').format(numero); 
 }
 
 function updateCostoUnitario() {
     const costo = $('#id_insumo option:selected').data('costo');
     if (costo) {
-        $('#costo_unitario').val(formatearNumero(costo)); // Formatea el costo antes de mostrarlo
+        $('#costo_unitario').val(formatearNumero(costo)); 
     } else {
         $('#costo_unitario').val('');
     }
@@ -248,7 +269,6 @@ $(document).ready(function() {
     });
 });
 
- // SweetAlert notifications for success and error messages
  @if (session('success'))
         Swal.fire({
             icon: 'success',
