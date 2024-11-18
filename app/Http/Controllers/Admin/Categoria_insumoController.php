@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Excel;
+use App\Exports\CategoriaExport;
+
 
 class Categoria_insumoController extends Controller
 {
@@ -187,6 +191,26 @@ public function update(Request $request, $id)
 
         $categoria_insumo->save();
         return redirect()->back();
+    }
+
+    public function export($format)
+    {
+        $export = new CategoriaExport;
+
+        switch ($format) {
+            case 'pdf':
+                $pdf = Pdf::loadView('exports.categorias', [
+                    'categorias' => Categoria_insumo::all()
+                ])->setPaper('a4', 'portait') // Puedes cambiar a 'portrait' si prefieres
+                    ->setOption('margin-left', '10mm')
+                    ->setOption('margin-right', '10mm')
+                    ->setOption('margin-top', '10mm')
+                    ->setOption('margin-bottom', '10mm');
+                return $pdf->download('Categoria_insumo.pdf');
+            case 'xlsx':
+            default:
+                return $export->download('Categoria_insumo.xlsx', Excel::XLSX);
+        }
     }
 
 }

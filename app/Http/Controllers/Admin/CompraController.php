@@ -10,6 +10,10 @@ use App\Models\Insumo;
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Exports\CompraExport;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Excel;
+
 
 class CompraController extends Controller
 {
@@ -190,6 +194,26 @@ class CompraController extends Controller
         return redirect()->back()->with('error', 'Hubo un error al anular la compra: ' . $e->getMessage());
     }
 }
+
+public function export($format)
+    {
+        $export = new CompraExport;
+
+        switch ($format) {
+            case 'pdf':
+                $pdf = Pdf::loadView('exports.compras', [
+                    'compras' => Compra::all()
+                ])->setPaper('a4', 'portait') // Puedes cambiar a 'portrait' si prefieres
+                    ->setOption('margin-left', '10mm')
+                    ->setOption('margin-right', '10mm')
+                    ->setOption('margin-top', '10mm')
+                    ->setOption('margin-bottom', '10mm');
+                return $pdf->download('Compras.pdf');
+            case 'xlsx':
+            default:
+                return $export->download('Compras.xlsx', Excel::XLSX);
+        }
+    }
 
 
 
