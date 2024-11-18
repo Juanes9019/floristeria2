@@ -8,6 +8,7 @@ use App\Models\Producto;
 use App\Models\Categoria;
 use App\Models\CategoriaProducto;
 use App\Models\Categoria_insumo;
+use App\Models\InsumoProducto;
 use App\Models\User;
 use App\Models\Pqrs;
 use App\Models\Pedido;
@@ -32,7 +33,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth')->except('vista_inicial','show','index','personalizados','agregar_producto');
+        $this->middleware('auth')->except('vista_inicial','show','index','personalizados','agregar_producto','update_informacion','perfilUser','show','actualizar_producto','eliminar_producto');
     }
 
     /**
@@ -41,22 +42,42 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
 
-    public function vista_inicial()
+    public function vista_inicial(Request $request)
     {
-        $productos = Producto::where('estado', 1)->get();
+        $productos = Producto::where('estado', 1);
+
+        if ($request->has('categoria_producto') && !empty($request->categoria_producto)) {
+            $productos = $productos->whereIn('id_categoria_producto', $request->categoria_producto);
+        }
+
+        if ($request->has('search') && !empty($request->search)) {
+            $productos = $productos->where('nombre', 'like', '%' . $request->search . '%');
+        }
+
+        $productos = $productos->get();
         $categoria_productos = CategoriaProducto::all();
-        return view('home', compact('productos','categoria_productos'));
+
+        return view('home', compact('productos', 'categoria_productos'));
     }
 
-
-    public function index()
+    public function index(Request $request)
     {
-        $productos = Producto::where('estado', 1)->get();
+        $productos = Producto::where('estado', 1);
+    
+        if ($request->has('categoria_producto') && !empty($request->categoria_producto)) {
+            $productos = $productos->whereIn('id_categoria_producto', $request->categoria_producto);
+        }
+    
+        if ($request->has('search') && !empty($request->search)) {
+            $productos = $productos->where('nombre', 'like', '%' . $request->search . '%');
+        }
+        
+        $productos = $productos->get();
         $categoria_productos = CategoriaProducto::all();
-
-
-        return view('home', compact('productos','categoria_productos'));
+        
+        return view('home', compact('productos', 'categoria_productos'));
     }
+    
 
     public function update_informacion(Request $request)
     {
@@ -101,10 +122,11 @@ class HomeController extends Controller
 
     public function show($id)
     {
-        $productos = Producto::findOrFail($id);
-
+        $productos = Producto::with('insumos')->findOrFail($id);
+    
         return view('view_arreglo.arreglo_view', compact('productos'));
     }
+    
 
 
     public function show_all(Request $request)

@@ -809,7 +809,38 @@ boton agregar personalizado
 /* -**************************
     acordeon
 ************************** */
+.ck-2 {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .ck-2 input {
+    display: none;
+  }
+  
+  .ck-2 svg {
+    overflow: visible;
+    margin-right: 1rem;
+  }
+  
+  .ck-2 .path {
+    fill: none;
+    stroke: black;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke-dasharray 0.5s ease, stroke-dashoffset 0.5s ease;
+    stroke-dasharray: 241 9999999;
+    stroke-dashoffset: 0;
+  }
+  
+  .ck-2 input:checked ~ svg .path {
+    stroke-dasharray: 70.5096664428711 9999999;
+    stroke-dashoffset: -262.2723388671875;
+  }
 
+  
 .accordion-button:not(.collapsed) { /*elimina el color azul cuando el esta activo*/
     background-color: transparent; /* color de fondo tranparente*/
     color: inherit; /* color de texto original */
@@ -949,7 +980,7 @@ boton agregar personalizado
 .producto {
     position: relative;
     width: 100%;
-    height: 300px; /* Ajusta la altura de la imagen */
+    height: 320px; /* Ajusta la altura de la imagen */
     overflow: hidden;
     border-radius: 8px; 
 }
@@ -1063,5 +1094,5 @@ boton agregar personalizado
 
 .producto:hover .producto-info {
     opacity: 1;
-    bottom: 10%; /* Sube el bloque de información por encima de la mitad de la imagen */
+    bottom: 5%; /* Sube el bloque de información por encima de la mitad de la imagen */
 }

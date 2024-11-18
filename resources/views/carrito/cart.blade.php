@@ -32,7 +32,7 @@
             @endif
 
 
-            <div class="card-body">
+            <div class="card-body ">
                 @if (Cart::count())
                 <h1 class="text-center fs-4 p-3">Datos de Compra</h1>
 
@@ -88,7 +88,11 @@
                             <tr class="fx-bolder">
                                 <td colspan="4"></td>
                                 <td class="text-end"><strong>Total:</strong></td>
-                                <td> <span id="total-con-envio">{{ Cart::total() }}</span></td>
+                                <td>
+                                    <span id="total-con-envio">
+                                        ${{ number_format(Cart::total(), 0, ',', '.') }}
+                                    </span>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -168,33 +172,93 @@
                                             <label for="tipo_via">Tipo de Vía: <strong style="color: red;">*</strong></label>
                                             <select class="form-control" id="tipo_via" name="tipo_via" required onchange="actualizarDireccion()">
                                                 <option value="" disabled selected>Seleccione tipo de vía</option>
+                                                <option value="Autpista">Autpista</option>
+                                                <option value="Avenida">Avenida</option>
+                                                <option value="Avenida calle">Avenida calle</option>
+                                                <option value="Avenida carrera">Avenida carrera</option>
+                                                <option value="Bulevar">Bulevar</option>
                                                 <option value="Calle">Calle</option>
                                                 <option value="Carrera">Carrera</option>
-                                                <option value="Avenida">Avenida</option>
+                                                <option value="Carretera">Carretera</option>
+                                                <option value="Circular">Circular</option>
+                                                <option value="Circunvalar">Circunvalar</option>
+                                                <option value="Diagonal">Diagonal</option>
+                                                <option value="Pasaje">Pasaje</option>
+                                                <option value="Peatonal">Peatonal</option>
                                                 <option value="Transversal">Transversal</option>
+                                                <option value="Troncal">Troncal</option>
+                                                <option value="Variante">Variante</option>
+                                                <option value="Via">Via</option>
                                             </select>
                                             @error('tipo_via')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
 
-                                        <div class="col-md-3">
-                                            <label for="numero_via">Número de Vía Principal: <strong style="color: red;">*</strong></label>
+                                        <div class="col-md-2">
+                                            <label for="numero_via">No vía Principal: <strong style="color: red;">*</strong></label>
                                             <input type="text" class="form-control" id="numero_via" name="numero_via" required oninput="actualizarDireccion()">
                                             @error('numero_via')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
 
-                                        <div class="col-md-3">
-                                            <label for="via_secundaria">Número de Vía Secundaria: <strong style="color: red;">*</strong></label>
+                                        <div class="col-md-1">
+                                            <label for="letra_calle">Letra:</label>
+                                            <select class="form-control" id="letra_calle" name="letra_calle" onchange="actualizarDireccion()">
+                                                <option value="" disabled selected>Letra</option>
+                                                <option value="A">A</option>
+                                                <option value="B">B</option>
+                                                <option value="C">C</option>
+                                                <option value="D">D</option>
+                                                <option value="E">E</option>
+                                                <option value="F">F</option>
+                                                <option value="G">G</option>
+                                                <option value="H">H</option>
+                                                <option value="I">I</option>
+                                                <option value="J">J</option>
+                                                <option value="K">K</option>
+                                                <option value="L">L</option>
+                                                <option value="M">M</option>
+                                                <option value="N">N</option>
+                                                <option value="O">O</option>
+                                                <option value="P">P</option>
+                                                <option value="Q">Q</option>
+                                                <option value="R">R</option>
+                                                <option value="S">S</option>
+                                                <option value="T">T</option>
+                                                <option value="U">U</option>
+                                                <option value="V">V</option>
+                                            </select>
+                                            @error('letra_calle')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+
+                                        <div class="col-md-2">
+                                            <label for="orientacion">Orientación:</label>
+                                            <select class="form-control" id="orientacion" name="orientacion" required onchange="actualizarDireccion()">
+                                                <option value="">Orientacion</option>
+                                                <option value="norte">Norte</option>
+                                                <option value="sur">Sur</option>
+                                                <option value="este">Este</option>
+                                                <option value="oeste">Oeste</option>
+                                            </select>
+                                            @error('orientacion')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label for="via_secundaria">No vía secundaria:<strong style="color: red;">*</strong></label>
                                             <input type="text" class="form-control" id="via_secundaria" name="via_secundaria" required oninput="actualizarDireccion()">
                                             @error('via_secundaria')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
 
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label for="detalle_adicional">Detalle adicional:</label>
                                             <input type="text" class="form-control" id="detalle_adicional" name="detalle_adicional" oninput="actualizarDireccion()">
                                             @error('detalle_adicional')
@@ -296,12 +360,14 @@
     function actualizarDireccion() {
         const tipoVia = document.getElementById("tipo_via").value || "";
         const numeroVia = document.getElementById("numero_via").value || "";
+        const letra = document.getElementById("letra_calle").value || "";
+        const orientacion = document.getElementById("orientacion").value || "";
         const viaSecundaria = document.getElementById("via_secundaria").value || "";
         const detalleAdicional = document.getElementById("detalle_adicional").value || "";
         const barrio = document.getElementById("barrio").value || "";
 
         // Construye la dirección completa incluyendo el barrio
-        const direccionCompleta = `${barrio}, ${tipoVia} ${numeroVia} #${viaSecundaria} ${detalleAdicional}`.trim();
+        const direccionCompleta = `${barrio}, ${tipoVia} ${numeroVia} ${letra} ${orientacion} #${viaSecundaria} ${detalleAdicional}`.trim();
         
         // Actualiza el campo de dirección de solo lectura
         document.getElementById("direccion").value = direccionCompleta;

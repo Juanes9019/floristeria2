@@ -30,9 +30,8 @@ use Illuminate\Support\Facades\Auth;
 
 
 Route::get('/', [HomeController::class, 'vista_inicial'])->name('/');
-
-
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 
 Auth::routes();
 
