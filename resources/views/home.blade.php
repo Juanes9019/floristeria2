@@ -3,6 +3,7 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/boton.css') }}">
 
+
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div>
@@ -31,7 +32,7 @@
             <i class="fas fa-truck text-2xl text-orange-400"></i>
             <div class="feature-content ml-4">
                 <span class="block text-lg font-semibold dark:text-white">Envío gratuito</span>
-                <p class="text_page text-gray-600 dark:text-gray-300">Envíos gratuitos en el sector de Girardota.</p>
+                <p class="text_page text-gray-600 dark:text-gray-300">Envíos gratuitos a de Girardota.</p>
             </div>
         </div>
     </section>
@@ -51,7 +52,7 @@
             <i class="fas fa-credit-card text-2xl text-orange-400"></i>
             <div class="feature-content ml-4">
                 <span class="block text-lg font-semibold dark:text-white">Métodos de pago</span>
-                <p class="text_page text-gray-600 dark:text-gray-300">Contamos con diferentes métodos de pago.</p>
+                <p class="text_page text-gray-600 dark:text-gray-300">Diferentes métodos de pago.</p>
             </div>
         </div>
     </section>
@@ -67,7 +68,7 @@
     </section>
 </main>
 
-<div class="content-header mb-5">
+<div class="content-header mb-5 mt-5">
     <h1 class="heading-1 titulo_carta text-2xl font-bold mb-6 dark:text-white">Sección de Productos</h1>
 
     <div class="container-options mb-4">
@@ -75,8 +76,8 @@
     </div>
 </div>
 
-<div class="row mt-6">
-    <div class="col-md-3 borde_filtro filtro-fijo">
+<div class="row mt-5">
+    <div class="col-md-4 borde_filtro filtro-fijo" style="max-width: 22%;">
         <div class="accordion mt-3" id="productosAcordeon">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
@@ -136,37 +137,35 @@
         </div>
     </div>
 
-    <!-- Productos alineados a la derecha -->
     <div class="col-md-9">
-        <section class="container top-products">
-            <div class="row">
-                @foreach ($productos as $producto)
-                <div class="col-md-3 mb-4">
-                    <div class="card-wrapper fondo_card" style="padding-top: 20px;">
-                        <div class="card h-100 card_view" style="border-top-left-radius: 45px; border-top-right-radius: 45px; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;">
-                            <h5 class="card-title text-center titulo_carta">{{ $producto->nombre }}</h5>
-                            <p class="card-title text-center text_page"><strong>Categoría:</strong> {{ $producto->categoria_producto->nombre }}</p>
-                            <img src="{{ $producto->foto }}" class="card-img-top img-fluid" style="border-radius: 15px;" alt="{{ $producto->nombre }}">
-                            <div class="card-body text-center">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <p class="card-text text-left text_price mb-0">
-                                        <strong>Precio:</strong> ${{ number_format($producto->precio, 0, ',', '.') }}
-                                    </p>
-                                    <a href="{{ route('add', ['id' => $producto->id]) }}" class="fondo_carrito d-flex justify-content-center align-items-center">
-                                        <i class="fas fa-shopping-cart icono_cart_home"></i>
-                                    </a>
-                                </div>
-                                <div class="contenedor mt-2">
-                                    <a href="{{ route('view_arreglo.arreglo_view', ['id' => $producto->id]) }}" class="btn btn-5">Ver más</a>
-                                </div>
-                            </div>
+    <div class="row">
+        @foreach ($productos as $producto)
+            <div class="col-md-3 mb-4">
+                <div class="producto">
+                    <img src="{{ $producto->foto }}" alt="{{ $producto->nombre }}" class="producto-img">
+                    <div class="producto-info">
+                        <h5 class="producto-nombre">{{ $producto->nombre }}</h5>
+                        <p class="producto-categoria">{{ $producto->categoria_producto->nombre }}</p>   
+                        <div class="producto-botones">
+                            <a href="{{ route('add', ['id' => $producto->id]) }}" class="boton-carrito">
+                                <i class="fas fa-shopping-cart"></i>
+                            </a>
+                            <a href="{{ route('view_arreglo.arreglo_view', ['id' => $producto->id]) }}" class="boton-ver-mas">
+                                Ver más
+                            </a>
                         </div>
                     </div>
                 </div>
-                @endforeach
             </div>
-        </section>
+        @endforeach
     </div>
+</div>
+
+
+
+
+
+
 </div>
 
 <div class="gallery-wrapper">

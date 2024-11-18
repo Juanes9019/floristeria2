@@ -175,7 +175,7 @@
                                 @if(auth()->check() && (in_array($permiso_roles_id, $permisos_usuario) || in_array($permiso_usuarios_id, $permisos_usuario) || in_array($permiso_dashboard_id, $permisos_usuario) || in_array($permiso_pedidos_id, $permisos_usuario) || in_array($permiso_proveedores_id, $permisos_usuario) || in_array($permiso_categorias_productos_id, $permisos_usuario) || in_array($permiso_categoria_insumos_id, $permisos_usuario) || in_array($permiso_insumos_id, $permisos_usuario) || in_array($permiso_productos_id, $permisos_usuario) || in_array($permiso_compras_id, $permisos_usuario) || in_array($permiso_detalle_venta_id, $permisos_usuario) || in_array($permiso_pedidos_id, $permisos_usuario) || in_array($permiso_pqrs_id, $permisos_usuario) || in_array($permiso_envio_id, $permisos_usuario)))
                             
                                 <a class="dropdown-item" href="{{ route('admin.inicio') }}">Mis funciones</a>
-   
+                                
                                 @endif
                                 <a class="dropdown-item" href="{{ route('perfilUser') }}">
                                     {{ __('Perfil') }}
