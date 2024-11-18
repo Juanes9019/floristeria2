@@ -62,8 +62,7 @@
                         </div>
                     </div>
                     <br>
-                    <input type="button" class="btn btn-success" value="Finalizar" onclick="finalizarCompra()">
-                    <input type="button" class="btn btn-primary" value="Agregar" onclick="agregarCarrito()">
+                    <input type="button" class="btn btn-primary" onclick="agregarCarrito()" value="+">
                     <a href="{{ route('Admin.compra.index') }}" class="btn btn-danger">Cancelar</a>
                 </div>
             </div>
@@ -92,8 +91,8 @@
                 <tfoot>
                     <tr>
                         <td colspan="3"><strong>Total</strong></td>
-                        <td id="total_carrito">0.00</td>
-                        <td></td>
+                        <td id="total_carrito"></td>
+                        <td><input type="button" class="btn btn-success" value="Finalizar" onclick="finalizarCompra()"></td>
                     </tr>
                 </tfoot>
             </table>

@@ -210,6 +210,9 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::delete('/admin/compras/{id}', [CompraController::class, 'destroy'])->name('Admin.compra.destroy');
     Route::get('admin/compras/{id}/detalles', [CompraController::class, 'show'])->name('compra.detalles');
     Route::get('/compras/export/{format}', [CompraController::class, 'export'])->name('Admin.compras.export');
+    //CompraFlutter
+    Route::get('api/compra', [CompraController::class, 'getCompra'])->name('Admin.compra');
+
 
 
     //rutas para los productos

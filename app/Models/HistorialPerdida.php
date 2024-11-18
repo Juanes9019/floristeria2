@@ -11,7 +11,7 @@ class HistorialPerdida extends Model
 
     protected $table = 'historial_perdidas';
 
-    protected $fillable = ['insumo_id', 'cantidad_perdida', 'fecha_perdida'];
+    protected $fillable = ['insumo_id', 'cantidad_perdida', 'fecha_perdida', 'descripcion', 'costoPerdida'];
 
     public function insumo()
     {

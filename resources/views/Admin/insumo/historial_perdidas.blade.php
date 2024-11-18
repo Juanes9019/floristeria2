@@ -44,13 +44,13 @@
                     </div>
                     
                     <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Exportar
-                        </button>
-                        <a href="{{ route('Admin.insumo') }}" class="btn btn-primary">Insumos</a>
                         <a href="{{ route('Admin.insumo.perdida') }}" class="btn btn-primary"data-placement="left">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/></svg>
                         </a>
+                        <a href="{{ route('Admin.insumo') }}" class="btn btn-primary">Insumos</a>
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Exportar
+                        </button>
                         <div class="dropdown-menu" aria-labelledby="exportDropdown">
                             <a class="dropdown-item" href="{{ route('Admin.insumos.exportPerdida', ['format' => 'xlsx']) }}">
                                 {{ __('Exportar a Excel') }}
@@ -69,12 +69,14 @@
                                     <th class="text-center">Fecha</th>
                                     <th class="text-center">Insumo</th>
                                     <th class="text-center">Cantidad Pérdida</th>
+                                    <th class="text-center">Descripción</th>
+                                    <th class="text-center">Costo Pérdida</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @if ($historialPerdidas->isEmpty())  
                                     <tr>
-                                        <td colspan="4" class="text-center">
+                                        <td colspan="6" class="text-center">
                                             <div class="alert alert-warning">No hay perdidas registradas.</div>
                                         </td>
                                     </tr>
@@ -84,6 +86,8 @@
                                             <td class="text-center">{{ $perdida->fecha_perdida }}</td>
                                             <td class="text-center">{{ $perdida->insumo->nombre }}{{ $perdida->insumo->color ? ' - ' . $perdida->insumo->color : '' }}</td>
                                             <td class="text-center">{{ $perdida->cantidad_perdida }}</td>
+                                            <td class="text-center">{{ $perdida->descripcion }}</td>
+                                            <td class="text-center">{{ $perdida->costoPerdida }}</td>
                                         </tr>
                                     @endforeach
                                 @endif

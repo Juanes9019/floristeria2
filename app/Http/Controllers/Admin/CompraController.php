@@ -90,10 +90,7 @@ class CompraController extends Controller
             $compra->costo_total = $request->input('costo_total');
             $compra->save();
 
-            
-    
             $carrito = json_decode($request->input('carrito'), true);
-    
             foreach ($carrito as $item) {
                 $detalleCompra = DetalleCompraV2::create([
                     'compra_id' => $compra->id,
@@ -213,6 +210,15 @@ public function export($format)
             default:
                 return $export->download('Compras.xlsx', Excel::XLSX);
         }
+    }
+
+
+    //Flutter
+
+    public function getCompra()
+    {
+        $compras = Compra::all();
+        return response()->json($compras);
     }
 
 
