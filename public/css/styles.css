@@ -792,7 +792,6 @@ boton agregar personalizado
     height: 35px;
     border: none;
     border-radius: 5px;
-    box-shadow: 1px 6px 10px rgb(245, 170, 193);
 }
 
 .boton_detalle{
@@ -801,7 +800,6 @@ boton agregar personalizado
     height: 40px;
     border: none;
     border-radius: 5px;
-    box-shadow: 1px 6px 10px rgb(128, 224, 238);
 }
 
 
