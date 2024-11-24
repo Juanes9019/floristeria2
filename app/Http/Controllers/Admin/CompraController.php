@@ -221,7 +221,16 @@ public function export($format)
         return response()->json($compras);
     }
 
+    public function unaCompra($id){
+        $compras = Compra::findOrFail($id);
+        return response()->json($compras);
+    }
 
+    public function detalle_flutter($id)
+    {
+        $compras = Compra::with('detalles.insumo')->findOrFail($id);
+        return response()->json($compras);
+    }
 
 
 }

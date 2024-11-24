@@ -14,6 +14,7 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'api/csrf-token',
         'api/pedido/aceptar/*',
-        'api/login'
+        'api/login',
+        'api/*'
     ];
 }
