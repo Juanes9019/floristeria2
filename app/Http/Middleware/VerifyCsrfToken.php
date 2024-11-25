@@ -15,7 +15,6 @@ class VerifyCsrfToken extends Middleware
         // 'api/csrf-token',
         'api/pedido/aceptar/*',
         'api/login',
-        'api/pedido/cliente/*'
-
+        'api/*'
     ];
 }

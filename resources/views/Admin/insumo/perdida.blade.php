@@ -36,7 +36,18 @@
                         <label for="cantidad_perdida">Cantidad:</label><br>
                         <input type="number" name="cantidad_perdida" id="cantidad_perdida" placeholder="000" class="form-control" required>
                     </div>
+                    <div class="col-md-6">
+                        <label for="nombre">Descripción:</label>
+                        <input type="text" name="descripcion" class="form-control  @error('descripcion') is-invalid  @enderror" id="descripcion" placeholder="Descripción...">
+
+                        @error('descripcion')
+                            <span class="invalid-feedback d-block" role="alert">
+                                <strong>{{$message}}</strong>
+                            </span>
+                        @enderror
+                    </div>   
                 </div>
+                
             </div>
             <br>
             <input type="button" class="btn btn-primary" value="Agregar" onclick="agregar(event)">

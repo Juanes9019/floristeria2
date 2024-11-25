@@ -16,6 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('insumo_id');  
             $table->integer('cantidad_perdida');    
             $table->timestamp('fecha_perdida');     
+            $table->string('descripcion')->nullable();  
+            $table->decimal('costoPerdida', 10, 2);
+
             $table->timestamps();
     
             // Relaciones

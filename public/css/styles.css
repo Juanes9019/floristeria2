@@ -76,17 +76,74 @@ body {
     transform: scale(1.05); 
 }
 
-/* Animación de texto */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* -**************************
+        lading page
+************************** */
+/* Tus estilos existentes */
+.banner2 {
+    background-image: linear-gradient(100deg, rgba(0, 0, 0, 0.836), rgba(39, 1, 1, 0.281)), url('https://i.imgur.com/Izm7hNE.jpeg');
+    height: 41rem;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; 
+    margin-top: 0;
+    position: relative;
 }
+
+.content-banner2 {
+    max-width: 90rem;
+    margin: 0 auto;
+    padding: 15rem 6rem;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+/* Título con nuevo diseño */
+.banner-title {
+    font-family: "Concert One", sans-serif;
+    font-size: 2.5rem;
+    color: #fdecba; /* Amarillo claro */
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Contenedor de botones */
+.buttons-container {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+/* Botón con estilo básico */
+.btn-banner {
+    padding: 14px 28px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.btn-outline {
+    font-family: "Zain", sans-serif;
+    color: #ffffff; 
+    background-color: transparent;
+    border: 2px solid #ffffff;
+    scale: 1.0;
+    text-decoration: none;
+
+}
+
+.btn-outline:hover {
+    scale: 1.1;
+    text-decoration: none;
+    color: white;
+}
+
+
 
 
 /* -**************************
@@ -691,16 +748,26 @@ footer{
 }
 
 
+
 .contact-info ul li,
 .information ul li,
 .my-account ul li{
     list-style: none;
     color: #fff;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 300;
     position: relative;
     right: 30px;
 }
+
+.contact-info ul li a,
+.information ul li a,
+.my-account ul li a{
+    font-size: 1.5rem;
+    scale: 1.0;
+}
+
+
 
 .information ul li a,
 .my-account ul li a{
@@ -709,11 +776,6 @@ footer{
     font-weight: 300;
 }
 
-
-.information ul li a:hover,
-.my-account ul li a:hover{
-    color: #fff;
-}
 
 .contact-info ul li{
     color: #000;
@@ -792,7 +854,6 @@ boton agregar personalizado
     height: 35px;
     border: none;
     border-radius: 5px;
-    box-shadow: 1px 6px 10px rgb(245, 170, 193);
 }
 
 .boton_detalle{
@@ -801,7 +862,6 @@ boton agregar personalizado
     height: 40px;
     border: none;
     border-radius: 5px;
-    box-shadow: 1px 6px 10px rgb(128, 224, 238);
 }
 
 

@@ -31,6 +31,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', [HomeController::class, 'vista_inicial'])->name('/');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/landing', [HomeController::class, 'index'])->name('landing ');
 
 
 Auth::routes();
@@ -210,6 +211,9 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::get('admin/compras/{id}/detalles', [CompraController::class, 'show'])->name('compra.detalles');
     Route::get('/compras/export/{format}', [CompraController::class, 'export'])->name('Admin.compras.export');
 
+    
+
+
 
     //rutas para los productos
     Route::get('admin/productos', [ProductoController::class, 'index'])->name('Admin.productos');
@@ -254,6 +258,23 @@ Route::get('api/pedido/detalle/{id}', [PedidoController::class, 'detalle_flutter
 //rutas para flutter detalle
 Route::get('api/detalle', [DetalleController::class, 'getDetalles'])->name('api.detalles');
 
+
+//CompraFlutter
+Route::get('api/compra/{id}', [CompraController::class, 'unaCompra']);
+Route::get('api/compra', [CompraController::class, 'getCompra'])->name('Admin.compra');
+
+//DetalleCompraFlutter
+Route::get('api/compra/detalle/{id}', [CompraController::class, 'detalle_flutter'])->name('api.compra.detalle');
+Route::get('api/detalleCompra', [DetalleCompraController::class, 'getDetalles'])->name('api.detalles');
+
+//anularCompraflutter
+Route::delete('api/compra/anular/{id}', [CompraController::class, 'destroy']);
+
+
+
+
+
+
 //ruta para obtener el token
 //se manda el token para que pueda funcinar el post, delete y put
 // Route::get('api/csrf-token', function () {
@@ -261,3 +282,6 @@ Route::get('api/detalle', [DetalleController::class, 'getDetalles'])->name('api.
 // });
 
 Route::post('api/login', [UserController::class,'login']);
+
+
+
