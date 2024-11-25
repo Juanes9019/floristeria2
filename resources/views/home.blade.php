@@ -77,18 +77,26 @@
 </div>
 
 <div class="row mt-5">
-    <div class="col-md-4 borde_filtro filtro-fijo" style="max-width: 22%;"> 
+    <!-- Sidebar de filtros -->
+    <div class="col-md-4 borde_filtro filtro-fijo" style="max-width: 22%;">
         <div class="accordion mt-3" id="productosAcordeon">
+            <!-- Categorías -->
             <div class="accordion-item">
                 <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button ms-2 letra_accordion" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Categorías
+                        Filtros
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse show ms-3" aria-labelledby="headingOne" data-bs-parent="#productosAcordeon">
                     <div class="accordion-body">
                         <form action="{{ route('home') }}" method="GET" id="filter-form">
                             <div>
+                                <label>Buscar flor:</label>
+                                <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar productos..." class="form-control mt-3" id="search-input">
+                            </div>
+                            <br>
+                            <div>
+                                <label>Categorias:</label>
                                 @foreach ($categoria_productos as $item)
                                     <div>
                                         <label class="ck-2">
@@ -96,64 +104,36 @@
                                                 id="categoria_{{ $item->id_categoria_producto }}"
                                                 @if(in_array($item->id_categoria_producto, request('categoria_producto', []))) checked @endif>
                                             <svg viewBox="0 0 68 68" height="16px" width="16px">
-                                                <path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" 
-                                                pathLength="575.0541381835938" class="path"></path>
+                                                <path d="M 0 16 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 16 L 32 48 L 64 16 V 8 A 8 8 90 0 0 56 0 H 8 A 8 8 90 0 0 0 8 V 56 A 8 8 90 0 0 8 64 H 56 A 8 8 90 0 0 64 56 V 16" pathLength="575.0541381835938" class="path"></path>
                                             </svg>
                                             <span>{{ $item->nombre }}</span>
                                         </label>
                                     </div>
                                 @endforeach
                             </div>
-                            <div>
-                                <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar productos..." class="form-control mt-3">
+
+                            <!-- Ordenar por -->
+                            <div class="form-group mt-4">
+                                <label for="order_by">Ordenar por:</label>
+                                <select name="order_by" id="order_by" class="form-control mt-2">
+                                    <option value="">Seleccionar</option>
+                                    <option value="mas_bajo" {{ request('order_by') == 'mas_bajo' ? 'selected' : '' }}>Precio más barato</option>
+                                    <option value="mas_caro" {{ request('order_by') == 'mas_caro' ? 'selected' : '' }}>Precio más caro</option>
+                                    <option value="nuevos" {{ request('order_by') == 'nuevos' ? 'selected' : '' }}>Areglos nuevos</option>
+                                    <option value="antiguos" {{ request('order_by') == 'antiguos' ? 'selected' : '' }}>Areglos antiguos</option>
+                                </select>
                             </div>
                         </form>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingTwo">
-                    <button class="accordion-button ms-2 letra_accordion" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                        Buscar flor
-                    </button>
-                </h2>
-                <div id="collapseTwo" class="accordion-collapse collapse show ms-3" aria-labelledby="headingTwo" data-bs-parent="#productosAcordeon">
-                    <div class="accordion-body">
-                        <input type="text" class="form-control" placeholder="Buscar...">
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingThree">
-                    <button class="accordion-button ms-2 letra_accordion" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                        Color
-                    </button>
-                </h2>
-                <div id="collapseThree" class="accordion-collapse collapse show ms-3" aria-labelledby="headingThree" data-bs-parent="#productosAcordeon">
-                    <div class="accordion-body">
-                        12313212
-                    </div>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingThree">
-                    <button class="accordion-button ms-2 letra_accordion" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                        Filtros
-                    </button>
-                </h2>
-                <div id="collapseThree" class="accordion-collapse collapse show ms-3" aria-labelledby="headingThree" data-bs-parent="#productosAcordeon">
-                    <div class="accordion-body">
-                        Mas caro
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Productos -->
     <div class="col-md-9">
         <div class="row">
-            @foreach ($productos as $producto)
+            @forelse ($productos as $producto)
                 <div class="col-md-3 mb-4">
                     <div class="producto">
                         <img src="{{ $producto->foto }}" alt="{{ $producto->nombre }}" class="producto-img">
@@ -172,10 +152,36 @@
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <p>No se encontraron productos.</p>
+            @endforelse
         </div>
     </div>
 </div>
+
+<!-- Scripts -->
+<script>
+    // Evento para checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            document.getElementById('filter-form').submit();
+        });
+    });
+
+    // Evento para el campo de búsqueda
+    document.getElementById('search-input').addEventListener('input', function () {
+        clearTimeout(this.delay);
+        this.delay = setTimeout(() => {
+            document.getElementById('filter-form').submit();
+        }, 500);
+    });
+
+    // Evento para ordenar
+    document.getElementById('order_by').addEventListener('change', () => {
+        document.getElementById('filter-form').submit();
+    });
+</script>
+
 
 <div class="gallery-wrapper">
     <h2 class="gallery-title">Galería de imagenes</h2>
@@ -236,18 +242,22 @@
     </div>
 </footer>
 
-<script>
-    // Selecciona todos los checkboxes
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    
-    checkboxes.forEach(checkbox => {
-        // Añade un listener para el evento de cambio en cada checkbox
-        checkbox.addEventListener('change', function() {
-            // Encuentra el formulario que contiene el checkbox
-            const form = this.closest('form');
-            // Envía el formulario automáticamente
-            form.submit();
-        });
-    });
-</script>
+
+
+
+<style>
+    .color-box {
+    width: 35px;
+    height: 35px;
+    margin: 5px;
+    border: 1px solid Black;
+    cursor: pointer;
+    border-radius: 5px; /* opcional para bordes redondeados */
+}
+.color-box:hover {
+    border-color: #000;
+}
+
+</style>
+
 @endsection
