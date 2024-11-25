@@ -183,19 +183,7 @@
 </script>
 
 
-<div class="gallery-wrapper">
-    <h2 class="gallery-title">Galería de imagenes</h2>
-    <p class="gallery-description">Explora nuestras hermosas flores y arreglos únicos.</p>
-    <div class="gallery-container">
-        <section class="gallery-2">
-            <img src="https://i.imgur.com/xiE1vvO.jpeg" alt="galleria" class="galeria-img-1">
-            <img src="https://i.imgur.com/bKFwdmR.jpeg" alt="galleria" class="galeria-img-2">
-            <img src="https://i.imgur.com/Z27yfOo.jpeg" alt="galleria" class="galeria-img-3">
-            <img src="https://i.imgur.com/H8CfmCq.jpeg" alt="galleria" class="galeria-img-4">
-            <img src="https://i.imgur.com/r93OXMW.jpeg" alt="galleria" class="galeria-img-5">
-        </section>
-    </div>
-</div>
+
 
 
 <footer class="footer">

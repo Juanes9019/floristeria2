@@ -16,55 +16,15 @@
     </div>
 </div>
 
-<section class="banner">
-    <div class="content-banner">
-        <p>¡Descubre la belleza natural!</p>
-        <h2>Variedad de flores frescas <br>arreglos únicos</h2>
+<section class="banner2">
+    <div class="content-banner2">
+        <h1 class="banner-title">Crea momentos especiales con nosotros</h1>
+        <div class="buttons-container">
+            <a href="{{ route('home') }}" class="btn-banner btn-outline">Productos</a>
+            <a href="{{ route('personalizados') }}" class="btn-banner btn-outline">Arreglos Personalizados</a>
+        </div>
     </div>
 </section>
-
-
-<main class="main-content bg-gray-100 dark:bg-gray-800 p-6">
-    <section class="container container-factures mb-8">
-        <div class="card-feature flex items-center p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md">
-            <i class="fas fa-truck text-2xl text-orange-400"></i>
-            <div class="feature-content ml-4">
-                <span class="block text-lg font-semibold dark:text-white">Envío gratuito</span>
-                <p class="text_page text-gray-600 dark:text-gray-300">Envíos gratuitos a de Girardota.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="container container-factures mb-8">
-        <div class="card-feature flex items-center p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md">
-            <i class="fas fa-gift text-2xl text-pink-500"></i>
-            <div class="feature-content ml-4">
-                <span class="block text-lg font-semibold dark:text-white">Arreglos florales</span>
-                <p class="text_page text-gray-600 dark:text-gray-300">Regala hermosos arreglos florales.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="container container-factures mb-8">
-        <div class="card-feature flex items-center p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md">
-            <i class="fas fa-credit-card text-2xl text-orange-400"></i>
-            <div class="feature-content ml-4">
-                <span class="block text-lg font-semibold dark:text-white">Métodos de pago</span>
-                <p class="text_page text-gray-600 dark:text-gray-300">Diferentes métodos de pago.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="container container-factures mb-8">
-        <div class="card-feature flex items-center p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md">
-            <i class="fas fa-headset text-2xl text-blue-500"></i>
-            <div class="feature-content ml-4">
-                <span class="block text-lg font-semibold dark:text-white">Servicio al cliente 24/7</span>
-                <p class="text_page text-gray-600 dark:text-gray-300">Número 999-888-7777.</p>
-            </div>
-        </div>
-    </section>
-</main>
 
 
 <div class="gallery-wrapper">
@@ -80,7 +40,6 @@
         </section>
     </div>
 </div>
-
 
 <footer class="footer">
     <div class="container container-footer">
