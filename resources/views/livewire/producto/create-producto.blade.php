@@ -162,31 +162,49 @@
                     <div class="card-header bg-primary text-white font-weight-bold">Insumos seleccionados:</div>
                     <div class="card-body">
                         @if($insumos_agregados)
-                        <ul class="list-group">
-                            @foreach($insumos_agregados as $index => $insumo)
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <strong>{{ $insumo['nombre'] }} {{ $insumo['color'] ? ' - ' . $insumo['color'] : '' }}</strong> - Cantidad: {{ $insumo['cantidad'] }}
-                                </div>
-                                <div class="btn-group">
-                                    <button wire:click.prevent="decrementarInsumo({{ $index }})" type="button" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <button wire:click.prevent="incrementarInsumo({{ $index }})" type="button" class="btn btn-primary btn-sm">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                    <button wire:click.prevent='eliminarInsumo({{ $index }})' type="button" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i> Eliminar
-                                    </button>
-                                </div>
-                            </li>
-                            @endforeach
-                        </ul>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th class="text-center">Cantidad</th>
+                                        <th class="text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($insumos_agregados as $index => $insumo)
+                                    <tr>
+                                        <td>
+                                            <strong>{{ $insumo['nombre'] }}{{ $insumo['color'] ? ' - ' . $insumo['color'] : '' }}</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <button wire:click.prevent="decrementarInsumo({{ $index }})" type="button" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <span>{{ $insumo['cantidad'] }}</span>
+                                                <button wire:click.prevent="incrementarInsumo({{ $index }})" type="button" class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <button wire:click.prevent='eliminarInsumo({{ $index }})' type="button" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash"></i> Eliminar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                         @else
                         <p class="text-muted">No hay insumos seleccionados</p>
                         @endif
                     </div>
                 </div>
+
+
                 <!-- Botones -->
                 <div class="d-flex justify-content-end gap-2">
                     <button wire:click.prevent='crearProducto' type=" button" class="btn btn-primary">Crear Producto</button>
