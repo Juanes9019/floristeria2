@@ -13,7 +13,7 @@
                         <!-- Categoría de Producto -->
                         <div class="col-md-6">
                             <label for="categoria_producto" class="form-label">Categoría de Producto <span class="text-danger">*</span></label>
-                            <select name="id_categoria_producto" id="categoria_producto" class="form-select @error('id_categoria_producto') is-invalid @enderror">
+                            <select wire:model='id_categoria_producto' name="id_categoria_producto" id="categoria_producto" class="form-select @error('id_categoria_producto') is-invalid @enderror">
                                 <option selected disabled>Seleccionar Categoría</option>
                                 @foreach ($categorias_productos as $categoria_producto)
                                 <option value="{{ $categoria_producto->id_categoria_producto }}">{{ $categoria_producto->nombre }}</option>
@@ -29,7 +29,7 @@
                         <!-- Nombre -->
                         <div class="col-md-6">
                             <label for="nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
-                            <input type="text" id="nombre" name="nombre" class="form-control @error('nombre') is-invalid @enderror" placeholder="Arreglo #1">
+                            <input wire:model='nombre' type="text" id="nombre" name="nombre" class="form-control @error('nombre') is-invalid @enderror" placeholder="Arreglo #1">
                             @error('nombre')
                             <div class="invalid-feedback">
                                 <strong>{{ $message }}</strong>
@@ -40,7 +40,7 @@
                         <!-- Descripción -->
                         <div class="col-12">
                             <label for="descripcion" class="form-label">Descripción</label>
-                            <textarea id="descripcion" name="descripcion" class="form-control @error('descripcion') is-invalid @enderror" placeholder="Arreglo para ocasiones especiales como cumpleaños"></textarea>
+                            <textarea wire:model='descripcion' id="descripcion" name="descripcion" class="form-control @error('descripcion') is-invalid @enderror" placeholder="Arreglo para ocasiones especiales como cumpleaños"></textarea>
                             @error('descripcion')
                             <div class="invalid-feedback">
                                 <strong>{{ $message }}</strong>
@@ -51,7 +51,7 @@
                         <!-- Foto -->
                         <div class="col-md-6">
                             <label for="foto" class="form-label">Foto <span class="text-danger">*</span></label>
-                            <input type="file" id="foto" name="foto" class="form-control @error('foto') is-invalid @enderror">
+                            <input wire:model='foto' type="file" id="foto" name="foto" class="form-control @error('foto') is-invalid @enderror">
                             <small class="form-text text-muted">Cargue una imagen en formato JPG o PNG.</small>
                             @error('foto')
                             <div class="invalid-feedback">
@@ -63,7 +63,7 @@
                         <!-- Precio -->
                         <div class="col-md-6">
                             <label for="precio" class="form-label">Precio <span class="text-danger">*</span></label>
-                            <input type="number" id="precio" name="precio" class="form-control @error('precio') is-invalid @enderror" placeholder="200.000">
+                            <input wire:model='precio' type="number" id="precio" name="precio" class="form-control @error('precio') is-invalid @enderror" placeholder="200.000">
                             @error('precio')
                             <div class="invalid-feedback">
                                 <strong>{{ $message }}</strong>
@@ -74,7 +74,7 @@
                         <!-- Estado -->
                         <div class="col-12">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                <input wire:model='estado' class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" value="1" {{ $estado ? 'checked' : '' }}>
                                 <label class="form-check-label" for="flexSwitchCheckDefault">Estado</label>
                             </div>
                         </div>
@@ -187,9 +187,6 @@
                         @endif
                     </div>
                 </div>
-
-
-
                 <!-- Botones -->
                 <div class="d-flex justify-content-end gap-2">
                     <button wire:click.prevent='crearProducto' type=" button" class="btn btn-primary">Crear Producto</button>
