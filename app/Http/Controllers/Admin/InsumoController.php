@@ -258,6 +258,7 @@ class InsumoController extends Controller
                 'id_categoria_insumo' => 'required',
                 'insumo_id' => 'required|exists:insumos,id',
                 'cantidad_perdida' => 'required|numeric|min:1',
+                'descripcion' => 'required'
             ]);
 
             // Obtener el insumo
@@ -274,6 +275,8 @@ class InsumoController extends Controller
                 'insumo_id' => $request->insumo_id,
                 'cantidad_perdida' => $request->cantidad_perdida,
                 'fecha_perdida' => now(),
+                'descripcion' => $request->descripcion,
+                'costoPerdida' => $request-> cantidad_perdida * $insumo->costo_unitario
             ]);
 
             // Actualizar la cantidad de insumo en la tabla de insumos

@@ -36,7 +36,7 @@ class CompraController extends Controller
         if (!$tienePermiso) {
             return response()->view('errors.accesoDenegado');
         }
-        $compras = Compra::with('proveedor')->where('estado', 'Activa')->get(); // Asegúrate de obtener las compras y los proveedores
+        $compras = Compra::with('proveedor')->where('estado', 'Activa')->get(); 
 
     
         return view('admin.compra.index', [
@@ -90,10 +90,7 @@ class CompraController extends Controller
             $compra->costo_total = $request->input('costo_total');
             $compra->save();
 
-            
-    
             $carrito = json_decode($request->input('carrito'), true);
-    
             foreach ($carrito as $item) {
                 $detalleCompra = DetalleCompraV2::create([
                     'compra_id' => $compra->id,
@@ -216,6 +213,24 @@ public function export($format)
     }
 
 
+    //Flutter
+
+    public function getCompra()
+    {
+        $compras = Compra::all();
+        return response()->json($compras);
+    }
+
+    public function unaCompra($id){
+        $compras = Compra::findOrFail($id);
+        return response()->json($compras);
+    }
+
+    public function detalle_flutter($id)
+    {
+        $compras = Compra::with('detalles.insumo')->findOrFail($id);
+        return response()->json($compras);
+    }
 
 
 }
