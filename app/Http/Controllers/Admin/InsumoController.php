@@ -205,7 +205,7 @@ class InsumoController extends Controller
         switch ($format) {
             case 'pdf':
                 $pdf = Pdf::loadView('exports.perdidas', [
-                    'perdidas' => Insumo::all()
+                    'perdidas' => HistorialPerdida::all()
                 ])->setPaper('a4', 'portait') // Puedes cambiar a 'portrait' si prefieres
                     ->setOption('margin-left', '10mm')
                     ->setOption('margin-right', '10mm')

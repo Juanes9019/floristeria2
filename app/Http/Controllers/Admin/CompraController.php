@@ -36,13 +36,10 @@ class CompraController extends Controller
         if (!$tienePermiso) {
             return response()->view('errors.accesoDenegado');
         }
-        $compras = Compra::with('proveedor')->where('estado', 'Activa')->get(); // Asegúrate de obtener las compras y los proveedores
+        // $compras = Compra::with('proveedor')->where('estado', 'Activa')->get(); // Asegúrate de obtener las compras y los proveedores
 
     
-        return view('admin.compra.index', [
-            'compras' => $compras,
-            'i' => 1, 
-        ]);
+        return view('admin.compra.index');
     }
     
 

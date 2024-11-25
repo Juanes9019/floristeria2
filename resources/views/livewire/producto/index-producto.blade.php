@@ -158,7 +158,6 @@
                         </tbody>
                     </table>
 
-                    <label for="pages">Páginas</label>
                     <select id="pages" name="pages" wire:model.live="porPagina">
                         <option value="10">10</option>
                         <option value="20">20</option>
