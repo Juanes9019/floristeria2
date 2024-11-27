@@ -213,4 +213,9 @@ public function update(Request $request, $id)
         }
     }
 
+    public function getCategoria(){
+        $cat = Categoria_insumo::all();
+        return response()->json($cat);
+    }
+    
 }

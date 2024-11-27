@@ -90,7 +90,7 @@ class CompraController extends Controller
             $carrito = json_decode($request->input('carrito'), true);
             foreach ($carrito as $item) {
                 $detalleCompra = DetalleCompraV2::create([
-                    'compra_id' => $compra->id,
+                    'compra_id' => $compra->id, 
                     'id_categoria_insumo' => $item['id_categoria_insumo'] ?? null,
                     'id_insumo' => $item['id_insumo'] ?? null,
                     'cantidad' => $item['cantidad'] ?? 0,
@@ -229,5 +229,76 @@ public function export($format)
         return response()->json($compras);
     }
 
+    public function storeFromMobile(Request $request)
+    {
+        try {
+            // Validar los datos recibidos
+            $this->validateRequest($request);
 
+            // Crear la compra
+            $compra = $this->createCompra($request);
+
+            // Guardar los detalles de la compra y actualizar el inventario
+            $this->processCompraDetails($compra, $request->input('detalles'));
+
+            // Responder con éxito
+            return response()->json(['message' => 'Compra registrada exitosamente'], 200);
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json(['error' => 'Hubo un error al procesar la compra: ' . $e->getMessage()], 500);
+        }
+    }
+
+    // Validar los datos de la solicitud
+    private function validateRequest($request)
+    {
+        $request->validate([
+            'id_proveedor' => 'required',
+            'detalles' => 'required|array',
+            'costo_total' => 'required|numeric',
+            'estado' => 'required|string',
+        ]);
+    }
+
+    // Crear la compra
+    private function createCompra($request)
+    {
+        $compra = new Compra();
+        $compra->id_proveedor = $request->input('id_proveedor');
+        $compra->costo_total = $request->input('costo_total');
+        $compra->estado = $request->input('estado');
+        $compra->save();
+
+        return $compra;
+    }
+
+    // Procesar los detalles de la compra y actualizar el inventario
+    private function processCompraDetails($compra, $detalles)
+    {
+        foreach ($detalles as $item) {
+            // Crear el detalle de compra
+            $detalleCompra = DetalleCompraV2::create([
+                'compra_id' => $compra->id,
+                'id_categoria_insumo' => $item['id_categoria_insumo'],
+                'id_insumo' => $item['id_insumo'],
+                'cantidad' => $item['cantidad'],
+                'costo_unitario' => $item['costo_unitario'],
+                'subtotal' => $item['subtotal'],
+                'total' => $item['total'],
+            ]);
+
+            // Actualizar el inventario de insumos
+            $this->updateInsumoInventory($item['id_insumo'], $item['cantidad']);
+        }
+    }
+
+    // Actualizar el inventario de insumos
+    private function updateInsumoInventory($insumoId, $cantidad)
+    {
+        $insumo = Insumo::find($insumoId);
+        if ($insumo) {
+            $insumo->cantidad_insumo += $cantidad;
+            $insumo->save();
+        }
+    }
 }

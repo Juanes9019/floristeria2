@@ -5,6 +5,9 @@
             <th style="border: 1px solid black; background-color: #f8ccd6; padding: 10px; text-align: center; font-weight: bold;">Fecha</th>
             <th style="border: 1px solid black; background-color: #f8ccd6; padding: 10px; text-align: center; font-weight: bold;">Insumo</th>
             <th style="border: 1px solid black; background-color: #f8ccd6; padding: 10px; text-align: center; font-weight: bold;">Cantidad</th>
+            <th style="border: 1px solid black; background-color: #f8ccd6; padding: 10px; text-align: center; font-weight: bold;">Descripción</th>
+            <th style="border: 1px solid black; background-color: #f8ccd6; padding: 10px; text-align: center; font-weight: bold;">Costo Pérdida</th>
+
         </tr>
     </thead>
     <tbody>
@@ -14,6 +17,8 @@
             <td style="border: 1px solid black; padding: 10px; text-align: center;">{{ $perdida->fecha_perdida }}</td>
             <td style="border: 1px solid black; padding: 10px; text-align: center;">{{ $perdida->insumo->nombre }}{{ $perdida->insumo->color ? ' - ' . $perdida->insumo->color : '' }}</td>
             <td style="border: 1px solid black; padding: 10px; text-align: center;">{{ $perdida->cantidad_perdida }}</td>
+            <td style="border: 1px solid black; padding: 10px; text-align: center;">{{ $perdida->descripcion }}</td>
+            <td style="border: 1px solid black; padding: 10px; text-align: center;">{{ $perdida->costoPerdida }}</td>
         </tr>
         @endforeach
     </tbody>

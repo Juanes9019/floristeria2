@@ -348,4 +348,22 @@ class InsumoController extends Controller
         // Devuelve los insumos en formato JSON
         return response()->json($insumos);
     }
+
+    public function obtenerInsumos($idCategoria)
+    {
+        // Obtén los insumos asociados a la categoría dada, seleccionando solo los campos necesarios
+        $insumos = Insumo::where('id_categoria_insumo', $idCategoria)
+                        ->select('id', 'nombre', 'costo_unitario') // Solo seleccionamos los campos necesarios
+                        ->get();
+
+        // Devuelve los insumos en formato JSON
+        return response()->json($insumos);
+    }
+
+    public function todosInsumos()
+    {
+        $insumos = Insumo::all();
+        return response()->json($insumos);
+    }
+    
 }

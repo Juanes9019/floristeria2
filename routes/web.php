@@ -211,10 +211,6 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::get('admin/compras/{id}/detalles', [CompraController::class, 'show'])->name('compra.detalles');
     Route::get('/compras/export/{format}', [CompraController::class, 'export'])->name('Admin.compras.export');
 
-    
-
-
-
     //rutas para los productos
     Route::get('admin/productos', [ProductoController::class, 'index'])->name('Admin.productos');
     Route::get('admin/producto/create', [ProductoController::class, 'create'])->name('Admin.producto.create');
@@ -261,7 +257,9 @@ Route::get('api/detalle', [DetalleController::class, 'getDetalles'])->name('api.
 
 //CompraFlutter
 Route::get('api/compra/{id}', [CompraController::class, 'unaCompra']);
-Route::get('api/compra', [CompraController::class, 'getCompra'])->name('Admin.compra');
+Route::get('api/compra', [CompraController::class, 'getCompra']);
+Route::post('api/comprar', [CompraController::class, 'storeFromMobile']);
+
 
 //DetalleCompraFlutter
 Route::get('api/compra/detalle/{id}', [CompraController::class, 'detalle_flutter'])->name('api.compra.detalle');
@@ -269,6 +267,17 @@ Route::get('api/detalleCompra', [DetalleCompraController::class, 'getDetalles'])
 
 //anularCompraflutter
 Route::delete('api/compra/anular/{id}', [CompraController::class, 'destroy']);
+
+//proveedoresFlutter
+Route::get('api/proveedor', [ProveedorController::class, 'getProveedor']);
+
+// CategoriaInsumoFlutter
+Route::get('api/categoria', [Categoria_insumoController::class, 'getCategoria']);
+
+//insumoFlutter
+Route::get('api/insumo/{idCategoria}', [InsumoController::class, 'obtenerInsumos']);
+Route::get('api/insumo', [InsumoController::class, 'todosInsumos']);
+
 
 
 
