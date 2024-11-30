@@ -36,8 +36,6 @@ class CompraController extends Controller
         if (!$tienePermiso) {
             return response()->view('errors.accesoDenegado');
         }
-        // $compras = Compra::with('proveedor')->where('estado', 'Activa')->get(); // Asegúrate de obtener las compras y los proveedores
-
     
         return view('admin.compra.index');
     }
@@ -197,7 +195,7 @@ public function export($format)
             case 'pdf':
                 $pdf = Pdf::loadView('exports.compras', [
                     'compras' => Compra::all()
-                ])->setPaper('a4', 'portait') // Puedes cambiar a 'portrait' si prefieres
+                ])->setPaper('a4', 'portait')
                     ->setOption('margin-left', '10mm')
                     ->setOption('margin-right', '10mm')
                     ->setOption('margin-top', '10mm')
@@ -214,7 +212,13 @@ public function export($format)
 
     public function getCompra()
     {
-        $compras = Compra::all();
+        $compras = Compra::with('proveedor')->get();
+        
+        $compras->map(function ($compra) {
+            $compra->proveedor_nombre = $compra->proveedor ? $compra->proveedor->nombre : null;
+            return $compra;
+        });
+    
         return response()->json($compras);
     }
 
@@ -225,31 +229,26 @@ public function export($format)
 
     public function detalle_flutter($id)
     {
-        $compras = Compra::with('detalles.insumo')->findOrFail($id);
+        $compras = Compra::with('detalles.insumo.categoria_insumo')->findOrFail($id);
         return response()->json($compras);
     }
+    
 
     public function storeFromMobile(Request $request)
     {
         try {
-            // Validar los datos recibidos
             $this->validateRequest($request);
 
-            // Crear la compra
             $compra = $this->createCompra($request);
 
-            // Guardar los detalles de la compra y actualizar el inventario
             $this->processCompraDetails($compra, $request->input('detalles'));
 
-            // Responder con éxito
             return response()->json(['message' => 'Compra registrada exitosamente'], 200);
         } catch (\Exception $e) {
-            // Manejo de errores
             return response()->json(['error' => 'Hubo un error al procesar la compra: ' . $e->getMessage()], 500);
         }
     }
 
-    // Validar los datos de la solicitud
     private function validateRequest($request)
     {
         $request->validate([
@@ -260,7 +259,6 @@ public function export($format)
         ]);
     }
 
-    // Crear la compra
     private function createCompra($request)
     {
         $compra = new Compra();
@@ -272,11 +270,9 @@ public function export($format)
         return $compra;
     }
 
-    // Procesar los detalles de la compra y actualizar el inventario
     private function processCompraDetails($compra, $detalles)
     {
         foreach ($detalles as $item) {
-            // Crear el detalle de compra
             $detalleCompra = DetalleCompraV2::create([
                 'compra_id' => $compra->id,
                 'id_categoria_insumo' => $item['id_categoria_insumo'],
@@ -287,12 +283,10 @@ public function export($format)
                 'total' => $item['total'],
             ]);
 
-            // Actualizar el inventario de insumos
             $this->updateInsumoInventory($item['id_insumo'], $item['cantidad']);
         }
     }
 
-    // Actualizar el inventario de insumos
     private function updateInsumoInventory($insumoId, $cantidad)
     {
         $insumo = Insumo::find($insumoId);

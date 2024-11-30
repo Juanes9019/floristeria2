@@ -149,7 +149,6 @@
                 confirmButtonText: "OK"
             });
         } else {
-            // Si está inactiva, proceder con la eliminación
             Swal.fire({
                 title: "¡Estás seguro!",
                 text: "¿Deseas eliminar esta categoría?",

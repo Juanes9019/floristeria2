@@ -45,9 +45,6 @@ class Categoria_insumoController extends Controller
         return view('Admin.categoria_insumo.index', compact('categoria_insumos', 'i'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $user = auth()->user();
@@ -76,9 +73,6 @@ class Categoria_insumoController extends Controller
         return view('Admin.categoria_insumo.create', compact('categoria_insumo','proveedores'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
 
@@ -101,9 +95,6 @@ class Categoria_insumoController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $user = auth()->user();
@@ -135,15 +126,12 @@ class Categoria_insumoController extends Controller
     
 public function update(Request $request, $id)
 {
-    // Encuentra al usuario por su ID
     $categoria_insumos = Categoria_insumo::find($id);
 
-    // Validaciones y lógica de actualización
     $request->validate([
         'nombre' => 'required',
     ]);
 
-    // Asignación de los campos del usuario desde el formulario
     $categoria_insumos->nombre = $request->input('nombre');
 
     if ($request->has('estado')) {
@@ -152,7 +140,6 @@ public function update(Request $request, $id)
 
     $categoria_insumos->save();
 
-        // Redireccionar a la vista de edición con un mensaje de éxito
         return redirect()->route('Admin.categoria_insumo', ['id' => $categoria_insumos->id])
             ->with('success', 'categoria insumo actualizada exitosamente');
     }

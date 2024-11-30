@@ -4,7 +4,6 @@
 
 @section('content')
 
-<!-- link para sweetalert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
@@ -105,10 +104,8 @@ function agregar() {
         confirmButtonText: "Si, agregar"
     }).then((result) => {
         if (result.isConfirmed) {
-            // Prevent the form from submitting automatically
             event.preventDefault();
 
-            // Manually submit the form
             document.getElementById('formulario_crear').submit();
         }
     });

@@ -131,21 +131,6 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     //rutas para permiso
     Route::put('/admin/permisos_rol/{id}', [RolesController::class, 'update_permiso_rol'])->name('permisos.update');
 
-
-
-    //rutas para los proveedor
-    Route::get('admin/proveedores', [ProveedorController::class, 'index'])->name('Admin.proveedores');
-    Route::get('admin/proveedor/create', [ProveedorController::class, 'create'])->name('Admin.proveedor.create');
-    Route::post('admin/proveedor', [ProveedorController::class, 'store'])->name('Admin.proveedor.store');
-    Route::get('admin/proveedor/{id}/edit', [ProveedorController::class, 'edit'])->name('Admin.proveedor.edit');
-    Route::put('admin/proveedor/{id}', [ProveedorController::class, 'update'])->name('Admin.proveedor.update');
-    Route::delete('admin/proveedor/{id}', [ProveedorController::class, 'destroy'])->name('Admin.proveedor.destroy');
-    Route::get('/proveedores/export/{format}', [ProveedorController::class, 'export'])->name('Admin.proveedores.export');
-
-    // Route::get('admin/proveedor/{id}/status', [ProveedorController::class, 'change_Status'])->name('Admin.proveedor.status');
-
-
-
     //rutas para los productos
     Route::get('admin/productos', [ProductoController::class, 'index'])->name('Admin.productos');
     Route::get('producto/{id}', [ProductoController::class, 'show'])->name('Admin.producto.show');
@@ -182,7 +167,16 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::get('admin/categoria_insumo/{id}/status', [Categoria_insumoController::class, 'change_Status'])->name('Admin.categoria_insumo.status');
     Route::get('/categoria_insumo/export/{format}', [Categoria_insumoController::class, 'export'])->name('Admin.categorias.export');
 
-
+    //rutas para los proveedor
+    Route::get('admin/proveedores', [ProveedorController::class, 'index'])->name('Admin.proveedores');
+    Route::get('admin/proveedor/create', [ProveedorController::class, 'create'])->name('Admin.proveedor.create');
+    Route::post('admin/proveedor', [ProveedorController::class, 'store'])->name('Admin.proveedor.store');
+    Route::get('admin/proveedor/{id}/edit', [ProveedorController::class, 'edit'])->name('Admin.proveedor.edit');
+    Route::put('admin/proveedor/{id}', [ProveedorController::class, 'update'])->name('Admin.proveedor.update');
+    Route::delete('admin/proveedor/{id}', [ProveedorController::class, 'destroy'])->name('Admin.proveedor.destroy');
+    Route::get('/proveedores/export/{format}', [ProveedorController::class, 'export'])->name('Admin.proveedores.export');
+    // Route::get('admin/proveedor/{id}/status', [ProveedorController::class, 'change_Status'])->name('Admin.proveedor.status');
+    
     //rutas para los insumos
     Route::get('admin/insumo', [InsumoController::class, 'index'])->name('Admin.insumo');
     Route::get('admin/insumo/create', [InsumoController::class, 'create'])->name('Admin.insumo.create');
@@ -197,9 +191,6 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::get('/insumos/export/{format}', [InsumoController::class, 'export'])->name('Admin.insumos.export');
     Route::get('/insumos/exportPerdida/{format}', [InsumoController::class, 'exportPerdida'])->name('Admin.insumos.exportPerdida');
     Route::get('admin/insumo/{idCategoria}', [InsumoController::class, 'getInsumos'])->name('insumos');
-
-
-
 
     // Rutas para el controlador CompraController
     Route::get('admin/compras', [CompraController::class, 'index'])->name('Admin.compra.index');
@@ -242,47 +233,40 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
 //});
 
 
+//Rutas flutter
 
-//rutas para flutter pedido
-Route::get('api/pedido', [PedidoController::class, 'getPedidos'])->name('api.pedido');
-Route::get('api/pedido/cliente/{id}', [PedidoController::class, 'pedidoCli'])->name('api.pedido');
-Route::post('api/pedido/aceptar/{id}', [PedidoController::class, 'aceptarPedido'])->name('api.pedido.aceptar');
-Route::delete('api/pedido/rechazar/{id}', [PedidoController::class, 'rechazarPedido'])->name('api.pedido.rechazar');
-Route::get('api/pedido/detalle/{id}', [PedidoController::class, 'detalle_flutter'])->name('api.pedido.detalle');
-
-
-//rutas para flutter detalle
-Route::get('api/detalle', [DetalleController::class, 'getDetalles'])->name('api.detalles');
+    //Compra
+    Route::get('api/compra/{id}', [CompraController::class, 'unaCompra']);
+    Route::get('api/compra', [CompraController::class, 'getCompra']);
+    Route::post('api/comprar', [CompraController::class, 'storeFromMobile']);
 
 
-//CompraFlutter
-Route::get('api/compra/{id}', [CompraController::class, 'unaCompra']);
-Route::get('api/compra', [CompraController::class, 'getCompra']);
-Route::post('api/comprar', [CompraController::class, 'storeFromMobile']);
+    //DetalleCompra
+    Route::get('api/compra/detalle/{id}', [CompraController::class, 'detalle_flutter'])->name('api.compra.detalle');
+    Route::get('api/detalleCompra', [DetalleCompraController::class, 'getDetalles'])->name('api.detalles');
+
+    //anularCompra
+    Route::delete('api/compra/anular/{id}', [CompraController::class, 'destroy']);
+
+    //proveedores
+    Route::get('api/proveedor', [ProveedorController::class, 'getProveedor']);
+
+    // CategoriaInsumo
+    Route::get('api/categoria', [Categoria_insumoController::class, 'getCategoria']);
+
+    //insumo
+    Route::get('api/insumo/{idCategoria}', [InsumoController::class, 'obtenerInsumos']);
+    Route::get('api/insumo', [InsumoController::class, 'todosInsumos']);
 
 
-//DetalleCompraFlutter
-Route::get('api/compra/detalle/{id}', [CompraController::class, 'detalle_flutter'])->name('api.compra.detalle');
-Route::get('api/detalleCompra', [DetalleCompraController::class, 'getDetalles'])->name('api.detalles');
-
-//anularCompraflutter
-Route::delete('api/compra/anular/{id}', [CompraController::class, 'destroy']);
-
-//proveedoresFlutter
-Route::get('api/proveedor', [ProveedorController::class, 'getProveedor']);
-
-// CategoriaInsumoFlutter
-Route::get('api/categoria', [Categoria_insumoController::class, 'getCategoria']);
-
-//insumoFlutter
-Route::get('api/insumo/{idCategoria}', [InsumoController::class, 'obtenerInsumos']);
-Route::get('api/insumo', [InsumoController::class, 'todosInsumos']);
-
-
-
-
-
-
+    //rutas para flutter pedido
+    Route::get('api/pedido', [PedidoController::class, 'getPedidos'])->name('api.pedido');
+    Route::get('api/pedido/cliente/{id}', [PedidoController::class, 'pedidoCli'])->name('api.pedido');
+    Route::post('api/pedido/aceptar/{id}', [PedidoController::class, 'aceptarPedido'])->name('api.pedido.aceptar');
+    Route::delete('api/pedido/rechazar/{id}', [PedidoController::class, 'rechazarPedido'])->name('api.pedido.rechazar');
+    Route::get('api/pedido/detalle/{id}', [PedidoController::class, 'detalle_flutter'])->name('api.pedido.detalle');
+    //rutas para flutter detalle
+    Route::get('api/detalle', [DetalleController::class, 'getDetalles'])->name('api.detalles');
 
 //ruta para obtener el token
 //se manda el token para que pueda funcinar el post, delete y put

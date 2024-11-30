@@ -13,9 +13,9 @@ class CreateDetalleComprasV2Table extends Migration
             $table->foreignId('id_categoria_insumo')->constrained('categoria_insumos')->onDelete('cascade');
             $table->foreignId('id_insumo')->constrained('insumos')->onDelete('cascade');
             $table->integer('cantidad');
-            $table->decimal('costo_unitario', 8, 2);
-            $table->decimal('subtotal', 8, 2);
-            $table->decimal('total', 8, 2)->nullable();
+            $table->decimal('costo_unitario', 15, 2);
+            $table->decimal('subtotal', 15, 2);
+            $table->decimal('total', 15, 2)->nullable();
             $table->timestamps();
         });
     }
