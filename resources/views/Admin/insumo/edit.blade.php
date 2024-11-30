@@ -48,8 +48,8 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-6">
-                                <label for="nombre">Color</label>
-                                <input type="text" name="color" class="form-control  @error('color') is-invalid  @enderror" id="color" placeholder="Color..." value="{{ old('color', $insumos->color) }}">
+                                <label for="nombre">Descripción</label>
+                                <input type="text" name="color" class="form-control  @error('color') is-invalid  @enderror" id="color" placeholder="Descripción..." value="{{ old('color', $insumos->color) }}">
 
                                 @error('color')
                                     <span class="invalid-feedback d-block" role="alert">

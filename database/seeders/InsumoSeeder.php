@@ -135,6 +135,7 @@ class InsumoSeeder extends Seeder
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 2,
             'nombre' => 'Oso',
+            'color' => 'Mediano',
             'cantidad_insumo' => 10,
             'costo_unitario' => 80000,
             'imagen' => 'https://i.imgur.com/8LIryTC.jpeg',
@@ -144,6 +145,7 @@ class InsumoSeeder extends Seeder
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 3,
             'nombre' => 'Chocolatinas',
+            'color' => 'Jumbo',
             'cantidad_insumo' => 0,
             'costo_unitario' => 800,
             'imagen' => 'https://i.imgur.com/5ii2qHp.jpeg',
@@ -152,7 +154,8 @@ class InsumoSeeder extends Seeder
             
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 3,
-            'nombre' => 'Papitas',
+            'nombre' => 'Papas',
+            'color' => 'Rizadas',
             'cantidad_insumo' => 0,
             'costo_unitario' => 3500,
             'imagen' => 'https://i.imgur.com/6GsiWYW.jpeg',
@@ -162,6 +165,7 @@ class InsumoSeeder extends Seeder
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 3,
             'nombre' => 'Gomitas',
+            'color' => 'Trululu',
             'cantidad_insumo' => 0,
             'costo_unitario' => 2500,
             'imagen' => 'https://i.imgur.com/U1Ij5qY.jpeg',
@@ -171,6 +175,7 @@ class InsumoSeeder extends Seeder
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 4,
             'nombre' => 'Yogurt',
+            'color' => 'Vaso',
             'cantidad_insumo' => 0,
             'costo_unitario' => 2200,
             'imagen' => 'https://i.imgur.com/1FDQroh.png',
@@ -179,7 +184,8 @@ class InsumoSeeder extends Seeder
             
         DB::table('insumos')->insert([
             'id_categoria_insumo' => 4,
-            'nombre' => 'Cervezas',
+            'nombre' => 'Cerveza',
+            'color' => 'Corona',
             'cantidad_insumo' => 0,
             'costo_unitario' => 6000,
             'imagen' => 'https://i.imgur.com/9NXOvse.jpeg',
