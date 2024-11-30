@@ -1,209 +1,180 @@
-<div class="relative overflow-x-auto tx">
-    <div id="crud-modal" class="relative w-full max-w-4xl mx-auto my-10">
-        <div class="bg-white rounded-lg shadow dark:bg-gray-700">
-            <!-- Modal header -->
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                    Editar Producto
-                </h3>
+<!-- Contenedor flexible -->
+<div class="d-flex flex-wrap justify-content-center align-items-center">
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="card shadow-sm" style="max-width: 800px;"> <!-- Reducir tamaño del card -->
+            <!-- Modal Header -->
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="h5 mb-0">Editar Producto</h3>
             </div>
 
-            <!-- Modal body -->
-            <form id="formulario_crear" class="p-4 md:p-5">
-                <!-- Campos para crear producto -->
-                <div class="bg-gray-50 p-4 rounded-lg mb-6 dark:bg-gray-800">
-                    <h4 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Datos del Producto</h4>
-                    <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-2">
-
-                        <div class="form-group">
-                            <label for="categoria_producto" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoría de Producto</label>
-                            <select wire:model="id_categoria_producto" id="categoria_producto" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option selected="">Seleccionar Categoría</option>
-                                @foreach ($categorias_productos as $categoria_producto)
-                                <option value="{{ $categoria_producto->id_categoria_producto }}">{{ $categoria_producto->nombre }}</option>
-                                @endforeach
-                            </select>
-                            @error('id_categoria_producto')
-                            <span class="invalid-feedback d-block text-sm text-red-600 mt-1">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
+            <!-- Modal Body -->
+            <form id="formulario_crear" class="card-body">
+                <!-- Sección: Datos del Producto -->
+                <section class="bg-light p-4 rounded mb-4">
+                    <h4 class="h6 mb-4">Datos del Producto</h4>
+                    <div class="row g-3">
+                        <!-- Categoría -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="categoria_producto" class="form-label">Categoría de Producto</label>
+                                <select wire:model="id_categoria_producto" id="categoria_producto"
+                                    class="form-select @error('id_categoria_producto') is-invalid @enderror">
+                                    <option selected>Seleccionar Categoría</option>
+                                    @foreach ($categorias_productos as $categoria_producto)
+                                    <option value="{{ $categoria_producto->id_categoria_producto }}">{{ $categoria_producto->nombre }}</option>
+                                    @endforeach
+                                </select>
+                                @error('id_categoria_producto')
+                                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                                @enderror
+                            </div>
                         </div>
 
                         <!-- Nombre -->
-                        <div class="form-group">
-                            <label for="nombre" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre</label>
-                            <input type="text" wire:model="nombre" id="nombre" name="nombre" class="form-control @error('nombre') is-invalid @enderror mt-1 block w-full p-2.5 border border-gray-300 rounded-lg dark:bg-gray-600 dark:border-gray-500" placeholder="Arreglo #1">
-                            @error('nombre')
-                            <span class="invalid-feedback d-block text-sm text-red-600 mt-1">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" wire:model="nombre" id="nombre" name="nombre"
+                                    class="form-control @error('nombre') is-invalid @enderror" placeholder="Arreglo #1">
+                                @error('nombre')
+                                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                                @enderror
+                            </div>
                         </div>
 
                         <!-- Descripción -->
-                        <div class="form-group">
-                            <label for="descripcion" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Descripción</label>
-                            <textarea id="descripcion" wire:model="descripcion" name="descripcion" class="form-control @error('descripcion') is-invalid @enderror mt-1 block w-full p-2.5 border border-gray-300 rounded-lg dark:bg-gray-600 dark:border-gray-500" placeholder="Arreglo para ocasiones especiales como cumpleaños"></textarea>
-                            @error('descripcion')
-                            <span class="invalid-feedback d-block text-sm text-red-600 mt-1">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <textarea id="descripcion" wire:model="descripcion" name="descripcion"
+                                    class="form-control @error('descripcion') is-invalid @enderror"
+                                    placeholder="Arreglo para ocasiones especiales como cumpleaños"></textarea>
+                                @error('descripcion')
+                                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                                @enderror
+                            </div>
                         </div>
 
                         <!-- Foto -->
-                        <div class="form-group">
-                            <label for="foto">Foto</label>
-                            
-                            <input type="file" wire:model="foto" id="foto" name="foto" class="form-control @error('foto') is-invalid @enderror wire:loading.attr=" disabled"">
-                            @if(isset($producto) && $producto->foto)
-                            <div class="mb-2">
-                                <img src="{{ $producto->foto }}" alt="Imagen del producto" class="img-thumbnail" style="max-width: 200px;">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="foto" class="form-label">Foto</label>
+                                <input type="file" wire:model="foto" id="foto" name="foto"
+                                    class="form-control @error('foto') is-invalid @enderror">
+                                @error('foto')
+                                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                                @enderror
                             </div>
-                            @endif
-                            
-                            @error('foto')
-                            <span class="invalid-feedback d-block" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
                         </div>
 
                         <!-- Precio -->
-                        <div class="form-group">
-                            <label for="precio" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Precio</label>
-                            <input type="number" wire:model="precio" id="precio" name="precio" class="form-control @error('precio') is-invalid @enderror mt-1 block w-full p-2.5 border border-gray-300 rounded-lg dark:bg-gray-600 dark:border-gray-500" placeholder="200.000">
-                            @error('precio')
-                            <span class="invalid-feedback d-block text-sm text-red-600 mt-1">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="precio" class="form-label">Precio</label>
+                                <input type="number" wire:model="precio" id="precio" name="precio"
+                                    class="form-control @error('precio') is-invalid @enderror" placeholder="200.000">
+                                @error('precio')
+                                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                                @enderror
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="estado" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Estado</label>
-                            <label class="inline-flex items-center me-5 cursor-pointer">
-                                <input wire:model="estado" id="estado" name="estado" type="checkbox" class="sr-only peer" value="1" {{ $estado ? 'checked' : '' }}>
-                                <div class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
-                            </label>
+                        <!-- Estado -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="estado" class="form-label">Estado</label>
+                                <div class="form-check form-switch">
+                                    <input wire:model="estado" id="estado" name="estado" type="checkbox"
+                                        class="form-check-input" value="1" {{ $estado ? 'checked' : '' }}>
+                                </div>
+                            </div>
                         </div>
-
-
                     </div>
-                    <!-- Lista de insumos en dos columnas -->
-                    <div class="grid gap-4 md:grid-cols-2">
-                        @foreach($insumos as $index => $insumo)
-                        <div class="flex flex-col items-center p-4 border rounded-lg shadow-md space-y-4">
+                </section>
 
-                            <!-- Nombre y Cantidad -->
-                            <div class="text-center">
-                                <strong class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                <!-- Separador -->
+                <hr class="w-100">
+
+                <h4 class="mb-4">Insumos Seleccionados:</h4>
+                <section class="row row-cols-1 row-cols-md-2 g-3">
+                    @foreach ($insumos as $index => $insumo)
+                    <div class="col">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body text-center">
+                                <h5 class="card-title font-weight-bold mb-2">
                                     {{ $insumo['nombre'] }} {{ $insumo['color'] ? ' - ' . $insumo['color'] : '' }}
-                                </strong>
-                                <p class="text-gray-600 dark:text-gray-400">Cantidad: {{ $insumo['pivot']['cantidad_usada'] }}</p>
-                            </div>
-
-                            <!-- Acciones -->
-                            @if($index_insumo_a_editar !== $index)
-                            <div class="btn-group flex space-x-2" role="group" aria-label="Acciones">
-                                <button wire:click.prevent="seleccionarInsumoParaEditar({{ $index }})" class="px-4 py-2 bg-yellow-500 rounded-full hover:bg-yellow-600 text-white">Editar</button>
-                                <button wire:click.prevent="eliminarInsumo({{ $index }})" class="px-4 py-2 bg-red-500 rounded-full hover:bg-red-600 text-white">Eliminar</button>
-                            </div>
-                            @endif
-
-                            <!-- Formulario de Edición -->
-                            @if($index_insumo_a_editar === $index)
-                            <div class="w-full bg-gray-100 dark:bg-gray-800 p-4 rounded-lg space-y-3">
-                                <h4 class="text-center text-lg font-semibold text-gray-700 dark:text-gray-300">Editar Insumo Seleccionado</h4>
-
-                                <!-- Selección de Categoría de Insumo -->
-                                <div class="form-group">
-                                    <label for="categoria_insumos" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoría de Insumo</label>
-                                    <select wire:model="categoria_seleccionada" wire:change="actualizarInsumosPorCategoria" class="w-full bg-white border border-gray-300 rounded-lg p-2 dark:bg-gray-700 dark:text-white">
-                                        <option selected>Seleccionar Categoría</option>
-                                        @foreach ($categorias_insumos as $categoria_insumo)
-                                        <option value="{{ $categoria_insumo->id }}">{{ $categoria_insumo->nombre }}</option>
-                                        @endforeach
-                                    </select>
+                                </h5>
+                                <p class="card-text text-muted mb-3">Cantidad: {{ $insumo['pivot']['cantidad_usada'] }}</p>
+                                @if ($index_insumo_a_editar !== $index)
+                                <div class="btn-group d-flex justify-content-center" role="group">
+                                    <button wire:click.prevent="seleccionarInsumoParaEditar({{ $index }})"
+                                        class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil"></i> Editar
+                                    </button>
+                                    <button wire:click.prevent="eliminarInsumo({{ $index }})"
+                                        class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash"></i> Eliminar
+                                    </button>
                                 </div>
+                                @endif
 
-                                <!-- Selección de Insumo -->
-                                <div class="form-group">
-                                    <label for="insumo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Insumo</label>
-                                    <select wire:model="insumo_seleccionado" class="w-full bg-white border border-gray-300 rounded-lg p-2 dark:bg-gray-700 dark:text-white">
-                                        <option selected>Seleccionar Insumo</option>
-                                        @foreach ($insumos_por_categoria as $insumo)
-                                        <option value="{{ $insumo->id }}">{{ $insumo->nombre }} {{ $insumo->color ? ' - ' . $insumo->color : '' }}</option>
-                                        @endforeach
-                                    </select>
+                                <!-- Formulario de Edición -->
+                                @if ($index_insumo_a_editar === $index)
+                                <div class="mt-4 p-3 border rounded bg-light">
+                                    <h6 class="text-center font-weight-bold mb-3">Editar Insumo Seleccionado</h6>
+
+                                    <div class="form-group mb-3">
+                                        <label for="categoria_insumos" class="form-label">Categoría de Insumo</label>
+                                        <select wire:model="categoria_seleccionada"
+                                            wire:change="actualizarInsumosPorCategoria" class="form-select">
+                                            <option selected>Seleccionar Categoría</option>
+                                            @foreach ($categorias_insumos as $categoria_insumo)
+                                            <option value="{{ $categoria_insumo->id }}">{{ $categoria_insumo->nombre }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label for="insumo" class="form-label">Insumo</label>
+                                        <select wire:model="insumo_seleccionado" class="form-select">
+                                            <option selected>Seleccionar Insumo</option>
+                                            @foreach ($insumos_por_categoria as $insumo)
+                                            <option value="{{ $insumo->id }}">{{ $insumo->nombre }}
+                                                {{ $insumo->color ? ' - ' . $insumo->color : '' }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group mb-3">
+                                        <label for="cantidad_usar" class="form-label">Cantidad a Usar</label>
+                                        <input type="number" wire:model="cantidad_usada" class="form-control">
+                                    </div>
+
+                                    <button wire:click.prevent="guardarCambiosInsumo({{ $index }})"
+                                        class="btn btn-primary w-100">
+                                        Guardar Cambios
+                                    </button>
                                 </div>
-
-                                <!-- Cantidad a Usar -->
-                                <div class="form-group">
-                                    <label for="cantidad_usar" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad a Usar</label>
-                                    <input type="number" wire:model="cantidad_usada" class="w-full bg-white border border-gray-300 rounded-lg p-2 dark:bg-gray-700 dark:text-white">
-                                </div>
-
-                                <!-- Botón para guardar los cambios -->
-                                <button wire:click.prevent="guardarCambiosInsumo({{ $index }})" class="w-full bg-blue-500 text-white rounded-lg px-4 py-2 mt-4">Guardar Cambios</button>
+                                @endif
                             </div>
-                            @endif
                         </div>
-                        @endforeach
                     </div>
+                    @endforeach
+                </section>
 
-                </div>
-
-
-                <!-- Botones de acción -->
-                <div class="mt-6 flex justify-between">
-                    <button wire:click.prevent='updateProducto' type="button" class="text-white inline-flex items-center bg-black hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-black dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                        <svg class="me-1 -ms-1 w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
-                        </svg>
-                        Actualizar Producto
+                <!-- Botones de Acción -->
+                <div class="d-flex justify-content-center gap-2 mt-4">
+                    <button wire:click.prevent="updateProducto" type="button"
+                        class="btn btn-primary d-inline-flex align-items-center">
+                        <i class="bi bi-save"></i> Actualizar Producto
                     </button>
-                    <a href="{{ route('Admin.productos') }}" class="text-black inline-flex items-center bg-white border border-gray-400 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                        Volver
+                    <a href="{{ route('Admin.productos') }}" class="btn btn-outline-danger d-inline-flex align-items-center">
+                        <i class="bi bi-arrow-left"></i> Volver
                     </a>
-
-                    <button wire:click='clearFields' class="text-black inline-flex items-center bg-white border border-gray-400 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                        <svg class="me-1 -ms-1 w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path fill-rule="evenodd" d="m16.24 3.56 4.95 4.94c.78.79.78 2.05 0 2.84L12 20.53a4.01 4.01 0 0 1-5.66 0L2.81 17c-.78-.79-.78-2.05 0-2.84l10.6-10.6c.79-.78 2.05-.78 2.83 0M4.22 15.58l3.54 3.53c.78.79 2.04.79 2.83 0l3.53-3.53-4.95-4.95z" />
-                        </svg>
-                        Borrar Campos
-                    </button>
-
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-
-<script>
-    function agregar(event) {
-        event.preventDefault();
-
-        Swal.fire({
-            title: "¡Estás seguro!",
-            text: "¿Deseas agregar este producto?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Sí, agregar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: "!Producto agregado!",
-                    text: "El producto se agregó correctamente",
-                    icon: "success"
-                }).then(() => {
-                    document.getElementById('formulario_crear').submit();
-                });
-            }
-        });
-    }
-</script>
+</div>

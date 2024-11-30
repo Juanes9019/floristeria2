@@ -57,26 +57,59 @@ class HomeController extends Controller
         $productos = $productos->get();
         $categoria_productos = CategoriaProducto::all();
 
-        return view('home', compact('productos', 'categoria_productos'));
+        return view('landing', compact('productos', 'categoria_productos'));
     }
 
     public function index(Request $request)
     {
-        $productos = Producto::where('estado', 1);
-    
+        // Iniciar consulta de productos activos
+        $productos = Producto::query()->where('estado', 1);
+
+        // Filtrar por categoría de producto
         if ($request->has('categoria_producto') && !empty($request->categoria_producto)) {
-            $productos = $productos->whereIn('id_categoria_producto', $request->categoria_producto);
+            $productos->whereIn('id_categoria_producto', $request->categoria_producto);
         }
-    
+
+        // Filtrar por búsqueda
         if ($request->has('search') && !empty($request->search)) {
-            $productos = $productos->where('nombre', 'like', '%' . $request->search . '%');
+            $productos->where(function ($query) use ($request) {
+                $query->where('nombre', 'like', '%' . $request->search . '%')
+                      ->orWhereHas('insumos', function ($subQuery) use ($request) {
+                          $subQuery->where('nombre', 'like', '%' . $request->search . '%');
+                      });
+            });
         }
-        
+
+        // Ordenar los productos según el criterio seleccionado
+        if ($request->has('order_by') && !empty($request->order_by)) {
+            switch ($request->order_by) {
+                case 'mas_bajo':
+                    $productos->orderBy('precio', 'asc');
+                    break;
+                case 'mas_caro':
+                    $productos->orderBy('precio', 'desc');
+                    break;
+                case 'nuevos':
+                    $productos->orderBy('created_at', 'desc');
+                    break;
+                case 'antiguos':
+                    $productos->orderBy('created_at', 'asc');
+                    break;
+            }
+        }
+
+        // Obtener los productos filtrados
         $productos = $productos->get();
+
+        // Obtener todas las categorías de productos
         $categoria_productos = CategoriaProducto::all();
-        
+
+        // Enviar a la vista
         return view('home', compact('productos', 'categoria_productos'));
     }
+    
+
+    
     
 
     public function update_informacion(Request $request)

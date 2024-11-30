@@ -46,6 +46,7 @@
                     <table class="table table-bordered table-hover">
                         <thead class="thead-dark">
                             <tr>
+                            <th scope="col" class="text-center">Foto</th>
                                 <th scope="col" class="text-center" wire:click="sortBy('nombre')">
                                     Nombre
                                     @if ($ordenarColumna === 'nombre')
@@ -84,7 +85,6 @@
                                     </svg>
                                     @endif
                                 </th>
-                                <th scope="col" class="text-center">Foto</th>
                                 <th scope="col" class="text-center" wire:click="sortBy('estado')">
                                     Estado
                                     @if ($ordenarColumna === 'estado')
@@ -112,13 +112,13 @@
                         <tbody>
                             @foreach($productos as $producto)
                             <tr>
+                            <td class="align-middle text-center justify-content-center">
+                                    <img src="{{ $producto->foto }}" alt="Foto" style="width: 100px; height: 100px; border-radius: 8px; object-fit: cover;" loading="lazy">
+                                </td>
                                 <td class="align-middle text-center">{{ $producto->nombre }}</td>
                                 <td class="align-middle text-center">{{$producto->categoria_producto->nombre}}</td>
                                 <td class="align-middle text-center">{{$producto->descripcion_limitada}}</td>
                                 <td class="align-middle text-center">{{ number_format($producto->precio, 0, ',', '.') }}</td>
-                                <td class="align-middle text-center justify-content-center">
-                                    <img src="{{ $producto->foto }}" alt="Foto" style="width: 100px; height: 100px; border-radius: 8px; object-fit: cover;" loading="lazy">
-                                </td>
                                 <td class="align-middle text-center">
                                     <a class="btn btn-sm {{ $producto->estado == 1 ? 'btn-success' : 'btn-danger' }}"
                                         wire:click="changeStatus({{ $producto->id }})"
@@ -158,7 +158,6 @@
                         </tbody>
                     </table>
 
-                    <label for="pages">Páginas</label>
                     <select id="pages" name="pages" wire:model.live="porPagina">
                         <option value="10">10</option>
                         <option value="20">20</option>
@@ -180,6 +179,7 @@
         </style>
     </div>
 </div>
+
 
 
 

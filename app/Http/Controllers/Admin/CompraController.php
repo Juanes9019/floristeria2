@@ -36,13 +36,8 @@ class CompraController extends Controller
         if (!$tienePermiso) {
             return response()->view('errors.accesoDenegado');
         }
-        $compras = Compra::with('proveedor')->where('estado', 'Activa')->get(); 
-
     
-        return view('admin.compra.index', [
-            'compras' => $compras,
-            'i' => 1, 
-        ]);
+        return view('admin.compra.index');
     }
     
 
@@ -93,7 +88,7 @@ class CompraController extends Controller
             $carrito = json_decode($request->input('carrito'), true);
             foreach ($carrito as $item) {
                 $detalleCompra = DetalleCompraV2::create([
-                    'compra_id' => $compra->id,
+                    'compra_id' => $compra->id, 
                     'id_categoria_insumo' => $item['id_categoria_insumo'] ?? null,
                     'id_insumo' => $item['id_insumo'] ?? null,
                     'cantidad' => $item['cantidad'] ?? 0,
@@ -200,7 +195,7 @@ public function export($format)
             case 'pdf':
                 $pdf = Pdf::loadView('exports.compras', [
                     'compras' => Compra::all()
-                ])->setPaper('a4', 'portait') // Puedes cambiar a 'portrait' si prefieres
+                ])->setPaper('a4', 'portait')
                     ->setOption('margin-left', '10mm')
                     ->setOption('margin-right', '10mm')
                     ->setOption('margin-top', '10mm')
@@ -217,7 +212,13 @@ public function export($format)
 
     public function getCompra()
     {
-        $compras = Compra::all();
+        $compras = Compra::with('proveedor')->get();
+        
+        $compras->map(function ($compra) {
+            $compra->proveedor_nombre = $compra->proveedor ? $compra->proveedor->nombre : null;
+            return $compra;
+        });
+    
         return response()->json($compras);
     }
 
@@ -228,9 +229,70 @@ public function export($format)
 
     public function detalle_flutter($id)
     {
-        $compras = Compra::with('detalles.insumo')->findOrFail($id);
+        $compras = Compra::with('detalles.insumo.categoria_insumo')->findOrFail($id);
         return response()->json($compras);
     }
+    
 
+    public function storeFromMobile(Request $request)
+    {
+        try {
+            $this->validateRequest($request);
 
+            $compra = $this->createCompra($request);
+
+            $this->processCompraDetails($compra, $request->input('detalles'));
+
+            return response()->json(['message' => 'Compra registrada exitosamente'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Hubo un error al procesar la compra: ' . $e->getMessage()], 500);
+        }
+    }
+
+    private function validateRequest($request)
+    {
+        $request->validate([
+            'id_proveedor' => 'required',
+            'detalles' => 'required|array',
+            'costo_total' => 'required|numeric',
+            'estado' => 'required|string',
+        ]);
+    }
+
+    private function createCompra($request)
+    {
+        $compra = new Compra();
+        $compra->id_proveedor = $request->input('id_proveedor');
+        $compra->costo_total = $request->input('costo_total');
+        $compra->estado = $request->input('estado');
+        $compra->save();
+
+        return $compra;
+    }
+
+    private function processCompraDetails($compra, $detalles)
+    {
+        foreach ($detalles as $item) {
+            $detalleCompra = DetalleCompraV2::create([
+                'compra_id' => $compra->id,
+                'id_categoria_insumo' => $item['id_categoria_insumo'],
+                'id_insumo' => $item['id_insumo'],
+                'cantidad' => $item['cantidad'],
+                'costo_unitario' => $item['costo_unitario'],
+                'subtotal' => $item['subtotal'],
+                'total' => $item['total'],
+            ]);
+
+            $this->updateInsumoInventory($item['id_insumo'], $item['cantidad']);
+        }
+    }
+
+    private function updateInsumoInventory($insumoId, $cantidad)
+    {
+        $insumo = Insumo::find($insumoId);
+        if ($insumo) {
+            $insumo->cantidad_insumo += $cantidad;
+            $insumo->save();
+        }
+    }
 }

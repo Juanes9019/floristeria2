@@ -14,7 +14,7 @@ class Compra extends Model
         'estado',
     ];
 
-    protected $dates = ['created_at', 'updated_at']; // Asegúrate de que Laravel maneje estos campos como fechas
+    protected $dates = ['created_at', 'updated_at']; 
 
     public function proveedor()
     {
@@ -26,10 +26,11 @@ class Compra extends Model
         return $this->hasMany(DetalleCompraV2::class, 'compra_id');
     }
 
-    public function scopeSearch($query, $value)
-    {
-        $query->whereHas('proveedor', function ($q) use ($value) {
-            $q->where('nombre', 'like', "%{$value}%");
-        });
+    public function scopeSearch($query, $search)
+    {   
+        // dd($this->search);
+        return $query->where('id_proveedor', 'like', "%{$search}%") 
+                     ->orWhere('costo_total', 'like', "%{$search}%")
+                     ->orWhere('estado', 'like', "%{$search}%");
     }
 }

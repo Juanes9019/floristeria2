@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Compra;
@@ -16,6 +17,7 @@ class CompraTable extends Component
     public $ordenarForma = 'asc';
     public $primeraCarga = true;
 
+
     protected $queryString = [
         'buscar' => ['except' => ''],
         'ordenarColumna' => ['except' => 'id'],
@@ -28,6 +30,7 @@ class CompraTable extends Component
         $this->resetPage();
     }
 
+
     public function sortBy($columna)
     {
         if ($this->ordenarColumna == $columna) {
@@ -37,31 +40,15 @@ class CompraTable extends Component
             $this->ordenarForma = 'asc';
         }
 
-        $this->resetPage(); // Resetea la página al cambiar el orden
+        $this->resetPage(); 
         $this->primeraCarga = false;
-    }
-
-    public function changeStatus($id)
-    {
-        $compra = Compra::find($id);
-        $compra->estado = !$compra->estado;
-        $compra->save();
     }
 
     public function render()
     {
-        return view('livewire.compra-table', [
-            'compras' => Compra::search($this->buscar)
-                ->orderBy($this->ordenarColumna, $this->ordenarForma)
-                ->paginate($this->porPagina)
-        ]);
-    }
-
-    public function openmodal(){
-        $this-> modal=true;
-    }
-    
-    public function closemodal(){
-        $this -> modal = false;
-    }
+        $compras = Compra::search($this->buscar)
+            ->orderBy($this->ordenarColumna, $this->ordenarForma)
+            ->paginate($this->porPagina);
+        return view('livewire.compra-table', compact('compras'));
+    }    
 }

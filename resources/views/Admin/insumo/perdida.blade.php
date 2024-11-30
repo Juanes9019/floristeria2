@@ -81,7 +81,6 @@
     });
 
     function agregar(event){
-        // Prevent default form submission
         event.preventDefault();
 
         Swal.fire({
@@ -94,13 +93,11 @@
             confirmButtonText: "Si, agregar"
         }).then((result) => {
             if (result.isConfirmed) {
-                // Manually submit the form if confirmed
                 document.getElementById('formulario_registrar').submit();
             }
         });
     }
 
-    // SweetAlert notifications for success and error messages
     @if (session('success'))
         Swal.fire({
             icon: 'success',
