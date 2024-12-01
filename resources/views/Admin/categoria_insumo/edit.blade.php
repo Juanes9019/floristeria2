@@ -4,7 +4,6 @@
 
 @section('content')
 
-<!-- link para sweetalert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
@@ -61,10 +60,8 @@ function editar() {
                 icon: "success"
             });
 
-            // Prevent the form from submitting automatically
             event.preventDefault();
 
-            // Manually submit the form
             document.getElementById('formulario_editar').submit();
         }
     });

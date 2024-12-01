@@ -14,7 +14,7 @@ class Compra extends Model
         'estado',
     ];
 
-    protected $dates = ['created_at', 'updated_at']; // Asegúrate de que Laravel maneje estos campos como fechas
+    protected $dates = ['created_at', 'updated_at']; 
 
     public function proveedor()
     {

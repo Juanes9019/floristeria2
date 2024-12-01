@@ -10,10 +10,10 @@ class CreateComprasTable extends Migration
         schema::create('compras', function (Blueprint $table) {    
         $table->bigIncrements('id');   
         $table->unsignedBigInteger('id_proveedor');    
-        $table->decimal('costo_total', 8, 2);    
+        $table->decimal('costo_total', 15, 2);    
         $table->timestamps();    
         $table->foreign('id_proveedor')->references('id')->on('proveedores')->onDelete('cascade');
-        $table->string('estado')->default('Activa'); // O 'inactiva'
+        $table->string('estado')->default('Activa'); 
     });
 }
 

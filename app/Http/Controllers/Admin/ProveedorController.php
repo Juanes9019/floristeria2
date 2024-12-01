@@ -193,16 +193,9 @@ class ProveedorController extends Controller
     }
 
 
-    // public function change_Status($id)
-    // {
-    //     $proveedor = Proveedor::find($id);
-    //     if ($proveedor->estado == 1) {
-    //         $proveedor->estado = 0;
-    //     } else {
-    //         $proveedor->estado = 1;
-    //     }
-
-    //     $proveedor->save();
-    //     return redirect()->back();
-    // }
+    public function getProveedor()
+    {
+        $proveedores = Proveedor::all();
+        return response()->json($proveedores);
+    }
 }

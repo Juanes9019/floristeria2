@@ -39,6 +39,10 @@
                         </div>
                     @endforeach
                 </div>
+                @error('permisos')
+    <span class="text-danger d-block">{{ $message }}</span>
+@enderror
+
             </div>
 
             <div class="form-group">
@@ -54,6 +58,9 @@ function agregar() {
     var nombre = document.getElementById('nombre').value;
     var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
 
+    // Verificar si hay permisos seleccionados
+    var permisosSeleccionados = document.querySelectorAll('input[name="permisos[]"]:checked').length;
+
     if (!nombre) {
         Swal.fire('Error', 'Ingresa un nombre para el rol', 'error');
         return false;
@@ -63,16 +70,19 @@ function agregar() {
     } else if (nombre.length > 20) {
         Swal.fire('Error', 'El nombre es demasiado largo, Máximo 20 caracteres', 'error');
         return false;
+    } else if (permisosSeleccionados === 0) {
+        Swal.fire('Error', 'Selecciona al menos un permiso', 'error');
+        return false;
     }
 
     Swal.fire({
-        title: "¡Estas seguro!",
+        title: "¡Estás seguro!",
         text: "¿Deseas agregar este rol?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Si, agregar"
+        confirmButtonText: "Sí, agregar"
     }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire({
@@ -82,10 +92,11 @@ function agregar() {
             });
 
             event.preventDefault();
-            document.getElementById('formulario_crear').submit();
+            document.getElementById('formulario_crear').submit();z
         }
     });
 }
+
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

@@ -77,7 +77,6 @@ class InsumoController extends Controller
 
     public function store(Request $request)
     {
-        // Validación de los datos del formulario
         $data = $request->validate([
             'id_categoria_insumo' => 'required',
             'nombre' => 'required',
@@ -135,10 +134,8 @@ class InsumoController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Encuentra la categoria por su ID
         $insumos = Insumo::find($id);
 
-        // Validaciones y lógica de actualización
         $request->validate([
             'id_categoria_insumo' => 'required',
             'color' => 'required',
@@ -147,7 +144,6 @@ class InsumoController extends Controller
             'imagen' => 'required',
         ]);
 
-        // Asignación de los campos del usuario desde el formulario
         $insumos->id_categoria_insumo = $request->input('id_categoria_insumo');
         $insumos->nombre = $request->input('nombre');
         $insumos->color = $request->input('color');
@@ -160,7 +156,6 @@ class InsumoController extends Controller
 
         $insumos->save();
 
-        // Redirecciona a la vista de edición con un mensaje de éxito
         return redirect()->route('Admin.insumo', ['id' => $insumos->id])
             ->with('success', 'insumo actualizado exitosamente');
     }
@@ -186,7 +181,7 @@ class InsumoController extends Controller
             case 'pdf':
                 $pdf = Pdf::loadView('exports.insumos', [
                     'insumos' => Insumo::all()
-                ])->setPaper('a4', 'portait') // Puedes cambiar a 'portrait' si prefieres
+                ])->setPaper('a4', 'portait') 
                     ->setOption('margin-left', '10mm')
                     ->setOption('margin-right', '10mm')
                     ->setOption('margin-top', '10mm')
@@ -206,7 +201,7 @@ class InsumoController extends Controller
             case 'pdf':
                 $pdf = Pdf::loadView('exports.perdidas', [
                     'perdidas' => HistorialPerdida::all()
-                ])->setPaper('a4', 'portait') // Puedes cambiar a 'portrait' si prefieres
+                ])->setPaper('a4', 'portait') 
                     ->setOption('margin-left', '10mm')
                     ->setOption('margin-right', '10mm')
                     ->setOption('margin-top', '10mm')
@@ -253,7 +248,6 @@ class InsumoController extends Controller
     {
         try {
 
-            // Validar los datos del formulario
             $request->validate([
                 'id_categoria_insumo' => 'required',
                 'insumo_id' => 'required|exists:insumos,id',
@@ -264,12 +258,10 @@ class InsumoController extends Controller
             // Obtener el insumo
             $insumo = Insumo::find($request->insumo_id);
 
-            // Verificar que la cantidad perdida no sea mayor a la cantidad disponible
             if ($insumo->cantidad_insumo < $request->cantidad_perdida) {
                 return back()->with('error', 'No puedes registrar una pérdida mayor a la cantidad disponible.');
             }
 
-            // Registrar la pérdida en el historial
             HistorialPerdida::create([
                 'id_categoria_insumo'=> $request->id_categoria_insumo,
                 'insumo_id' => $request->insumo_id,
@@ -279,7 +271,6 @@ class InsumoController extends Controller
                 'costoPerdida' => $request-> cantidad_perdida * $insumo->costo_unitario
             ]);
 
-            // Actualizar la cantidad de insumo en la tabla de insumos
             $insumo->cantidad_insumo -= $request->cantidad_perdida;
             $insumo->save();
             $user = auth()->user();
@@ -307,7 +298,6 @@ class InsumoController extends Controller
             return redirect()->route('Admin.insumo.historialPerdidas')->with('success', 'Pérdida registrada con éxito');
 
         }   catch (\Exception $e) {
-            // En caso de error, regresar con un mensaje de error
             return redirect()->back()->with('error', 'Hubo un error al procesar la perdida: ' . $e->getMessage());
         }
     }
@@ -339,13 +329,26 @@ class InsumoController extends Controller
         return view('admin.insumo.historial_perdidas', compact('historialPerdidas'));
     }
 
-    // Método para obtener insumos asociados a una categoría
     public function getInsumos($idCategoria)
     {
-        // Obtén los insumos asociados a la categoría dada
         $insumos = Insumo::where('id_categoria_insumo', $idCategoria)->get();
 
-        // Devuelve los insumos en formato JSON
         return response()->json($insumos);
     }
+
+    public function obtenerInsumos($idCategoria)
+    {
+        $insumos = Insumo::where('id_categoria_insumo', $idCategoria)
+                        ->select('id', 'nombre', 'color', 'costo_unitario') // Solo seleccionamos los campos necesarios
+                        ->get();
+
+        return response()->json($insumos);
+    }
+
+    public function todosInsumos()
+    {
+        $insumos = Insumo::all();
+        return response()->json($insumos);
+    }
+    
 }

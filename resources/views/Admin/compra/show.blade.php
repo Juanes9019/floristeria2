@@ -14,10 +14,10 @@
                 @foreach($compra->detalles as $detalle)
                 <tr>
                     <td class="text-center">{{ $detalle->categoria_insumo->nombre }}</td>
-                    <td class="text-center">{{ $detalle->insumo->nombre }}{{ $detalle->color ? ' - ' . $detalle->color : '' }}</td>      
+                    <td class="text-center">{{ $detalle->insumo->nombre }}{{ $detalle->insumo->color ? ' - ' . $detalle->insumo->color : '' }}</td>      
                     <td class="text-center">{{ $detalle->cantidad }}</td>
-                    <td class="text-center">{{ $detalle->costo_unitario }}</td>
-                    <td class="text-center">{{ $detalle->subtotal }}</td>
+                    <td class="text-center">{{ number_format($detalle->costo_unitario, 2, ',', '.') }}</td>
+                    <td class="text-center">{{ number_format($detalle->subtotal, 2, ',', '.') }}</td>
                 </tr>
                 @endforeach
             </tbody>
