@@ -127,17 +127,19 @@ class carritoController extends Controller
 }
 
 
-    public function removeItem(Request $request)
-    {
-        $rowId = $request->input('rowId');
+public function removeItem(Request $request)
+{
+    $rowId = $request->input('rowId');
     
-        if (Cart::get($rowId)) {
-            Cart::remove($rowId);
-            return redirect()->back()->with('success', 'Producto eliminado del carrito.');
-        } else {
-            return redirect()->back()->withErrors(['status' => 'No se pudo eliminar el producto.']);
-        }
+    // Verificar si el rowId existe en el carrito
+    if (!Cart::get($rowId)) {
+        return redirect()->back()->withErrors(['status' => 'El producto no se encuentra en el carrito.']);
     }
+
+    Cart::remove($rowId);
+    return redirect()->back()->with('success', 'Producto eliminado del carrito.');
+}
+
     
     
 

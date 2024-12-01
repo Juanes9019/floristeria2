@@ -35,12 +35,8 @@
             <div class="card-body ">
                 @if (Cart::count())
                 <h1 class="text-center fs-4 p-3">Datos de Compra</h1>
-
-                <form action="{{ route('confirmarCarrito') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <table class="table table-striped">
+                <table class="table table-striped">
                         <thead>
-                            <th class="text-center">Foto</th>
                             <th class="text-center">Nombre</th>
                             <th class="text-center">Cantidad</th>
                             <th class="text-center">Precio</th>
@@ -50,9 +46,6 @@
                         <tbody>
                             @foreach (Cart::content() as $item)
                             <tr class="align-middle">
-                                <td class="text-center">
-                                    <img src="{{ $item->options['image'] ?? 'https://i.imgur.com/ia1BeKH.png' }}" alt="imagen no disponible" width="100">
-                                </td>
                                 <td class="text-center">{{ $item->name }}</td>
                                 <td class="text-center">
                                     <div class="btn-group btn-group-sm" role="group" aria-label="small button group">
@@ -78,16 +71,16 @@
                             <tr class="fx-bolder">
                                 <td colspan="4"></td>
                                 <td></td>
-                                <td></td>
                             </tr>
 
                             <tr>
-                                <td colspan="5" class="text-end"><strong>Envío:</strong></td>
-                                <td ><span id="costo-envio">0  </span></td>
+                                <td colspan="4" class="text-end"><strong>Envío:</strong></td>
+                                <td>
+                                    <span id="costo-envio">0</span>
+                                </td>
                             </tr>
                             <tr class="fx-bolder">
-                                <td colspan="4"></td>
-                                <td class="text-end"><strong>Total:</strong></td>
+                                <td colspan="4" class="text-end"><strong>Total:</strong></td>
                                 <td>
                                     <span id="total-con-envio">
                                         ${{ number_format(Cart::total(), 0, ',', '.') }}
@@ -96,6 +89,9 @@
                             </tr>
                         </tbody>
                     </table>
+
+                <form action="{{ route('confirmarCarrito') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
 
                     <div class="container mt-5">
                         <div class="card mb-3" style="cursor: pointer;" data-bs-toggle="collapse" data-bs-target="#detallesEnvio" aria-expanded="false" aria-controls="detallesEnvio">

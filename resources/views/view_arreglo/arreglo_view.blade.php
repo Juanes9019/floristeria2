@@ -15,9 +15,9 @@
                         </div>
                     @endif
                 </div>
-                <div class="container" >
+                <div class="container">
                     <div class="row align-items-center">
-                        <div class="col-md-6 order-md-1">
+                        <div class="col-md-6">
                             <img src="{{ $productos->foto }}" class="card-img-top img-fluid" alt="{{ $productos->nombre }}">
                         </div>
 
@@ -34,17 +34,19 @@
                                         </li>
                                     @endforeach
                                 </ul>
-                                <div class="action-buttons">
+                                
+                                <div class="action-buttons my-1">
                                     <a> Precio: {{ number_format($productos->precio, 0) }} </a>
                                 </div>
                             </div>       
                         </div>
                     </div>
-                    <form action="{{ route('add')}}" methos=post>
-                        @csrf
 
+                    <!-- Formulario para agregar al carrito -->
+                    <form action="{{ route('add') }}" method="post">
+                        @csrf
                         <div class="action-buttons1">
-                            <input type="hidden" name="id" value="{{$productos->id}}">
+                            <input type="hidden" name="id" value="{{ $productos->id }}">
 
                             <a href="{{ route('home') }}">
                                 <i class="fas fa-reply"></i>&nbsp;Seguir comprando
@@ -52,7 +54,6 @@
                             <button type="submit" name="btn" id="btn" class="btn btn-dark w-100">
                                 <i class="fas fa-shopping-cart"></i>&nbsp;Agregar al carrito
                             </button>
-
                         </div>
                     </form>
                 </div>
@@ -62,21 +63,19 @@
 </div>
 
 <style>
-    .card{
+    .card {
         margin-top: 3rem;
     }
 
-    .action-buttons1 a{
+    .action-buttons1 a {
         text-decoration: none;    
     }
 
     .lista-sin-estilo {
         list-style: none; /* Elimina la viñeta o punto de la lista */
         font-family: "Zain", sans-serif;
-        font-size: 18   px;
+        font-size: 18px;
     }
-
-
 </style>
 
 @endsection
