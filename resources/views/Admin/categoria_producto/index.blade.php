@@ -4,7 +4,5 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @livewire('categoria_producto.index-categoria-producto')
 
-<!-- Incluye el componente del modal -->
-@livewire('modal-categoria-producto')
 
 @stop

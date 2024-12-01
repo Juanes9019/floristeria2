@@ -1,6 +1,6 @@
 <!-- Contenedor flexible -->
 <div class="d-flex flex-wrap justify-content-center align-items-center">
-    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="d-flex justify-content-center align-items-center">
         <div class="card shadow-sm" style="max-width: 800px;"> <!-- Reducir tamaño del card -->
             <!-- Modal Header -->
             <div class="card-header d-flex justify-content-between align-items-center">
@@ -8,7 +8,7 @@
             </div>
 
             <!-- Modal Body -->
-            <form id="formulario_crear" class="card-body">
+            <form wire:submit='updateProducto'  id="formulario_crear" class="card-body">
                 <!-- Sección: Datos del Producto -->
                 <section class="bg-light p-4 rounded mb-4">
                     <h4 class="h6 mb-4">Datos del Producto</h4>
@@ -61,6 +61,11 @@
                                 <label for="foto" class="form-label">Foto</label>
                                 <input type="file" wire:model="foto" id="foto" name="foto"
                                     class="form-control @error('foto') is-invalid @enderror">
+
+                                @if ($producto->foto) <!-- Muestra la imagen si ya existe -->
+                                <!-- <img src="{{ $producto->foto }}" alt="Foto" style="width: 100px; height: 100px; border-radius: 8px; object-fit: cover;" loading="lazy"> -->
+                                @endif
+
                                 @error('foto')
                                 <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
                                 @enderror
@@ -109,11 +114,11 @@
                                 <div class="btn-group d-flex justify-content-center" role="group">
                                     <button wire:click.prevent="seleccionarInsumoParaEditar({{ $index }})"
                                         class="btn btn-warning btn-sm">
-                                        <i class="bi bi-pencil"></i> Editar
+                                        <i class="fa fa-edit"></i> Editar
                                     </button>
                                     <button wire:click.prevent="eliminarInsumo({{ $index }})"
                                         class="btn btn-danger btn-sm">
-                                        <i class="bi bi-trash"></i> Eliminar
+                                        <i class="fa fa-trash"></i> Eliminar
                                     </button>
                                 </div>
                                 @endif
@@ -147,6 +152,11 @@
                                     </div>
 
                                     <div class="form-group mb-3">
+                                    <label for="cantidad_disponible" class="form-label">Cantidad Disponible <span class="text-danger">*</span></label>
+                                    <input type="number" value="{{$cantidad_disponible}}" disabled class="form-control" />
+
+                                    </div>
+                                    <div class="form-group mb-3">
                                         <label for="cantidad_usar" class="form-label">Cantidad a Usar</label>
                                         <input type="number" wire:model="cantidad_usada" class="form-control">
                                     </div>
@@ -163,14 +173,15 @@
                     @endforeach
                 </section>
 
+
                 <!-- Botones de Acción -->
                 <div class="d-flex justify-content-center gap-2 mt-4">
-                    <button wire:click.prevent="updateProducto" type="button"
+                    <button 
                         class="btn btn-primary d-inline-flex align-items-center">
                         <i class="bi bi-save"></i> Actualizar Producto
                     </button>
-                    <a href="{{ route('Admin.productos') }}" class="btn btn-outline-danger d-inline-flex align-items-center">
-                        <i class="bi bi-arrow-left"></i> Volver
+                    <a href="{{ route('Admin.productos') }}" class="btn btn-danger d-inline-flex align-items-center">
+                        <i class="bi bi-arrow-left"></i> Cancelar
                     </a>
                 </div>
             </form>
