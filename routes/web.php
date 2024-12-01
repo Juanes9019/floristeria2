@@ -239,6 +239,8 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::get('api/compra/{id}', [CompraController::class, 'unaCompra']);
     Route::get('api/compra', [CompraController::class, 'getCompra']);
     Route::post('api/comprar', [CompraController::class, 'storeFromMobile']);
+    Route::post('api/compras', [CompraController::class, 'compraflutter']);
+
 
 
     //DetalleCompra
