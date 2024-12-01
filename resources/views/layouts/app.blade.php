@@ -16,7 +16,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ url('favicons/favicon.ico') }}">
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS --> 
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 
     <!-- Custom CSS -->

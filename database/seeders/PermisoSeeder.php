@@ -59,7 +59,12 @@ class PermisoSeeder extends Seeder
                 'id_insumo' => 3, // Gerberas
                 'id_producto' => 3, // Arreglo floral 3
                 'cantidad_usada' => 8,
-            ]
+            ],
+            [
+                'id_insumo' => 3, // Gerberas
+                'id_producto' => 4, // Arreglo floral 4
+                'cantidad_usada' => 8,
+            ],
         ]);
     }
 }

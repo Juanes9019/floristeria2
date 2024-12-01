@@ -50,7 +50,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="cantidad">Cantidad</label>
-                                <input type="number" name="cantidad" class="form-control" id="cantidad" placeholder="Cantidad">
+                                <input type="number" name="cantidad" class="form-control" id="cantidad" placeholder="Cantidad" min="1" max="200" required>
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,6 @@
 
         </form>
 
-        <!-- Tabla tipo carrito -->
          <div class="card">
             <table class="table table-striped" id="tabla_carrito">
                 <thead>
@@ -103,16 +102,25 @@
 <script>
 let carrito = [];
 
+function formatearPesos(valor) {
+    return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP' }).format(valor);
+}
+
 function agregarCarrito() {
     const id_categoria_insumo = $('#id_categoria_insumo').val();
     const id_insumo = $('#id_insumo').val();
     const nombre_insumo = $('#id_insumo option:selected').text();
     const cantidad = $('#cantidad').val();
-    const costo_unitario = $('#costo_unitario').val();
+    const costo_unitario = $('#costo_unitario').data('valor');
     const subtotal = cantidad * costo_unitario;
 
     if (!id_categoria_insumo || !id_insumo || !cantidad || !costo_unitario) {
         Swal.fire("Error", "Por favor completa todos los campos", "error");
+        return;
+    }
+
+    if (cantidad < 1 || cantidad > 200) {
+        Swal.fire("Error", "La cantidad debe estar entre 1 y 200", "error");
         return;
     }
 
@@ -141,22 +149,27 @@ function actualizarCarrito() {
                     ${item.cantidad}
                     <button class="btn btn-sm btn-primary" onclick="incrementarCantidad(${index})">+</button>
                 </td>
-                <td>${item.costo_unitario}</td>
-                <td>${item.subtotal.toFixed(2)}</td>
+                <td>${formatearPesos(item.costo_unitario)}</td>
+                <td>${formatearPesos(item.subtotal)}</td>
                 <td><button class="btn btn-danger" onclick="eliminarDelCarrito(${index})">Eliminar</button></td>
             </tr>
         `);
     });
 
-    $('#total_carrito').text(totalCarrito.toFixed(2));
-    $('#formulario_crear').find("input[name='carrito']").remove(); // Evita duplicados
+    $('#total_carrito').text(formatearPesos(totalCarrito));
+
+    $('#formulario_crear').find("input[name='carrito']").remove();
     $('#formulario_crear').append(`<input type="hidden" name="carrito" value='${JSON.stringify(carrito)}'>`);
 }
 
 function incrementarCantidad(index) {
-    carrito[index].cantidad++;
-    carrito[index].subtotal = carrito[index].cantidad * carrito[index].costo_unitario;
-    actualizarCarrito();
+    if (carrito[index].cantidad < 200) {
+        carrito[index].cantidad++;
+        carrito[index].subtotal = carrito[index].cantidad * carrito[index].costo_unitario;
+        actualizarCarrito();
+    } else {
+        Swal.fire("Atención", "La cantidad no puede ser mayor a 200", "info");
+    }
 }
 
 function decrementarCantidad(index) {
@@ -168,7 +181,6 @@ function decrementarCantidad(index) {
         Swal.fire("Atención", "La cantidad no puede ser menor a 1. Si deseas eliminar el ítem, usa el botón 'Eliminar'.", "info");
     }
 }
-
 
 function eliminarDelCarrito(index) {
     carrito.splice(index, 1);
@@ -190,7 +202,7 @@ function finalizarCompra() {
     
     Swal.fire({
         title: '¿Estás seguro?',
-        text: "Estás a punto de finalizar la compra.",
+        text: `El total de la compra es ${formatearPesos(totalCarrito)}. ¿Deseas finalizar la compra?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -199,25 +211,20 @@ function finalizarCompra() {
     }).then((result) => {
         if (result.isConfirmed) {
             event.preventDefault();
-
             document.getElementById('formulario_crear').submit();
         }
     });
 }
 
-function formatearNumero(numero) {
-    return new Intl.NumberFormat('es-ES').format(numero); 
-}
-
 function updateCostoUnitario() {
     const costo = $('#id_insumo option:selected').data('costo');
     if (costo) {
-        $('#costo_unitario').val(formatearNumero(costo)); 
+        $('#costo_unitario').val(formatearPesos(costo)); 
+        $('#costo_unitario').data('valor', costo); 
     } else {
         $('#costo_unitario').val('');
     }
 }
-
 
 function updateHiddenFields() {
     $('#id_proveedor_hidden').val($('#id_proveedor_select').val());
@@ -269,28 +276,29 @@ $(document).ready(function() {
     });
 });
 
- @if (session('success'))
-        Swal.fire({
-            icon: 'success',
-            title: 'Éxito',
-            text: '{{ session('success') }}',
-            position: 'top-end',
-            toast: true,
-            showConfirmButton: false,
-            timer: 3000
-        });
-    @endif
+@if (session('success'))
+    Swal.fire({
+        icon: 'success',
+        title: 'Éxito',
+        text: '{{ session('success') }}',
+        position: 'top-end',
+        toast: true,
+        showConfirmButton: false,
+        timer: 3000
+    });
+@endif
 
-    @if (session('error'))
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: '{{ session('error') }}',
-            position: 'top-end',
-            toast: true,
-            showConfirmButton: false,
-            timer: 3000
-        });
-    @endif
+@if (session('error'))
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: '{{ session('error') }}',
+        position: 'top-end',
+        toast: true,
+        showConfirmButton: false,
+        timer: 3000
+    });
+@endif
 </script>
+
 @endsection

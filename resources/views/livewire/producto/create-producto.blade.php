@@ -1,207 +1,215 @@
-<div class="relative overflow-x-auto tx">
-    <div id="crud-modal" class="relative w-full max-w-4xl mx-auto my-10">
-        <div class="bg-white rounded-lg shadow dark:bg-gray-700">
-            <!-- Modal header -->
-            <div class="flex items-center justify-center p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                    Crear Producto
-                </h3>
-            </div>
-
-            <!-- Modal body -->
-            <form id="formulario_crear" class="p-4 md:p-5">
+<div class="container mt-5">
+    <div class="card mx-auto" style="max-width: 800px;">
+        <div class="card-header text-center bg-primary text-white">
+            <h3>Crear Producto</h3>
+        </div>
+        <div class="card-body">
+            <form id="formulario_crear" method="POST" enctype="multipart/form-data">
                 <!-- Campos para crear producto -->
-                <div class="bg-gray-50 p-4 rounded-lg mb-6 dark:bg-gray-800">
-                    <h4 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Datos del Producto</h4>
-                    <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-2 border border-gray-300 rounded-lg p-4">
+                <div class="bg-light p-3 rounded mb-4">
+                    <h4 class="text-secondary">Datos del Producto</h4>
+                    <div class="row g-4 mb-4 border border-300 rounded p-4">
 
-                        <div class="form-group">
-                            <label for="categoria_producto" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoría de Producto <span class="text-danger">*</span> </label>
-                            <select wire:model="id_categoria_producto" id="categoria_producto" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                <option selected="">Seleccionar Categoría</option>
+                        <!-- Categoría de Producto -->
+                        <div class="col-md-6">
+                            <label for="categoria_producto" class="form-label">Categoría de Producto <span class="text-danger">*</span></label>
+                            <select wire:model='id_categoria_producto' name="id_categoria_producto" id="categoria_producto" class="form-select @error('id_categoria_producto') is-invalid @enderror">
+                                <option selected disabled>Seleccionar Categoría</option>
                                 @foreach ($categorias_productos as $categoria_producto)
                                 <option value="{{ $categoria_producto->id_categoria_producto }}">{{ $categoria_producto->nombre }}</option>
                                 @endforeach
                             </select>
                             @error('id_categoria_producto')
-                            <span class="invalid-feedback d-block text-sm text-red-600 mt-1">
+                            <div class="invalid-feedback">
                                 <strong>{{ $message }}</strong>
-                            </span>
+                            </div>
                             @enderror
                         </div>
 
                         <!-- Nombre -->
-                        <div class="form-group">
-                            <label for="nombre" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre <span class="text-danger">*</span> </label>
-                            <input type="text" wire:model="nombre" id="nombre" name="nombre" class="form-control @error('nombre') is-invalid @enderror w-full p-2.5 border rounded-lg bg-gray-50 dark:bg-gray-800 focus:ring-primary-500 focus:border-primary-500" placeholder="Arreglo #1">
+                        <div class="col-md-6">
+                            <label for="nombre" class="form-label">Nombre <span class="text-danger">*</span></label>
+                            <input wire:model='nombre' type="text" id="nombre" name="nombre" class="form-control @error('nombre') is-invalid @enderror" placeholder="Arreglo #1">
                             @error('nombre')
-                            <span class="invalid-feedback d-block text-sm text-red-600 mt-1">
+                            <div class="invalid-feedback">
                                 <strong>{{ $message }}</strong>
-                            </span>
+                            </div>
                             @enderror
                         </div>
 
                         <!-- Descripción -->
-                        <div class="form-group">
-                            <label for="descripcion" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Descripción</label>
-                            <textarea id="descripcion" wire:model="descripcion" name="descripcion" class="form-control @error('descripcion') is-invalid @enderror mt-1 block w-full p-2.5 border border-gray-300 rounded-lg dark:bg-gray-600 dark:border-gray-500" placeholder="Arreglo para ocasiones especiales como cumpleaños"></textarea>
+                        <div class="col-12">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <textarea wire:model='descripcion' id="descripcion" name="descripcion" class="form-control @error('descripcion') is-invalid @enderror" placeholder="Arreglo para ocasiones especiales como cumpleaños"></textarea>
                             @error('descripcion')
-                            <span class="invalid-feedback d-block text-sm text-red-600 mt-1">
+                            <div class="invalid-feedback">
                                 <strong>{{ $message }}</strong>
-                            </span>
+                            </div>
                             @enderror
                         </div>
 
                         <!-- Foto -->
-                        <div class="form-group">
-                            <label for="foto">Foto <span class="text-danger">*</span> </label>
-                            <input
-                                type="file"
-                                wire:model="foto"
-                                id="foto"
-                                name="foto"
-                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 @error('foto') is-invalid @enderror"
-                                wire:loading.attr="disabled"
-                                aria-describedby="foto_help">
-                            <p id="foto_help" class="text-sm text-gray-500 dark:text-gray-400 mt-1">Cargue una imagen en formato JPG o PNG.</p>
+                        <div class="col-md-6">
+                            <label for="foto" class="form-label">Foto <span class="text-danger">*</span></label>
+                            <input wire:model='foto' type="file" id="foto" name="foto" class="form-control @error('foto') is-invalid @enderror">
+                            <small class="form-text text-muted">Cargue una imagen en formato JPG o PNG.</small>
                             @error('foto')
-                            <span class="invalid-feedback d-block" role="alert">
+                            <div class="invalid-feedback">
                                 <strong>{{ $message }}</strong>
-                            </span>
+                            </div>
                             @enderror
                         </div>
 
                         <!-- Precio -->
-                        <div class="form-group">
-                            <label for="precio" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Precio <span class="text-danger">*</span></label>
-                            <input type="number" wire:model="precio" id="precio" name="precio" class="form-control @error('precio') is-invalid @enderror mt-1 block w-full p-2.5 border border-gray-300 rounded-lg dark:bg-gray-600 dark:border-gray-500" placeholder="200.000">
+                        <div class="col-md-6">
+                            <label for="precio" class="form-label">Precio <span class="text-danger">*</span></label>
+                            <input wire:model='precio' type="number" id="precio" name="precio" class="form-control @error('precio') is-invalid @enderror" placeholder="200.000">
                             @error('precio')
-                            <span class="invalid-feedback d-block text-sm text-red-600 mt-1">
+                            <div class="invalid-feedback">
                                 <strong>{{ $message }}</strong>
-                            </span>
+                            </div>
                             @enderror
                         </div>
 
                         <!-- Estado -->
-                        <div class="form-group">
-                            <label for="estado" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Estado</label>
-                            <label class="inline-flex items-center me-5 cursor-pointer">
-                                <input wire:model="estado" id="estado" name="estado" type="checkbox" class="sr-only peer" value="1" {{ $estado ? 'checked' : '' }}>
-                                <div class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-green-300 dark:peer-focus:ring-green-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
-                            </label>
+                        <div class="col-12">
+                            <div class="form-check form-switch">
+                                <input wire:model='estado' class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" value="1" {{ $estado ? 'checked' : '' }}>
+                                <label class="form-check-label" for="flexSwitchCheckDefault">Estado</label>
+                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Seleccionar Insumos -->
-                    <div class="bg-gray-50 p-4 rounded-lg dark:bg-gray-800">
-                        <h4 class="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Seleccionar Insumos</h4>
-                        <div class="grid gap-4 mb-4 grid-cols-1 md:grid-cols-2 border border-gray-300 rounded-lg p-4">
+
+                <!-- Seleccionar Insumos -->
+                <div class="bg-light p-4 rounded">
+                    <h4 class="h5 mb-4 text-dark">Seleccionar Insumos</h4>
+                    <div class="row g-4 mb-4 border border-300 rounded p-4">
+
+                        <!-- Categoría de Insumo -->
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="categoria_insumos" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoría de Insumo <span class="text-danger">*</span></label>
-                                <select wire:model.lazy="categoria_seleccionada" id="categoria_insumos" name="categoria_insumos" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                <label for="categoria_insumos" class="form-label">Categoría de Insumo <span class="text-danger">*</span></label>
+                                <select wire:model.lazy="categoria_seleccionada" id="categoria_insumos" name="categoria_insumos" class="form-select @error('categoria_seleccionada') is-invalid @enderror">
                                     <option selected="">Seleccionar Categoría</option>
                                     @foreach ($categorias_insumos as $categoria_insumo)
                                     <option value="{{ $categoria_insumo->id }}">{{ $categoria_insumo->nombre }}</option>
                                     @endforeach
                                 </select>
                                 @error('categoria_seleccionada')
-                                <span class="invalid-feedback d-block text-sm text-red-600 mt-1">
+                                <div class="invalid-feedback">
                                     <strong>{{ $message }}</strong>
-                                </span>
+                                </div>
                                 @enderror
                             </div>
+                        </div>
 
+                        <!-- Insumo -->
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="insumo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Insumo <span class="text-danger">*</span> </label>
-                                <select wire:model.live="insumo_seleccionado" id="insumo" name="insumo" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                <label for="insumo" class="form-label">Insumo <span class="text-danger">*</span></label>
+                                <select wire:model.live="insumo_seleccionado" id="insumo" name="insumo" class="form-select @error('insumo_seleccionado') is-invalid @enderror">
                                     <option selected="">Seleccionar Insumo</option>
                                     @foreach ($insumos_por_categoria as $insumo)
                                     <option wire:key="{{ $insumo->id }}" value="{{ $insumo->id }}">{{ $insumo->nombre }} {{ $insumo->color ? ' - ' . $insumo->color : '' }}</option>
                                     @endforeach
                                 </select>
                                 @error('insumo_seleccionado')
-                                <span class="invalid-feedback d-block text-sm text-red-600 mt-1">
+                                <div class="invalid-feedback">
                                     <strong>{{ $message }}</strong>
-                                </span>
+                                </div>
                                 @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label for="cantidad_usar" class="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad a Usar <span class="text-danger">*</span></label>
-                                <input id="cantidad_usar" name="cantidad_usar" wire:model='cantidad_usada' type="number" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" />
-                                @error('cantidad_usada')
-                                <span class="invalid-feedback d-block text-sm text-red-600 mt-1">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <label class="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">Cantidad Disponible <span class="text-danger">*</span></label>
-                                <input type="number" value="{{$cantidad_disponible}}" disabled class="bg-gray-100 w-full p-2.5 rounded-lg border border-gray-300 text-gray-900" />
-                            </div>
-
-                            <div class="col-span-2 sm:col-span-1">
-                                <button type="button" wire:click="agregarInsumo" class="text-white bg-green-600 hover:bg-green-700 font-medium rounded-lg flex items-center px-4 py-2">
-                                    <svg class="me-1 -ms-1 w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    Agregar Insumo
-                                </button>
                             </div>
                         </div>
 
-                        <!-- Insumos agregados -->
-                        <div class="card mt-4">
-                            <div class="bg-blue-600 text-white font-semibold p-3 rounded-t-lg">Insumos seleccionados:</div>
-                            <div class="bg-white p-4 rounded-b-lg shadow">
-                                @if($insumos_agregados)
-                                <ul class="list-group space-y-2">
+                        <!-- Cantidad a Usar -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cantidad_usar" class="form-label">Cantidad a Usar <span class="text-danger">*</span></label>
+                                <input id="cantidad_usar" name="cantidad_usar" wire:model='cantidad_usada' type="number" class="form-control @error('cantidad_usada') is-invalid @enderror" />
+                                @error('cantidad_usada')
+                                <div class="invalid-feedback">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Cantidad Disponible -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cantidad_disponible" class="form-label">Cantidad Disponible <span class="text-danger">*</span></label>
+                                <input type="number" value="{{$cantidad_disponible}}" disabled class="form-control" />
+                            </div>
+                        </div>
+
+                        <!-- Botón Agregar Insumo -->
+                        <div class="col-12">
+                            <button type="button" wire:click="agregarInsumo" class="btn btn-success d-flex align-items-center">
+                                <svg class="me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
+                                </svg>
+                                Agregar Insumo
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="card mt-4">
+                    <div class="card-header bg-primary text-white font-weight-bold">Insumos seleccionados:</div>
+                    <div class="card-body">
+                        @if($insumos_agregados)
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped align-middle">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th class="text-center">Cantidad</th>
+                                        <th class="text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     @foreach($insumos_agregados as $index => $insumo)
-                                    <li class="bg-gray-50 p-3 rounded-lg flex justify-between items-center">
-                                        <div>
-                                            <strong>{{ $insumo['nombre'] }} {{ $insumo['color'] ? ' - ' . $insumo['color'] : '' }}</strong> - Cantidad: {{ $insumo['cantidad'] }}
-                                        </div>
-                                        <div class="flex space-x-2">
-                                            <button wire:click.prevent="decrementarInsumo({{ $index }})" type="button" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded-full shadow-sm transition duration-300 ease-in-out">
-                                                <i class="fas fa-minus"></i>
-                                            </button>
-                                            <button wire:click.prevent="incrementarInsumo({{ $index }})" type="button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded-full shadow-sm transition duration-300 ease-in-out">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                            <button wire:click.prevent='eliminarInsumo({{ $index }})' type="button" class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded shadow-sm transition duration-300 ease-in-out">
+                                    <tr>
+                                        <td>
+                                            <strong>{{ $insumo['nombre'] }}{{ $insumo['color'] ? ' - ' . $insumo['color'] : '' }}</strong>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                                <button wire:click.prevent="decrementarInsumo({{ $index }})" type="button" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <span>{{ $insumo['cantidad'] }}</span>
+                                                <button wire:click.prevent="incrementarInsumo({{ $index }})" type="button" class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <button wire:click.prevent='eliminarInsumo({{ $index }})' type="button" class="btn btn-danger btn-sm">
                                                 <i class="fas fa-trash"></i> Eliminar
                                             </button>
-                                        </div>
-                                    </li>
+                                        </td>
+                                    </tr>
                                     @endforeach
-                                </ul>
-                                @else
-                                <p class="text-gray-600">No hay insumos seleccionados</p>
-                                @endif
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
+                        @else
+                        <p class="text-muted">No hay insumos seleccionados</p>
+                        @endif
                     </div>
+                </div>
 
-                    <!-- Botones de acción -->
-                    <div class="mt-6 flex space-x-2"">
-                    <button wire:click.prevent='crearProducto' type=" button" class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg flex items-center px-4 py-2">
-                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
-                        </svg>
-                        Crear Producto
-                    </button>
-                        <a href="{{ route('Admin.productos') }}" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                            Volver
-                        </a>
 
-                        <!-- <button wire:click='clearFields' class="text-black inline-flex items-center bg-white border border-gray-400 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                            <svg class="me-1 -ms-1 w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path fill-rule="evenodd" d="m16.24 3.56 4.95 4.94c.78.79.78 2.05 0 2.84L12 20.53a4.01 4.01 0 0 1-5.66 0L2.81 17c-.78-.79-.78-2.05 0-2.84l10.6-10.6c.79-.78 2.05-.78 2.83 0M4.22 15.58l3.54 3.53c.78.79 2.04.79 2.83 0l3.53-3.53-4.95-4.95z" />
-                            </svg>
-                            Borrar Campos
-                        </button> -->
-                    </div>
+                <!-- Botones -->
+                <div class="d-flex justify-content-end gap-2">
+                    <button wire:click.prevent='crearProducto' type=" button" class="btn btn-primary">Crear Producto</button>
+                    <a href="{{ route('Admin.productos') }}" class="btn btn-danger">Cancelar</a>
+                </div>
             </form>
         </div>
     </div>

@@ -4,7 +4,6 @@
 
 @section('content')
 
-<!-- link para sweetalert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
@@ -49,8 +48,8 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-md-6">
-                                <label for="nombre">Color</label>
-                                <input type="text" name="color" class="form-control  @error('color') is-invalid  @enderror" id="color" placeholder="Color..." value="{{ old('color', $insumos->color) }}">
+                                <label for="nombre">Descripción</label>
+                                <input type="text" name="color" class="form-control  @error('color') is-invalid  @enderror" id="color" placeholder="Descripción..." value="{{ old('color', $insumos->color) }}">
 
                                 @error('color')
                                     <span class="invalid-feedback d-block" role="alert">
@@ -74,8 +73,7 @@
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <label for="imagen">Imagen</label>
-                                <input type="file" id="imagen" name="imagen" class="form-control  @error('imagen') is-invalid  @enderror"
-                                placeholder="imagen">
+                                <input type="file" name="imagen" class="form-control  @error('imagen') is-invalid  @enderror" id="imagen" value="{{ old('imagen', $insumos->imagen) }}" placeholder="imagen">
 
                                 @error('imagen')
                                 <span class="invalid-feedback d-block" role="alert">
@@ -113,10 +111,8 @@ function editar() {
         confirmButtonText: "Si, agregar"
     }).then((result) => {
         if (result.isConfirmed) {
-            // Prevent the form from submitting automatically
             event.preventDefault();
 
-            // Manually submit the form
             document.getElementById('formulario_editar').submit();
         }
     });

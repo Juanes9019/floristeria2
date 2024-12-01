@@ -13,11 +13,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-
-
 <div class="fondo-imagen">
     <img src="{{ asset('img/fondo.jpg') }}">
 </div>
+
 <div class="section">
     <div class="container">
         <div class="row full-height justify-content-center">
@@ -106,7 +105,7 @@
                                                 <div class="col-md-6">
 
                                                     <div class="form-group mt-2">
-                                                        <input type="email" name="email" class="form-style @error('email') is-invalid @enderror" id="email" placeholder="Correo electrónico" value="{{ old('email') }}" autocomplete="email" autofocus>
+                                                        <input type="email" name="email" class="form-style @error('email') is-invalid @enderror" id="email" placeholder="Correo electrónico" value="{{ old('email') }}" autocomplete="email" maxlength="80" autofocus>
                                                         <i class="input-icon uil uil-at"></i>
                                                         @error('email')
                                                         <span class="invalid-feedback d-block" role="alert">

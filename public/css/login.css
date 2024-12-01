@@ -22,7 +22,7 @@ body {
   top: 0; 
   left: 0;
   z-index: -10;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 
@@ -71,7 +71,7 @@ h6 span{
 }
 .card-login {
   width: 100%;
-  background-color: #ce93b8;
+  background-color: #f0d9d9;
   background-image: url('/img/pattern_japanese-pattern-2_1_2_0-0_0_1__ffffff00_000000.png');
   position: absolute;
   border-radius: 6px;
@@ -111,7 +111,7 @@ h6 span{
   letter-spacing: 0.5px;
   outline: none;
   color: #000000;
-  background-color: #ffececa6;
+  background-color: #ffffff;
   border: none;
   -webkit-transition: all 200ms linear;
   transition: all 200ms linear;
@@ -147,11 +147,12 @@ h6 span{
   display: -ms-inline-flexbox;
   display: inline-flex;
   align-items: center;
-  background-color: #FFDBDBA6;
+  background-color: #ffffff;
   color: #000000;
+  border-color: #000000;
 }
 .btn:hover{  
-  background-color: #FFDBDBA6;
+  background-color: #000000;
   color: #ffffff;
   box-shadow: 0 8px 24px 0 rgba(16,39,112,.2);
 }

@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('color')->nullable();
             $table->integer('cantidad_insumo')->default(0); 
-            $table->decimal('costo_unitario', 10, 2);
+            $table->decimal('costo_unitario', 15, 2);
             $table->string('imagen')->nullable(); 
             $table->string('descripcion')->nullable();  
             $table->integer('estado')->default(1);

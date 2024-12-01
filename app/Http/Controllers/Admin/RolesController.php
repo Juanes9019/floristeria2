@@ -53,31 +53,34 @@ class RolesController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $data = $request->validate([
-            'nombre' => 'required|unique:roles,nombre',
-            'permisos' => 'array' 
+{
+    // Validar entrada
+    $data = $request->validate([
+        'nombre' => 'required|unique:roles,nombre|max:255',
+        'permisos' => 'required|array|min:1', // 'permisos' debe ser un array con al menos 1 elemento
+        'permisos.*' => 'exists:permisos,id', // Cada permiso debe existir en la tabla permisos
+    ]);
+
+    try {
+        // Insertar el nuevo rol
+        $rol_id = DB::table('roles')->insertGetId([
+            'nombre' => $data['nombre'],
         ]);
 
-        try {
-            $rol_id = DB::table('roles')->insertGetId([
-                'nombre' => $data['nombre'],
-            ]);
+        // Insertar permisos asociados
+        DB::table('permisos_rol')->insert(
+            collect($data['permisos'])->map(function ($permiso_id) use ($rol_id) {
+                return ['id_rol' => $rol_id, 'id_permiso' => $permiso_id];
+            })->toArray()
+        );
 
-            if (isset($data['permisos'])) {
-                DB::table('permisos_rol')->insert(
-                    collect($data['permisos'])->map(function ($permiso_id) use ($rol_id) {
-                        return ['id_rol' => $rol_id, 'id_permiso' => $permiso_id];
-                    })->toArray()
-                );
-            }
-
-            return redirect()->route('Admin.permisos_rol')->with('success', 'Rol creado y permisos asignados correctamente');
-        } catch (\Exception $e) {
-            Log::error('Error al insertar en la base de datos: ' . $e->getMessage());
-            return back()->with('error', 'Error al insertar el rol');
-        }
+        return redirect()->route('Admin.permisos_rol')->with('success', 'Rol creado y permisos asignados correctamente.');
+    } catch (\Exception $e) {
+        Log::error('Error al insertar en la base de datos: ' . $e->getMessage());
+        return back()->with('error', 'Error al insertar el rol.');
     }
+}
+
 
 
     public function edit($id)
@@ -191,7 +194,7 @@ class RolesController extends Controller
         
         // Validaciones
         $request->validate([
-            'nombre_rol' => 'required|string|max:255',
+            'nombre_rol' => 'required|string|max:20|min:1',
             // Puedes omitir la validación de permisos si quieres permitir que no se envíen
             // 'permisos' => 'array', // Asegúrate de que se envían permisos
         ]);
