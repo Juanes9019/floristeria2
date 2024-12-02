@@ -27,10 +27,13 @@ class Compra extends Model
     }
 
     public function scopeSearch($query, $search)
-    {   
-        // dd($this->search);
-        return $query->where('id_proveedor', 'like', "%{$search}%") 
+    {
+        return $query->where('id_proveedor', 'like', "%{$search}%")
                      ->orWhere('costo_total', 'like', "%{$search}%")
-                     ->orWhere('estado', 'like', "%{$search}%");
+                     ->orWhere('estado', 'like', "%{$search}%")
+                     ->orWhereHas('proveedor', function ($q) use ($search) {  
+                        $q->where('nombre', 'like', "%{$search}%");
+                     });
     }
+    
 }

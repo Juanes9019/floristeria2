@@ -77,7 +77,7 @@ class Categoria_insumoController extends Controller
     {
 
         $request->validate([
-            'nombre' => 'required',
+            'nombre' => 'required|min:3|max:20',
         ]);
 
 
@@ -129,7 +129,7 @@ public function update(Request $request, $id)
     $categoria_insumos = Categoria_insumo::find($id);
 
     $request->validate([
-        'nombre' => 'required',
+        'nombre' => 'required|min:3|max:20',
     ]);
 
     $categoria_insumos->nombre = $request->input('nombre');
