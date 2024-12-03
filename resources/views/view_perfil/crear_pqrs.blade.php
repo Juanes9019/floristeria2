@@ -10,12 +10,12 @@
     <form action="{{ route('pqrs') }}" method="post">
     @csrf
         <div class="form-group">
-            <label for="fecha">Fecha</label>
+            <label for="fecha">Fecha: <strong style="color: red;">*</strong></label>
             <input type="date" class="form-control" id="fecha" name="fecha_envio" value="{{ $fecha }}" readonly>
         </div>
 
         <div class="form-group mt-3">
-            <label for="tipo">Tipo de PQR</label>
+            <label for="tipo">Tipo de PQR:<strong style="color: red;">*</strong></label>
             <select class="form-control" id="tipo" name="tipo">
                 <option value="">Selecciona el tipo</option>
                 <option value="Peticiones">Peticiones</option>
@@ -26,7 +26,7 @@
         </div>
 
         <div class="form-group mt-3">
-            <label for="motivo">Motivo</label>
+            <label for="motivo">Motivo: <strong style="color: red;">*</strong></label>
             <select class="form-control" id="motivo" name="motivo">
                 <option value="">Selecciona el motivo</option>
                 <option value="Reembolso">Reembolso</option>
@@ -44,7 +44,7 @@
         </div>
 
         <div class="form-group mt-3">
-            <label for="descripcion">Descripción</label>
+            <label for="descripcion">Descripción:<strong style="color: red;">*</strong></label>
             <textarea class="form-control" id="descripcion" name="descripcion" rows="4" placeholder="Describe tu PQR"></textarea>
         </div>
 

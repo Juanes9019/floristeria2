@@ -17,7 +17,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="id_proveedor">Proveedor</label>
+                            <label for="id_proveedor">Proveedor: <strong style="color: red;">*</strong></label>
                             <select id="id_proveedor_select" name="id_proveedor" class="form-control" onchange="updateHiddenFields()">
                                 <option selected disabled>Seleccione un proveedor</option>
                                 @foreach($proveedores as $proveedor)
@@ -27,7 +27,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="id_categoria_insumo">Categoría Insumo</label>
+                            <label for="id_categoria_insumo">Categoría Insumo: <strong style="color: red;">*</strong></label>
                             <select id="id_categoria_insumo" name="id_categoria_insumo" class="form-control">
                                 <option selected disabled>Seleccione una categoría</option>
                                 @foreach($categorias as $categoria)
@@ -40,7 +40,7 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="id_insumo">Insumo</label>
+                                <label for="id_insumo">Insumo: <strong style="color: red;">*</strong></label>
                                 <select id="id_insumo" name="id_insumo" class="form-control" onchange="updateCostoUnitario()">
                                     <option selected disabled>Seleccione un insumo</option>
                                 </select>
@@ -49,7 +49,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="cantidad">Cantidad</label>
+                                <label for="cantidad">Cantidad: <strong style="color: red;">*</strong></label>
                                 <input type="number" name="cantidad" class="form-control" id="cantidad" placeholder="Cantidad" min="1" max="200" required>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
 
                     <div class="row mt-3">
                         <div class="col-md-6">
-                            <label for="costo_unitario">Costo Unitario</label>
+                            <label for="costo_unitario">Costo Unitario: <strong style="color: red;">*</strong></label>
                             <input type="text" name="costo_unitario" class="form-control" id="costo_unitario" readonly>
                         </div>
                     </div>
@@ -300,5 +300,15 @@ $(document).ready(function() {
     });
 @endif
 </script>
+<style>
+    /* Aumenta la visibilidad de los bordes de todos los inputs */
+    .form-control, 
+    .form-select, 
+    .form-check-input {
+        border: 2px solid #6c757d; /* Borde más oscuro (gris oscuro) */
+        border-radius: 5px; /* Suaviza las esquinas */
+        box-shadow: none; /* Elimina cualquier sombra predeterminada */
+    }
+</style>
 
 @endsection
