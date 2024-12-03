@@ -15,7 +15,7 @@
             @csrf
             <div class="card card-body">
                 <div class="form-group">
-                    <label for="nombre">Nombre </label>
+                    <label for="nombre">Nombre <strong style="color: red;">*</strong></label>
                     <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Ocasiones especiales" value="{{ old('nombre') }}">
 
                     @error('nombre')

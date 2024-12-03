@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="nombre">Nombre</label>
+                                <label for="nombre">Nombre <strong style="color: red;">*</strong></label>
                                 <input type="text" name="nombre" class="form-control  @error('nombre') is-invalid  @enderror" id="nombre" placeholder="Hombre..." value="{{ old('nombre', $categoria_insumo->nombre) }}">
                                 @error('nombre')
                                 <span class="invalid-feedback d-block" role="alert">

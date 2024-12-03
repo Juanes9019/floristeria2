@@ -21,7 +21,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name">Nombre</label>
+                            <label for="name">Nombre <strong style="color: red;">*</strong></label>
                             <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Nombre" value="{{ old('name', $usuarios->name) }}" maxlength="30">
                             @error('name')
                             <span class="invalid-feedback d-block" role="alert">
@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="surname">Apellido</label>
+                            <label for="surname">Apellido <strong style="color: red;">*</strong></label>
                             <input type="text" name="surname" class="form-control @error('surname') is-invalid @enderror" id="surname" placeholder="Apellido" value="{{ old('surname', $usuarios->surname) }}" maxlength="30">
                             @error('surname')
                             <span class="invalid-feedback d-block" role="alert">
@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="tipo_documento">Tipo de documento</label>
+                            <label for="tipo_documento">Tipo de documento <strong style="color: red;">*</strong></label>
                             <input type="text" name="tipo_documento" class="form-control @error('tipo_documento') is-invalid @enderror" id="tipo_documento" placeholder="Tipo de documento" value="{{ old('tipo_documento', $usuarios->tipo_documento) }}" readonly>
                             @error('tipo_documento')
                             <span class="invalid-feedback d-block" role="alert">
@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="documento">Documento</label>
+                            <label for="documento">Documento <strong style="color: red;">*</strong></label>
                             <input type="text" name="documento" class="form-control @error('documento') is-invalid @enderror" id="documento" placeholder="Documento" value="{{ old('documento', $usuarios->documento) }}" readonly>
                             @error('documento')
                             <span class="invalid-feedback d-block" role="alert">
@@ -64,7 +64,7 @@
 
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="email">Correo electrónico</label>
+                            <label for="email">Correo electrónico <strong style="color: red;">*</strong></label>
                             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="correo@ejemplo.com" value="{{ old('email', $usuarios->email) }}" maxlength="80">
                             @error('email')
                             <span class="invalid-feedback d-block" role="alert">
@@ -74,7 +74,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="celular">Celular</label>
+                            <label for="celular">Celular <strong style="color: red;">*</strong></label>
                             <input type="tel" name="celular" class="form-control @error('celular') is-invalid @enderror" id="celular" placeholder="Celular" value="{{ old('celular', $usuarios->celular) }}"  pattern="\d*" 
                             maxlength="10"
                             oninput="this.value = this.value.replace(/[^0-9]/g, '')"
@@ -87,7 +87,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="id_rol">Rol</label>
+                            <label for="id_rol">Rol <strong style="color: red;">*</strong></label>
                             <select id="id_rol" name="id_rol" class="form-control @error('id_rol') is-invalid @enderror">
                                 <option disabled {{ old('id_rol') ? '' : 'selected' }}>Seleccione un Rol</option>
                                 @foreach($roles as $rol)

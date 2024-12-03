@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="name">Nombre</label>
+                            <label for="name">Nombre <strong style="color: red;">*</strong></label>
                             <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Nombre" value="{{ old('name') }}" maxlength="30">
                             @error('name')
                             <span class="invalid-feedback d-block" role="alert">
@@ -29,7 +29,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="surname">Apellido</label>
+                            <label for="surname">Apellido <strong style="color: red;">*</strong></label>
                             <input type="text" name="surname" class="form-control @error('surname') is-invalid @enderror" id="surname" placeholder="Apellido" value="{{ old('surname') }}" maxlength="30">
                             @error('surname')
                             <span class="invalid-feedback d-block" role="alert">
@@ -39,7 +39,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="tipo_documento">Tipo de Documento</label>
+                            <label for="tipo_documento">Tipo de Documento <strong style="color: red;">*</strong></label>
                             <select 
                                 name="tipo_documento" 
                                 class="form-control @error('tipo_documento') is-invalid @enderror" 
@@ -59,7 +59,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="documento">Documento</label>
+                            <label for="documento">Documento <strong style="color: red;">*</strong></label>
                             <input 
                                 type="tel" 
                                 name="documento"
@@ -77,7 +77,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="email">Correo electrónico</label>
+                            <label for="email">Correo electrónico <strong style="color: red;">*</strong></label>
                             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Correo electrónico" value="{{ old('email') }}" maxlength="80">
                             @error('email')
                             <span class="invalid-feedback d-block" role="alert">
@@ -91,7 +91,7 @@
                     <div class="col-md-6">
                         
                         <div class="form-group">
-                            <label for="celular">Celular</label>
+                            <label for="celular">Celular <strong style="color: red;">*</strong></label>
                             <input 
                                 type="tel" 
                                 name="celular" 
@@ -111,7 +111,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="id_rol">Rol</label>
+                            <label for="id_rol">Rol <strong style="color: red;">*</strong></label>
                             <select id="id_rol" name="id_rol" class="form-control @error('id_rol') is-invalid @enderror">
                                 <option disabled {{ old('id_rol') ? '' : 'selected' }}>Seleccione un Rol</option>
                                 @foreach($roles as $rol)
@@ -126,7 +126,7 @@
                         </div>
 
                         <div class="form-group mb-3">
-                            <label for="password">Contraseña</label>
+                            <label for="password">Contraseña <strong style="color: red;">*</strong></label>
                             <div class="input-group">
                                 <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" 
                                        placeholder="Contraseña" id="password" oninput="validatePassword()" 
@@ -161,7 +161,7 @@
                         </div>
                         
                         <div class="form-group mb-3">
-                            <label for="cpassword">Confirmar contraseña</label>
+                            <label for="cpassword">Confirmar contraseña <strong style="color: red;">*</strong></label>
                             <div class="input-group">
                                 <input type="password" name="cpassword" class="form-control @error('cpassword') is-invalid @enderror" placeholder="Confirmar contraseña" id="cpassword">
                                 <div class="input-group-append">

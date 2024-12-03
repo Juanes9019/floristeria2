@@ -14,8 +14,8 @@
     <div class="col-md-8">
         <form id="formulario_crear" method="POST" action="{{ route('Admin.roles.store') }}" novalidate>
             @csrf
-            <div class="form-group col-md-6"> <!-- Reduce el tamaño del campo del rol a la mitad -->
-                <label for="nombre">Nombre del rol</label>
+            <div class="form-group col-md-6"> 
+                <label for="nombre">Nombre del rol <strong style="color: red;">*</strong></label>
                 <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror" id="nombre" placeholder="Nombre del rol" value="{{ old('nombre') }}" maxlength="20">
                 @error('nombre')
                     <span class="invalid-feedback d-block" role="alert">
@@ -24,9 +24,8 @@
                 @enderror
             </div>
 
-            <!-- Lista de permisos en dos columnas -->
             <div class="form-group">
-                <label>Selecciona permisos para el rol:</label>
+                <label>Selecciona permisos para el rol: <strong style="color: red;">*</strong></label>
                 <div class="row">
                     @foreach($todos_los_permisos->chunk(ceil($todos_los_permisos->count() / 2)) as $chunk)
                         <div class="col-md-6">
@@ -40,9 +39,8 @@
                     @endforeach
                 </div>
                 @error('permisos')
-    <span class="text-danger d-block">{{ $message }}</span>
-@enderror
-
+                    <span class="text-danger d-block">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="form-group">
@@ -58,7 +56,6 @@ function agregar() {
     var nombre = document.getElementById('nombre').value;
     var regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
 
-    // Verificar si hay permisos seleccionados
     var permisosSeleccionados = document.querySelectorAll('input[name="permisos[]"]:checked').length;
 
     if (!nombre) {
