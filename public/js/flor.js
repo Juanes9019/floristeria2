@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Mostrar el precio
         if (precio) {
-            precioDiv.innerHTML = `<p><strong>Precio:</strong>: $${parseFloat(precio).toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}</p>`;
+            precioDiv.innerHTML = `<p><strong>Precio unidad</strong>: $${parseFloat(precio).toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}</p>`;
         } else {
             precioDiv.innerHTML = '<p>Selecciona un insumo para ver el precio.</p>'; 
         }

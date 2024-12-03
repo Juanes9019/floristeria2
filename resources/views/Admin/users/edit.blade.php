@@ -22,7 +22,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">Nombre</label>
-                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Nombre" value="{{ old('name', $usuarios->name) }}">
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Nombre" value="{{ old('name', $usuarios->name) }}" maxlength="30">
                             @error('name')
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -32,7 +32,7 @@
 
                         <div class="form-group">
                             <label for="surname">Apellido</label>
-                            <input type="text" name="surname" class="form-control @error('surname') is-invalid @enderror" id="surname" placeholder="Apellido" value="{{ old('surname', $usuarios->surname) }}">
+                            <input type="text" name="surname" class="form-control @error('surname') is-invalid @enderror" id="surname" placeholder="Apellido" value="{{ old('surname', $usuarios->surname) }}" maxlength="30">
                             @error('surname')
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -65,7 +65,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="email">Correo electrónico</label>
-                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="correo@ejemplo.com" value="{{ old('email', $usuarios->email) }}">
+                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="correo@ejemplo.com" value="{{ old('email', $usuarios->email) }}" maxlength="80">
                             @error('email')
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{ $message }}</strong>

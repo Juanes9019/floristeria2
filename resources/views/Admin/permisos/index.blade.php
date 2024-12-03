@@ -71,7 +71,7 @@
                                                     <!-- Campo para modificar el nombre del rol -->
                                                     <div class="form-group">
                                                         <label for="nombre_rol">Nombre del Rol</label>
-                                                        <input type="text" name="nombre_rol" class="form-control" value="{{ $role->nombre }}" required>
+                                                        <input type="text" name="nombre_rol" class="form-control" maxlength="20" value="{{ $role->nombre }}" required>
                                                     </div>
                                                 
                                                     <!-- Lista de permisos -->

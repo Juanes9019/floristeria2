@@ -388,7 +388,6 @@ return [
                 'can' => 'view-product-categories', 
             ],
             [
-                'text' => 'Generar Producto',
                 'url' => 'admin/producto/create',
                 'icon' => 'fas fa-fw fa-plus',
                 'label_color' => 'success', 

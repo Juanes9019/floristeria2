@@ -36,14 +36,14 @@
                                     </a>
                                 </div>
                             </div> -->
-                            <a href="{{ route('Admin.proveedor.create') }}" class="btn btn-primary btn-sm">
-                                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff">
-                                    <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
-                                </svg>
-                            </a>
-                        </div>
+                        <a href="{{ route('Admin.proveedor.create') }}" class="btn btn-primary btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff">
+                                <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                            </svg>
+                        </a>
                     </div>
-                    <div class="table-responsive mt-3">
+                </div>
+                <div class="table-responsive mt-3">
                     <table class="table table-bordered table-hover">
                         <thead class="thead-dark">
                             <tr>
@@ -108,7 +108,6 @@
                             @foreach($proveedores as $proveedor)
                             <tr>
                                 <td class="text-center">{{ ucfirst(strtolower($proveedor->tipo_proveedor)) }}</td>
-                                <!-- <td class="text-center">{{ $proveedor->numero_documento }}</td> -->
                                 <td class="text-center">{{ $proveedor->nombre }}</td>
                                 <td class="text-center">{{ $proveedor->telefono }}</td>
                                 <td class="text-center">{{ $proveedor->correo }}</td>
@@ -129,21 +128,26 @@
                                 </td>
 
                                 <td class="text-center">
-                                    <a class="btn btn-sm btn-warning" href="{{ route('Admin.proveedor.edit', ['id' => $proveedor->id]) }}">
-                                        <i class="fa fa-fw fa-edit"></i></a>
-                                </td>
-                                <td class="text-center">
-                                    <form id="form_eliminar_{{ $proveedor->id }}" action="{{ route('Admin.proveedor.destroy', $proveedor->id) }}" method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{ $proveedor->id }}')">
-                                            <i class="fa fa-fw fa-trash"></i>
-                                        </button>
-                                    </form>
+                                    <div class="d-flex justify-content-center" style="gap: 1rem;">
+                                        <!-- Botón de editar -->
+                                        <a class="btn btn-sm btn-warning" href="{{ route('Admin.proveedor.edit', ['id' => $proveedor->id]) }}">
+                                            <i class="fa fa-fw fa-edit"></i>
+                                        </a>
+
+                                        <!-- Botón de eliminar -->
+                                        <form id="form_eliminar_{{ $proveedor->id }}" action="{{ route('Admin.proveedor.destroy', $proveedor->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{ $proveedor->id }}')">
+                                                <i class="fa fa-fw fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
+
 
                     </table>
                     <label>Páginas</label>
@@ -156,11 +160,11 @@
                         {{ $proveedores->links() }}
                     </div>
                 </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
+
 
 
 <script>

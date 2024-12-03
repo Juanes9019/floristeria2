@@ -3,11 +3,13 @@
         <div class="card-header text-center bg-primary text-white">
             <h3>Crear Producto</h3>
         </div>
+         
         <div class="card-body">
-            <form wire:submit='crearProducto' id="formulario_crear" method="POST" enctype="multipart/form-data">
+            <form wire:submit.prevent='crearProducto' id="formulario_crear" method="POST" enctype="multipart/form-data">
                 <!-- Campos para crear producto -->
+                <h4 class="text-dark">Datos del Producto</h4>
                 <div class="bg-light p-3 rounded mb-4">
-                    <h4 class="text-secondary">Datos del Producto</h4>
+
                     <div class="row g-4 mb-4 border border-300 rounded p-4">
 
                         <!-- Categoría de Producto -->
@@ -53,7 +55,7 @@
                         </div>
 
                         <!-- Descripción -->
-                        <div class="col-12">
+                        <div class="col-md-6">
                             <label for="descripcion" class="form-label">Descripción</label>
                             <textarea
                                 wire:model.defer='descripcion'
@@ -106,22 +108,22 @@
                         </div>
 
                         <!-- Estado -->
-                        <div class="col-12">
-                            <div class="form-check form-switch">
-                                <input
-                                    wire:model.defer='estado'
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    role="switch"
-                                    id="flexSwitchCheckDefault"
-                                    value="1"
-                                    {{ old('estado', $estado) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="flexSwitchCheckDefault">Estado</label>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="estado" class="form-label">Estado</label>
+                                <div class="form-check form-switch">
+                                    <input
+                                        wire:model.defer='estado'
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        id="estado"
+                                        value="1"
+                                        {{ old('estado', $estado) ? 'checked' : '' }}>
+                                </div>
                             </div>
                         </div>
-
-
-
+                        
                         <!-- Seleccionar Insumos -->
                         <div class="bg-light p-4 rounded">
                             <h4 class="h5 mb-4 text-dark">Seleccionar Insumos</h4>
@@ -247,10 +249,31 @@
 
                         <!-- Botones -->
                         <div class="d-flex justify-content-end gap-2">
-                            <button class="btn btn-primary">Crear Producto</button>
+                            <button class="btn btn-primary" id="crearProductoBtn" >Crear Producto</button>
                             <a href="{{ route('Admin.productos') }}" class="btn btn-danger">Cancelar</a>
                         </div>
             </form>
         </div>
     </div>
 </div>
+
+
+<script>
+    // Mostrar SweetAlert cuando el usuario haga clic en el botón "Crear Producto"
+    document.getElementById('crearProductoBtn').addEventListener('click', function () {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¿Quieres crear este producto?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, crear',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Si el usuario acepta, se envía el formulario
+                Livewire.emit('crearProducto');  // Llama al método crearProducto de Livewire
+            }
+        });
+    });
+</script>

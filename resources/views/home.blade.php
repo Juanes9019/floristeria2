@@ -91,7 +91,7 @@
                     <div class="accordion-body">
                         <form action="{{ route('home') }}" method="GET" id="filter-form">
                             <div>
-                                <label>Buscar flor:</label>
+                                <label>Buscar por nombre de flor:</label>
                                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar productos..." class="form-control mt-3" id="search-input">
                             </div>
                             <br>
@@ -153,13 +153,13 @@
                     </div>
                 </div>
             @empty
-                <p>No se encontraron productos.</p>
+                <p>No tenemos productos disponibles.</p>
             @endforelse
         </div>
     </div>
 </div>
 
-<!-- Scripts -->
+
 <script>
     // Evento para checkboxes
     document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
@@ -181,10 +181,6 @@
         document.getElementById('filter-form').submit();
     });
 </script>
-
-
-
-
 
 <footer class="footer">
     <div class="container container-footer">

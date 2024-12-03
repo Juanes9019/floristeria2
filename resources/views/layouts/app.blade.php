@@ -16,7 +16,7 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ url('favicons/favicon.ico') }}">
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS --> 
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 
     <!-- Custom CSS -->
@@ -115,15 +115,17 @@
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             @if(auth()->check())
                                 @if(auth()->user()->unreadNotifications->count() > 0)
-                                    <i class="fa fa-bell bell-icon"></i>
-                                    <span class="badge badge-light">{{ auth()->user()->unreadNotifications->count() }}</span>
+                                    <i class="fa fa-bell bell-icon" style="font-size: 1rem;"></i> 
+                                    <span class="badge badge-light" style="font-size: 1rem;">
+                                        {{ auth()->user()->unreadNotifications->count() }}
+                                    </span> 
                                 @else
-                                    <i class="fa fa-bell bell-icon"></i>
-                                    <span class="badge badge-light">0</span>
+                                    <i class="fa fa-bell bell-icon" style="font-size: 1rem;"></i> 
+                                    <span class="badge badge-light" style="font-size: 1rem; ">0</span> 
                                 @endif
                             @else
-                                <i class="fa fa-bell bell-icon"></i>
-                                <span class="badge badge-light">0</span>
+                                <i class="fa fa-bell bell-icon" style="font-size: 1rem;"></i> 
+                                <span class="badge badge-light" style="font-size: 1rem;">0</span> 
                             @endif
                         </a>
 
@@ -148,13 +150,13 @@
                     <!-- Logo del carrito -->
                     <li class="nav-item position-relative me-4">
                         <a class="nav-link d-flex align-items-center position-relative" href="{{ route('home/carrito') }}">
-                            <i class="fas fa-shopping-cart" style="color: #5c5353;"></i>
+                            <i class="fas fa-shopping-cart" style="color: #5c5353; font-size: 1rem;"></i> <!-- Aumentar tamaño del carrito -->
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                 {{ Cart::content()->count() }}
                                 <span class="visually-hidden">unread messages</span>
                             </span>
                         </a>
-                    </li>
+                    </li>   
 
                     <!-- Authentication Links -->
                     @guest

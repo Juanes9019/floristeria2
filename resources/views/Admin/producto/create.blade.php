@@ -5,4 +5,15 @@
 
 @livewire('producto.create-producto')
 
+<style>
+    /* Aumenta la visibilidad de los bordes de todos los inputs */
+    .form-control, 
+    .form-select, 
+    .form-check-input {
+        border: 2px solid #6c757d; /* Borde más oscuro (gris oscuro) */
+        border-radius: 5px; /* Suaviza las esquinas */
+        box-shadow: none; /* Elimina cualquier sombra predeterminada */
+    }
+</style>
+
 @stop

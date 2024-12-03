@@ -10,15 +10,25 @@
                     </div>
                 </div>
 
-                @if ($message = Session::get('success'))
-                <div class="alert alert-success">
-                    <p>{{ $message }}</p>
-                </div>
-                @elseif($message = Session::get('error'))
-                <div class="alert alert-danger">
-                    <p>{{ $message }}</p>
-                </div>
-                @endif
+                @if ($errors->has('status'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ $errors->first('status') }}
+                        </div>
+                    @endif
+
+                    @if (session('success'))
+                        <script>
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Éxito',
+                                text: '{{ session('success') }}',
+                                position: 'top-end',
+                                toast: true,
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        </script>
+                    @endif
 
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -28,9 +38,6 @@
 
                         <div class="d-flex">
                             <div class="dropdown mr-2">
-                                <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Exportar
-                                </button>
 
                             </div>
                             <a href="{{ route('Admin.producto.create') }}" class="btn btn-primary btn-sm">
@@ -41,12 +48,11 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="table-responsive mt-3">
                     <table class="table table-bordered table-hover">
                         <thead class="thead-dark">
                             <tr>
-                            <th scope="col" class="text-center">Foto</th>
+                                <th scope="col" class="text-center">Foto</th>
                                 <th scope="col" class="text-center" wire:click="sortBy('nombre')">
                                     Nombre
                                     @if ($ordenarColumna === 'nombre')
@@ -112,8 +118,8 @@
                         <tbody>
                             @foreach($productos as $producto)
                             <tr>
-                            <td class="align-middle text-center justify-content-center">
-                                    <img src="{{ $producto->foto }}" alt="Foto" style="width: 100px; height: 100px; border-radius: 8px; object-fit: cover;" loading="lazy">
+                                <td class="align-middle text-center">
+                                    <img src="{{ $producto->foto }}" class="img-fluid" alt="Foto" style="width: 100px; height: 100px; border-radius: 8px; object-fit: cover;" loading="lazy">
                                 </td>
                                 <td class="align-middle text-center">{{ $producto->nombre }}</td>
                                 <td class="align-middle text-center">{{$producto->categoria_producto->nombre}}</td>
@@ -133,31 +139,34 @@
                                         <span class="spinner-border spinner-border-sm"></span>
                                     </div>
                                 </td>
-                                <td class="botones-categoria">
-                                    <a class="btn btn-sm btn-warning" href="{{ route('Admin.producto.edit', ['id' => $producto->id]) }}">
-                                        <i class="fa fa-fw fa-edit"></i>
-                                    </a>
+                                <td class="align-middle text-center">
+                                    <div class="d-flex justify-content-center align-items-center gap-3">
+                                        <!-- Botón de editar -->
+                                        <a class="btn btn-sm btn-warning" href="{{ route('Admin.producto.edit', ['id' => $producto->id]) }}">
+                                            <i class="fa fa-fw fa-edit"></i>
+                                        </a>
 
-                                    <form id="form_eliminar_{{ $producto->id }}" action="{{ route('Admin.producto.destroy', ['id' => $producto->id]) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$producto->id}}','{{$producto->estado}}')">
-                                            <i class="fa fa-fw fa-trash"></i>
-                                        </button>
-                                    </form>
+                                        <!-- Botón de eliminar -->
+                                        <form id="form_eliminar_{{ $producto->id }}" action="{{ route('Admin.producto.destroy', ['id' => $producto->id]) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{$producto->id}}','{{$producto->estado}}')">
+                                                <i class="fa fa-fw fa-trash"></i>
+                                            </button>
+                                        </form>
 
-                                    <a class="btn btn-sm btn-primary" href="{{ route('Admin.producto.show', ['id' => $producto->id]) }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
-                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
-                                        </svg>
-                                    </a>
+                                        <!-- Botón de ver -->
+                                        <a class="btn btn-sm btn-primary" href="{{ route('Admin.producto.show', ['id' => $producto->id]) }}">
+                                            <i class="fa fa-fw fa-eye"></i>
+                                        </a>
+                                    </div>
                                 </td>
+
+
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-
                     <select id="pages" name="pages" wire:model.live="porPagina">
                         <option value="10">10</option>
                         <option value="20">20</option>
@@ -169,15 +178,19 @@
                 </div>
             </div>
         </div>
-        <style>
-            .botones-categoria {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 10px; 
-            }
-        </style>
     </div>
+    <style>
+        td .btn {
+            margin: 0 5px;
+            /* Espaciado entre botones */
+        }
+
+        img {
+            max-width: 100px;
+            /* Tamaño máximo de la imagen */
+            height: auto;
+        }
+    </style>
 </div>
 
 
@@ -187,7 +200,7 @@
     function eliminar(productoId) {
         Swal.fire({
             title: "¡Estas seguro!",
-            text: "¿Deseas Eliminar este proveedor?",
+            text: "¿Deseas Eliminar este Producto?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -197,7 +210,7 @@
             if (result.isConfirmed) {
                 Swal.fire({
                     title: "!Proveedor Eliminado!",
-                    text: "El proveedor se Eliminó Correctamente",
+                    text: "El Producto se Eliminó Correctamente",
                     icon: "success"
                 }).then(() => {
                     document.getElementById('form_eliminar_' + productoId).submit();

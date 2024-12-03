@@ -109,9 +109,6 @@ class HomeController extends Controller
     }
     
 
-    
-    
-
     public function update_informacion(Request $request)
     {
         // Obtener el usuario autenticado
@@ -253,14 +250,13 @@ class HomeController extends Controller
         $totalPrecio += 30000;
 
         // Obtener el valor de 'section' de la solicitud (por defecto, se establece en '1')
-        $section = $request->input('section', '1');
+        $section = $request->input('section', 0); // Usar 0 por defecto (paso 1)
 
         // Retornar la vista con los datos y el valor de section
         return view('view_arreglo.personalizado.personalizado', compact('insumos', 'categorias_insumo', 'insumosSeleccionados', 'totalElementos', 'totalPrecio', 'productos', 'detallesInsumos', 'section'));
     }
     
     
-
 
     public function agregar_producto(Request $request)
     {
@@ -284,19 +280,20 @@ class HomeController extends Controller
     
         // Obtener los insumos seleccionados de la sesión
         $insumosSeleccionados = session()->get('insumosSeleccionados', []);
-        
+    
         // Buscar si el insumo ya está en la lista
         $found = false;
         foreach ($insumosSeleccionados as &$insumoSeleccionado) {
             if ($insumoSeleccionado['id'] === $insumo->id && $insumoSeleccionado['color'] === $request->color) {
-                // Si el insumo ya está, verifica si la cantidad total no excede la disponible
+                // Si el insumo ya está, incrementa la cantidad con la nueva cantidad
                 $nuevaCantidad = $insumoSeleccionado['cantidad'] + $request->cantidad;
     
-                if ($nuevaCantidad > $insumo->cantidad) {
-                    return redirect()->back()->withErrors("Lamentamos informarte que no puedes agregar más de {$insumo->cantidad} unidades de {$insumo->nombre}.");
+                // Verifica que la nueva cantidad no exceda el inventario
+                if ($nuevaCantidad > $insumo->cantidad_insumo) {
+                    return redirect()->back()->withErrors("Lamentamos informarte que no puedes agregar más de {$insumo->cantidad_insumo} unidades de {$insumo->nombre}.");
                 }
     
-                // Si la cantidad es válida, incrementa la cantidad
+                // Si la cantidad es válida, actualiza la cantidad
                 $insumoSeleccionado['cantidad'] = $nuevaCantidad;
                 $found = true;
                 break;
@@ -306,20 +303,24 @@ class HomeController extends Controller
         // Si no se encontró el insumo, agregar uno nuevo
         if (!$found) {
             $insumosSeleccionados[] = [
-                'id' => $insumo->id,  // Agregar el ID del insumo
+                'id' => $insumo->id,
                 'nombre' => $nombre,
                 'color' => $request->color,
                 'cantidad' => $request->cantidad,
-                'precio' => $insumo->costo_unitario // Usar el costo unitario en lugar de precio
+                'precio' => $insumo->costo_unitario
             ];
         }
     
         // Guardar la lista de insumos seleccionados en la sesión
         session()->put('insumosSeleccionados', $insumosSeleccionados);
     
+        session()->put('current_step', 1);
+    
         // Redirigir de vuelta a la página con un mensaje de éxito
-        return redirect()->route('personalizados')->with('success', 'Insumo agregado exitosamente.');
+        return redirect()->route('personalizados')->with('success', 'Insumo agregado, verificar en paso 3.');
     }
+    
+    
     
 
     public function actualizar_producto(Request $request, $key)
@@ -343,6 +344,8 @@ class HomeController extends Controller
             // Actualizar la lista de insumos en la sesión
             session(['insumosSeleccionados' => $insumos]);
         }
+
+        session()->put('current_step', 2);
     
         // Redirigir de vuelta a la página
         return redirect()->back()->with('success', 'Insumo actualizado exitosamente.');
@@ -360,6 +363,8 @@ class HomeController extends Controller
     
         // Actualizar la lista en la sesión
         session(['insumosSeleccionados' => $insumos]);
+
+        session()->put('current_step', 2);
     
         // Redirigir de vuelta a la página con un mensaje de éxito
         return redirect()->back()->with('success', 'Insumo eliminado exitosamente.');

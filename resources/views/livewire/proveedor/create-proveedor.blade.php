@@ -1,6 +1,6 @@
 <div class="row justify-content-center mt-5">
     <div class="col-md-8">
-        <form id="formulario_crear" method="POST" action="{{ route('Admin.proveedor.store') }}" novalidate>
+        <form wire:submit.prevent="submit">
             @csrf
             <div class="card card-body">
                 <div class="form-group">
@@ -8,10 +8,15 @@
                         <!-- Selección de tipo de proveedor -->
                         <div class="col-md-6">
                             <label for="tipo">Tipo de Proveedor <span class="text-danger">*</span> </label>
-                            <select id="tipo" name="tipo" class="form-control" wire:model.lazy="tipo_proveedor">
+                            <select id="tipo" name="tipo" class="form-control @error('tipo_proveedor') is-invalid @enderror" wire:model.lazy="tipo_proveedor">
                                 <option value="empresa">Empresa</option>
                                 <option value="persona">Persona Natural</option>
                             </select>
+                            @error('tipo_proveedor')
+                            <div class="invalid-feedback">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                            @enderror
                         </div>
                     </div>
 
@@ -20,35 +25,67 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <label for="numero">NIT de la Empresa <span class="text-danger">*</span> </label>
-                            <input type="text" name="numero" id="numero"  class="form-control" value="{{ old('numero') }}">
+                            <input type="text" name="numero" id="numero_documento" wire:model="numero_documento" class="form-control @error('numero_documento') is-invalid @enderror" value="{{ old('numero') }}">
+                            @error('numero_documento')
+                            <div class="invalid-feedback">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label for="nombre">Nombre de la Empresa <span class="text-danger">*</span> </label>
-                            <input type="text" name="nombre" id="nombre" class="form-control" value="{{ old('nombre') }}">
+                            <input type="text" wire:model="nombre" name="nombre" id="nombre" class="form-control @error('nombre') is-invalid @enderror" value="{{ old('nombre') }}">
+                            @error('nombre')
+                            <div class="invalid-feedback">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                            @enderror
                         </div>
-
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6">
-                            <label for="telefono">Teléfono de la Empresa</label>
-                            <input type="tel" name="telefono" id="telefono" class="form-control" value="{{ old('telefono') }}">
+                            <label for="telefono">Teléfono de la Empresa <span class="text-danger">*</span></label>
+                            <input type="tel" wire:model="telefono" name="telefono" id="telefono" class="form-control @error('telefono') is-invalid @enderror" value="{{ old('telefono') }}">
+                            @error('telefono')
+                            <div class="invalid-feedback">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label for="correo">Correo de la Empresa <span class="text-danger">*</span> </label>
-                            <input type="email" name="correo" id="correo" class="form-control" value="{{ old('correo') }}">
+                            <input type="email" wire:model="correo" name="correo" id="correo" class="form-control @error('correo') is-invalid @enderror" value="{{ old('correo') }}">
+                            @error('correo')
+                            <div class="invalid-feedback">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <label for="ubicacion">Ubicación de la Empresa <span class="text-danger">*</span> </label>
-                            <input type="text" name="ubicacion" id="ubicacion" class="form-control" value="{{ old('ubicacion') }}">
+                            <input type="text" wire:model="ubicacion" name="ubicacion" id="ubicacion" class="form-control @error('ubicacion') is-invalid @enderror" value="{{ old('ubicacion') }}">
+                            @error('ubicacion')
+                            <div class="invalid-feedback">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                            @enderror
                         </div>
                         <div class="col-md-6">
-                            <label for="estado">Estado <span class="text-danger">*</span> </label>
-                            <select name="estado" id="estado" class="form-control">
-                                <option value="1" {{ old('estado') == '1' ? 'selected' : '' }}>Activo</option>
-                                <option value="0" {{ old('estado') == '0' ? 'selected' : '' }}>Inactivo</option>
-                            </select>
+                        <div class="form-group">
+                                <label for="estado" class="form-label">Estado</label>
+                                <div class="form-check form-switch">
+                                    <input
+                                        wire:model.defer='estado'
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        id="estado"
+                                        value="1"
+                                        {{ old('estado', $estado) ? 'checked' : '' }}>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     @endif
@@ -57,35 +94,69 @@
                     @if($tipo_proveedor == 'persona')
                     <div class="row mt-3">
                         <div class="col-md-6">
-                            <label for="nombre">Nombre Completo <span class="text-danger">*</span> </label>
-                            <input type="text" name="nombre" id="nombre" class="form-control" value="{{ old('nombre') }}">
+                            <label for="numero">Número de Documento <span class="text-danger">*</span> </label>
+                            <input type="number" wire:model="numero_documento" name="numero_documento" id="numero_documento" class="form-control @error('numero_documento') is-invalid @enderror" value="{{ old('numero') }}">
+                            @error('numero_documento')
+                            <div class="invalid-feedback">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                            @enderror
                         </div>
                         <div class="col-md-6">
-                            <label for="numero">Número de Documento <span class="text-danger">*</span> </label>
-                            <input type="text" name="numero" id="numero" class="form-control" value="{{ old('numero') }}">
+                            <label for="nombre">Nombre Completo <span class="text-danger">*</span> </label>
+                            <input type="text" wire:model="nombre" name="nombre" id="nombre" class="form-control @error('nombre') is-invalid @enderror" value="{{ old('nombre') }}">
+                            @error('nombre')
+                            <div class="invalid-feedback">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                            @enderror
                         </div>
                     </div>
+
                     <div class="row mt-3">
                         <div class="col-md-6">
-                            <label for="telefono">Teléfono</label>
-                            <input type="tel" name="telefono" id="telefono" class="form-control" value="{{ old('telefono') }}">
+                            <label for="telefono">Teléfono <span class="text-danger">*</span></label>
+                            <input type="tel" wire:model="telefono" name="telefono" id="telefono" class="form-control @error('telefono') is-invalid @enderror" value="{{ old('telefono') }}">
+                            @error('telefono')
+                            <div class="invalid-feedback">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                            @enderror
                         </div>
                         <div class="col-md-6">
-                            <label for="correo">Correo</label>
-                            <input type="email" name="correo" id="correo" class="form-control" value="{{ old('correo') }}">
+                            <label for="correo">Correo <span class="text-danger">*</span></label>
+                            <input type="email" wire:model="correo" name="correo" id="correo" class="form-control @error('correo') is-invalid @enderror" value="{{ old('correo') }}">
+                            @error('correo')
+                            <div class="invalid-feedback">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <label for="ubicacion">Ubicación <span class="text-danger">*</span> </label>
-                            <input type="text" name="ubicacion" id="ubicacion" class="form-control" value="{{ old('ubicacion') }}">
+                            <input type="text" wire:model="ubicacion" name="ubicacion" id="ubicacion" class="form-control @error('ubicacion') is-invalid @enderror" value="{{ old('ubicacion') }}">
+                            @error('ubicacion')
+                            <div class="invalid-feedback">
+                                <strong>{{ $message }}</strong>
+                            </div>
+                            @enderror
                         </div>
                         <div class="col-md-6">
-                        <label for="estado">Estado <span class="text-danger">*</span></label>
-                            <select name="estado" id="estado" class="form-control">
-                                <option value="1" {{ old('estado') == '1' ? 'selected' : '' }}>Activo</option>
-                                <option value="0" {{ old('estado') == '0' ? 'selected' : '' }}>Inactivo</option>
-                            </select>
+                        <div class="form-group">
+                                <label for="estado" class="form-label">Estado</label>
+                                <div class="form-check form-switch">
+                                    <input
+                                        wire:model.defer='estado'
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        id="estado"
+                                        value="1"
+                                        {{ old('estado', $estado) ? 'checked' : '' }}>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     @endif
@@ -99,6 +170,7 @@
         </form>
     </div>
 </div>
+
 
 <script>
     function agregar() {

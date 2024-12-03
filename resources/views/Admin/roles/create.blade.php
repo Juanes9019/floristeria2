@@ -16,7 +16,7 @@
             @csrf
             <div class="form-group col-md-6"> <!-- Reduce el tamaño del campo del rol a la mitad -->
                 <label for="nombre">Nombre del rol</label>
-                <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror" id="nombre" placeholder="Nombre del rol" value="{{ old('nombre') }}">
+                <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror" id="nombre" placeholder="Nombre del rol" value="{{ old('nombre') }}" maxlength="20">
                 @error('nombre')
                     <span class="invalid-feedback d-block" role="alert">
                         <strong>{{$message}}</strong>

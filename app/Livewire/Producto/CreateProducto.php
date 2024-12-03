@@ -35,7 +35,7 @@ class CreateProducto extends Component
 
     public function mount()
     {
-        
+
         $this->insumos_agregados = session()->get('insumos_agregados', []);
         $this->categorias_insumos = Categoria_insumo::all();
         $this->categorias_producto = CategoriaProducto::all();
@@ -48,7 +48,7 @@ class CreateProducto extends Component
         // }
         if ($this->categoria_seleccionada) {
             $this->insumos_por_categoria = Insumo::where('id_categoria_insumo', $this->categoria_seleccionada)
-                ->where('cantidad_insumo', '>', 0) 
+                ->where('cantidad_insumo', '>', 0)
                 ->get();
         }
     }
@@ -68,7 +68,7 @@ class CreateProducto extends Component
     {
         $this->validate([
             'categoria_seleccionada' => 'required|exists:categoria_insumos,id',
-            'insumo_seleccionado' => 'required|exists:insumos,id', 
+            'insumo_seleccionado' => 'required|exists:insumos,id',
             'cantidad_usada' => 'required|numeric|min:1|max:12000000000'
         ]);
 
@@ -139,26 +139,57 @@ class CreateProducto extends Component
             'id_categoria_producto' => 'required|exists:categorias_productos,id_categoria_producto'
         ]);
 
-        //Establece el valor de inactivo en caso de que sea nulo
-        if($this->estado == null){
+        // Establecer el valor de inactivo en caso de que sea nulo
+        if ($this->estado == null) {
             $this->estado = 0;
-        } 
-
+        }
 
         // Procesar la imagen
         if ($this->foto) {
             $filePath = $this->foto->getRealPath(); // Obtén la ruta temporal del archivo
-            $imageData = base64_encode(file_get_contents($filePath)); // Codifica en base64
+            $imageName = time() . '.' . $this->foto->getClientOriginalExtension(); // Generar nombre único para la imagen
+
+            // Intentar almacenar la imagen localmente
+            $localImagePath = storage_path('app/public/productos/' . $imageName); // Ruta donde se almacenará la imagen
+            $this->foto->storeAs('public/productos', $imageName); // Almacenar imagen localmente
         } else {
             return redirect()->back()->withErrors('No se ha cargado ninguna imagen.');
         }
 
-        // Realiza la solicitud a la API de Imgur
-        $response = Http::withHeaders([
-            'Authorization' => 'Client-ID b00a4e0e1ff8717',
-        ])->post('https://api.imgur.com/3/image', [
-            'image' => $imageData,
-        ]);
+        // Variable para la URL de la imagen
+        $imageUrl = null;
+
+        // Intentar hasta 3 veces subir la imagen a Imgur
+        $retries = 3;
+        $attempt = 0;
+        $success = false;
+        while ($attempt < $retries && !$success) {
+            try {
+                // Realiza la solicitud a la API de Imgur
+                $response = Http::withHeaders([
+                    'Authorization' => 'Client-ID b00a4e0e1ff8717',
+                ])->post('https://api.imgur.com/3/image', [
+                    'image' => base64_encode(file_get_contents($filePath)),
+                ]);
+
+                if ($response->successful()) {
+                    // Si la API de Imgur responde exitosamente, obtener la URL de la imagen
+                    $imageUrl = $response->json()['data']['link'];
+                    $success = true; // Se marca como exitoso
+                } else {
+                    // Si la API no responde correctamente, lanzamos una excepción para que se intente de nuevo
+                    throw new \Exception('Error al intentar subir la imagen a Imgur');
+                }
+            } catch (\Exception $e) {
+                // Si ocurre un error, incrementamos el contador de intentos
+                $attempt++;
+                if ($attempt >= $retries) {
+                    // Si se alcanzaron los intentos máximos, se sale del bucle y usa la imagen local
+                    $imageUrl = asset('storage/productos/' . $imageName); // Ruta local de la imagen
+                    $success = true; // Terminamos el proceso con la imagen local
+                }
+            }
+        }
 
         // Crear y guardar el producto
         $newProducto = new Producto();
@@ -168,13 +199,8 @@ class CreateProducto extends Component
         $newProducto->precio = $this->precio;
         $newProducto->estado = $this->estado;
 
-        if ($response->successful()) {
-            $newProducto->foto = $response->json()['data']['link'];
-        } else {
-            dd($response->body()); // Imprime la respuesta para depurar el error
-            return redirect()->back()->withErrors('Error al subir la imagen a Imgur.');
-        }
-
+        // Asignar la URL de la imagen (local o de Imgur)
+        $newProducto->foto = $imageUrl;
 
         $newProducto->save(); // Guardar el producto antes de asociar insumos
 
@@ -185,7 +211,7 @@ class CreateProducto extends Component
                 $newProducto->insumos()->attach($insumoModel->id, ['cantidad_usada' => $insumoAgregado['cantidad']]);
             }
         }
-        
+
 
         // Limpiar la sesión y redirigir
         session()->forget('insumos_agregados');

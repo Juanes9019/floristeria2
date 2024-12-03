@@ -37,7 +37,7 @@ class indexProducto extends Component
             $this->ordenarForma = 'asc';
         }
 
-        $this->resetPage(); 
+        $this->resetPage();
         $this->primeraCarga = false;
     }
 
@@ -48,10 +48,18 @@ class indexProducto extends Component
         $producto->save();
     }
 
-   
+    public function loadProducto($id)
+    {
+        // Emitir el evento sin usar emitTo, ya que el componente está en la misma vista
+        $this->emit('loadProducto', $id);
+    }
+
+
+
+
     public function render()
     {
-        return view('livewire.producto.index-producto',[
+        return view('livewire.producto.index-producto', [
             'productos' => Producto::search($this->buscar)
                 ->orderBy($this->ordenarColumna, $this->ordenarForma)
                 ->paginate($this->porPagina)

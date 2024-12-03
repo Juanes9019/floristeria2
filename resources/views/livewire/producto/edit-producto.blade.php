@@ -97,8 +97,6 @@
                     </div>
                 </section>
 
-                <!-- Separador -->
-                <hr class="w-100">
 
                 <h4 class="mb-4">Insumos Seleccionados:</h4>
                 <section class="row row-cols-1 row-cols-md-2 g-3">
@@ -187,5 +185,4 @@
             </form>
         </div>
     </div>
-</div>
 </div>

@@ -20,7 +20,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="name">Nombre</label>
-                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Nombre" value="{{ old('name') }}">
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Nombre" value="{{ old('name') }}" maxlength="30">
                             @error('name')
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{$message}}</strong>
@@ -30,7 +30,7 @@
 
                         <div class="form-group">
                             <label for="surname">Apellido</label>
-                            <input type="text" name="surname" class="form-control @error('surname') is-invalid @enderror" id="surname" placeholder="Apellido" value="{{ old('surname') }}">
+                            <input type="text" name="surname" class="form-control @error('surname') is-invalid @enderror" id="surname" placeholder="Apellido" value="{{ old('surname') }}" maxlength="30">
                             @error('surname')
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{$message}}</strong>
@@ -78,7 +78,7 @@
 
                         <div class="form-group">
                             <label for="email">Correo electrónico</label>
-                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Correo electrónico" value="{{ old('email') }}">
+                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Correo electrónico" value="{{ old('email') }}" maxlength="80">
                             @error('email')
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{$message}}</strong>

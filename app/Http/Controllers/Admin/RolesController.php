@@ -194,7 +194,7 @@ class RolesController extends Controller
         
         // Validaciones
         $request->validate([
-            'nombre_rol' => 'required|string|max:255',
+            'nombre_rol' => 'required|string|max:20|min:1',
             // Puedes omitir la validación de permisos si quieres permitir que no se envíen
             // 'permisos' => 'array', // Asegúrate de que se envían permisos
         ]);
