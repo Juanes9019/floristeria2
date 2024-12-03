@@ -68,13 +68,11 @@
                                                     @csrf  
                                                     @method('PUT')
                                                 
-                                                    <!-- Campo para modificar el nombre del rol -->
                                                     <div class="form-group">
-                                                        <label for="nombre_rol">Nombre del Rol</label>
+                                                        <label for="nombre_rol">Nombre del Rol <strong style="color: red;">*</strong></label>
                                                         <input type="text" name="nombre_rol" class="form-control" maxlength="20" value="{{ $role->nombre }}" required>
                                                     </div>
                                                 
-                                                    <!-- Lista de permisos -->
                                                     <div class="form-group checkboxes-container">
                                                         @foreach($todos_los_permisos as $permiso)
                                                         <div class="form-check form-switch">

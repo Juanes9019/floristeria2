@@ -236,22 +236,15 @@ public function removeItem(Request $request)
                         $detalle->save();
                     } else {
                         $producto = Producto::where('id', $item->id)->first();
-                        if (!$producto) {
-                            throw new \Exception('Inventario no encontrado para el producto: ' . $item->id);
-                        }
-    
-                        if ($producto->cantidad < $item->qty) {
-                            throw new \Exception("Cantidad no disponible. Disponible: $producto->cantidad");
-                        } else {
-                            $detalle = new Detalle();
-                            $detalle->id_pedido = $pedido->id;
-                            $detalle->id_producto = $item->id;
-                            $detalle->precio = $item->price;
-                            $detalle->cantidad = $item->qty;
-                            $detalle->subtotal = $item->price * $item->qty;
-                            $detalle->imagen = $producto->foto ?? null;
-                            $detalle->save();
-                        }
+                        
+                        $detalle = new Detalle();
+                        $detalle->id_pedido = $pedido->id;
+                        $detalle->id_producto = $item->id;
+                        $detalle->precio = $item->price;
+                        $detalle->cantidad = $item->qty;
+                        $detalle->subtotal = $item->price * $item->qty;
+                        $detalle->imagen = $producto->foto ?? null;
+                        $detalle->save();
                     }
                 }
             } catch (\Exception $e) {

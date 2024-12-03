@@ -79,10 +79,10 @@ class InsumoController extends Controller
     {
         $data = $request->validate([
             'id_categoria_insumo' => 'required',
-            'nombre' => 'required',
-            'color' => 'required',
-            'costo_unitario' => 'required',
-            'imagen' => 'required',
+            'nombre' => 'required|min:3|max:20',
+            'color' => 'required|min:3|max:15',
+            'costo_unitario' => 'required|min:3|max:10', 
+            'imagen' => 'required|mimes:jpg,jpeg,png',
         ]);
 
         $insumo = new Insumo;
@@ -138,10 +138,10 @@ class InsumoController extends Controller
 
         $request->validate([
             'id_categoria_insumo' => 'required',
-            'color' => 'required',
-            'nombre' => 'required',
-            'costo_unitario' => 'required',
-            'imagen' => 'required',
+            'color' => 'required|min:3|max:15',
+            'nombre' => 'required|min:3|max:20',
+            'costo_unitario' => 'required|min:3|max:10',
+            'imagen' => 'required|mimes:jpg,jpeg,png',
         ]);
 
         $insumos->id_categoria_insumo = $request->input('id_categoria_insumo');
@@ -252,7 +252,7 @@ class InsumoController extends Controller
                 'id_categoria_insumo' => 'required',
                 'insumo_id' => 'required|exists:insumos,id',
                 'cantidad_perdida' => 'required|numeric|min:1',
-                'descripcion' => 'required'
+                'descripcion' => 'required|min:4|max:200'
             ]);
 
             // Obtener el insumo

@@ -16,9 +16,8 @@
             <div class="card card-body">
                 <div class="form-group">
                     <div class="row">
-                        <!-- Selección de tipo de proveedor -->
                         <div class="col-md-6">
-                            <label for="tipo">Tipo de Proveedor</label>
+                            <label for="tipo">Tipo de Proveedor <strong style="color: red;">*</strong></label>
                             <select name="tipo" id="tipo" class="form-control">
                                 <option value="empresa" {{ old('tipo', $proveedor->tipo_proveedor) == 'empresa' ? 'selected' : '' }}>Empresa</option>
                                 <option value="persona" {{ old('tipo', $proveedor->tipo_proveedor) == 'persona' ? 'selected' : '' }}>Persona Natural</option>
@@ -26,11 +25,10 @@
                         </div>
                     </div>
 
-                    <!-- Campos para empresa -->
                     @if($proveedor->tipo_proveedor == 'empresa')
                     <div class="row mt-3">
                         <div class="col-md-6">
-                            <label for="nombre">Nombre de la Empresa</label>
+                            <label for="nombre">Nombre de la Empresa <strong style="color: red;">*</strong></label>
                             <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror" id="nombre"
                                 placeholder="Floristeria" value="{{ old('nombre', $proveedor->nombre) }}" />
                             @error('nombre')
@@ -40,7 +38,7 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label for="numero">NIT de la Empresa</label>
+                            <label for="numero">NIT de la Empresa <strong style="color: red;">*</strong></label>
                             <input type="text" name="numero" class="form-control @error('numero') is-invalid @enderror" id="numero"
                                 value="{{ old('numero', $proveedor->numero_documento) }}" />
                             @error('numero')
@@ -52,11 +50,10 @@
                     </div>
                     @endif
 
-                    <!-- Campos para persona natural -->
                     @if($proveedor->tipo_proveedor == 'persona')
                     <div class="row mt-3">
                         <div class="col-md-6">
-                            <label for="nombre">Nombre Completo</label>
+                            <label for="nombre">Nombre Completo <strong style="color: red;">*</strong></label>
                             <input type="text" name="nombre" class="form-control @error('nombre') is-invalid @enderror" id="nombre"
                                 value="{{ old('nombre', $proveedor->nombre) }}" />
                             @error('nombre')
@@ -66,7 +63,7 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
-                            <label for="numero">Número de Documento</label>
+                            <label for="numero">Número de Documento <strong style="color: red;">*</strong></label>
                             <input type="text" name="numero" class="form-control @error('numero') is-invalid @enderror" id="numero"
                                 value="{{ old('numero', $proveedor->numero_documento) }}" />
                             @error('numero')
@@ -81,7 +78,7 @@
                     <!-- Teléfono -->
                     <div class="row mt-3">
                         <div class="col-md-6">
-                            <label for="telefono">Teléfono</label>
+                            <label for="telefono">Teléfono <strong style="color: red;">*</strong></label>
                             <input type="text" name="telefono" class="form-control @error('telefono') is-invalid @enderror" id="telefono"
                                 value="{{ old('telefono', $proveedor->telefono) }}" />
                             @error('telefono')
@@ -92,7 +89,7 @@
                         </div>
                         <!-- Correo -->
                         <div class="col-md-6">
-                            <label for="correo">Correo</label>
+                            <label for="correo">Correo <strong style="color: red;">*</strong></label>
                             <input type="email" name="correo" class="form-control @error('correo') is-invalid @enderror" id="correo"
                                 value="{{ old('correo', $proveedor->correo) }}" />
                             @error('correo')
@@ -106,7 +103,7 @@
                     <!-- Ubicación -->
                     <div class="row mt-3">
                         <div class="col-md-6">
-                            <label for="ubicacion">Ubicación</label>
+                            <label for="ubicacion">Ubicación <strong style="color: red;">*</strong></label>
                             <input type="text" name="ubicacion" class="form-control @error('ubicacion') is-invalid @enderror" id="ubicacion"
                                 value="{{ old('ubicacion', $proveedor->ubicacion) }}" />
                             @error('ubicacion')
@@ -129,7 +126,7 @@
 
 
                     <div class="form-group mt-3">
-                        <button type="submit" class="btn btn-warning">Editar Proveedor</button>
+                        <button type="submit" class="btn btn-primary">Editar Proveedor</button>
                         <a href="{{ route('Admin.proveedores') }}" class="btn btn-danger">Cancelar</a>
                     </div>
                 </div>
