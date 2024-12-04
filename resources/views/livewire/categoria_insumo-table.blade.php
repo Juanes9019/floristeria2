@@ -11,13 +11,19 @@
                 </div>
 
                 <div class="card-body">
-
-                    @if ($errors->has('status'))
-                        <div class="alert alert-danger" role="alert">
-                            {{ $errors->first('status') }}
-                        </div>
+                    @if (session('error'))
+                        <script>
+                            Swal.fire({
+                                icon: 'error',
+                                title: '¡Error!',
+                                text: '{{ session('error') }}',
+                                position: 'top-end',
+                                toast: true,
+                                showConfirmButton: false,
+                                timer: 3000
+                            });
+                        </script>
                     @endif
-
                     @if (session('success'))
                         <script>
                             Swal.fire({
