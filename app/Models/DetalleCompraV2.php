@@ -27,11 +27,6 @@ class DetalleCompraV2 extends Model
         return $this->belongsTo(Compra::class, 'compra_id');
     }
 
-    public function categoria_insumo()
-    {
-        return $this->belongsTo(Categoria_insumo::class, 'id_categoria_insumo');
-    }
-
     public function insumo()
     {
         return $this->belongsTo(Insumo::class, 'id_insumo');

@@ -10,7 +10,6 @@ class CreateDetalleComprasV2Table extends Migration
         Schema::create('detalle_compras_v2', function (Blueprint $table) {
             $table->id();
             $table->foreignId('compra_id')->constrained()->onDelete('cascade');
-            $table->foreignId('id_categoria_insumo')->constrained('categoria_insumos')->onDelete('cascade');
             $table->foreignId('id_insumo')->constrained('insumos')->onDelete('cascade');
             $table->integer('cantidad');
             $table->decimal('costo_unitario', 15, 2);
