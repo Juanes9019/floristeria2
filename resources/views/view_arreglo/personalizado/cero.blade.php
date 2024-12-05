@@ -22,25 +22,19 @@
 
                 <label for="cantidad" class="mt-3">Cantidad:</label>
                 <input type="number" id="cantidad" name="cantidad" class="form-control" min="1" value="1">
-                <button type="submit" class="btn btn-primary mt-3">Agregar Insumo</button>
+                <button type="submit" class="btn btn-outline-primary mt-3">Agregar Insumo</button>
             </form>
         </div>
     </div>
 
     <div class="col-md-6">
         <div class="p-4 bg-light border rounded shadow-sm"> 
-            <img id="imagen-insumo" src="ruta/default.jpg" alt="imagen producto" class="img-fluid my-2" style="max-width: 150px; height: auto; object-fit: cover; border-radius: 8px;">
-            <h5 id="precio-insumo" class="mb-0 my-2">Precio: <span id="precio-value">$0</span></h5>
-
+            <img id="imagen-insumo" src="ruta/default.jpg" alt="imagen producto" class="img-fluid my-2" style="max-width: 150px; height: auto; object-fit: cover; border-radius: 8px; display: none;">
+            <h5 id="precio-insumo" class="mb-0 my-2" style="display: none;">Precio: <span id="precio-value">$0</span></h5>
             <p id="descripcion-insumo" class="mb-0 my-2" style="font-size: 1rem; color: #666;">Por favor selecciona un insumo para ver más detalles.</p>
-
-        </div>
-
-        <div class="mt-2">
         </div>
     </div>
 </div>
-
 
 
 <script>
@@ -49,9 +43,9 @@
         const selectedValue = this.value;
 
         if (selectedValue) {
-            imagenContainer.style.display = 'flex'; // Mostrar la imagen
+            imagenContainer.style.display = 'flex'; 
         } else {
-            imagenContainer.style.display = 'none'; // Ocultar la imagen
+            imagenContainer.style.display = 'none'; 
         }
     });
 </script>

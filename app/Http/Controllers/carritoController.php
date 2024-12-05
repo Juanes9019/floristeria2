@@ -77,6 +77,7 @@ class carritoController extends Controller
                 'image' => $producto->foto,            
             ]
         ]);
+
         
         return redirect()->back()->with("success", "Arreglo floral agregado correctamente al carrito");
     }

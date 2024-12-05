@@ -158,48 +158,6 @@ class HomeController extends Controller
     }
     
 
-
-    public function show_all(Request $request)
-    {
-        $categoria_categoria = CategoriaProducto::all();
-    
-        $filtro = Producto::query();
-    
-        if ($request->has('query')) {
-            $consulta = $request->get('query');
-            $filtro->where('nombre', 'like', '%' . $consulta . '%');
-        }
-    
-        // Filtrar por precio
-        if ($request->has('min_price') && $request->has('max_price')) {
-            $minPrice = $request->input('min_price');
-            $maxPrice = $request->input('max_price');
-            $filtro->whereBetween('precio', [$minPrice, $maxPrice]);
-        }
-    
-        if ($request->has('filtro') && $request->get('filtro') !== 'todos') {
-            switch ($request->get('filtro')) {
-                case 'caro':
-                    $filtro->orderBy('precio', 'desc');
-                    break;
-                case 'barato':
-                    $filtro->orderBy('precio', 'asc');
-                    break;
-                case 'nuevos':
-                    $filtro->orderBy('created_at', 'desc');
-                    break;
-                case 'antiguos':
-                    $filtro->orderBy('created_at', 'asc');
-                    break;
-            }
-        }
-    
-        $productos = $filtro->get();
-    
-        return view('view_arreglo.all_products', compact('productos', 'categoria_categoria'));
-    }
-    
-
     public function getInsumosPorCategoria($categoria_id)
     {
         $insumos = Insumo::where('id_categoria_insumo', $categoria_id)->get();
@@ -270,9 +228,9 @@ class HomeController extends Controller
         // Obtener el insumo seleccionado
         $insumo = Insumo::find($request->insumo_id);
     
-        // Verificar si la cantidad solicitada está disponible en el inventario
+
         if ($insumo->cantidad_insumo < $request->cantidad) {
-            return redirect()->back()->withErrors("Lamentamos informarte que solo hay {$insumo->cantidad_insumo} unidades disponibles de {$insumo->nombre}. No puedes agregar más.");
+            return redirect()->back()->with('error', "Lamentamos informarte que solo hay {$insumo->cantidad_insumo} unidades disponibles de {$insumo->nombre}. No puedes agregar más.");
         }
     
         // Crear un nombre para el insumo que incluye el nombre y el color

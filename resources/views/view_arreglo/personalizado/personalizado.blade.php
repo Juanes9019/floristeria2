@@ -14,13 +14,27 @@
             position: 'top-end',
             toast: true,
             showConfirmButton: false,
-            timer: 3000
+            timer: 5000
+        });
+    </script>
+@elseif (session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '{{ session('error') }}',
+            position: 'top-end',
+            toast: true,
+            showConfirmButton: false,
+            timer: 5000
         });
     </script>
 @endif
+
+
 </div>
 @php
-    $currentStep = session('current_step', 0); // Usamos 'current_step' desde la sesión, con 0 por defecto
+    $currentStep = session('current_step', 0); 
 @endphp
 
 <div class="container custom-border-shadow" style="width: 90%; max-width: 1300px;">
@@ -137,13 +151,12 @@
                         </div>
                     </div>
 
-                    <!-- Botones de navegación -->
                     <div class="d-flex justify-content-between mt-4">
                         <button class="btn btn-outline-secondary ml-5" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                            <i class="fas fa-chevron-left"></i> Anterior
+                            <i class="fas fa-chevron-left"></i> 
                         </button>
                         <button class="btn btn-outline-secondary mr-5" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                            Siguiente <i class="fas fa-chevron-right"></i>
+                            <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
                 </div>
