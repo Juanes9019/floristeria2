@@ -63,7 +63,8 @@
                         <div class="col-md-6">
                             <label for="telefono">Teléfono <strong style="color: red;">*</strong></label>
                             <input type="text" name="telefono" class="form-control @error('telefono') is-invalid @enderror" id="telefono"
-                                value="{{ old('telefono', $proveedor->telefono) }}" />
+                                maxlength="10"
+                                value="{{ old('telefono', $proveedor->telefono) }}"  />
                             @error('telefono')
                             <span class="invalid-feedback d-block" role="alert">
                                 <strong>{{ $message }}</strong>

@@ -47,7 +47,7 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <label for="telefono">Teléfono de la Empresa <span class="text-danger">*</span></label>
-                            <input type="tel" wire:model="telefono" name="telefono" id="telefono" class="form-control @error('telefono') is-invalid @enderror" value="{{ old('telefono') }}">
+                            <input type="tel" wire:model="telefono" name="telefono" maxlength="10" id="telefono" class="form-control @error('telefono') is-invalid @enderror" value="{{ old('telefono') }}">
                             @error('telefono')
                             <div class="invalid-feedback">
                                 <strong>{{ $message }}</strong>
@@ -118,7 +118,7 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <label for="telefono">Teléfono <span class="text-danger">*</span></label>
-                            <input type="tel" wire:model="telefono" name="telefono" id="telefono" class="form-control @error('telefono') is-invalid @enderror" value="{{ old('telefono') }}">
+                            <input type="tel" wire:model="telefono" maxlength="10" name="telefono" id="telefono" class="form-control @error('telefono') is-invalid @enderror" value="{{ old('telefono') }}">
                             @error('telefono')
                             <div class="invalid-feedback">
                                 <strong>{{ $message }}</strong>
@@ -164,7 +164,7 @@
                     @endif
 
                     <div class="form-group mt-3">
-                        <button  class="btn btn-primary" onclick="agregar()" >Agregar</button>
+                        <button class="btn btn-primary" onclick="agregar()">Agregar</button>
                         <a href="{{ route('Admin.proveedores') }}" class="btn btn-danger">Cancelar</a>
                     </div>
                 </div>
@@ -175,22 +175,21 @@
 
 
 <script>
-function agregar() {
-    Swal.fire({
-        title: "¡Estás seguro!",
-        text: "¿Deseas agregar este Proveedor?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Sí, agregar"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            event.preventDefault();
-            // Cambiar el ID aquí
-            @this.call('submit');
-        }
-    });
-}
-
+    function agregar() {
+        Swal.fire({
+            title: "¡Estás seguro!",
+            text: "¿Deseas agregar este Proveedor?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, agregar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                event.preventDefault();
+                // Cambiar el ID aquí
+                @this.call('submit');
+            }
+        });
+    }
 </script>
