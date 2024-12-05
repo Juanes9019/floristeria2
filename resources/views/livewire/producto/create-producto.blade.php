@@ -249,7 +249,7 @@
 
                         <!-- Botones -->
                         <div class="d-flex justify-content-end gap-2">
-                            <button type="button" class="btn btn-primary" id="crearProductoBtn" onclick="agregar()" >Crear Producto</button>
+                            <button type="button" class="btn btn-primary" id="crearProductoBtn" onclick="agregar()">Agregar</button>
                             <a href="{{ route('Admin.productos') }}" class="btn btn-danger">Cancelar</a>
                         </div>
             </form>

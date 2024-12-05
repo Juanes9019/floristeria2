@@ -178,7 +178,7 @@
                 <div class="d-flex justify-content-center gap-2 mt-4">
                     <button
                         class="btn btn-primary d-inline-flex align-items-center">
-                        <i class="bi bi-save"></i> Actualizar Producto
+                        <i class="bi bi-save"></i> Editar
                     </button>
                     <a href="{{ route('Admin.productos') }}" class="btn btn-danger d-inline-flex align-items-center">
                         <i class="bi bi-arrow-left"></i> Cancelar

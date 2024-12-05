@@ -44,7 +44,7 @@
                             <input wire:model.live.debounce.300ms="buscar" type="text" class="form-control" placeholder="Buscar...">
                         </div>
 
-                        <!-- <div class="d-flex">
+                        <div class="d-flex">
                             <div class="dropdown mr-2">
                                 <button class="btn btn-primary dropdown-toggle" type="button" id="exportDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Exportar
@@ -57,7 +57,7 @@
                                         {{ __('Exportar a PDF') }}
                                     </a>
                                 </div>
-                            </div> -->
+                            </div>
                         <a href="{{ route('Admin.proveedor.create') }}" class="btn btn-primary btn-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff">
                                 <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />

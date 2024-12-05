@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ProductoExport;
 use App\Http\Controllers\Controller;
 use App\Models\Categoria_Producto;
 use App\Models\CategoriaProducto;
@@ -11,6 +12,8 @@ use App\Models\Producto;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Excel;
 
 
 
@@ -244,6 +247,26 @@ class ProductoController extends Controller
         // Redirecciona a la vista de edición con un mensaje de éxito
         return redirect()->route('Admin.productos', ['id' => $producto->id])
             ->with('success', 'producto actualizado exitosamente');
+    }
+
+    public function export($format)
+    {
+        $export = new ProductoExport;
+
+        switch ($format) {
+            case 'pdf':
+                $pdf = Pdf::loadView('exports.productos', [
+                    'productos' => Producto::all()
+                ])->setPaper('a4', 'portait')
+                    ->setOption('margin-left', '10mm')
+                    ->setOption('margin-right', '10mm')
+                    ->setOption('margin-top', '10mm')
+                    ->setOption('margin-bottom', '10mm');
+                return $pdf->download('productos.pdf');
+            case 'xlsx':
+            default:
+                return $export->download('productos.xlsx', Excel::XLSX);
+        }
     }
 
     public function destroy($id)
