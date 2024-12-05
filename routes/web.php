@@ -91,8 +91,8 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
 
 
 
-//midleware para controlar el acceso solo a los administradores
-//Route::middleware(['auth', 'user-access:1,3,4'])->group(function () {
+Route::middleware(['auth'])->group(function () {
+
 //Ruta para el inicio
     Route::get('admin/inicio', [InicioController::class, 'inicio'])->name('admin.inicio');
 
@@ -230,7 +230,7 @@ Route::post('/confirmar-carrito', [CarritoController::class, 'confirmarCarrito']
     Route::post('admin/envio-rechazo', [EnvioController::class, 'motivo_rechazo'])->name('envio.rechazo');
 
 
-//});
+});
 
 
 //Rutas flutter

@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 
-<div class="row justify-content-center mt-5">
+<div class="row justify-content-center">
     <div class="col-md-8">
         <form id="formulario_crear" method="POST" action="{{ route('Admin.users.store') }}" novalidate>
             @csrf

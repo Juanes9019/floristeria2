@@ -23,22 +23,22 @@
                 <div class="section pb-5 pt-5 pt-sm-2 text-center">
                     <div class="card-3d-wrap mx-auto">
                         <div class="card-3d-wrapper">
-                            <!-- Restablecimiento de Contraseña -->
-                            <div class="card-front">
-                                <div class="center-wrap">
-                                    <div class="section text-center">
-                                        <h4 class="mb-4 pb-3">Restablecer contraseña</h4>
+                            <div class="card-3d-wrap mx-auto">
+                                <div class="card-3d-wrapper">
+                                    <div class="card-login">
+                                        <div class="center-wrap">
+                                            <h4 class="mb-4 pb-3">Restablecer contraseña</h4>
                                         @if (session('status'))
                                             <div class="alert alert-success" role="alert">
                                                 {{"Te hemos enviado un correo electrónico para que puedas restablecer tu contraseña"}}
                                             </div>
                                         @endif
-
+ 
                                         <form method="POST" action="{{ route('password.email') }}">
                                             @csrf
 
                                             <div class="form-group">
-                                                <input id="email" type="email" class="form-style @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Correo electrónico">
+                                                <input id="email" type="email" class="form-style @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Correo electrónico" maxlength="80">
                                                 <i class="input-icon uil uil-at"></i>
                                                 @error('email')
                                                     <span class="invalid-feedback" role="alert">
@@ -49,10 +49,11 @@
 
                                             <button type="submit" class="btn mt-4">Restablecer contraseña</button>
                                         </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Fin Restablecimiento de Contraseña -->
+                            
                         </div>
                     </div>
                 </div>

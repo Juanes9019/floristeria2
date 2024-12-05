@@ -25,19 +25,20 @@ class LoginController extends Controller
     }
 
     protected function sendFailedLoginResponse(Request $request)
-    {
-        $user = \App\Models\User::where($this->username(), $request->{$this->username()})->first();
+{
+    $user = \App\Models\User::where($this->username(), $request->{$this->username()})->first();
 
-        if ($user && $user->estado == 0) {
-            throw ValidationException::withMessages([
-                $this->username() => ['No puedes iniciar sesión, tu cuenta ha sido inhabilitada. :('],
-            ]);
-        }
-
-        throw ValidationException::withMessages([
-            $this->username() => [trans('auth.failed')],
-        ]);
+    if ($user && $user->estado == 0) {
+        // Usar session para pasar el mensaje de error a la vista
+        session()->flash('status', 'Lo sentimos, tu cuenta ha sido inhabilitada.');
+        return redirect()->back();
     }
+
+    throw ValidationException::withMessages([
+        $this->username() => [trans('auth.failed')],
+    ]);
+}
+
 
     public function redirectPath()
     {

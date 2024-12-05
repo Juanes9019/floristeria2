@@ -159,58 +159,58 @@ h6 span{
 
 
 .info-icon {
-    position: relative;
-    cursor: pointer;
+  position: relative;
+  cursor: pointer;
 }
 
 /* Tooltip para mostrarse arriba y centrado */
 .tooltip-validation {
-    display: none;
-    position: absolute;
-    bottom: 150%; /* Mueve el tooltip arriba del icono */
-    left: 50%; /* Centra el tooltip horizontalmente */
-    transform: translateX(-50%); /* Centrado completo */
-    width: 250px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    font-size: 0.9rem;
-    color: #333;
-    z-index: 100;
+  display: none;
+  position: absolute;
+  bottom: 150%; /* Mueve el tooltip arriba del icono */
+  left: 50%; /* Centra el tooltip horizontalmente */
+  transform: translateX(-50%); /* Centrado completo */
+  width: 18rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  font-size: 0.9rem;
+  color: #333;
+  z-index: 100;
 }
 
 .info-icon:hover .tooltip-validation {
-    display: block;
+  display: block;
 }
 
 .invalid {
-    color: #d9534f;
+  color: #d9534f;
 }
 .valid {
-    color: #5cb85c;
+  color: #5cb85c;
 }
 .highlighted {
-    color: #5cb85c; /* Cambia el color del icono cuando un requisito se cumple */
+  color: #5cb85c; /* Cambia el color del icono cuando un requisito se cumple */
 }
-/*hasta acá*/
+/* /hasta acá/ */
 
 .input-group {
-  position: relative; /* Asegura que los elementos dentro se alineen bien */
+position: relative; /* Asegura que los elementos dentro se alineen bien */
 }
 
 .input-group-text {
-  position: absolute;
-  right: 10px; /* Ajusta a la derecha */
-  top: 50%;
-  transform: translateY(-50%); /* Centra el ícono verticalmente */
-  z-index: 10; /* Asegura que el icono esté por encima del campo */
-  background: transparent; /* Sin fondo */
-  border: none; /* Sin borde */
-  cursor: pointer; /* Cambia el cursor al pasar sobre el ojo */
+position: absolute;
+right: 10px; /* Ajusta a la derecha */
+top: 50%;
+transform: translateY(-50%); /* Centra el ícono verticalmente */
+z-index: 10; /* Asegura que el icono esté por encima del campo */
+background: transparent; /* Sin fondo */
+border: none; /* Sin borde */
+cursor: pointer; /* Cambia el cursor al pasar sobre el ojo */
 }
 
 #eye-icon {
-  pointer-events: all; /* Asegura que el ícono sea clickeable */
+pointer-events: all; /* Asegura que el ícono sea clickeable */
 }
