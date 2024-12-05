@@ -2,19 +2,25 @@
 
 @section('content')
 
+@if (session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Éxito',
+        text: '{{ session('success') }}',
+        position: 'top-end',
+        toast: true,
+        showConfirmButton: false,
+        timer: 5000
+    });
+</script>
+@endif
+
 <div class="container">
     <div class="row justify-content-center">
-        @include('view_arreglo.partials.msg')
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header titulo_carta" style="background-color: #facfd6; font-size: 17px;">{{ __('Información del arreglo floral') }}</div>
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                </div>
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-md-6">
@@ -42,8 +48,7 @@
                         </div>
                     </div>
 
-                    <!-- Formulario para agregar al carrito -->
-                    <form action="{{ route('add') }}" method="post">
+                    <form action="{{ route('add') }}" method="get">
                         @csrf
                         <div class="action-buttons1">
                             <input type="hidden" name="id" value="{{ $productos->id }}">
