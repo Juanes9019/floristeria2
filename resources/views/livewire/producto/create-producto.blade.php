@@ -5,7 +5,7 @@
         </div>
 
         <div class="card-body">
-            <form wire:submit.prevent='crearProducto' id="formulario_crear"  enctype="multipart/form-data">
+            <form wire:submit.prevent='crearProducto' id="formulario_crear" enctype="multipart/form-data">
                 <!-- Campos para crear producto -->
                 <h4 class="text-dark">Datos del Producto</h4>
                 <div class="bg-light p-3 rounded mb-4">
@@ -245,8 +245,6 @@
                                 @endif
                             </div>
                         </div>
-
-
                         <!-- Botones -->
                         <div class="d-flex justify-content-end gap-2">
                             <button type="button" class="btn btn-primary" id="crearProductoBtn" onclick="agregar()">Agregar</button>
@@ -259,23 +257,22 @@
 
 
 <script>
-function agregar() {
-    Swal.fire({
-        title: "¡Estás seguro!",
-        text: "¿Deseas agregar este Producto?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Sí, agregar"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            event.preventDefault();
+    function agregar() {
+        Swal.fire({
+            title: "¡Estás seguro!",
+            text: "¿Deseas agregar este Producto?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, agregar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                event.preventDefault();
 
-            // Cambiar el ID aquí
-            @this.call('crearProducto');
-        }
-    });
-}
-
+                // Cambiar el ID aquí
+                @this.call('crearProducto');
+            }
+        });
+    }
 </script>

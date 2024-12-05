@@ -30,6 +30,7 @@ class CreateProducto extends Component
     public $precio;
     public $estado;
     public $categorias_producto = [];
+    public $isLoading = false;
 
 
 
@@ -152,6 +153,8 @@ class CreateProducto extends Component
 
     public function crearProducto()
     {
+        
+        
         $this->validate(
             [
                 'nombre' => 'required|string|unique:productos,nombre',
@@ -248,7 +251,11 @@ class CreateProducto extends Component
         // Asignar la URL de la imagen (local o de Imgur)
         $newProducto->foto = $imageUrl;
 
+        
+
         $newProducto->save(); // Guardar el producto antes de asociar insumos
+
+        
 
         // Manejar insumos seleccionados
         foreach ($this->insumos_agregados as $insumoAgregado) {

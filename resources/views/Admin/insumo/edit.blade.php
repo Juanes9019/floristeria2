@@ -99,24 +99,24 @@
         </div>
     </div>
 
-<script>
-function editar() {
-    Swal.fire({
-        title: "¡Estas seguro!",
-        text: "¿Deseas agregar este insumo?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Si, agregar"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            event.preventDefault();
+    <script>
+    function editar() {
+        Swal.fire({
+            title: "¡Estas seguro!",
+            text: "¿Deseas agregar este insumo?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, agregar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                event.preventDefault();
 
-            document.getElementById('formulario_editar').submit();
-        }
-    });
-}
-</script>
+                document.getElementById('formulario_editar').submit();
+            }
+        });
+    }
+    </script>
 
 @stop

@@ -59,10 +59,34 @@ class EditProducto extends Component
         $this->cantidad_usada = $this->insumos[$index]['pivot']['cantidad_usada'];
         $this->actualizarInsumosPorCategoria();
     }
+
+    public function cancelarEdicion()
+    {
+        // Resetea el índice de insumo a editar
+        $this->index_insumo_a_editar = null;
+    }
     public function guardarCambiosInsumo($index)
     {
         // Verificar que el índice a editar es válido
         if ($this->index_insumo_a_editar !== null && $this->index_insumo_a_editar === $index) {
+
+            // Validar que la cantidad usada no sea mayor que la cantidad disponible
+            if ($this->cantidad_usada > $this->cantidad_disponible) {
+                session()->flash('error', 'La cantidad a usar no puede ser mayor que la cantidad disponible.');
+                return;
+            }
+
+            // Validar que la categoría seleccionada no esté vacía
+            if (empty($this->categoria_seleccionada)) {
+                session()->flash('error', 'La categoría de insumo es incorrecta.');
+                return;
+            }
+
+            // Validar que la cantidad a usar sea al menos 1
+            if ($this->cantidad_usada < 1) {
+                session()->flash('error', 'La cantidad mínima a usar es 1.');
+                return;
+            }
 
             // Obtenemos el nuevo ID del insumo y la cantidad que se va a usar
             $id_insumo = $this->insumo_seleccionado;
@@ -80,9 +104,10 @@ class EditProducto extends Component
             $this->index_insumo_a_editar = null;
 
             // Notificamos que se ha actualizado el insumo
-            session()->flash('message', 'Insumo actualizado correctamente.');
+            session()->flash('success', 'Insumo actualizado correctamente.');
         }
     }
+
 
 
 
@@ -115,9 +140,9 @@ class EditProducto extends Component
                 'estado.boolean' => 'El estado debe ser verdadero o falso.',
                 'id_categoria_producto.required' => 'La categoría del producto es obligatoria.',
                 'id_categoria_producto.exists' => 'La categoría seleccionada no es válida.',
-
             ]
         );
+
 
         // Si se selecciona una foto nueva, agregar la validación
         if ($this->foto) {
@@ -125,7 +150,6 @@ class EditProducto extends Component
         }
 
         // Validamos los datos
-
         $data = [
             "id_categoria_producto" => $this->id_categoria_producto,
             "nombre" => $this->nombre,
@@ -173,6 +197,7 @@ class EditProducto extends Component
         session()->flash('success', 'Producto actualizado correctamente');
         return redirect()->route('Admin.productos');
     }
+
 
     public function eliminarInsumo($index)
     {

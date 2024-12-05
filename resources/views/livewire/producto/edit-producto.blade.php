@@ -9,8 +9,8 @@
 
             <!-- Modal Body -->
             <form wire:submit='updateProducto' id="formulario_crear" class="card-body">
-            <h4 class="text-dark">Datos del Producto</h4
-                <!-- Sección: Datos del Producto -->
+                <h4 class="text-dark">Datos del Producto</h4
+                    <!-- Sección: Datos del Producto -->
                 <section class="bg-light p-4 rounded mb-4">
                     <div class="row g-4 mb-4 border border-300 rounded p-4">
                         <div class="row g-3">
@@ -101,6 +101,7 @@
 
 
                 <h4 class="mb-4">Insumos Seleccionados:</h4>
+
                 <section class="row row-cols-1 row-cols-md-2 g-3">
                     @foreach ($insumos as $index => $insumo)
                     <div class="col">
@@ -111,13 +112,11 @@
                                 </h5>
                                 <p class="card-text text-muted mb-3">Cantidad: {{ $insumo['pivot']['cantidad_usada'] }}</p>
                                 @if ($index_insumo_a_editar !== $index)
-                                <div class="btn-group d-flex justify-content-center" role="group">
-                                    <button wire:click.prevent="seleccionarInsumoParaEditar({{ $index }})"
-                                        class="btn btn-warning btn-sm">
+                                <div class=" justify-content-center" role="group">
+                                    <button wire:click.prevent="seleccionarInsumoParaEditar({{ $index }})" class="btn btn-warning btn-sm">
                                         <i class="fa fa-edit"></i> Editar
                                     </button>
-                                    <button wire:click.prevent="eliminarInsumo({{ $index }})"
-                                        class="btn btn-danger btn-sm">
+                                    <button wire:click.prevent="eliminarInsumo({{ $index }})" class="btn btn-danger btn-sm">
                                         <i class="fa fa-trash"></i> Eliminar
                                     </button>
                                 </div>
@@ -125,20 +124,35 @@
 
                                 <!-- Formulario de Edición -->
                                 @if ($index_insumo_a_editar === $index)
+                                @if (session()->has('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                                @endif
+
+                                @if (session()->has('message'))
+                                <div class="alert alert-success">
+                                    {{ session('message') }}
+                                </div>
+                                @endif
                                 <div class="mt-4 p-3 border rounded bg-light">
                                     <h6 class="text-center font-weight-bold mb-3">Editar Insumo Seleccionado</h6>
 
+                                    <!-- Categoría de Insumo -->
                                     <div class="form-group mb-3">
                                         <label for="categoria_insumos" class="form-label">Categoría de Insumo</label>
-                                        <select wire:model="categoria_seleccionada"
-                                            wire:change="actualizarInsumosPorCategoria" class="form-select">
+                                        <select wire:model="categoria_seleccionada" wire:change="actualizarInsumosPorCategoria" class="form-select">
                                             <option selected>Seleccionar Categoría</option>
                                             @foreach ($categorias_insumos as $categoria_insumo)
                                             <option value="{{ $categoria_insumo->id }}">{{ $categoria_insumo->nombre }}</option>
                                             @endforeach
                                         </select>
+                                        @error('categoria_seleccionada')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
+                                    <!-- Insumo -->
                                     <div class="form-group mb-3">
                                         <label for="insumo" class="form-label">Insumo</label>
                                         <select wire:model="insumo_seleccionado" class="form-select">
@@ -149,22 +163,35 @@
                                             </option>
                                             @endforeach
                                         </select>
+                                        @error('insumo_seleccionado')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
+                                    <!-- Cantidad Disponible -->
                                     <div class="form-group mb-3">
                                         <label for="cantidad_disponible" class="form-label">Cantidad Disponible <span class="text-danger">*</span></label>
                                         <input type="number" value="{{$cantidad_disponible}}" disabled class="form-control" />
-
                                     </div>
+
+                                    <!-- Cantidad a Usar -->
                                     <div class="form-group mb-3">
                                         <label for="cantidad_usar" class="form-label">Cantidad a Usar</label>
-                                        <input type="number" wire:model="cantidad_usada" class="form-control">
+                                        <input type="number" wire:model="cantidad_usada" class="form-control" step="1" min="1">
+                                        @error('cantidad_usada')
+                                        <div class="text-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
-                                    <button wire:click.prevent="guardarCambiosInsumo({{ $index }})"
-                                        class="btn btn-primary w-100">
-                                        Guardar Cambios
-                                    </button>
+                                    <!-- Botón Guardar Cambios -->
+                                    <div class="d-flex justify-content-between">
+                                        <button wire:click.prevent="guardarCambiosInsumo({{ $index }})" class="btn btn-primary w-45">
+                                            Guardar Cambios
+                                        </button>
+                                        <button wire:click.prevent="cancelarEdicion" class="btn btn-danger w-45">
+                                            Cancelar
+                                        </button>
+                                    </div>
                                 </div>
                                 @endif
                             </div>
@@ -174,13 +201,14 @@
                 </section>
 
 
+
                 <!-- Botones de Acción -->
                 <div class="d-flex justify-content-center gap-2 mt-4">
                     <button
-                        class="btn btn-primary d-inline-flex align-items-center">
+                        class="btn btn-primary d-inline-flex align-items-center" onclick="editar()">
                         <i class="bi bi-save"></i> Editar
                     </button>
-                    <a href="{{ route('Admin.productos') }}" class="btn btn-danger d-inline-flex align-items-center">
+                    <a href="{{ route('Admin.productos') }}" class="btn btn-danger d-inline-flex align-items-center" >
                         <i class="bi bi-arrow-left"></i> Cancelar
                     </a>
                 </div>
@@ -188,3 +216,25 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    function editar() {
+        Swal.fire({
+            title: "¡Estas seguro!",
+            text: "¿Deseas editar este producto?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, editar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                event.preventDefault();
+
+                @this.call('updateProducto');
+            }
+        });
+    }
+    </script>
+
