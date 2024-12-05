@@ -57,6 +57,11 @@ class EditProducto extends Component
         $this->categoria_seleccionada = $this->insumos[$index]['id_categoria_insumo'];
         $this->insumo_seleccionado = $this->insumos[$index]['id'];
         $this->cantidad_usada = $this->insumos[$index]['pivot']['cantidad_usada'];
+
+        // Obtener el insumo completo para acceder a la cantidad disponible
+        $insumo = Insumo::find($this->insumo_seleccionado);
+        $this->cantidad_disponible = $insumo->cantidad_insumo; // Actualizar la cantidad disponible
+
         $this->actualizarInsumosPorCategoria();
     }
 
@@ -98,6 +103,12 @@ class EditProducto extends Component
                 'cantidad_usada' => $cantidad_usada,
             ]);
 
+            // Actualizar la cantidad disponible del insumo
+            $insumo = Insumo::find($id_insumo);
+            $insumo->cantidad_insumo -= $cantidad_usada; // Restar la cantidad usada
+            $insumo->save();
+
+            // Actualizamos la lista de insumos del producto
             $this->insumos = $this->producto->insumos->toArray();
 
             // Limpiamos la selección del índice de edición
@@ -107,6 +118,7 @@ class EditProducto extends Component
             session()->flash('success', 'Insumo actualizado correctamente.');
         }
     }
+
 
 
 
@@ -204,15 +216,24 @@ class EditProducto extends Component
         // Obtener el ID del insumo a eliminar
         $id_insumo = $this->insumos[$index]['id'];
 
+        // Obtener la cantidad usada antes de eliminar el insumo
+        $cantidad_usada = $this->insumos[$index]['pivot']['cantidad_usada'];
+
         // Eliminar la relación del insumo en la tabla pivote
         $this->producto->insumos()->detach($id_insumo);
+
+        // Actualizar la cantidad disponible del insumo
+        $insumo = Insumo::find($id_insumo);
+        $insumo->cantidad_insumo += $cantidad_usada; // Devolver la cantidad usada al inventario
+        $insumo->save();
 
         // Actualizar la lista de insumos en la interfaz
         $this->insumos = $this->producto->insumos->toArray();
 
         // Notificar al usuario
-        session()->flash('succeess', 'Insumo eliminado correctamente.');
+        session()->flash('success', 'Insumo eliminado correctamente.');
     }
+
 
 
 

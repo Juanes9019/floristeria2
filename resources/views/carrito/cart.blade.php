@@ -49,7 +49,7 @@
                                 <td class="text-center">{{ $item->name }}</td>
                                 <td class="text-center">
                                     <div class="btn-group btn-group-sm" role="group" aria-label="small button group">
-                                        <a href="{{ route('decrementarCantidad', ['id' => $item->rowId]) }}" class="btn btn-success efecto">-</a>
+                                        <a href="{{ route('decrementarCantidad', ['id' => $item->rowId]) }}" class="btn btn-danger efecto">-</a>
                                         <button type="button" class="btn">{{ $item->qty }}</button>
                                         <a href="{{ route('incrementarCantidad', ['id' => $item->rowId]) }}" class="btn btn-success efecto">+</a>
                                     </div>

@@ -140,7 +140,7 @@
 
                                     <!-- Categoría de Insumo -->
                                     <div class="form-group mb-3">
-                                        <label for="categoria_insumos" class="form-label">Categoría de Insumo</label>
+                                        <label for="categoria_insumos" class="form-label">Categoría de Insumo <strong style="color: red;">*</strong></label>
                                         <select wire:model="categoria_seleccionada" wire:change="actualizarInsumosPorCategoria" class="form-select">
                                             <option selected>Seleccionar Categoría</option>
                                             @foreach ($categorias_insumos as $categoria_insumo)
@@ -154,9 +154,9 @@
 
                                     <!-- Insumo -->
                                     <div class="form-group mb-3">
-                                        <label for="insumo" class="form-label">Insumo</label>
+                                        <label for="insumo" class="form-label">Insumo <strong style="color: red;">*</strong></label>
                                         <select wire:model="insumo_seleccionado" class="form-select">
-                                            <option selected>Seleccionar Insumo</option>
+                                            <option selected>Seleccionar Insumo </option>
                                             @foreach ($insumos_por_categoria as $insumo)
                                             <option value="{{ $insumo->id }}">{{ $insumo->nombre }}
                                                 {{ $insumo->color ? ' - ' . $insumo->color : '' }}
@@ -170,14 +170,14 @@
 
                                     <!-- Cantidad Disponible -->
                                     <div class="form-group mb-3">
-                                        <label for="cantidad_disponible" class="form-label">Cantidad Disponible <span class="text-danger">*</span></label>
-                                        <input type="number" value="{{$cantidad_disponible}}" disabled class="form-control" />
+                                        <label for="cantidad_disponible" class="form-label">Cantidad Disponible </label>
+                                        <input type="number" wire:model="cantidad_disponible" disabled class="form-control" />
                                     </div>
 
                                     <!-- Cantidad a Usar -->
                                     <div class="form-group mb-3">
-                                        <label for="cantidad_usar" class="form-label">Cantidad a Usar</label>
-                                        <input type="number" wire:model="cantidad_usada" class="form-control" step="1" min="1">
+                                        <label for="cantidad_usar" class="form-label">Cantidad a Usar <strong style="color: red;">*</strong></label>
+                                        <input type="number" wire:model.live="cantidad_usada" class="form-control" step="1" min="1">
                                         @error('cantidad_usada')
                                         <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -208,7 +208,7 @@
                         class="btn btn-primary d-inline-flex align-items-center" onclick="editar()">
                         <i class="bi bi-save"></i> Editar
                     </button>
-                    <a href="{{ route('Admin.productos') }}" class="btn btn-danger d-inline-flex align-items-center" >
+                    <a href="{{ route('Admin.productos') }}" class="btn btn-danger d-inline-flex align-items-center">
                         <i class="bi bi-arrow-left"></i> Cancelar
                     </a>
                 </div>
@@ -236,5 +236,4 @@
             }
         });
     }
-    </script>
-
+</script>
