@@ -1,11 +1,11 @@
-<div class="container mt-5">
-    <div class="card mx-auto" style="max-width: 800px;">
+<div class="container">
+    <div class="card mx-auto" style="max-width: 900px;">
         <div class="card-header text-center bg-primary text-white">
             <h3>Crear Producto</h3>
         </div>
-         
+
         <div class="card-body">
-            <form wire:submit.prevent='crearProducto' id="formulario_crear" method="POST" enctype="multipart/form-data">
+            <form wire:submit.prevent='crearProducto' id="formulario_crear"  enctype="multipart/form-data">
                 <!-- Campos para crear producto -->
                 <h4 class="text-dark">Datos del Producto</h4>
                 <div class="bg-light p-3 rounded mb-4">
@@ -123,10 +123,10 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Seleccionar Insumos -->
                         <div class="bg-light p-4 rounded">
-                            <h4 class="h5 mb-4 text-dark">Seleccionar Insumos</h4>
+                            <h4 class="h5 mb-4 text-dark">Seleccionar Insumos:</h4>
                             <div class="row g-4 mb-4 border border-300 rounded p-4">
 
                                 <!-- Categoría de Insumo -->
@@ -249,7 +249,7 @@
 
                         <!-- Botones -->
                         <div class="d-flex justify-content-end gap-2">
-                            <button class="btn btn-primary" id="crearProductoBtn" >Crear Producto</button>
+                            <button type="button" class="btn btn-primary" id="crearProductoBtn" onclick="agregar()" >Crear Producto</button>
                             <a href="{{ route('Admin.productos') }}" class="btn btn-danger">Cancelar</a>
                         </div>
             </form>
@@ -259,21 +259,23 @@
 
 
 <script>
-    // Mostrar SweetAlert cuando el usuario haga clic en el botón "Crear Producto"
-    document.getElementById('crearProductoBtn').addEventListener('click', function () {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: "¿Quieres crear este producto?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, crear',
-            cancelButtonText: 'Cancelar',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Si el usuario acepta, se envía el formulario
-                Livewire.emit('crearProducto');  // Llama al método crearProducto de Livewire
-            }
-        });
+function agregar() {
+    Swal.fire({
+        title: "¡Estás seguro!",
+        text: "¿Deseas agregar este Producto?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, agregar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            event.preventDefault();
+
+            // Cambiar el ID aquí
+            @this.call('crearProducto');
+        }
     });
+}
+
 </script>

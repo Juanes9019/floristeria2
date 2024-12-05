@@ -6,6 +6,8 @@
 
 <!-- link para sweetalert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 
 
 
@@ -30,15 +32,19 @@
                 </div>
 
 
+                <!-- Estado -->
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="estado">Estado</label>
-                        <select name="estado" id="estado" class="form-control">
-                            <option value="1" {{ $categoria_producto->estado == '1' ? 'selected' : '' }}>Activo</option>
-                            <option value="0" {{ $categoria_producto->estado == '0' ? 'selected' : '' }}>Inactivo</option>
-                        </select>
+                        <label for="estado" class="form-label">Estado</label>
+                        <div class="form-check form-switch">
+                            <!-- Campo hidden para enviar 0 cuando el switch está desmarcado -->
+                            <input type="hidden" name="estado" value="0">
+                            <input id="estado" name="estado" type="checkbox" class="form-check-input" value="1"
+                                {{ $categoria_producto->estado ? 'checked' : '' }}>
+                        </div>
                     </div>
                 </div>
+
             </div>
 
             <div class="form-group">
@@ -50,27 +56,26 @@
 </div>
 <script>
     function editar() {
+        event.preventDefault(); // Evitar que el formulario se envíe de inmediato
+
         Swal.fire({
-            title: "¡Estas seguro!",
-            text: "¿Deseas editar esta categoria?",
+            title: "¡Estás seguro!",
+            text: "¿Deseas editar esta categoría de producto?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Si, Editar"
+            confirmButtonText: "Sí, Editar"
         }).then((result) => {
             if (result.isConfirmed) {
+                // Si el usuario confirma, enviamos el formulario
                 Swal.fire({
-                    title: "!categoria Editada!",
-                    text: "La categoria se edito correctamente",
+                    title: "!Categoría editada!",
+                    text: "La categoría producto se editó correctamente",
                     icon: "success"
+                }).then(() => {
+                    document.getElementById('formulario_editar').submit(); // Enviar el formulario
                 });
-
-
-                event.preventDefault();
-
-
-                document.getElementById('formulario_editar').submit();
             }
         });
     }

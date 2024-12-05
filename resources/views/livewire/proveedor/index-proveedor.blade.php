@@ -10,12 +10,34 @@
                     </div>
                 </div>
 
-                @if ($message = Session::get('success'))
-                <div class="alert alert-success">
-                    <p>{{ $message }}</p>
-                </div>
+
+                @if ($message = Session::get('error'))
+                <script>
+                    Swal.fire({
+                        title: '¡Error!',
+                        text: '{{ $message }}',
+                        icon: 'error',
+                        position: 'top-end',
+                        toast: true,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                </script>
                 @endif
 
+                @if ($message = Session::get('success'))
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: '{{ $message }}',
+                        position: 'top-end',
+                        toast: true,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                </script>
+                @endif
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="col-md-6">
@@ -138,7 +160,7 @@
                                         <form id="form_eliminar_{{ $proveedor->id }}" action="{{ route('Admin.proveedor.destroy', $proveedor->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{ $proveedor->id }}')">
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminar('{{ $proveedor->id}}','{{$proveedor->estado}}')">
                                                 <i class="fa fa-fw fa-trash"></i>
                                             </button>
                                         </form>
@@ -168,25 +190,29 @@
 
 
 <script>
-    function eliminar(proveedorId) {
-        Swal.fire({
-            title: "¡Estas seguro!",
-            text: "¿Deseas Eliminar este proveedor?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Si, Eliminar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: "!Proveedor Eliminado!",
-                    text: "El proveedor se Eliminó Correctamente",
-                    icon: "success"
-                }).then(() => {
-                    document.getElementById('form_eliminar_' + proveedorId).submit();
-                });
-            }
-        });
+    function eliminar(proveedorId, estadoProveedor) {
+        if (estadoProveedor == 1) {
+            Swal.fire({
+                title: "¡Error!",
+                text: "No se puede eliminar un proveedor activo.",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
+        } else {
+            // Si la categoría no es activa, proceder a eliminar
+            Swal.fire({
+                title: "¡Estás seguro!",
+                text: "¿Deseas eliminar este proveedor?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sí, eliminar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(`form_eliminar_${proveedorId}`).submit();
+                }
+            });
+        }
     }
 </script>

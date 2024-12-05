@@ -94,13 +94,30 @@ class EditProducto extends Component
     public function updateProducto()
     {
         // Validación: Foto es opcional durante la edición
-        $rules = [
-            'nombre' => 'required|string',
-            'descripcion' => 'required|string',
-            'precio' => 'required|numeric|min:1000|max:12000000000',
-            'estado' => 'required|boolean',
-            'id_categoria_producto' => 'required|exists:categorias_productos,id_categoria_producto',
-        ];
+        $this->validate(
+            [
+                'nombre' => 'required|string',
+                'descripcion' => 'required|string',
+                'precio' => 'required|numeric|min:1000|max:1200000',
+                'estado' => 'required|boolean',
+                'id_categoria_producto' => 'required|exists:categorias_productos,id_categoria_producto',
+            ],
+            [
+                'nombre.required' => 'El nombre del producto es obligatorio.',
+                'nombre.unique' => 'El nombre del producto ya está registrado.',
+                'descripcion.required' => 'La descripción del producto es obligatoria.',
+                'descripcion.max' => 'La descripción no puede exceder los 255 caracteres.',
+                'precio.required' => 'El precio del producto es obligatorio.',
+                'precio.numeric' => 'El precio debe ser un número.',
+                'precio.min' => 'El precio debe ser al menos $1.000.',
+                'precio.max' => 'El precio no puede exceder el valor máximo de $1.200.000.',
+                'estado.required' => 'El estado del producto es obligatorio.',
+                'estado.boolean' => 'El estado debe ser verdadero o falso.',
+                'id_categoria_producto.required' => 'La categoría del producto es obligatoria.',
+                'id_categoria_producto.exists' => 'La categoría seleccionada no es válida.',
+
+            ]
+        );
 
         // Si se selecciona una foto nueva, agregar la validación
         if ($this->foto) {
@@ -108,7 +125,6 @@ class EditProducto extends Component
         }
 
         // Validamos los datos
-        $this->validate($rules);
 
         $data = [
             "id_categoria_producto" => $this->id_categoria_producto,
@@ -154,9 +170,25 @@ class EditProducto extends Component
             ]);
         }
 
-        session()->flash('message', 'Producto actualizado correctamente');
+        session()->flash('success', 'Producto actualizado correctamente');
         return redirect()->route('Admin.productos');
     }
+
+    public function eliminarInsumo($index)
+    {
+        // Obtener el ID del insumo a eliminar
+        $id_insumo = $this->insumos[$index]['id'];
+
+        // Eliminar la relación del insumo en la tabla pivote
+        $this->producto->insumos()->detach($id_insumo);
+
+        // Actualizar la lista de insumos en la interfaz
+        $this->insumos = $this->producto->insumos->toArray();
+
+        // Notificar al usuario
+        session()->flash('succeess', 'Insumo eliminado correctamente.');
+    }
+
 
 
     public function render()

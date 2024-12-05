@@ -81,9 +81,7 @@ class CategoriaProductoController extends Controller
         $categoria_producto = new CategoriaProducto();
 
         $categoria_producto->nombre = $request->nombre;
-        if ($request->has('estado')) {
-            $categoria_producto->estado = 0;
-        }
+        $categoria_producto->estado = $request->has('estado') ? 1 : 0;
 
         $categoria_producto->save();
         return redirect()->route('Admin.categorias_productos')

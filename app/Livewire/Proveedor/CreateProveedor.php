@@ -8,15 +8,15 @@ use Illuminate\Support\Facades\Http;
 
 class CreateProveedor extends Component
 {
-    public $tipo_proveedor = 'empresa'; // Valor predeterminado
+    public $tipo_proveedor = ''; // Valor predeterminado
     public $numero_documento, $nombre, $telefono, $correo, $ubicacion, $estado = 0; // Inicializa el estado en 0 (inactivo)
 
     public function mount()
     {
         // Si existe un valor previo para 'tipo', se usará, de lo contrario, 'empresa' será el valor por defecto
-        $this->tipo_proveedor = old('tipo', 'empresa');
+        $this->tipo_proveedor = old('tipo', '');
         // Si hay un valor previo para 'estado', lo asignamos
-        $this->estado = old('estado', 0); 
+        $this->estado = old('estado', 0);
     }
 
     // Este método se ejecuta al cambiar el valor de tipo_proveedor
@@ -25,14 +25,13 @@ class CreateProveedor extends Component
         $this->tipo_proveedor = $value;
     }
 
-    // Reglas de validación
     protected function rules()
     {
         $rules = [
             'tipo_proveedor' => 'required|in:empresa,persona',
             'nombre' => 'required|string|min:3|max:150', // Nombre con al menos 3 caracteres y máximo 150
-            'numero_documento' => 'required|numeric|unique:proveedores,numero_documento', // Número de documento debe ser numérico y único
-            'telefono' => 'required|min:10|max:15', // Teléfono requerido, solo números y entre 10 y 15 dígitos
+            'numero_documento' => 'required|string|digits_between:7,15|unique:proveedores,numero_documento',
+            'telefono' => ['required', 'regex:/^3[0-9]{9}$/'], // Teléfono debe comenzar con 3 y tener 10 dígitos
             'correo' => 'required|email|regex:/^.+@.+$/i|max:255', // Correo debe tener @ y ser válido
             'ubicacion' => 'required|string|min:4|max:255', // Ubicación requerida y con al menos 4 caracteres
             'estado' => 'required|in:0,1', // Estado requerido, solo puede ser 0 o 1
@@ -48,10 +47,10 @@ class CreateProveedor extends Component
         'nombre.max' => 'El nombre no puede tener más de 150 caracteres.',
         'numero_documento.required' => 'El número de documento o NIT es obligatorio.',
         'numero_documento.numeric' => 'El número de documento o NIT debe ser numérico.',
+        'numero_documento.digits_between' => 'El número de documento o NIT debe tener entre 7 y 15 caracteres.',
         'numero_documento.unique' => 'El número de documento o NIT ya está registrado.',
         'telefono.required' => 'El teléfono es obligatorio.',
-        'telefono.min' => 'El teléfono debe tener al menos 10 dígitos.',
-        'telefono.max' => 'El teléfono no puede tener más de 15 dígitos.',
+        'telefono.regex' => 'El teléfono debe comenzar con el número 3 y tener 10 dígitos.',
         'correo.required' => 'El correo es obligatorio.',
         'correo.email' => 'El correo debe ser válido.',
         'correo.regex' => 'El correo debe tener un formato válido con el símbolo @.',
@@ -60,6 +59,12 @@ class CreateProveedor extends Component
         'estado.required' => 'Debe seleccionar el estado del proveedor.',
         'estado.in' => 'El estado debe ser 0 (inactivo) o 1 (activo).',
     ];
+
+    public function confirmSubmit()
+    {
+        // Emitir evento de confirmación
+        $this->emit('confirmSubmit');
+    }
 
     public function submit()
     {
@@ -78,7 +83,7 @@ class CreateProveedor extends Component
         ]);
 
         // Redirige con un mensaje de éxito
-        session()->flash('message', 'Proveedor creado exitosamente.');
+        session()->flash('success', 'Proveedor creado exitosamente.');
         return redirect()->route('Admin.proveedores');
     }
 

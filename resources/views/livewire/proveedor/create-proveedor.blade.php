@@ -8,7 +8,8 @@
                         <!-- Selección de tipo de proveedor -->
                         <div class="col-md-6">
                             <label for="tipo">Tipo de Proveedor <span class="text-danger">*</span> </label>
-                            <select id="tipo" name="tipo" class="form-control @error('tipo_proveedor') is-invalid @enderror" wire:model.lazy="tipo_proveedor">
+                            <select id="tipo" name="tipo" class="form-select @error('tipo_proveedor') is-invalid @enderror" wire:model.lazy="tipo_proveedor">
+                                <option value="">Seleccionar una opción</option>
                                 <option value="empresa">Empresa</option>
                                 <option value="persona">Persona Natural</option>
                             </select>
@@ -25,11 +26,12 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <label for="numero">NIT de la Empresa <span class="text-danger">*</span> </label>
-                            <input type="text" name="numero" id="numero_documento" wire:model="numero_documento" class="form-control @error('numero_documento') is-invalid @enderror" value="{{ old('numero') }}">
+                            <input type="number" name="numero" id="numero" wire:model="numero_documento" class="form-control @error('numero_documento') is-invalid @enderror" value="{{ old('numero') }}" min="0" step="1">
                             @error('numero_documento')
                             <div class="invalid-feedback">
                                 <strong>{{ $message }}</strong>
                             </div>
+
                             @enderror
                         </div>
                         <div class="col-md-6">
@@ -73,7 +75,7 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
-                        <div class="form-group">
+                            <div class="form-group">
                                 <label for="estado" class="form-label">Estado</label>
                                 <div class="form-check form-switch">
                                     <input
@@ -144,7 +146,7 @@
                             @enderror
                         </div>
                         <div class="col-md-6">
-                        <div class="form-group">
+                            <div class="form-group">
                                 <label for="estado" class="form-label">Estado</label>
                                 <div class="form-check form-switch">
                                     <input
@@ -162,7 +164,7 @@
                     @endif
 
                     <div class="form-group mt-3">
-                        <button type="submit" class="btn btn-primary">Agregar</button>
+                        <button  class="btn btn-primary" onclick="agregar()" >Agregar</button>
                         <a href="{{ route('Admin.proveedores') }}" class="btn btn-danger">Cancelar</a>
                     </div>
                 </div>
@@ -173,24 +175,22 @@
 
 
 <script>
-    function agregar() {
-        Swal.fire({
-            title: "¡Estas seguro!",
-            text: "¿Deseas agregar este proveedor?",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Si, agregar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: "!Proveedor agregado!",
-                    text: "El proveedor se agrego correctamente",
-                    icon: "success"
-                });
-                event.preventDefault();
-                document.getElementById('formulario_crear').submit();
-            }
-        });
-    }
+function agregar() {
+    Swal.fire({
+        title: "¡Estás seguro!",
+        text: "¿Deseas agregar este Proveedor?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, agregar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            event.preventDefault();
+            // Cambiar el ID aquí
+            @this.call('submit');
+        }
+    });
+}
+
 </script>

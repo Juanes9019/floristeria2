@@ -154,10 +154,15 @@ class ProductoController extends Controller
         if (!$tienePermiso) {
             return response()->view('errors.accesoDenegado');
         }
-        
+
         $producto = Producto::with('categoria_producto', 'insumos')->findOrFail($id);
 
-        // Retornar la vista con el producto
+        // Verificar si la solicitud es AJAX
+        if (request()->ajax()) {
+            return response()->view('Admin.producto.show', compact('producto'));
+        }
+
+        // Si no es AJAX, redirigir a la página tradicional
         return view('Admin.producto.show', compact('producto'));
     }
 
@@ -249,10 +254,21 @@ class ProductoController extends Controller
             return redirect()->route('Admin.productos')
                 ->with('error', 'No se puede eliminar un Producto Activo');
         }
-        $producto->delete();
-        return redirect()->route('Admin.productos')
-            ->with('success', 'producto eliminado con éxito');
-    }
 
-    
+        try {
+            // Intenta eliminar el producto
+            $producto->delete();
+            return redirect()->route('Admin.productos')
+                ->with('success', 'Producto eliminado con éxito');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Verifica si el error es por restricción de clave foránea
+            if ($e->getCode() === "23000") {
+                return redirect()->route('Admin.productos')
+                    ->with('error', 'No se puede eliminar el producto porque está asociado a otros registros.');
+            }
+
+            // Lanza la excepción si no es el error esperado
+            throw $e;
+        }
+    }
 }
