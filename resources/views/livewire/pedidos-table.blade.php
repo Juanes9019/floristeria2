@@ -45,13 +45,13 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col" class="text-center">
-                                    Usuario
+                                    Cliente
                                 </th>
                                 <th scope="col" class="text-center">
                                     Total
                                 </th>
                                 <th scope="col" class="text-center">
-                                    Fecha_pedido
+                                    Fecha pedido
                                 </th>
                                 <th scope="col" class="text-center">
                                     Comprobante de pago
@@ -88,7 +88,7 @@
                             @else
                                 @foreach($pedidos as $item)
                                     <tr>
-                                        <td class="text-center">{{ $item->user_id }}</td>
+                                        <td class="text-center">{{ $item->user->name }}</td>
                                         <td class="text-center">{{ number_format($item->total, 0, ',', '.') }}</td>
                                         <td class="text-center">{{ $item->fechapedido }}</td>
                                         <td class="text-center">

@@ -42,7 +42,6 @@ Route::post('/pqrs', [HomeController::class, 'pqrs'])->name('pqrs');
 
 
 Route::get('/arreglo/{id}', [HomeController::class, 'show'])->name('view_arreglo.arreglo_view');
-Route::get('/all_products', [HomeController::class, 'show_all'])->name('all_products');
 
 Route::get('/insumos/categoria/{categoria_id}', [HomeController::class, 'getInsumosPorCategoria']);
 Route::get('/personalizados', [HomeController::class, 'personalizados'])->name('personalizados');
@@ -59,18 +58,6 @@ Route::delete('/eliminar-producto/{key}', [HomeController::class, 'eliminar_prod
 Route::delete('/eliminar-producto-nuevo/{key}', [HomeController::class, 'eliminar_producto_nuevo'])->name('eliminar_producto_nuevo');
 Route::patch('/actualizar-producto-nuevo/{key}', [HomeController::class, 'actualizar_producto_nuevo'])->name('actualizar_producto_nuevo');
 
-
-
-//personalizadas de accesorios
-Route::post('/agregar-accesorio', [HomeController::class, 'agregarAccesorio'])->name('agregarAccesorio');
-Route::patch('/actualizar-Accesorio/{key}', [HomeController::class, 'actualizarAccesorio'])->name('actualizarAccesorio');
-Route::delete('/eliminar-Accesorio/{key}', [HomeController::class, 'eliminarAccesorio'])->name('eliminarAccesorio');
-
-
-//personalizadas de comestibles 
-Route::post('/agregar-comestible', [HomeController::class, 'agregarComestible'])->name('agregarComestible');
-Route::patch('/actualizar-Comestible/{key}', [HomeController::class, 'actualizarComestible'])->name('actualizarComestible');
-Route::delete('/eliminar-Comestible/{key}', [HomeController::class, 'eliminarComestible'])->name('eliminarComestible');
 
 
 

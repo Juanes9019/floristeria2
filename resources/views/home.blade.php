@@ -4,19 +4,19 @@
 <link rel="stylesheet" href="{{ asset('css/boton.css') }}">
 
 
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div>
-            <div class="card-body">
-                @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-                @endif
-            </div>
-        </div>
-    </div>
-</div>
+@if (session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Éxito',
+        text: '{{ session('success') }}',
+        position: 'top-end',
+        toast: true,
+        showConfirmButton: false,
+        timer: 5000
+    });
+</script>
+@endif
 
 <section class="banner">
     <div class="content-banner">
