@@ -193,7 +193,7 @@
 
                                         <div class="col-md-2">
                                             <label for="numero_via">No vía Principal: <strong style="color: red;">*</strong></label>
-                                            <input type="text" class="form-control" id="numero_via" name="numero_via" required oninput="actualizarDireccion()">
+                                            <input type="text" class="form-control" id="numero_via" name="numero_via" required oninput="actualizarDireccion()" placeholder="10">
                                             @error('numero_via')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -233,7 +233,7 @@
 
 
                                         <div class="col-md-2">
-                                            <label for="orientacion">Orientación:</label>
+                                            <label for="orientacion">Orientación:<strong style="color: red;">*</strong></label>
                                             <select class="form-control" id="orientacion" name="orientacion" required onchange="actualizarDireccion()">
                                                 <option value="">Orientacion</option>
                                                 <option value="norte">Norte</option>
@@ -248,7 +248,7 @@
 
                                         <div class="col-md-2">
                                             <label for="via_secundaria">No vía secundaria:<strong style="color: red;">*</strong></label>
-                                            <input type="text" class="form-control" id="via_secundaria" name="via_secundaria" required oninput="actualizarDireccion()">
+                                            <input type="text" class="form-control" id="via_secundaria" name="via_secundaria" required oninput="actualizarDireccion()" placeholder="51">
                                             @error('via_secundaria')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -256,7 +256,7 @@
 
                                         <div class="col-md-2">
                                             <label for="detalle_adicional">Detalle adicional:</label>
-                                            <input type="text" class="form-control" id="detalle_adicional" name="detalle_adicional" oninput="actualizarDireccion()">
+                                            <input type="text" class="form-control" id="detalle_adicional" name="detalle_adicional" oninput="actualizarDireccion()"  placeholder="-35">
                                             @error('detalle_adicional')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror

@@ -156,15 +156,15 @@ public function update(Request $request, $id)
         try {
             $categoria_insumo->delete();
             return redirect()->route('Admin.categoria_insumo')
-                ->with('success','Categoria eliminado con éxito');
+                ->with('success','Categoria eliminada con éxito');
         } catch (\Illuminate\Database\QueryException $e) {
-                if ($e->getCode() == 23000) {
-                    return redirect()->route('Admin.categoria_insumo')
-                        ->with('error', 'No se puede eliminar la categoría porque está asociada a un insumo.');
-                }
+            if ($e->getCode() == 23000) {
                 return redirect()->route('Admin.categoria_insumo')
-                    ->with('error', 'Error al intentar eliminar la categoría.');
-        }     
+                    ->with('error', 'No se puede eliminar la categoría porque está asociada a un insumo.');
+            }
+            return redirect()->route('Admin.categoria_insumo')
+                ->with('error', 'Error al intentar eliminar la categoría.');
+        }         
     }
 
     public function change_Status($id)

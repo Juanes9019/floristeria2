@@ -14,8 +14,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-
-
 <div class="fondo-imagen">
     <img src="{{ asset('img/fondo.jpg') }}">
 </div>
@@ -32,6 +30,22 @@
                                 <div class="center-wrap">
                                     <div class="section text-center">
                                         <h4 class="mb-4 pb-3">Inicio de sesión</h4>
+
+                                        <!-- Mostrar mensaje de error si la cuenta está inhabilitada -->
+                                        @if (session('status'))
+                                            <script>
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Acceso Denegado',
+                                                    text: '{{ session('status') }}',
+                                                    position: 'top-end',
+                                                    toast: true,
+                                                    showConfirmButton: false,
+                                                    timer: 3000
+                                                });
+                                            </script>
+                                        @endif
+
                                         <form method="POST" action="{{ route('login') }}">
                                             @csrf
                                             <div class="form-group">
@@ -78,6 +92,7 @@
         </div>
     </div>
 </div>
+
 <script>
     function togglePasswordVisibility(inputId, toggleIconId) {
         const passwordField = document.getElementById(inputId);
@@ -94,4 +109,5 @@
         }
     }
 </script>
+
 @endsection

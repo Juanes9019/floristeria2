@@ -165,7 +165,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id);
+        try {
+            $user = User::find($id);
         if ($user->estado == 0) {
             $user->delete();
             return redirect()->route('Admin.users')
@@ -174,6 +175,11 @@ class UserController extends Controller
             return redirect()->route('Admin.users')
                 ->with('error', 'El usuario solo se puede eliminar si está inactivo');
         }
+        } catch (\Exception $e) {
+
+            return redirect()->route("Admin.users")->with('error', 'No se pudo eliminar el usuario, este está asociado a una venta');
+        }
+        
     }
 
     public function index_pqrs()

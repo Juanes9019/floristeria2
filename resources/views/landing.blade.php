@@ -2,19 +2,19 @@
 
 @section('content')
 
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div>
-            <div class="card-body">
-                @if (session('status'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('status') }}
-                </div>
-                @endif
-            </div>
-        </div>
-    </div>
-</div>
+@if (session('status'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Éxito',
+        text: '{{ session('status') }}',
+        position: 'top-end',
+        toast: true,
+        showConfirmButton: false,
+        timer: 5000
+    });
+</script>
+@endif
 
 <section class="banner2">
     <div class="content-banner2">

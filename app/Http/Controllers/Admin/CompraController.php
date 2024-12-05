@@ -89,7 +89,6 @@ class CompraController extends Controller
             foreach ($carrito as $item) {
                 $detalleCompra = DetalleCompraV2::create([
                     'compra_id' => $compra->id, 
-                    'id_categoria_insumo' => $item['id_categoria_insumo'] ?? null,
                     'id_insumo' => $item['id_insumo'] ?? null,
                     'cantidad' => $item['cantidad'] ?? 0,
                     'costo_unitario' => $item['costo_unitario'] ?? 0,
@@ -275,7 +274,6 @@ public function export($format)
         foreach ($detalles as $item) {
             $detalleCompra = DetalleCompraV2::create([
                 'compra_id' => $compra->id,
-                'id_categoria_insumo' => $item['id_categoria_insumo'],
                 'id_insumo' => $item['id_insumo'],
                 'cantidad' => $item['cantidad'],
                 'costo_unitario' => $item['costo_unitario'],
@@ -321,7 +319,6 @@ public function export($format)
         foreach ($carrito as $item) {
             $detalleCompra = DetalleCompraV2::create([
                 'compra_id' => $compra->id,
-                'id_categoria_insumo' => $item['id_categoria_insumo'] ?? null,
                 'id_insumo' => $item['id_insumo'] ?? null,
                 'cantidad' => $item['cantidad'] ?? 0,
                 'costo_unitario' => $item['costo_unitario'] ?? 0,

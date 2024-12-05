@@ -140,6 +140,7 @@ return [
         'instrucciones_entrega' => 'instrucciones de entrega',
         'documento' => 'documento',
         'tipo_documento' => 'tipo documento',
+        'password_confirmation' => 'confirmación de contraseña',
     ],
 
 ];
