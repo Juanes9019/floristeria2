@@ -5,10 +5,11 @@
 @section('content')
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 
 
-<h2 class="text-center mb-5">Editar categoría</h2>
+<h2 class="text-center mb-5">Editar Categoría Insumo</h2>
         <div class="row justify-content-center mt-5">
             <div class="col-md-8">
             <form id="formulario_editar" method="POST" action="{{ route('Admin.categoria_insumo.update', ['id' => $categoria_insumo->id]) }}" novalidate>
@@ -27,12 +28,16 @@
                                 @enderror
                             </div>    
                             <div class="col-md-6">
-                                <label for="estado">Estado</label>
-                                <select name="estado" id="estado" class="form-control">
-                                    <option value="1" {{ $categoria_insumo->estado == '1' ? 'selected' : '' }}>Activo</option>
-                                    <option value="0" {{ $categoria_insumo->estado == '0' ? 'selected' : '' }}>Inactivo</option>
-                                </select>
+                            <div class="form-group">
+                                <label for="estado" class="form-label">Estado</label>
+                                <div class="form-check form-switch">
+                                    <!-- Campo hidden para enviar 0 cuando el switch está desmarcado -->
+                                    <input type="hidden" name="estado" value="0">
+                                    <input id="estado" name="estado" type="checkbox" class="form-check-input" value="1"
+                                        {{ $categoria_insumo->estado ? 'checked' : '' }}>
+                                </div>
                             </div>
+                        </div>
                         </div>
                         <br>
                         <input type="button" class="btn btn-primary" value="Editar" onclick="editar()">

@@ -40,8 +40,10 @@ class Producto extends Model
     
     public function scopeSearch($query, $value)
     {
-        $query->where('nombre', 'like', "%{$value}%");
-            // ->orWhere('telefono', 'like', "%{$value}%")
-            // ->orWhere('correo', 'like', "%{$value}%");
+        $query->where('nombre', 'like', "%{$value}%")
+        ->orWhere('id_categoria_producto', 'like', "%{$value}%")
+        ->orWhereHas('categoria_producto', function ($q) use ($value) {
+            $q->where('nombre', 'like', "%{$value}%");
+        });
     }
 }

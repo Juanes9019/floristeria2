@@ -197,6 +197,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('admin/producto/{id}', [ProductoController::class, 'update'])->name('Admin.producto.update');
     Route::delete('admin/producto/{id}', [ProductoController::class, 'destroy'])->name('Admin.producto.destroy');
     Route::get('admin/producto/{id}/status', [ProductoController::class, 'change_Status'])->name('Admin.producto.status');
+    Route::get('/productos/export/{format}', [ProductoController::class, 'export'])->name('Admin.productos.export');
+
     Route::get('/export_producto_pdf', [ExportController::class, 'exportar_producto'])->name('export_producto.pdf');
 
     // Rutas para el pedido

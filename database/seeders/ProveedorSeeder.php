@@ -20,7 +20,7 @@ class ProveedorSeeder extends Seeder
             'nombre' => 'Soluciones S.A.',
             'telefono' => '3215678913',
             'correo' => 'soluciones@correo.com',
-            'ubicacion' => 'Cra 66 #49 - 01 · 305 4829049',
+            'ubicacion' => 'Cra 66 #49 - 01',
         ]);
         Proveedor::create([
             'tipo_proveedor' => 'empresa',
@@ -28,7 +28,7 @@ class ProveedorSeeder extends Seeder
             'nombre' => 'Paradise Citrus',
             'telefono' => '3007612876',
             'correo' => 'paradise@correo.com',
-            'ubicacion' => 'Cra. 70 #43 - 31 · 305 4829148',
+            'ubicacion' => 'Cra. 70 #43 - 31',
         ]);
 
 

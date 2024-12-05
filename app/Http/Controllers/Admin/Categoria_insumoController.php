@@ -91,7 +91,7 @@ class Categoria_insumoController extends Controller
         $categoria_insumos->save();
 
         return redirect()->route('Admin.categoria_insumo')
-            ->with('success', 'categoria insumo creada con éxito.');
+            ->with('success', 'categoria  perra insumo creada con éxito.');
 
     }
 
@@ -141,7 +141,7 @@ public function update(Request $request, $id)
     $categoria_insumos->save();
 
         return redirect()->route('Admin.categoria_insumo', ['id' => $categoria_insumos->id])
-            ->with('success', 'categoria insumo actualizada exitosamente');
+            ->with('success', 'categoria insumo perra actualizada exitosamente');
     }
 
     

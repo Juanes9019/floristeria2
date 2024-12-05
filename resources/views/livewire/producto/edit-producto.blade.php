@@ -3,94 +3,96 @@
     <div class="d-flex justify-content-center align-items-center">
         <div class="card shadow-sm" style="max-width: 800px;"> <!-- Reducir tamaño del card -->
             <!-- Modal Header -->
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h3 class="h5 mb-0">Editar Producto</h3>
+            <div class="card-header text-center bg-primary text-white">
+                <h3>Editar Producto</h3>
             </div>
 
             <!-- Modal Body -->
-            <form wire:submit='updateProducto'  id="formulario_crear" class="card-body">
+            <form wire:submit='updateProducto' id="formulario_crear" class="card-body">
+            <h4 class="text-dark">Datos del Producto</h4
                 <!-- Sección: Datos del Producto -->
                 <section class="bg-light p-4 rounded mb-4">
-                    <h4 class="h6 mb-4">Datos del Producto</h4>
-                    <div class="row g-3">
-                        <!-- Categoría -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="categoria_producto" class="form-label">Categoría de Producto</label>
-                                <select wire:model="id_categoria_producto" id="categoria_producto"
-                                    class="form-select @error('id_categoria_producto') is-invalid @enderror">
-                                    <option selected>Seleccionar Categoría</option>
-                                    @foreach ($categorias_productos as $categoria_producto)
-                                    <option value="{{ $categoria_producto->id_categoria_producto }}">{{ $categoria_producto->nombre }}</option>
-                                    @endforeach
-                                </select>
-                                @error('id_categoria_producto')
-                                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
-                                @enderror
+                    <div class="row g-4 mb-4 border border-300 rounded p-4">
+                        <div class="row g-3">
+                            <!-- Categoría -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="categoria_producto" class="form-label">Categoría de Producto</label>
+                                    <select wire:model="id_categoria_producto" id="categoria_producto"
+                                        class="form-select @error('id_categoria_producto') is-invalid @enderror">
+                                        <option selected>Seleccionar Categoría</option>
+                                        @foreach ($categorias_productos as $categoria_producto)
+                                        <option value="{{ $categoria_producto->id_categoria_producto }}">{{ $categoria_producto->nombre }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('id_categoria_producto')
+                                    <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Nombre -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" wire:model="nombre" id="nombre" name="nombre"
-                                    class="form-control @error('nombre') is-invalid @enderror" placeholder="Arreglo #1">
-                                @error('nombre')
-                                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
-                                @enderror
+                            <!-- Nombre -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" wire:model="nombre" id="nombre" name="nombre"
+                                        class="form-control @error('nombre') is-invalid @enderror" placeholder="Arreglo #1">
+                                    @error('nombre')
+                                    <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Descripción -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="descripcion" class="form-label">Descripción</label>
-                                <textarea id="descripcion" wire:model="descripcion" name="descripcion"
-                                    class="form-control @error('descripcion') is-invalid @enderror"
-                                    placeholder="Arreglo para ocasiones especiales como cumpleaños"></textarea>
-                                @error('descripcion')
-                                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
-                                @enderror
+                            <!-- Descripción -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="descripcion" class="form-label">Descripción</label>
+                                    <textarea id="descripcion" wire:model="descripcion" name="descripcion"
+                                        class="form-control @error('descripcion') is-invalid @enderror"
+                                        placeholder="Arreglo para ocasiones especiales como cumpleaños"></textarea>
+                                    @error('descripcion')
+                                    <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Foto -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="foto" class="form-label">Foto</label>
-                                <input type="file" wire:model="foto" id="foto" name="foto"
-                                    class="form-control @error('foto') is-invalid @enderror">
+                            <!-- Foto -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="foto" class="form-label">Foto</label>
+                                    <input type="file" wire:model="foto" id="foto" name="foto"
+                                        class="form-control @error('foto') is-invalid @enderror">
 
-                                @if ($producto->foto) <!-- Muestra la imagen si ya existe -->
-                                <!-- <img src="{{ $producto->foto }}" alt="Foto" style="width: 100px; height: 100px; border-radius: 8px; object-fit: cover;" loading="lazy"> -->
-                                @endif
+                                    @if ($producto->foto) <!-- Muestra la imagen si ya existe -->
+                                    <!-- <img src="{{ $producto->foto }}" alt="Foto" style="width: 100px; height: 100px; border-radius: 8px; object-fit: cover;" loading="lazy"> -->
+                                    @endif
 
-                                @error('foto')
-                                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
-                                @enderror
+                                    @error('foto')
+                                    <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Precio -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="precio" class="form-label">Precio</label>
-                                <input type="number" wire:model="precio" id="precio" name="precio"
-                                    class="form-control @error('precio') is-invalid @enderror" placeholder="200.000">
-                                @error('precio')
-                                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
-                                @enderror
+                            <!-- Precio -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="precio" class="form-label">Precio</label>
+                                    <input type="number" wire:model="precio" id="precio" name="precio"
+                                        class="form-control @error('precio') is-invalid @enderror" placeholder="200.000">
+                                    @error('precio')
+                                    <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Estado -->
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="estado" class="form-label">Estado</label>
-                                <div class="form-check form-switch">
-                                    <input wire:model="estado" id="estado" name="estado" type="checkbox"
-                                        class="form-check-input" value="1" {{ $estado ? 'checked' : '' }}>
+                            <!-- Estado -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="estado" class="form-label">Estado</label>
+                                    <div class="form-check form-switch">
+                                        <input wire:model="estado" id="estado" name="estado" type="checkbox"
+                                            class="form-check-input" value="1" {{ $estado ? 'checked' : '' }}>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -150,8 +152,8 @@
                                     </div>
 
                                     <div class="form-group mb-3">
-                                    <label for="cantidad_disponible" class="form-label">Cantidad Disponible <span class="text-danger">*</span></label>
-                                    <input type="number" value="{{$cantidad_disponible}}" disabled class="form-control" />
+                                        <label for="cantidad_disponible" class="form-label">Cantidad Disponible <span class="text-danger">*</span></label>
+                                        <input type="number" value="{{$cantidad_disponible}}" disabled class="form-control" />
 
                                     </div>
                                     <div class="form-group mb-3">
@@ -174,9 +176,9 @@
 
                 <!-- Botones de Acción -->
                 <div class="d-flex justify-content-center gap-2 mt-4">
-                    <button 
+                    <button
                         class="btn btn-primary d-inline-flex align-items-center">
-                        <i class="bi bi-save"></i> Actualizar Producto
+                        <i class="bi bi-save"></i> Editar
                     </button>
                     <a href="{{ route('Admin.productos') }}" class="btn btn-danger d-inline-flex align-items-center">
                         <i class="bi bi-arrow-left"></i> Cancelar

@@ -8,7 +8,7 @@
 
 
 
-<br><h2 class="text-center mb-5">Crear categoría</h2>
+<br><h2 class="text-center mb-5">Crear Categoría Insumo</h2>
 <div class="row justify-content-center mt-5">
     <div class="col-md-8">
         <form id="formulario_crear" method="POST" action="{{ route('Admin.categoria_insumo.store') }}" novalidate >

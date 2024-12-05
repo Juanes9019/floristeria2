@@ -12,7 +12,7 @@ class CreateComprasTable extends Migration
         $table->unsignedBigInteger('id_proveedor');    
         $table->decimal('costo_total', 15, 2);    
         $table->timestamps();    
-        $table->foreign('id_proveedor')->references('id')->on('proveedores')->onDelete('cascade');
+        $table->foreign('id_proveedor')->references('id')->on('proveedores');
         $table->string('estado')->default('Activa'); 
     });
 }

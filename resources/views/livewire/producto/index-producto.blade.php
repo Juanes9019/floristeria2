@@ -10,25 +10,33 @@
                     </div>
                 </div>
 
-                @if ($errors->has('status'))
-                        <div class="alert alert-danger" role="alert">
-                            {{ $errors->first('status') }}
-                        </div>
-                    @endif
+                @if ($message = Session::get('error'))
+                <script>
+                    Swal.fire({
+                        title: '¡Error!',
+                        text: '{{ $message }}',
+                        icon: 'error',
+                        position: 'top-end',
+                        toast: true,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                </script>
+                @endif
 
-                    @if (session('success'))
-                        <script>
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Éxito',
-                                text: '{{ session('success') }}',
-                                position: 'top-end',
-                                toast: true,
-                                showConfirmButton: false,
-                                timer: 3000
-                            });
-                        </script>
-                    @endif
+                @if ($message = Session::get('success'))
+                <script>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Éxito',
+                        text: '{{ $message }}',
+                        position: 'top-end',
+                        toast: true,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                </script>
+                @endif
 
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
@@ -49,7 +57,7 @@
                     </div>
                 </div>
                 <div class="table-responsive mt-3">
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover  table-sm">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col" class="text-center">Foto</th>
@@ -156,7 +164,7 @@
                                         </form>
 
                                         <!-- Botón de ver -->
-                                        <a class="btn btn-sm btn-primary" href="{{ route('Admin.producto.show', ['id' => $producto->id]) }}">
+                                        <a class="btn btn-sm btn-primary btn-ver-detalle" data-url="{{ route('Admin.producto.show', ['id' => $producto->id]) }}">
                                             <i class="fa fa-fw fa-eye"></i>
                                         </a>
                                     </div>
@@ -167,7 +175,8 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <select id="pages" name="pages" wire:model.live="porPagina">
+                    <label>Páginas</label>
+                    <select wire:model.live="porPagina">
                         <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="50">50</option>
@@ -177,8 +186,32 @@
                     </div>
                 </div>
             </div>
+            <!-- Modal base -->
+            <div class="modal fade" id="productoModal" tabindex="-1" role="dialog" aria-labelledby="productoModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title" id="productoModalLabel">Detalle del Producto</h5>
+                            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="modal-content-loader" class="text-center my-4">
+                                <i class="fa fa-spinner fa-spin fa-2x"></i>
+                            </div>
+                            <div id="modal-content-body" class="d-none"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
+
     <style>
         td .btn {
             margin: 0 5px;
@@ -197,25 +230,63 @@
 
 
 <script>
-    function eliminar(productoId) {
-        Swal.fire({
-            title: "¡Estas seguro!",
-            text: "¿Deseas Eliminar este Producto?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Si, Eliminar"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire({
-                    title: "!Proveedor Eliminado!",
-                    text: "El Producto se Eliminó Correctamente",
-                    icon: "success"
-                }).then(() => {
-                    document.getElementById('form_eliminar_' + productoId).submit();
-                });
-            }
+    $(document).ready(function() {
+        // Detectar clic en el botón de "Ver Detalle"
+        $('.btn-ver-detalle').on('click', function(e) {
+            e.preventDefault(); // Prevenir redirección
+
+            // Obtener la URL del detalle del producto
+            const url = $(this).data('url');
+
+            // Limpiar contenido previo del modal
+            $('#modal-content-loader').removeClass('d-none');
+            $('#modal-content-body').addClass('d-none').html('');
+
+            // Mostrar el modal
+            $('#productoModal').modal('show');
+
+            // Hacer la petición AJAX
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response) {
+                    // Actualizar el contenido del modal con la respuesta
+                    $('#modal-content-loader').addClass('d-none');
+                    $('#modal-content-body').removeClass('d-none').html(response);
+                },
+                error: function() {
+                    $('#modal-content-loader').addClass('d-none');
+                    $('#modal-content-body').removeClass('d-none').html('<p class="text-danger">Error al cargar los detalles del producto.</p>');
+                }
+            });
         });
+    });
+
+
+
+    function eliminar(productoId, estadoProducto) {
+        if (estadoProducto == 1) {
+            Swal.fire({
+                title: "¡Error!",
+                text: "No se puede eliminar un producto activo.",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
+        } else {
+            // Si la categoría no es activa, proceder a eliminar
+            Swal.fire({
+                title: "¡Estás seguro!",
+                text: "¿Deseas eliminar esta categoría?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Sí, eliminar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(`form_eliminar_${productoId}`).submit();
+                }
+            });
+        }
     }
 </script>

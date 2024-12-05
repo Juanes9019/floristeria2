@@ -145,7 +145,7 @@ function actualizarCarrito() {
             <tr>
                 <td>${item.nombre_insumo}</td>
                 <td>
-                    <button class="btn btn-sm btn-primary" onclick="decrementarCantidad(${index})">-</button>
+                    <button class="btn btn-sm btn-danger" onclick="decrementarCantidad(${index})">-</button>
                     ${item.cantidad}
                     <button class="btn btn-sm btn-primary" onclick="incrementarCantidad(${index})">+</button>
                 </td>

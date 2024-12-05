@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ProductoExport;
 use App\Http\Controllers\Controller;
 use App\Models\Categoria_Producto;
 use App\Models\CategoriaProducto;
@@ -11,6 +12,8 @@ use App\Models\Producto;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Excel;
 
 
 
@@ -154,10 +157,15 @@ class ProductoController extends Controller
         if (!$tienePermiso) {
             return response()->view('errors.accesoDenegado');
         }
-        
+
         $producto = Producto::with('categoria_producto', 'insumos')->findOrFail($id);
 
-        // Retornar la vista con el producto
+        // Verificar si la solicitud es AJAX
+        if (request()->ajax()) {
+            return response()->view('Admin.producto.show', compact('producto'));
+        }
+
+        // Si no es AJAX, redirigir a la página tradicional
         return view('Admin.producto.show', compact('producto'));
     }
 
@@ -241,6 +249,26 @@ class ProductoController extends Controller
             ->with('success', 'producto actualizado exitosamente');
     }
 
+    public function export($format)
+    {
+        $export = new ProductoExport;
+
+        switch ($format) {
+            case 'pdf':
+                $pdf = Pdf::loadView('exports.productos', [
+                    'productos' => Producto::all()
+                ])->setPaper('a4', 'portait')
+                    ->setOption('margin-left', '10mm')
+                    ->setOption('margin-right', '10mm')
+                    ->setOption('margin-top', '10mm')
+                    ->setOption('margin-bottom', '10mm');
+                return $pdf->download('productos.pdf');
+            case 'xlsx':
+            default:
+                return $export->download('productos.xlsx', Excel::XLSX);
+        }
+    }
+
     public function destroy($id)
     {
 
@@ -249,10 +277,21 @@ class ProductoController extends Controller
             return redirect()->route('Admin.productos')
                 ->with('error', 'No se puede eliminar un Producto Activo');
         }
-        $producto->delete();
-        return redirect()->route('Admin.productos')
-            ->with('success', 'producto eliminado con éxito');
-    }
 
-    
+        try {
+            // Intenta eliminar el producto
+            $producto->delete();
+            return redirect()->route('Admin.productos')
+                ->with('success', 'Producto eliminado con éxito');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Verifica si el error es por restricción de clave foránea
+            if ($e->getCode() === "23000") {
+                return redirect()->route('Admin.productos')
+                    ->with('error', 'No se puede eliminar el producto porque está asociado a otros registros.');
+            }
+
+            // Lanza la excepción si no es el error esperado
+            throw $e;
+        }
+    }
 }

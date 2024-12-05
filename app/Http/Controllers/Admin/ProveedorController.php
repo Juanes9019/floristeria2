@@ -138,7 +138,6 @@ class ProveedorController extends Controller
 
         // Asignación de los campos desde el formulario
         $proveedor->tipo_proveedor = $request->input('tipo');
-        $proveedor->numero_documento = $request->input('numero');
         $proveedor->nombre = $request->input('nombre');
         $proveedor->telefono = $request->input('telefono');
         $proveedor->correo = $request->input('correo');
@@ -160,16 +159,24 @@ class ProveedorController extends Controller
     public function destroy($id)
     {
         $proveedor = Proveedor::find($id);
-
         if ($proveedor->estado == 1) {
             return redirect()->route('Admin.proveedores')
-                ->with('error', 'No se puede eliminar un proveedor Activo');
+                ->with('error', 'No se puede eliminar un Proveedor Activo');
         }
-
-        $proveedor->delete();
-
-        return redirect()->route('Admin.proveedores')
-            ->with('success', 'proveedor eliminado con éxito');
+        try {
+            // Intenta eliminar el producto
+            $proveedor->delete();
+            return redirect()->route('Admin.proveedores')
+                ->with('success', 'Proveedor eliminado con éxito');
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Verifica si el error es por restricción de clave foránea
+            if ($e->getCode() === "23000") {
+                return redirect()->route('Admin.proveedores')
+                    ->with('error', 'No se puede eliminar el producto porque está asociado a una compra.');
+            }
+            // Lanza la excepción si no es el error esperado
+            throw $e;
+        }
     }
 
     public function export($format)

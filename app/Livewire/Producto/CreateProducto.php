@@ -33,6 +33,7 @@ class CreateProducto extends Component
 
 
 
+
     public function mount()
     {
 
@@ -66,15 +67,33 @@ class CreateProducto extends Component
 
     public function agregarInsumo()
     {
+        // Validación inicial
         $this->validate([
             'categoria_seleccionada' => 'required|exists:categoria_insumos,id',
             'insumo_seleccionado' => 'required|exists:insumos,id',
-            'cantidad_usada' => 'required|numeric|min:1|max:12000000000'
+            'cantidad_usada' => 'required|numeric|min:1'
+        ], [
+            'categoria_seleccionada.required' => 'La categoría del insumo es obligatoria.',
+            'categoria_seleccionada.exists' => 'La categoría del insumo no es válida.',
+            'insumo_seleccionado.required' => 'El campo insumo  es obligatorio.',
+            'insumo_seleccionado.exists' => 'El insumo  no es válido.',
+            'cantidad_usada.required' => 'La cantidad a usar  es obligatoria.',
+            'cantidad_usada.numeric' => 'La cantidad a usar debe ser un número.',
+            'cantidad_usada.min' => 'La cantidad  debe ser al menos 1.',
+            
         ]);
 
+        // Validación adicional para cantidad usada menor o igual a la cantidad disponible
         if ($this->insumo_seleccionado && $this->cantidad_usada > 0) {
             $insumo = Insumo::find($this->insumo_seleccionado);
-            if ($insumo && $this->cantidad_usada <= $this->cantidad_disponible) {
+            if ($insumo) {
+                if ($this->cantidad_usada > $insumo->cantidad_insumo) {
+                    // Si la cantidad usada es mayor a la cantidad disponible, mostrar mensaje
+                    $this->addError('cantidad_usada', 'La cantidad a usar no puede ser mayor a la cantidad disponible.');
+                    return; // Detener el proceso si la validación falla
+                }
+
+                // Agregar el insumo a la lista de insumos agregados
                 $this->insumos_agregados[] = [
                     'id' => $insumo->id,
                     'nombre' => $insumo->nombre,
@@ -82,11 +101,13 @@ class CreateProducto extends Component
                     'cantidad' => $this->cantidad_usada,
                     'cantidad_disponible' => $insumo->cantidad_insumo
                 ];
+                // Actualizar la sesión y limpiar los campos
                 $this->updateSession();
                 $this->clearFields();
             }
         }
     }
+
 
     public function incrementarInsumo($index)
     {
@@ -128,16 +149,40 @@ class CreateProducto extends Component
         $this->cantidad_usada = '';
     }
 
+
     public function crearProducto()
     {
-        $this->validate([
-            'nombre' => 'required|string|unique:productos,nombre',
-            'descripcion' => 'required|string',
-            'precio' => 'required|numeric|min:1000|max:12000000000',
-            'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'estado' => 'required|boolean',
-            'id_categoria_producto' => 'required|exists:categorias_productos,id_categoria_producto'
-        ]);
+        $this->validate(
+            [
+                'nombre' => 'required|string|unique:productos,nombre',
+                'descripcion' => 'required|string|max:255',
+                'precio' => 'required|numeric|min:1000|max:1200000000',
+                'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                'estado' => 'required|boolean',
+                'id_categoria_producto' => 'required|exists:categorias_productos,id_categoria_producto'
+            ],
+            [
+                'nombre.required' => 'El nombre del producto es obligatorio.',
+                'nombre.unique' => 'El nombre del producto ya está registrado.',
+                'descripcion.required' => 'La descripción del producto es obligatoria.',
+                'descripcion.max' => 'La descripción no puede exceder los 255 caracteres.',
+                'precio.required' => 'El precio del producto es obligatorio.',
+                'precio.numeric' => 'El precio debe ser un número.',
+                'precio.min' => 'El precio debe ser al menos $1.000.',
+                'precio.max' => 'El precio no puede exceder el valor máximo de $1.200.000.',
+                'foto.required' => 'La foto del producto es obligatoria.',
+                'foto.image' => 'El archivo debe ser una imagen.',
+                'foto.mimes' => 'La imagen debe ser de tipo jpeg, png o jpg.',
+                'foto.max' => 'El tamaño máximo de la imagen es 2MB.',
+                'estado.required' => 'El estado del producto es obligatorio.',
+                'estado.boolean' => 'El estado debe ser verdadero o falso.',
+                'id_categoria_producto.required' => 'La categoría del producto es obligatoria.',
+                'id_categoria_producto.exists' => 'La categoría seleccionada no es válida.',
+            ]
+
+        );
+
+       
 
         // Establecer el valor de inactivo en caso de que sea nulo
         if ($this->estado == null) {
@@ -190,6 +235,7 @@ class CreateProducto extends Component
                 }
             }
         }
+        
 
         // Crear y guardar el producto
         $newProducto = new Producto();
@@ -218,6 +264,7 @@ class CreateProducto extends Component
         session()->flash('success', 'Producto creado exitosamente');
         return redirect()->route('Admin.productos');
     }
+    
 
 
     public function render()
